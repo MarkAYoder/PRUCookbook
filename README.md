@@ -4,6 +4,17 @@ You can use the [editor on GitHub](https://github.com/MarkAYoder/PRUCookbook/edi
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
+### C
+
+```c
+#include <stdio.h>
+
+main() {
+  printf("Hello, World!\n");
+}
+
+```
+
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
