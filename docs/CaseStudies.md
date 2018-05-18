@@ -11,13 +11,16 @@ chapters you will see the details.
 
 Here we present
 
-  * MachineKit [http://www.machinekit.io/]
-  * LEDscape [https://github.com/Yona-Appletree/LEDscape]
-  * ArduPilot [http://ardupilot.org/]
-  * BeagleLogic [https://github.com/abhishek-kakkar/BeagleLogic/wiki]
+  * MachineKit [http://www.machinekit.io/](http://www.machinekit.io/)
+  * LEDscape [https://github.com/Yona-Appletree/LEDscape](https://github.com/Yona-Appletree/LEDscape)
+  * ArduPilot [http://ardupilot.org/](http://ardupilot.org/)
+  * BeagleLogic [https://github.com/abhishek-kakkar/BeagleLogic/wiki](http://ardupilot.org/)
   
 
 ### MachineKit
+MachineKit is a platform for machine control applications.  It can control 
+machine tools, robots, or other automated devices. It can control servo 
+motors, stepper motors, relays, and other devices related to machine tools.
 
 ### LEDScape
 
