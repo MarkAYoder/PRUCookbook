@@ -7,12 +7,12 @@ A cookbook for programming the PRUs in C using remoteproc and compiling on the B
   * Downloading and flashing current 
   * Cloud 9 IDE
   * Blinking an LED
-1. Case Studies
+2. Case Studies
   * MachineKit
   * LEDscape
   * ArduPilot
   * BeagleLogic
-1. Details on compiling and running a file
+3. Details on compiling and running a file
   * The standard Makefile
   * clpru and lnkpru
   * Loading firmware
