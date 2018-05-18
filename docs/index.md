@@ -16,13 +16,13 @@ A cookbook for programming the PRUs in C using remoteproc and compiling on the B
   * The standard Makefile
   * clpru and lnkpru
   * Loading firmware
-4.  and Benchmarking
+4. Debugging and Benchmarking
   * LED and switch for debugging
   * Oscilloscope
   * dmesg –Hw
   * prubug?
   * UART?
-5.  Blocks – Applications
+5. Building Blocks – Applications
   * PWM generator
   * Sine Wave Generator
   * Ultrasonic Sensor Application
