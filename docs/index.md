@@ -3,10 +3,9 @@
 A cookbook for programming the PRUs in C using remoteproc and compiling on the Beagle.
 
 1. Getting started
-..Hardware:  BeagleBone family or Pocket Beagle
-Software: Downloading and flashing current image
-Cloud 9 IDE
-Blinking  LED
+..1Hardware:  BeagleBone family or Pocket Beagle
+..1: Downloading and flashing current image
+..1Blinking an LED
 1. Case Studies
 MachineKit
 LEDscape
