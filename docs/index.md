@@ -16,25 +16,25 @@ A cookbook for programming the PRUs in C using remoteproc and compiling on the B
   * The standard Makefile
   * clpru and lnkpru
   * Loading firmware
-1.  and Benchmarking
+4.  and Benchmarking
   * LED and switch for debugging
   * Oscilloscope
   * dmesg –Hw
   * prubug?
   * UART?
-1.  Blocks – Applications
+5.  Blocks – Applications
   * PWM generator
   * Sine Wave Generator
   * Ultrasonic Sensor Application
   * neoPixel driver
-1. Accessing more I/O
+6. Accessing more I/O
   * /boot/uEnv.txt to access P8 I/O
   * Accessing gpio
   * UART?
   * ECAP/PWM?
-1. Talking to the ARM
+7. Talking to the ARM
   * PRU Architecture, DRAM, Shared RAM
   * mmap() 
   * rpmsg
-1. Running on an older version
-1. More performance, assembly language programming
+8. Running on an older version
+9. More performance, assembly language programming
