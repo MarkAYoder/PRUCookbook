@@ -14,7 +14,7 @@ Here we present
   * MachineKit [http://www.machinekit.io/](http://www.machinekit.io/)
   * LEDscape [https://github.com/Yona-Appletree/LEDscape](https://github.com/Yona-Appletree/LEDscape)
   * ArduPilot [http://ardupilot.org/](http://ardupilot.org/)
-  * BeagleLogic [https://github.com/abhishek-kakkar/BeagleLogic/wiki](http://ardupilot.org/)
+  * BeagleLogic [http://ardupilot.org/](http://ardupilot.org/)
   
 
 ### MachineKit
