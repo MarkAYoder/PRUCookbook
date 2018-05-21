@@ -32,7 +32,7 @@ compiling on the Beagle
   * Ultrasonic Sensor Application
   * neoPixel driver
 6. [Accessing more I/O][io]
-  * /boot/uEnv.txt to access P8 I/O
+  * /boot/uEnv.txt to access [P8 I/O][P8]
   * Accessing gpio
   * UART?
   * ECAP/PWM?
@@ -49,4 +49,5 @@ compiling on the Beagle
 [debug]: # "Roadmap-wise, I'd want to consider how to plug RPMsg into a printf function to aide debug. I'm sure you've seen that with CCS in the past."
 [common]: # "Some kind of intro to these building blocks is needed. Look at the TI examples for a good list."
 [io]: # "The split with talking to the ARM is a little confusing to me as I don't know what the 'more' is."
+[P8]: # "What is the P8 issue?"
 [older]: # "You might make this just about *alternate* tools rather than necessarily older. You could provide relatively minimal pointers for anything beyond what is needed understand how the Case Studies work. Things like the gcc port could go here."
