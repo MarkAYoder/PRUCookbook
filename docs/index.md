@@ -20,7 +20,7 @@ compiling on the Beagle
   * The standard Makefile
   * clpru and lnkpru
   * Loading firmware
-4. Debugging and Benchmarking
+4. [Debugging and Benchmarking][debug]
   * LED and switch for debugging
   * Oscilloscope
   * dmesg –Hw
@@ -31,14 +31,22 @@ compiling on the Beagle
   * Sine Wave Generator
   * Ultrasonic Sensor Application
   * neoPixel driver
-6. Accessing more I/O
+6. [Accessing more I/O][io]
   * /boot/uEnv.txt to access P8 I/O
   * Accessing gpio
   * UART?
   * ECAP/PWM?
-7. Talking to the ARM
+7. Talking to the rest of the processor
   * PRU Architecture, DRAM, Shared RAM
+  * interrupts to ARM
+  * ARM interrupts to PRU
   * mmap() 
   * rpmsg
-8. Running on an older version
-9. More performance, assembly language programming
+  * use of OCP peripherals
+9. [Running on an older version][older]
+10. More performance, assembly language programming
+
+[debug]: "Roadmap-wise, I'd want to consider how to plug RPMsg into a printf function to aide debug. I'm sure you've seen that with CCS in the past."
+[common]: "Some kind of intro to these building blocks is needed. Look at the TI examples for a good list."
+[io]: "The split with talking to the ARM is a little confusing to me as I don't know what the 'more' is."
+[older]: "You might make this just about *alternate* tools rather than necessarily older. You could provide relatively minimal pointers for anything beyond what is needed understand how the Case Studies work. Things like the gcc port could go here."
