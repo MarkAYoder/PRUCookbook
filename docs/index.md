@@ -6,13 +6,14 @@ compiling on the Beagle
 [Notes](notes.md)
 
 1. Getting started
-  * Hardware:  BeagleBone family or Pocket Beagle
+  * Hardware:  BeagleBone family or PocketBeagle
   * Downloading and flashing current 
-  * Cloud 9 IDE
+  * Cloud9 IDE
   * Blinking an LED
 2. [Case Studies](CaseStudies.md)
   * MachineKit
   * LEDscape
+  * Robotics Control Library
   * ArduPilot
   * BeagleLogic
 3. Details on compiling and running a file
