@@ -11,7 +11,7 @@ compiling on the Beagle
   * Cloud9 IDE
   * Blinking an LED
 2. [Case Studies](CaseStudies.md)
-{% include CaseStudies.md %}
+{% include_relative notes.md %}
   * MachineKit
   * LEDscape
   * Robotics Control Library
