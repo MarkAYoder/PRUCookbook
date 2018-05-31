@@ -20,3 +20,5 @@ You want to find the lastest version of Debian that is available for your Bone.
 On your host computer open a browser and go to
 [http://rcn-ee.net/deb/testing/](http://rcn-ee.net/deb/testing/).
 This show you a list of dates of the most recent Debian images (Figure)
+
+![alt text](figures/debianImages.png "Latest Debian images")
