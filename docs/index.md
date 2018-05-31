@@ -6,7 +6,7 @@ compiling on the Beagle
 * [Notes](notes.md)
 * [Style](style.md)
 
-1. [Getting started](01start/01start.md)
+1. [Getting started](01start/start.md)
   * Hardware:  BeagleBone family or PocketBeagle
   * Downloading and flashing current image
   * Cloud9 IDE
