@@ -3,40 +3,46 @@
 A cookbook for programming the PRUs in C using remoteproc and 
 compiling on the Beagle
 
-[Notes](notes.md)
-[Style](style.md)
+* [Notes](notes.md)
+* [Style](style.md)
 
-1. Getting started
+1. [Getting started](01start.md)
   * Hardware:  BeagleBone family or PocketBeagle
-  * Downloading and flashing current 
+  * Downloading and flashing current image
   * Cloud9 IDE
   * Blinking an LED
+  
 2. [Case Studies](CaseStudies.md)
-  * MachineKit
-  * LEDscape
   * Robotics Control Library
+  * LEDscape
+  * MachineKit
   * ArduPilot
   * BeagleLogic
+  
 3. Details on compiling and running a file
   * The standard Makefile
   * clpru and lnkpru
   * Loading firmware
+  
 4. [Debugging and Benchmarking][debug]
   * LED and switch for debugging
   * Oscilloscope
   * dmesg –Hw
   * prubug?
   * UART?
+  
 5. Building Blocks – Applications
   * PWM generator
   * Sine Wave Generator
   * Ultrasonic Sensor Application
   * neoPixel driver
+  
 6. [Accessing more I/O][io]
   * /boot/uEnv.txt to access [P8 I/O][P8]
   * Accessing gpio
   * UART?
   * ECAP/PWM?
+  
 7. Talking to the rest of the processor
   * PRU Architecture, DRAM, Shared RAM
   * interrupts to ARM
@@ -44,7 +50,8 @@ compiling on the Beagle
   * mmap() 
   * rpmsg
   * use of OCP peripherals
-9. [Running on an older version][older]
+9. [Running on an older kernel version][older]
+
 10. More performance, assembly language programming
 
 [debug]: # "Roadmap-wise, I'd want to consider how to plug RPMsg into a printf function to aide debug. I'm sure you've seen that with CCS in the past."
