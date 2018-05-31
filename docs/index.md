@@ -6,13 +6,13 @@ compiling on the Beagle
 * [Notes](notes.md)
 * [Style](style.md)
 
-1. [Getting started](01start.md)
+1. [Getting started](01start/01start.md)
   * Hardware:  BeagleBone family or PocketBeagle
   * Downloading and flashing current image
   * Cloud9 IDE
   * Blinking an LED
   
-2. [Case Studies](CaseStudies.md)
+2. [Case Studies](02case/case.md)
   * Robotics Control Library
   * LEDscape
   * MachineKit
