@@ -20,7 +20,7 @@ compiling on the Beagle
   * ArduPilot
   * BeagleLogic
   
-3. Details on compiling and running a file
+3. [Details on compiling and running a file](03details/details.md)
   * The standard Makefile
   * clpru and lnkpru
   * Loading firmware
