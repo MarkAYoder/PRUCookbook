@@ -5,6 +5,7 @@ compiling on the Beagle
 
 * [Notes](notes.md)
 * [Style](style.md)
+* [To Do](todo.md)
 
 1. [Getting started](01start/start.md)
   * Hardware:  BeagleBone family or PocketBeagle
