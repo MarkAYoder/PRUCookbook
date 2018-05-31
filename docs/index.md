@@ -4,6 +4,7 @@ A cookbook for programming the PRUs in C using remoteproc and
 compiling on the Beagle
 
 [Notes](notes.md)
+[Style](style.md)
 
 1. Getting started
   * Hardware:  BeagleBone family or PocketBeagle
