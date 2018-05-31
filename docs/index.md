@@ -12,7 +12,7 @@ compiling on the Beagle
   * Blinking an LED
 2. [Case Studies](CaseStudies.md)
 
-```C++
+```c
 {% include_relative code/main_pru0.c %}
 ```
 
