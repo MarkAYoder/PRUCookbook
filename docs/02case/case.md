@@ -31,7 +31,7 @@ One of the PRUs can be programmed to perform the function of eight PWMs.
 This example outputs a pulse with a very stable width.  The ARM says when to start the pulse, and the PRU outputs
 the pulse and turns it off after a certain number of cycles. 
 
-Here is the code (`servo-test.c`)that runs on the ARM.
+Here is the code (`servo-test.c`) that runs on the ARM.
 
 ```c
 {% include_relative code/servo-test.c %}
@@ -41,16 +41,16 @@ It uses `mmap()` to directly access the PRU Shared Memory.
 The line `prusharedMem_32int_ptr[ch-1] = num_loops;` writes a value to a location based on which channel
 to run.  
 
-This c-code runs on PRU1. 
+This c-code (`main_pru1.c') runs on PRU1. 
 
 ```c
 {% include_relative code/main_pru1.c %}
 ```
 
-All it does is set a flag and then call the following assembly code.
+All it does is set a flag and then call the following assembly code (`pru1-servo.asm`).
 
 ```asm
-{% include_relative code/main_pru1.c %}
+{% include_relative code/pru1-servo.asm %}
 ```
 
 This is too complex to discuss right now.
