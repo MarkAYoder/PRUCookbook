@@ -18,5 +18,5 @@ many resources on line that can bring you up to speed.
 Here is the stardard Makefile (`Makefile`) used throughout. 
 
 ```makefile
-{% include_relative code/main_pru0.c %}
+{% include_relative code/Makefile %}
 ```
