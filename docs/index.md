@@ -25,12 +25,12 @@ compiling on the Beagle
   * clpru and lnkpru
   * Loading firmware
   
-4. [Debugging and Benchmarking][debug]
+4. [Debugging and Benchmarking](04debug/)[debug]
   * LED and switch for debugging
   * Oscilloscope
   * dmesg –Hw
   * prubug?
-  * UART?
+  * UART
   
 5. Building Blocks – Applications
   * PWM generator
