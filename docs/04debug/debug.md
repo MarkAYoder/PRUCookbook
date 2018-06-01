@@ -114,7 +114,7 @@ sent to the UART. It take advantage of the eight character FIFO on the UART.
 Be careful using it because it also uses `while (!CT_UART.LSR_bit.TEMT);` to
 wait for the FIFO to empty, which may cause your code to miss something.
 
-Here's the code (`uart1.c`) that does it.
+Here's the code (`uart2.c`) that does it.
 
 ```c
 {% include_relative code/uart2.c %}
