@@ -25,7 +25,7 @@ compiling on the Beagle
   * clpru and lnkpru
   * Loading firmware
   
-4. [Debugging and Benchmarking](04debug/)[debug]
+4. [Debugging and Benchmarking](04debug/debug.md)  [debug]
   * LED and switch for debugging
   * Oscilloscope
   * dmesg –Hw
