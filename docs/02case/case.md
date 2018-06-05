@@ -31,7 +31,7 @@ The Robotics Control Library provides eight additional PWM channels via the PRU 
 sudo rc_test_servos -f 10 -p 1.5
 ```
 The `-f 10` says to use a frequency of 10 Hz and the -p 1.5` says to set the position to `1.5`.  The range of positions is
-`-1.5` to `.15.   Run `rc_test_servos -h` to see all the options.
+`-1.5` to `1.5`.   Run `rc_test_servos -h` to see all the options.
 
 ```bash
 rc_test_servos -h
