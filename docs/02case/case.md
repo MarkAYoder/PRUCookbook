@@ -25,6 +25,58 @@ and the BeagleBone Black with Robotics Cape. It uses the PRU to extend the real-
 I need to control eight servos, but the Bone doesn't have enough PWMs.  
 
 #### Solution
+The Robotics Control Library provides eight additional PWM channels via the PRU that can be used out of the box.  Just run:
+
+```bash
+sudo rc_test_servos -f 10 -p 1.5
+```
+The `-f 10` says to use a frequency of 10 Hz and the -p 1.5` says to set the position to `1.5`.  The range of positions is
+`-1.5` to `.15.   Run `rc_test_servos -h` to see all the options.
+
+```bash
+rc_test_servos -h
+
+ Options
+ -c {channel}   Specify one channel from 1-8.
+                Otherwise all channels will be driven equally
+ -f {hz}        Specify pulse frequency, otherwise 50hz is used
+ -p {position}  Drive servo to a position between -1.5 & 1.5
+ -w {width_us}  Send pulse width in microseconds (us)
+ -s {limit}     Sweep servo back/forth between +- limit
+                Limit can be between 0 & 1.5
+ -r {ch}        Use DSM radio channel {ch} to control servo
+ -h             Print this help messege 
+
+sample use to center servo channel 1:
+   rc_test_servo -c 1 -p 0.0
+```
+The BeagleBone Blue sends these eight outputs to it's servo channels.  The Black and the Pocket uses the pins shown in this table.
+
+|Pru pin    |Blue pin|Black pin|Pocket pin|
+|-----------|--------|---------|----------|
+|pru1_r30_8 |1       |P8_27    |          |
+|pru1_r30_10|2       |P8_29    |P1.02     |
+|pru1_r30_9 |3       |P8_29    |P1.35     |
+|pru1_r30_11|4       |P8_30    |P1.04     |
+|pru1_r30_6 |5       |P8_39    | |
+|pru1_r30_7 |6       |P8_40    | |
+|pru1_r30_4 |7       |P8_41    | |
+|pru1_r30_5 |8       |P8_42    | |
+
+This comes from: 
+* [https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#673_PRUICSS_Pin_Access]
+(https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#673_PRUICSS_Pin_Access)
+* [Robotics_Cape_Installer/pru_firmware/src/pru1-servo.asm](Robotics_Cape_Installer/pru_firmware/src/pru1-servo.asm)
+* [https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP8HeaderTable.pdf](https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP8HeaderTable.pdf)
+* [https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf](https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf)
+
+#### Discussion
+
+
+#### Problem
+ToDo
+This is a placeholder for later.
+#### Solution
 One of the PRUs can be programmed to perform the function of eight PWMs.
 
 ### Discussion
