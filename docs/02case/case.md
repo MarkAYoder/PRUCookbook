@@ -50,12 +50,12 @@ rc_test_servos -h
 sample use to center servo channel 1:
    rc_test_servo -c 1 -p 0.0
 ```
-The BeagleBone Blue sends these eight outputs to it's servo channels.  The Black and the Pocket uses the pins shown in this table.
+The BeagleBone Blue sends these eight outputs to it's servo channels.  The Black and the Pocket use the pins shown in this table.
 
 |Pru pin    |Blue pin|Black pin|Pocket pin|
 |-----------|--------|---------|----------|
 |pru1_r30_8 |1       |P8_27    |          |
-|pru1_r30_10|2       |P8_29    |P1.02     |
+|pru1_r30_10|2       |P8_28    |P1.02     |
 |pru1_r30_9 |3       |P8_29    |P1.35     |
 |pru1_r30_11|4       |P8_30    |P1.04     |
 |pru1_r30_6 |5       |P8_39    | |
