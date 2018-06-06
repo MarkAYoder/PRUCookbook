@@ -54,14 +54,14 @@ The BeagleBone Blue sends these eight outputs to it's servo channels.  The Black
 
 |Pru pin    |Blue pin|Black pin|Pocket pin|
 |-----------|--------|---------|----------|
-|pru1_r30_8 |1       |P8_27    |          |
-|pru1_r30_10|2       |P8_28    |P1.02     |
-|pru1_r30_9 |3       |P8_29    |P1.35     |
+|pru1_r30_8 |1       |P8_27    |P2.35     |
+|pru1_r30_10|2       |P8_28    |P1.35     |
+|pru1_r30_9 |3       |P8_29    |P1.02     |
 |pru1_r30_11|4       |P8_30    |P1.04     |
-|pru1_r30_6 |5       |P8_39    | |
-|pru1_r30_7 |6       |P8_40    | |
-|pru1_r30_4 |7       |P8_41    | |
-|pru1_r30_5 |8       |P8_42    | |
+|pru1_r30_6 |5       |P8_39    |     |
+|pru1_r30_7 |6       |P8_40    |     |
+|pru1_r30_4 |7       |P8_41    |     |
+|pru1_r30_5 |8       |P8_42    |     |
 
 This comes from: 
 * [https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#673_PRUICSS_Pin_Access]
