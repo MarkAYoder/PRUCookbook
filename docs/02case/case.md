@@ -12,11 +12,13 @@ chapters you will see the details.
 Here we present
 
   * Robotics Control Library <http://strawsondesign.com/docs/roboticscape/>
+  * BeagleLogic <https://github.com/abhishek-kakkar/BeagleLogic/wiki>
   * LEDscape <https://github.com/Yona-Appletree/LEDscape>
   * MachineKit <http://www.machinekit.io/>
   * ArduPilot <http://ardupilot.org/>
-  * BeagleLogic <https://github.com/abhishek-kakkar/BeagleLogic/wiki>
-  
+
+----------
+
 ### Robotics Control Library
 The [Robotics Control Library](http://strawsondesign.com/docs/roboticscape/) is a package, that is already installed, 
 that contains a C library and example/testing programs for the BeagleBone Blue
@@ -150,6 +152,25 @@ Raw encoder position
 If you aren't running the Blue you will have to configure the pins as shown above.  The bottom half of the code
 does the PRU configuring.
 
+----------
+### BeagleLogic
+
+#### Problem
+I need a 100Msps, 14-channel logic analyzer.
+#### Solution
+[BeagleLogic](https://github.com/abhishek-kakkar/BeagleLogic/wiki) is a 100Msps, 14-channel logic analyzer that runs on the
+Beagle. The quickest solution is to get the [no-setup-required image](https://github.com/abhishek-kakkar/BeagleLogic/wiki/BeagleLogic-%22no-setup-required%22-setup:-Introducing-System-Image!).  It runs on an older image (15-Apr-2016) but should still work.
+
+If you want to be running a newer image, there are instructions on the site for [building BeagleLogic from scratch](https://github.com/abhishek-kakkar/BeagleLogic/wiki/Build-BeagleLogic).
+
+#### Discussion
+BeagleLogic uses the two PRUs to sample at 100Msps.  Getting a PRU running at 200Hz to sample at 100Msps is a slick trick.
+[The Embedded Kitchen](http://theembeddedkitchen.net/beaglelogic-building-a-logic-analyzer-with-the-prus-part-1/449) has a nice article 
+explaining how the PRUs get this type of performance.   In section XXXX we'll give an overview of the technique.
+
+Todo:  Fill in XXXXX
+
+----------
 
 #### Problem
 ToDo
@@ -194,4 +215,3 @@ motors, stepper motors, relays, and other devices related to machine tools.
 
 ### ArduPilot
 
-### BeagleLogic
