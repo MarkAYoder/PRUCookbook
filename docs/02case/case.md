@@ -23,6 +23,19 @@ that contains a C library and example/testing programs for the BeagleBone Blue
 and the BeagleBone Black with Robotics Cape. It uses the PRU to extend the real-time hardware of the Bone.
 
 #### Problem
+How do I configure the pins so the PRUs are accessable?
+#### Solution
+It depends on which Beagle you are running on.  If you are on the Blue, everything is already configured for you.
+If you are on the Black or Pocket you'll need to run the following script.
+```bash
+{% include_relative code/servos_setup.sh %}
+```
+#### Discussion
+The first part of the code looks in `/proc/device-tree/model` to see which Beagle is running. Based on that it
+assigns `pins` a list of pins to configure.  Then the last part of the script loops through each of the pins and configures it.
+
+
+#### Problem
 I need to control eight servos, but the Bone doesn't have enough PWMs.  
 
 #### Solution
@@ -71,6 +84,7 @@ This comes from:
 * <https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf>
 
 #### Discussion
+
 
 #### Problem
 `rc_test_servos` is nice, but I need to control the servos individually.
