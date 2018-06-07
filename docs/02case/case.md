@@ -100,6 +100,32 @@ sets the width to an absolute time.  Use whichever works for you.
 
 
 #### Problem
+I want to use four encoders to measure four motors, but I only see hardware for three.
+
+#### Solution
+The forth encoder can be implemented on the PRU. If you run `rc_test_encoders_eqep` on the Blue, you will see the output of 
+encoders E1-E3 which are connected to the eEQP hardware.
+```bash
+rc_test_encoders_eqep 
+
+Raw encoder positions
+      E1   |      E2   |      E3   | 
+         0 |         0 |         0 |^C
+```
+You can also access these hardware encoders on the Black and Pocket using the pins shown below.
+
+|eQEP|Blue pin|Black pin A|Black pin B|Pocket pin A|Pocket pin B|
+|----|--------|-----------|-----------|------------|------------|
+|0   |E1      |P9_42B     |P9_27      |P1.31       |P2.24       |
+|1   |E2      |P8_35      |P8_33      |P2.10       ||
+|2   |E3      |P8_12      |P8_11      |P2.24       |P2.33       |
+|2   |        |P8_41      |P8_42      |            ||
+
+You will need to first configure the pins using:
+```bash
+{% include_relative code/encoder_setup.sh %}
+```
+#### Problem
 ToDo
 This is a placeholder for later.
 #### Solution
