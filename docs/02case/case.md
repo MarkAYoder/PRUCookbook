@@ -120,11 +120,31 @@ You can also access these hardware encoders on the Black and Pocket using the pi
 |1   |E2      |P8_35      |P8_33      |P2.10       ||
 |2   |E3      |P8_12      |P8_11      |P2.24       |P2.33       |
 |2   |        |P8_41      |P8_42      |            ||
+|    |E4      |P8_16      |P8_15      |P2.09       |P2.18       |
 
 You will need to first configure the pins using:
 ```bash
 {% include_relative code/encoder_setup.sh %}
 ```
+The eQEP pins are configured with the top half of the code.
+
+#### Problem
+I want to access the PRU encoder.
+#### Solution
+The forth encoder is implemented on the PRU and accessed with `sudo rc_test_encoders_pru`  Note:  This command
+needs root permissions, so the `sudo` is needed.  Here's what you will see:
+```bash
+sudo rc_test_encoders_pru 
+[sudo] password for debian: 
+
+Raw encoder position
+      E4   | 
+         0 |^C
+```
+If you aren't running the Blue you will have to configure the pins as shown above.  The bottom half of the code
+does the PRU configuring.
+
+
 #### Problem
 ToDo
 This is a placeholder for later.
