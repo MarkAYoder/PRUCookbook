@@ -11,14 +11,15 @@ chapters you will see the details.
 
 Here we present
 
-  * Robotics Control Library [http://strawsondesign.com/docs/roboticscape/](http://strawsondesign.com/docs/roboticscape/)
-  * LEDscape [https://github.com/Yona-Appletree/LEDscape](https://github.com/Yona-Appletree/LEDscape)
-  * MachineKit [http://www.machinekit.io/](http://www.machinekit.io/)
-  * ArduPilot [http://ardupilot.org/](http://ardupilot.org/)
-  * BeagleLogic [https://github.com/abhishek-kakkar/BeagleLogic/wiki](https://github.com/abhishek-kakkar/BeagleLogic/wiki)
+  * Robotics Control Library <http://strawsondesign.com/docs/roboticscape/>
+  * LEDscape <https://github.com/Yona-Appletree/LEDscape>
+  * MachineKit <http://www.machinekit.io/>
+  * ArduPilot <http://ardupilot.org/>
+  * BeagleLogic <https://github.com/abhishek-kakkar/BeagleLogic/wiki>
   
 ### Robotics Control Library
-The Robotics Control Library is a package that contains a C library and example/testing programs for the BeagleBone Blue
+The [Robotics Control Library](http://strawsondesign.com/docs/roboticscape/) is a package, that is already installed, 
+that contains a C library and example/testing programs for the BeagleBone Blue
 and the BeagleBone Black with Robotics Cape. It uses the PRU to extend the real-time hardware of the Bone.
 
 #### Problem
@@ -30,7 +31,7 @@ The Robotics Control Library provides eight additional PWM channels via the PRU 
 ```bash
 sudo rc_test_servos -f 10 -p 1.5
 ```
-The `-f 10` says to use a frequency of 10 Hz and the -p 1.5` says to set the position to `1.5`.  The range of positions is
+The `-f 10` says to use a frequency of 10 Hz and the `-p 1.5` says to set the position to `1.5`.  The range of positions is
 `-1.5` to `1.5`.   Run `rc_test_servos -h` to see all the options.
 
 ```bash
@@ -64,13 +65,24 @@ The BeagleBone Blue sends these eight outputs to it's servo channels.  The Black
 |pru1_r30_5 |8       |P8_42    |     |
 
 This comes from: 
-* [https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#673_PRUICSS_Pin_Access]
-(https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#673_PRUICSS_Pin_Access)
-* [Robotics_Cape_Installer/pru_firmware/src/pru1-servo.asm](Robotics_Cape_Installer/pru_firmware/src/pru1-servo.asm)
-* [https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP8HeaderTable.pdf](https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP8HeaderTable.pdf)
-* [https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf](https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf)
+* <https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#673_PRUICSS_Pin_Access>
+* [/opt/source/Robotics_Cape_Installer/pru_firmware/src/pru1-servo.asm]
+* <https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP8HeaderTable.pdf>
+* <https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf>
 
 #### Discussion
+
+#### Problem
+`rc_test_servos` is nice, but I need to control the servos individually.
+
+#### Solution
+You can modify `rc_test_servos.c`.  You'll find it on the bone at
+`/opt/source/Robotics_Cape_Installer/examples/src/rc_test_servos.c`, or online at
+<https://github.com/StrawsonDesign/Robotics_Cape_Installer/blob/master/examples/src/rc_test_servos.c>.
+
+Just past line 250 you'll find a `while` loop that has calls to `rc_servo_send_pulse_normalized(ch,servo_pos)` and
+`rc_servo_send_pulse_us(ch, width_us)`.  The first call sets the pulse width relative to the pulse period; the other
+sets the width to an absolute time.  Use whichever works for you.
 
 
 #### Problem
