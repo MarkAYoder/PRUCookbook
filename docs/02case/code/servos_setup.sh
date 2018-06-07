@@ -1,6 +1,6 @@
 #!/bin/bash
 # Configure the PRU pins based on which Beagle is running
-machine=$(awk '{print $NF}' /proc/device-tree/model )
+machine=$(awk '{print $NF}' /proc/device-tree/model)
 echo -n $machine
 if [ $machine = "BlackX" ]; then
     echo " Found"
