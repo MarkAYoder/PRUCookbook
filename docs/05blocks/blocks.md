@@ -13,7 +13,16 @@ the frequency and duty cycle on the fly.
 I want to generate a PWM signal that has a fixed frequency and duty cycle.
 
 #### Solution
+The solution is fairly easy, but be sure to check the **Discussion** section
+for details on making it work.
 
+Here's the code (`pwm1.c`).
+
+```c
+{% include_relative code/pwm1.c %}
+```
+
+#### Discussion
 
 
 ### Sine Wave Generator
