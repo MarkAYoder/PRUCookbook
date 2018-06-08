@@ -7,17 +7,15 @@ volatile register uint32_t __R31;
 
 void main(void)
 {
-	volatile uint32_t gpio;
+	uint32_t gpio;
 
 	/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
 
-	/* Toggle GPO pins TODO: Figure out which to use */
-	gpio = 0x0001;
+	gpio = 0x0001;	// Select which pin to toggle.
 
-	/* TODO: Create stop condition, else it will toggle indefinitely */
 	while (1) {
-		__R30 ^= gpio;
+		__R30 ^= gpio;		// Toggle the GPIO pin
 		__delay_cycles(100000000);
 	}
 }
