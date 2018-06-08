@@ -10,6 +10,9 @@ duty cycle and ending with a multi channel PWM that the ARM can change
 the frequency and duty cycle on the fly.
 
 #### Problem
+I want to generate a PWM signal that has a fixed frequency and duty cycle.
+
+#### Solution
 
 
 
