@@ -22,6 +22,32 @@ Here's the code (`pwm1.c`).
 {% include_relative code/pwm1.c %}
 ```
 
+To run this code you need to configure the pin muxes to output the PRU.  If you are on the Black run
+```bash
+config-pin P9_31 pruout
+```
+On the Pocket run
+```bash
+config-pin P1_36 pruout
+```
+Then, tell Makefile which PRU you are compiling for and what your target file is
+```bash
+export PRUN=0
+export TARGET=pwm1
+```
+Now you are ready to compile
+```bash
+make
+-    Stopping PRU0
+stop
+CC	pwm1.c
+LD	/tmp/pru0-gen/pwm1.obj
+-	copying firmware file /tmp/pru0-gen/pwm1.out to /lib/firmware/am335x-pru0-fw
+-    Starting PRU0
+start
+```
+Now attach and LED (or oscilloscope) to `P9_31` on the Black or `P1.36` on the Pocket.  You should see a squarewave.
+
 #### Discussion
 Since this is our first example we'll discuss the many parts in detail.
 ##### pwm1.c
@@ -48,7 +74,7 @@ Bit 0 is the LSB.
 
 |PRU|Bit|Black pin|Blue pin|Pocket pin|
 |---|---|---------|--------|----------|
-|0  |0  |P9_31    |        |P1.16     |
+|0  |0  |P9_31    |        |P1.36     |
 |0  |1  |P9_29    |        |P1.33     |
 |0  |2  |P9_30    |        |P2.32     |
 |0  |3  |P9_28    |        |P2.30     |
@@ -94,6 +120,12 @@ You can see how fast the PRU and run by setting the delay time to 0. This result
 ![pwm1.c output with 0 delay](figures/pwm2.png "Output of pwm1.c with 0 delay cycles")
 
 Notice the period is 20.1ns which gives us a frequency of about 50MHz.  The on time is 10.2ns and the off time is 10ns.  This means the compiler was able to implement the while loop in just two 5ns instructions!  Not bad.
+
+#### Problem
+You would like to control the frequency and duty cycle of the PWM without recompiling.
+
+#### Solution
+Have the PRU read the on and off times from a shared memory location.
 
 ### Sine Wave Generator
 ### Ultrasonic Sensor Application
