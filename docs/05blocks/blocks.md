@@ -89,6 +89,12 @@ When you run this code and look at the output you will see something like the fo
 
 Notice the on time (`+Width(1)`) is 500ms, just as we predicted.  The off time is 498ms, which is only 2ms off from our prediction.  The standard deviation is 0, or only 380as, which is 380 times 10 to the -18!.
 
+You can see how fast the PRU and run by setting the delay time to 0. This results in the next figure.
+
+![pwm1.c output with 0 delay](figures/pwm2.png "Output of pwm1.c with 0 delay cycles")
+
+Notice the period is 20.1ns which gives us a frequency of about 50MHz.  The on time is 10.2ns and the off time is 10ns.  This means the compiler was able to implement the while loop in just two 5ns instructions!  Not bad.
+
 ### Sine Wave Generator
 ### Ultrasonic Sensor Application
 ### neoPixel driver
