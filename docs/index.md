@@ -32,7 +32,7 @@ compiling on the Beagle
   * prubug?
   * UART
   
-5. Building Blocks – Applications
+5. [Building Blocks – Applications](05blocks/blocks.md)
   * PWM generator
   * Sine Wave Generator
   * Ultrasonic Sensor Application
