@@ -2,10 +2,10 @@
 
 Here are some notes what style to use.
 
-### Includeing code
+### Including code
 
-```c
-{% include_relative code/main_pru0.c %}
+```bash
+{% include_relative 04debug/code/uart_setup.sh %}
 ```
 
 ### Names
