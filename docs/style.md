@@ -8,6 +8,10 @@ Here are some notes what style to use.
 {% include_relative 04debug/code/uart_setup.sh %}
 ```
 
+### Including figures
+
+![alt text](01start/figures/debianImages.png "Latest Debian images")
+
 ### Names
 * PocketBeagle
 * BeagleBone
