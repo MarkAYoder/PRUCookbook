@@ -44,7 +44,20 @@ Here's what's in `resource_table_empty.h`
 |13    |`CT_CFG.SYSCFG_bit.STANDBY_INIT` is set to `0` to enable the OCP master port. More details on this and thousands of other regesters see the [AM335x Technical Reference Manual](https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf). Section 4 is on the PRU and section 4.5 gives details for all the registers.|
 |15    |This line selects which GPIO pin to toggle.  The table below shows which bits in `__R30` map to which pins|
 
+Bit 0 is the LSB.
 
+|PRU|Bit|Black pin|Blue pin|Pocket pin|
+|---|---|---------|--------|----------|
+|0  |0  |P9_31    |        |P1.16     |
+|0  |1  |P9_29    |        |P1.33     |
+|0  |2  |P9_30    |        |P2.32     |
+|0  |3  |P9_28    |        |P2.30     |
+|0  |4  |P9_92    |        |P1.31     |
+|0  |5  |P9_27    |        |P2.34     |
+|0  |6  |P9_91    |        |P2.28     |
+|0  |7  |P9_25    |        |P1.29     |
+|0  |14 |P8_12    |        |P2.24     |
+|0  |15 |P8_11    |        |P2.33     |
 
 ### Sine Wave Generator
 ### Ultrasonic Sensor Application
