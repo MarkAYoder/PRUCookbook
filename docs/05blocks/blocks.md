@@ -76,6 +76,19 @@ Bit 0 is the LSB.
 |1  |14 |         |        |P1.32     |
 |1  |15 |         |        |P1.30     |
 
+Since we are running on PRU 0 we're using `0x0001`, that is bit 1, we'll be toggling `P9_31`.
+
+|Line|Explantion|
+|----|----------|
+|18  |Here is where the action is.  This line reads `__R30` and then exclusive-or's it with `gpio`, flipping the bits where there is a 1 in `gpio` and leaving the bits where there is a 0.  Thus we are toggling the bit we selected. Finally the new value is written back to `__R30`. |
+|19  |`__delay_cycles` is an instrinsic function that delays with number of cycles passed to it. (You can read more about instrinsics in section 5.11 of the [PRU Optimizing C/C++ Compiler, v2.2, User's Guide](http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf).) Each cycle is 5ns, and we are delaying 100,000,000 cycles which is 500,000,000ns, or 0.5 seconds. |
+
+When you run this code and look at the output you will see something like the following figure.
+
+![pwm1.c output](figures/pwm1.png "Output of pwm1.c with 100,000,000 delays cycles giving a 1s period.")
+
+Notice the on time (`+Width(1)`) is 500ms, just as we predicted.  The off time is 498ms, which is only 2ms off from our prediction.  The standard deviation is 0, or only 380as, which is 380 times 10 to the -18!.
+
 ### Sine Wave Generator
 ### Ultrasonic Sensor Application
 ### neoPixel driver
