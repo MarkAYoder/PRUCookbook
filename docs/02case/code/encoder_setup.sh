@@ -12,7 +12,7 @@ elif [ $machine = "Blue" ]; then
     pins=""
 elif [ $machine = "PocketBeagle" ]; then
     echo " Found"
-    pins="P1_31 P2_34 P2_10 P2_24 _2_33"
+    pins="P1_31 P2_34 P2_10 P2_24 P2_33"
 else
     echo " Not Found"
     pins=""
