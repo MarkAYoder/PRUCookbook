@@ -6,6 +6,8 @@
 :email:	Mark.A.Yoder@Rose-Hulman.edu
 :toc:
 :toclevels: 2
+:source-highlighter: rouge
+// :source-highlighter: coderay
 
 == Case Studies
 
@@ -33,7 +35,8 @@ that contains a C library and example/testing programs for the BeagleBone Blue
 and the BeagleBone Black with Robotics Cape. It uses the PRU to extend the real-time hardware of the Bone.
 
 ==== Problem
-How do I configure the pins so the PRUs are accessable?
+How do I configure the pins so the PRUs are accessable
+
 ==== Solution
 It depends on which Beagle you are running on.  If you are on the Blue, everything is already configured for you.
 If you are on the Black or Pocket you'll need to run the following script.
@@ -163,12 +166,15 @@ The eQEP pins are configured with the top half of the code.
 
 ==== Problem
 I want to access the PRU encoder.
+
 ==== Solution
 The forth encoder is implemented on the PRU and accessed with `sudo rc_test_encoders_pru`  
 [NOTE]
 ====
 This command
-needs root permissions, so the `sudo` is needed.  Here's what you will see
+needs root permissions, so the `sudo` is needed.  
+====
+Here's what you will see
 [source,bash]
 ----
 bone$ sudo rc_test_encoders_pru 
@@ -178,7 +184,7 @@ Raw encoder position
       E4   | 
          0 |^C
 ----
-====
+
 If you aren't running the Blue you will have to configure the pins as shown above.  The bottom half of the code
 does the PRU configuring.
 
