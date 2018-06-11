@@ -108,7 +108,7 @@ Since we are running on PRU 0 we're using `0x0001`, that is bit 0, we'll be togg
 |----|----------|
 |18  |Here is where the action is.  This line reads `__R30` and then OR's it with `gpio`, setting the bits where there is a 1 in `gpio` and leaving the bits where there is a 0.  Thus we are setting the bit we selected. Finally the new value is written back to `__R30`. |
 |19  |`__delay_cycles` is an instrinsic function that delays with number of cycles passed to it. (You can read more about instrinsics in section 5.11 of the [PRU Optimizing C/C++ Compiler, v2.2, User's Guide](http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf).) Each cycle is 5ns, and we are delaying 100,000,000 cycles which is 500,000,000ns, or 0.5 seconds. |
-|20  |This is like line 18, but `~gpio` inverts all the bits in `gpio` so that where we had a 1, there is now a 0.  This 0 is then ADDed with `__R30` setting the corresponding bit to 0.  Thus we are clearing the bit we selected.
+|20  |This is like line 18, but `~gpio` inverts all the bits in `gpio` so that where we had a 1, there is now a 0.  This 0 is then ANDed with `__R30` setting the corresponding bit to 0.  Thus we are clearing the bit we selected.
 
 When you run this code and look at the output you will see something like the following figure.
 
