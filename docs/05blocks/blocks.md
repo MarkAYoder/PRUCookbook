@@ -122,7 +122,7 @@ You can see how fast the PRU can run by setting both of the `__delay_cycle`s to 
 
 Notice the period is 15ns which gives us a frequency of about 67MHz. At this high frequency the breadboard that I'm using distorts the waveform so it's no longer a squarewave. The on time is 5.3ns and the off time is 9.8ns.  That means `__R30 |= gpio;` took only one 5ns cycle and `__R30 &= ~gpio;	` also only took one cycle, but there is also a cycle needed for the loop.  This means the compiler was able to implement the while loop in just three 5ns instructions!  Not bad.
 
-The problem is, we want a square wave, so we need to add a delay to correct for the delay of looping back.
+We want a square wave, so we need to add a delay to correct for the delay of looping back.
 
 Here's the code (`pwm2.c`) that does just that.
 
@@ -140,7 +140,39 @@ It's not hard to adjust the two `__delay_cycles` to get the desired frequency an
 You would like to control the frequency and duty cycle of the PWM without recompiling.
 
 #### Solution
-Have the PRU read the on and off times from a shared memory location.
+Have the PRU read the on and off times from a shared memory location.  Each PRU has is own 8KB of data memory (DRAM) and 12KB of shared memory (SHAREDMEM) that the ARM processor can also access.
+
+![PRU Block diagram](figures/blockDiagram.png "PRU Block Diagram")
+
+The DRAM 0 address is 0x0000 for PRU 0.  The same DRAM appears at address 0x4A300000 as seen from the ARM processor.  (See page
+184 of the [AM335x Technical Reference Manual](https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf)).  We take the previous PRU and the lines
+
+```c
+#define PRU0_DRAM		0x00000			// Offset to DRAM
+unsigned int *pru0_dram = PRU0_DRAM;
+```
+to define a pointer to the DRAM.  Later we use
+
+```c
+		pru0_dram[ch] = on[ch];		// Copy to DRAM0 so the ARM can change it
+		pru0_dram[ch+MAXCH] = off[ch];	// Copy oafter the on array
+```
+to write the `on` and `off` times to the DRAM.  Then inside the `while` loop we use
+```c
+				onCount[ch] = pru0_dram[ch];		// Read from DRAM0
+				offCount[ch]= pru0_dram[ch+MAXCH];
+```
+to read from the DRAM when reseting the counters.  Now, while the PRU is running, the ARM can write values into the DRAM and change
+the PWM on and off times.  Here's the whole code (`pwm4.c`)
+
+```c
+{% include_relative code/pwm4.c %}
+```
+Here's is code that runs on the ARM side to set the on and off time values.
+
+```c
+{% include_relative code/pwm-test.c %}
+```
 
 ### Sine Wave Generator
 ### Ultrasonic Sensor Application
