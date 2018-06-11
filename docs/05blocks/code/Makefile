@@ -48,5 +48,5 @@ $(GEN_DIR)/$(TARGET).obj: $(TARGET).c
 	@clpru --include_path=$(PRU_CGT)/include $(INCLUDE) $(CFLAGS) -fe $@ $<
 
 clean:
-	@echo 'CLEAN	.    PRU$(PRUN)'
+	@echo 'CLEAN	.    PRU $(PRUN)'
 	@rm -rf $(GEN_DIR)
