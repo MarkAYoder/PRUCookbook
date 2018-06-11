@@ -5,7 +5,9 @@
 #include "resource_table_empty.h"
 
 #define PRU0_DRAM		0x00000			// Offset to DRAM
-unsigned int *pru0_dram = PRU0_DRAM;
+// Skip the first 0x200 byte of DRAM since the Makefile allocates
+// 0x100 for the STACK and 0x100 for the HEAP.
+unsigned int *pru0_dram = (unsigned int *) (PRU0_DRAM + 0x200);
 
 #define MAXCH	4	// Maximum number of channels
 
@@ -25,8 +27,8 @@ void main(void)
 
 	// Initialize the channel counters.
 	for(ch=0; ch<MAXCH; ch++) {
-		pru0_dram[ch] = on[ch];		// Copy to DRAM0 so the ARM can change it
-		pru0_dram[ch+MAXCH] = off[ch];	// Copy oafter the on array
+		pru0_dram[2*ch  ] = on[ch];		// Copy to DRAM0 so the ARM can change it
+		pru0_dram[2*ch+1] = off[ch];	// Interleave the on and off values
 		onCount[ch] = on[ch];
 		offCount[ch]= off[ch];
 	}
@@ -38,10 +40,10 @@ void main(void)
 				__R30 |= 0x1<<ch;		// Set the GPIO pin to 1
 			} else if(offCount[ch]) {
 				offCount[ch]--;
-				__R30 &= ~(0x1<<ch);		// Clear the GPIO pin
+				__R30 &= ~(0x1<<ch);	// Clear the GPIO pin
 			} else {
-				onCount[ch] = pru0_dram[ch];		// Read from DRAM0
-				offCount[ch]= pru0_dram[ch+MAXCH];
+				onCount[ch] = pru0_dram[2*ch];		// Read from DRAM0
+				offCount[ch]= pru0_dram[2*ch+1];
 			}
 		}
 	}
