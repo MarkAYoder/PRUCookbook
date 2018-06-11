@@ -8,3 +8,9 @@ Here are notes of things to do.
 * How do to sub and super scripts.
 * How do do page and secton numbers
 * 
+
+Switching to asciidoc
+* Bold in code
+bone$ *command*
+Syntax highlighting
+Tables:  column width
