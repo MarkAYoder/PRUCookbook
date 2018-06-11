@@ -106,8 +106,9 @@ Since we are running on PRU 0 we're using `0x0001`, that is bit 0, we'll be togg
 
 |Line|Explantion|
 |----|----------|
-|18  |Here is where the action is.  This line reads `__R30` and then exclusive-or's it with `gpio`, flipping the bits where there is a 1 in `gpio` and leaving the bits where there is a 0.  Thus we are toggling the bit we selected. Finally the new value is written back to `__R30`. |
+|18  |Here is where the action is.  This line reads `__R30` and then OR's it with `gpio`, setting the bits where there is a 1 in `gpio` and leaving the bits where there is a 0.  Thus we are setting the bit we selected. Finally the new value is written back to `__R30`. |
 |19  |`__delay_cycles` is an instrinsic function that delays with number of cycles passed to it. (You can read more about instrinsics in section 5.11 of the [PRU Optimizing C/C++ Compiler, v2.2, User's Guide](http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf).) Each cycle is 5ns, and we are delaying 100,000,000 cycles which is 500,000,000ns, or 0.5 seconds. |
+|20  |This is like line 18, but `~gpio` inverts all the bits in `gpio` so that where we had a 1, there is now a 0.  This 0 is then ADDed with `__R30` setting the corresponding bit to 0.  Thus we are clearing the bit we selected.
 
 When you run this code and look at the output you will see something like the following figure.
 
@@ -115,11 +116,11 @@ When you run this code and look at the output you will see something like the fo
 
 Notice the on time (`+Width(1)`) is 500ms, just as we predicted.  The off time is 498ms, which is only 2ms off from our prediction.  The standard deviation is 0, or only 380as, which is 380 times 10 to the -18!.
 
-You can see how fast the PRU and run by setting the delay time to 0. This results in the next figure.
+You can see how fast the PRU can run by setting both of the `__delay_cycle`s to 0. This results in the next figure.
 
 ![pwm1.c output with 0 delay](figures/pwm2.png "Output of pwm1.c with 0 delay cycles")
 
-Notice the period is 20.1ns which gives us a frequency of about 50MHz.  The on time is 10.2ns and the off time is 10ns.  This means the compiler was able to implement the while loop in just two 5ns instructions!  Not bad.
+Notice the period is 15ns which gives us a frequency of about 67MHz. At this high frequency the breadboard that I'm using distorts the waveform so it's no longer a squarewave. The on time is 5.3ns and the off time is 9.8ns.  That means `__R30 |= gpio;` took only one 5ns cycle and `__R30 &= ~gpio;	` also only took one cycle, but there is also a cycle needed for the loop.  This means the compiler was able to implement the while loop in just three 5ns instructions!  Not bad.
 
 #### Problem
 You would like to control the frequency and duty cycle of the PWM without recompiling.
