@@ -122,6 +122,20 @@ You can see how fast the PRU can run by setting both of the `__delay_cycle`s to 
 
 Notice the period is 15ns which gives us a frequency of about 67MHz. At this high frequency the breadboard that I'm using distorts the waveform so it's no longer a squarewave. The on time is 5.3ns and the off time is 9.8ns.  That means `__R30 |= gpio;` took only one 5ns cycle and `__R30 &= ~gpio;	` also only took one cycle, but there is also a cycle needed for the loop.  This means the compiler was able to implement the while loop in just three 5ns instructions!  Not bad.
 
+The problem is, we want a square wave, so we need to add a delay to correct for the delay of looping back.
+
+Here's the code (`pwm2.c`) that does just that.
+
+```c
+{% include_relative code/pwm2.c %}
+```
+
+The output now looks like (`pwm3.png`).
+
+![pwm2.c corrected delay](figures/pwm3.png "Output of pwm2.c corrected delay")
+
+It's not hard to adjust the two `__delay_cycles` to get the desired frequency and duty cycle.
+
 #### Problem
 You would like to control the frequency and duty cycle of the PWM without recompiling.
 
