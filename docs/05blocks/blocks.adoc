@@ -1,6 +1,9 @@
 :sectnums:
 = PRU Cookbook
+:author: Mark A. Yoder
+:email:	Mark.A.Yoder@Rose-Hulman.edu
 :toc:
+:toclevels: 2
 
 == Building Blocks - Applications
 
@@ -82,7 +85,11 @@ include::code/resource_table_empty.h[]
 |===
 |Line|Explantion
 
-|5-6 |`__R30` and `__R31` are two variables that refer to the PRU output (`__R30`) and input (`__R31`) registers. When you write something to `__R30` it will show up on the corresponding output pins.  When you read from `__R31` you read the data on the input pins.  NOTE:  Both names begin with two underscore's. Section 5.7.2 of the [PRU Optimizing C/C++ Compiler, v2.2, User's Guide](http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf) gives more details.
+|5-6 |`__R30` and `__R31` are two variables that refer to the PRU output (`__R30`) and input (`__R31`) registers. 
+When you write something to `__R30` it will show up on the corresponding output pins.  
+When you read from `__R31` you read the data on the input pins.  
+NOTE: Both names begin with two underscore's. Section 5.7.2 of the [PRU Optimizing C/C++ Compiler, v2.2, 
+User's Guide](http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf) gives more details.
 |13    |`CT_CFG.SYSCFG_bit.STANDBY_INIT` is set to `0` to enable the OCP master port. More details on this and thousands of other regesters see the [AM335x Technical Reference Manual](https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf). Section 4 is on the PRU and section 4.5 gives details for all the registers.
 |15    |This line selects which GPIO pin to toggle.  The table below shows which bits in `__R30` map to which pins
 |===
@@ -133,7 +140,7 @@ Since we are running on PRU 0 we're using `0x0001`, that is bit 0, we'll be togg
 |20  |This is like line 18, but `~gpio` inverts all the bits in `gpio` so that where we had a 1, there is now a 0.  This 0 is then ANDed with `__R30` setting the corresponding bit to 0.  Thus we are clearing the bit we selected.
 |===
 
-[NOTE]
+[TIP]
 ====
 You can read more about instrinsics in section 5.11 of the (http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler, v2.2, User's Guide].)
 ====
@@ -177,35 +184,47 @@ Have the PRU read the _on_ and _off_ times from a shared memory location.  Each 
 .PRU Block Diagram
 image:figures/blockDiagram.png[PRU Block diagram]
 
-The DRAM 0 address is 0x0000 for PRU 0.  The same DRAM appears at address 0x4A300000 as seen from the ARM processor.  (See page
-184 of the [AM335x Technical Reference Manual](https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf)).  We take the previous PRU and the lines
+The DRAM 0 address is 0x0000 for PRU 0.  The same DRAM appears at address 0x4A300000 as seen from the ARM processor.
+[TIP]
+====
+See page
+184 of the [AM335x Technical Reference Manual](https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf)).  
+====
+We take the previous PRU and add the lines
 
-```c
+[source,c]
+----
 #define PRU0_DRAM		0x00000			// Offset to DRAM
 unsigned int *pru0_dram = PRU0_DRAM;
-```
+----
 to define a pointer to the DRAM.  Later we use
 
-```c
+[source,c]
+----
 		pru0_dram[ch] = on[ch];		// Copy to DRAM0 so the ARM can change it
 		pru0_dram[ch+MAXCH] = off[ch];	// Copy oafter the on array
-```
+----
 to write the `on` and `off` times to the DRAM.  Then inside the `while` loop we use
-```c
+[source,c]
+----
 				onCount[ch] = pru0_dram[ch];		// Read from DRAM0
 				offCount[ch]= pru0_dram[ch+MAXCH];
-```
+----
 to read from the DRAM when reseting the counters.  Now, while the PRU is running, the ARM can write values into the DRAM and change
-the PWM on and off times.  Here's the whole code (`pwm4.c`)
+the PWM on and off times.  Here's the whole code:
 
-```c
-{% include_relative code/pwm4.c %}
-```
+.pwm4.c
+[source,c]
+----
+include::code/pwm4.c[pwm4.c]
+----
 Here's is code that runs on the ARM side to set the on and off time values.
 
-```c
-{% include_relative code/pwm-test.c %}
-```
+.pwm-test.c
+[source,c]
+----
+include::code/pwm-test.c[pwm-test.c]
+----
 
 ### Sine Wave Generator
 ### Ultrasonic Sensor Application
