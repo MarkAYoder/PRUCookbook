@@ -27,11 +27,11 @@ PRU_DIR=$(wildcard /sys/devices/platform/ocp/4a326000.pruss-soc-bus/4a300000.pru
 all: stop install start
 
 stop:
-	@echo "-    Stopping PRU$(PRUN)"
+	@echo "-    Stopping PRU $(PRUN)"
 	@echo stop | sudo tee $(PRU_DIR)/state || echo Cannot stop $(PRUN)
 
 start:
-	@echo "-    Starting PRU$(PRUN)"
+	@echo "-    Starting PRU $(PRUN)"
 	@echo start | sudo tee $(PRU_DIR)/state
 
 install: $(GEN_DIR)/$(TARGET).out
