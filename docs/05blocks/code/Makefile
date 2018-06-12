@@ -22,7 +22,15 @@ LFLAGS=--reread_libs --warn_sections --stack_size=$(STACK_SIZE) --heap_size=$(HE
 
 GEN_DIR=/tmp/pru$(PRUN)-gen
 
-PRU_DIR=$(wildcard /sys/devices/platform/ocp/4a326000.pruss-soc-bus/4a300000.pruss/4a33*000.pru$(PRUN)/remoteproc/remoteproc*)
+# Lookup PRU by address
+ifeq ($(PRUN),0)
+PRU_ADDR=4a334000
+endif
+ifeq ($(PRUN),1)
+PRU_ADDR=4a338000
+endif
+
+PRU_DIR=$(wildcard /sys/devices/platform/ocp/4a326000.pruss-soc-bus/4a300000.pruss/$(PRU_ADDR).*/remoteproc/remoteproc*)
 
 all: stop install start
 
