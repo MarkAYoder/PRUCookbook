@@ -22,16 +22,24 @@ LFLAGS=--reread_libs --warn_sections --stack_size=$(STACK_SIZE) --heap_size=$(HE
 
 GEN_DIR=/tmp/pru$(PRUN)-gen
 
-PRU_DIR=$(wildcard /sys/devices/platform/ocp/4a326000.pruss-soc-bus/4a300000.pruss/4a33*000.pru$(PRUN)/remoteproc/remoteproc*)
+# Lookup PRU by address
+ifeq ($(PRUN),0)
+PRU_ADDR=4a334000
+endif
+ifeq ($(PRUN),1)
+PRU_ADDR=4a338000
+endif
+
+PRU_DIR=$(wildcard /sys/devices/platform/ocp/4a326000.pruss-soc-bus/4a300000.pruss/$(PRU_ADDR).*/remoteproc/remoteproc*)
 
 all: stop install start
 
 stop:
-	@echo "-    Stopping PRU$(PRUN)"
+	@echo "-    Stopping PRU $(PRUN)"
 	@echo stop | sudo tee $(PRU_DIR)/state || echo Cannot stop $(PRUN)
 
 start:
-	@echo "-    Starting PRU$(PRUN)"
+	@echo "-    Starting PRU $(PRUN)"
 	@echo start | sudo tee $(PRU_DIR)/state
 
 install: $(GEN_DIR)/$(TARGET).out
@@ -48,5 +56,5 @@ $(GEN_DIR)/$(TARGET).obj: $(TARGET).c
 	@clpru --include_path=$(PRU_CGT)/include $(INCLUDE) $(CFLAGS) -fe $@ $<
 
 clean:
-	@echo 'CLEAN	.    PRU$(PRUN)'
+	@echo 'CLEAN	.    PRU $(PRUN)'
 	@rm -rf $(GEN_DIR)
