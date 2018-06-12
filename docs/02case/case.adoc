@@ -6,8 +6,8 @@
 :email:	Mark.A.Yoder@Rose-Hulman.edu
 :toc:
 :toclevels: 2
-:source-highlighter: rouge
-// :source-highlighter: coderay
+// :source-highlighter: rouge
+:source-highlighter: coderay
 
 == Case Studies
 

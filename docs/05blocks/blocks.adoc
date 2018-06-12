@@ -1,9 +1,13 @@
 :sectnums:
+:sectids:
+:sectlinks:
 = PRU Cookbook
 :author: Mark A. Yoder
 :email:	Mark.A.Yoder@Rose-Hulman.edu
 :toc:
 :toclevels: 2
+// :source-highlighter: rouge
+:source-highlighter: coderay
 
 == Building Blocks - Applications
 
@@ -25,18 +29,18 @@ for details on making it work.
 Here's the code.
 
 .pwm1.c
-[source,c]
+[source,c,linenums] 
 ----
 include::code/pwm1.c[]
 ----
 
 To run this code you need to configure the pin muxes to output the PRU.  If you are on the Black run
-[source,bash]
+[source,bash,linenums] 
 ----
 config-pin P9_31 pruout
 ----
 On the Pocket run
-[source,bash]
+[source,bash,linenums] 
 ----
 config-pin P1_36 pruout
 ----
@@ -46,7 +50,7 @@ Then, tell Makefile which PRU you are compiling for and what your target file is
   bone$ export TARGET=pwm1
 
 Now you are ready to compile
-[source,bash]
+[source,bash,linenums] 
 ----
 make
 -    Stopping PRU 0
@@ -76,7 +80,7 @@ Here's a line-by-line expanation of the c code.
 
 Here's what's in `resource_table_empty.h`
 .resource_table_empty.c
-[source,c]
+[source,c,linenums] 
 ----
 include::code/resource_table_empty.h[]
 ----
@@ -164,7 +168,7 @@ We want a square wave, so we need to add a delay to correct for the delay of loo
 Here's the code that does just that.
 
 .pwm2.c
-[source,c]
+[source,c,linenums] 
 ----
 include::code/pwm2.c[]
 ----
@@ -192,20 +196,20 @@ See page
 ====
 We take the previous PRU and add the lines
 
-[source,c]
+[source,c,linenums] 
 ----
 #define PRU0_DRAM		0x00000			// Offset to DRAM
 unsigned int *pru0_dram = PRU0_DRAM;
 ----
 to define a pointer to the DRAM.  Later we use
 
-[source,c]
+[source,c,linenums] 
 ----
 		pru0_dram[ch] = on[ch];		// Copy to DRAM0 so the ARM can change it
 		pru0_dram[ch+MAXCH] = off[ch];	// Copy oafter the on array
 ----
 to write the `on` and `off` times to the DRAM.  Then inside the `while` loop we use
-[source,c]
+[source,c,linenums] 
 ----
 				onCount[ch] = pru0_dram[ch];		// Read from DRAM0
 				offCount[ch]= pru0_dram[ch+MAXCH];
@@ -214,14 +218,14 @@ to read from the DRAM when reseting the counters.  Now, while the PRU is running
 the PWM on and off times.  Here's the whole code:
 
 .pwm4.c
-[source,c]
+[source,c,linenums] 
 ----
 include::code/pwm4.c[pwm4.c]
 ----
 Here's is code that runs on the ARM side to set the on and off time values.
 
 .pwm-test.c
-[source,c]
+[source,c,linenums] 
 ----
 include::code/pwm-test.c[pwm-test.c]
 ----
