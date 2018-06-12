@@ -3,4 +3,3 @@
 Here are things that might come in handy some time.
 
 http://blog.machinekit.io/2013/06/beagle-bone-pru-links.html[MachineKit PRU Links]
-

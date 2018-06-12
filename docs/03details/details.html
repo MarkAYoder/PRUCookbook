@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.5">
-<meta name="author" content="Mark A. Yoder">
+<meta name="author" content="///:source-highlighter: coderay">
 <title>PRU Cookbook</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -426,208 +426,114 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <span id="author" class="author">Mark A. Yoder</span><br>
 <span id="email" class="email"><a href="mailto:Mark.A.Yoder@Rose-Hulman.edu">Mark.A.Yoder@Rose-Hulman.edu</a></span><br>
 </div>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_details_on_compiling_and_running_a_file">1. Details on compiling and running a file</a>
+<ul class="sectlevel2">
+<li><a href="#_problem">1.1. Problem</a></li>
+<li><a href="#_solution">1.2. Solution</a></li>
+<li><a href="#_discussion">1.3. Discussion</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_outline">1. Outline</h2>
+<h2 id="_details_on_compiling_and_running_a_file"><a class="link" href="#_details_on_compiling_and_running_a_file">1. Details on compiling and running a file</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A cookbook for programming the PRUs in C using remoteproc and
-compiling on the Beagle</p>
+<p>There are a lot details in compiling and running PRU code.
+Here are some details on how it works.</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="notes.html">Notes</a></p>
-</li>
-<li>
-<p><a href="style.html">Style</a></p>
-</li>
-<li>
-<p><a href="todo.html">To Do</a></p>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><a href="01start/start.html">Getting started</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p>Hardware:  BeagleBone family or PocketBeagle</p>
-</li>
-<li>
-<p>Downloading and flashing current image</p>
-</li>
-<li>
-<p>Cloud9 IDE</p>
-</li>
-<li>
-<p>Blinking an LED</p>
-</li>
-</ul>
+<div class="sect2">
+<h3 id="_problem"><a class="link" href="#_problem">1.1. Problem</a></h3>
+<div class="paragraph">
+<p>There are all sorts of options that need to be set when compiling
+a program.  How can I be sure to get them all right?</p>
 </div>
-</li>
-<li>
-<p><a href="02case/case.html">Case Studies</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p>Robotics Control Library</p>
-</li>
-<li>
-<p>LEDscape</p>
-</li>
-<li>
-<p>MachineKit</p>
-</li>
-<li>
-<p>ArduPilot</p>
-</li>
-<li>
-<p>BeagleLogic</p>
-</li>
-</ul>
 </div>
-</li>
-<li>
-<p><a href="03details/details.html">Details on compiling and running a file</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p>The standard Makefile</p>
-</li>
-<li>
-<p>clpru and lnkpru</p>
-</li>
-<li>
-<p>Loading firmware</p>
-</li>
-</ul>
+<div class="sect2">
+<h3 id="_solution"><a class="link" href="#_solution">1.2. Solution</a></h3>
+<div class="paragraph">
+<p>The surest way to make sure everything is right is to use our
+standard Makefile.</p>
 </div>
-</li>
-<li>
-<p><a href="04debug/debug.html">Debugging and Benchmarking</a>
-<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnote_1" title="View footnote.">1</a>]</sup></p>
-<div class="ulist">
-<ul>
-<li>
-<p>LED and switch for debugging</p>
-</li>
-<li>
-<p>Oscilloscope</p>
-</li>
-<li>
-<p>dmesg –Hw</p>
-</li>
-<li>
-<p>prubug?</p>
-</li>
-<li>
-<p>UART</p>
-</li>
-</ul>
 </div>
-</li>
-<li>
-<p><a href="05blocks/blocks.html">Building Blocks – Applications</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p>PWM generator</p>
-</li>
-<li>
-<p>Sine Wave Generator</p>
-</li>
-<li>
-<p>Ultrasonic Sensor Application</p>
-</li>
-<li>
-<p>neoPixel driver</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>[Accessing more I/O]
-<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnote_2" title="View footnote.">2</a>]</sup></p>
-<div class="ulist">
-<ul>
-<li>
-<p>/boot/uEnv.txt to access [P8 I/O]
-<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnote_3" title="View footnote.">3</a>]</sup></p>
-</li>
-<li>
-<p>Accessing gpio</p>
-</li>
-<li>
-<p>UART?</p>
-</li>
-<li>
-<p>ECAP/PWM?</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Talking to the rest of the processor</p>
-<div class="ulist">
-<ul>
-<li>
-<p>PRU Architecture, DRAM, Shared RAM</p>
-</li>
-<li>
-<p>interrupts to ARM</p>
-</li>
-<li>
-<p>ARM interrupts to PRU</p>
-</li>
-<li>
-<p>mmap()</p>
-</li>
-<li>
-<p>rpmsg</p>
-</li>
-<li>
-<p>use of OCP peripherals</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>[Running on an older kernel version]
-<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnote_4" title="View footnote.">4</a>]</sup></p>
-</li>
-<li>
-<p>More performance, assembly language programming</p>
-</li>
-</ol>
-</div>
-</li>
-</ul>
+<div class="sect2">
+<h3 id="_discussion"><a class="link" href="#_discussion">1.3. Discussion</a></h3>
+<div class="paragraph">
+<p>It&#8217;s assumed you alrady know how Makefiles work.  If not, there are
+many resources on line that can bring you up to speed.</p>
 </div>
 <div class="paragraph">
-<p>[common]: # "Some kind of intro to these building blocks is needed. Look at the TI examples for a good list."</p>
+<p>Here is the stardard Makefile (<code>Makefile</code>) used throughout.</p>
+</div>
+<div class="listingblock">
+<div class="title">Standard Makefile</div>
+<div class="content">
+<pre class="highlight"><code class="language-makefile" data-lang="makefile">#
+# Copyright (c) 2016 Zubeen Tolani &lt;ZeekHuge - zeekhuge@gmail.com&gt;
+# Copyright (c) 2017 Texas Instruments - Jason Kridner &lt;jdk@ti.com&gt;
+#
+
+# TARGET must be defined
+# PRUN must be defined
+
+# PRU_CGT environment variable must point to the TI PRU compiler directory.
+# PRU_SUPPORT points to pru-software-support-package
+PRU_CGT:=/usr/share/ti/cgt-pru
+PRU_SUPPORT:=/usr/lib/ti/pru-software-support-package
+
+LINKER_COMMAND_FILE=$(dir $(realpath $(firstword $(MAKEFILE_LIST))))/AM335x_PRU.cmd
+LIBS=--library=$(PRU_SUPPORT)/lib/rpmsg_lib.lib
+INCLUDE=--include_path=$(PRU_SUPPORT)/include --include_path=$(PRU_SUPPORT)/include/am335x
+STACK_SIZE=0x100
+HEAP_SIZE=0x100
+
+CFLAGS=-v3 -O2 --display_error_number --endian=little --hardware_mac=on --obj_directory=$(GEN_DIR) --pp_directory=$(GEN_DIR) --asm_directory=$(GEN_DIR) -ppd -ppa --asm_listing --c_src_interlist # --absolute_listing
+LFLAGS=--reread_libs --warn_sections --stack_size=$(STACK_SIZE) --heap_size=$(HEAP_SIZE) -m $(GEN_DIR)/file.map
+
+GEN_DIR=/tmp/pru$(PRUN)-gen
+
+PRU_DIR=$(wildcard /sys/devices/platform/ocp/4a326000.pruss-soc-bus/4a300000.pruss/4a33*000.pru$(PRUN)/remoteproc/remoteproc*)
+
+all: stop install start
+
+stop:
+	@echo "-    Stopping PRU$(PRUN)"
+	@echo stop | sudo tee $(PRU_DIR)/state || echo Cannot stop $(PRUN)
+
+start:
+	@echo "-    Starting PRU$(PRUN)"
+	@echo start | sudo tee $(PRU_DIR)/state
+
+install: $(GEN_DIR)/$(TARGET).out
+	@echo '-	copying firmware file $(GEN_DIR)/$(TARGET).out to /lib/firmware/am335x-pru$(PRUN)-fw'
+	@sudo cp $(GEN_DIR)/$(TARGET).out /lib/firmware/am335x-pru$(PRUN)-fw
+
+$(GEN_DIR)/$(TARGET).out: $(GEN_DIR)/$(TARGET).obj
+	@echo 'LD	$^'
+	@lnkpru -i$(PRU_CGT)/lib -i$(PRU_CGT)/include $(LFLAGS) -o $@ $^ $(LINKER_COMMAND_FILE) --library=libc.a $(LIBS) $^
+
+$(GEN_DIR)/$(TARGET).obj: $(TARGET).c
+	@mkdir -p $(GEN_DIR)
+	@echo 'CC	$&lt;'
+	@clpru --include_path=$(PRU_CGT)/include $(INCLUDE) $(CFLAGS) -fe $@ $&lt;
+
+clean:
+	@echo 'CLEAN	.    PRU$(PRUN)'
+	@rm -rf $(GEN_DIR)</code></pre>
 </div>
 </div>
 </div>
 </div>
-<div id="footnotes">
-<hr>
-<div class="footnote" id="_footnote_1">
-<a href="#_footnoteref_1">1</a>. Roadmap-wise, I&#8217;d want to consider how to plug RPMsg into a printf function to aide debug. I&#8217;m sure you&#8217;ve seen that with CCS in the past.
-</div>
-<div class="footnote" id="_footnote_2">
-<a href="#_footnoteref_2">2</a>. The split with talking to the ARM is a little confusing to me as I don&#8217;t know what the 'more' is.
-</div>
-<div class="footnote" id="_footnote_3">
-<a href="#_footnoteref_3">3</a>. What is the P8 issue?
-</div>
-<div class="footnote" id="_footnote_4">
-<a href="#_footnoteref_4">4</a>. You might make this just about <strong>alternate</strong> tools rather than necessarily older. You could provide relatively minimal pointers for anything beyond what is needed understand how the Case Studies work. Things like the gcc port could go here.
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-12 09:35:45 EDT
+Last updated 2018-06-12 09:16:28 EDT
 </div>
 </div>
 </body>

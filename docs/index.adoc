@@ -26,12 +26,12 @@ compiling on the Beagle
   ** ArduPilot
   ** BeagleLogic
   
-. link:03details/details.thml[Details on compiling and running a file]
+. link:03details/details.html[Details on compiling and running a file]
   ** The standard Makefile
   ** clpru and lnkpru
   ** Loading firmware
   
-. link:04debug/debug[Debugging and Benchmarking]
+. link:04debug/debug.html[Debugging and Benchmarking]
 footnote:[Roadmap-wise, I'd want to consider how to plug RPMsg into a printf function to aide debug. I'm sure you've seen that with CCS in the past.]
   ** LED and switch for debugging
   ** Oscilloscope
