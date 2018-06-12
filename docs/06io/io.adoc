@@ -1,0 +1,58 @@
+:sectnums:
+:sectids:
+:sectlinks:
+= PRU Cookbook
+:author: Mark A. Yoder
+:email:	Mark.A.Yoder@Rose-Hulman.edu
+:toc:
+:toclevels: 2
+// :source-highlighter: rouge
+:source-highlighter: coderay
+
+== Accessing more I/O
+So far the examples have shown how to access the GPIO pins on the BeagleBone Black's 
+`P9` header and through the `__R30` register.  Below shows how more GPIO pins
+can be accessed.
+
+=== Editing /boot/uEnv.txt to access the P8 header on the Black
+==== Problem
+When I try ton configure some pins on the `P8` header of the Black I get an error.
+
+.config-pin
+[source,bash]
+----
+bone$ config-pin P8_28 pruout
+P8_27 pinmux file not found!
+Pin has no cape: P8_27
+----
+// TODO:  I made up the output.  Make sure it is correct.
+
+==== Solution
+On the images for the BeagleBone Black, the HDMI display driver is enabled by
+default.  The driver uses many of the `P8` pins.  If you are not using
+HDMI video (or the HDI audio, or even the eMMC) you can disable it by editing
+`/boot/uEnt.txt`
+
+Open `/boot/uEnv.txt` and scroll down aways until you see:
+./boot/uEnv.txt
+[source,bash]
+----
+###Disable auto loading of virtual capes (emmc/video/wireless/adc)
+#disable_uboot_overlay_emmc=1
+disable_uboot_overlay_video=1
+#disable_uboot_overlay_audio=1
+----
+Uncomment the lines that correspond to the devices you want to disable and
+free up their pins.  
+[TIP]
+====
+https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP8HeaderTable.pdf[P8 Header Table]
+shows what pins are allocated for what.
+====
+Save the file and reboot.  You now have access to the `P8` pins.
+
+=== Accessing gpio
+
+=== UART?
+
+=== ECAP/PWM?

@@ -22,11 +22,11 @@ chapters you will see the details.
 
 Here we present
 
-  * Robotics Control Library <http://strawsondesign.com/docs/roboticscape/>
-  * BeagleLogic <https://github.com/abhishek-kakkar/BeagleLogic/wiki>
-  * LEDscape <https://github.com/Yona-Appletree/LEDscape>
-  * MachineKit <http://www.machinekit.io/>
-  * ArduPilot <http://ardupilot.org/>
+* Robotics Control Library <http://strawsondesign.com/docs/roboticscape/>
+* BeagleLogic <https://github.com/abhishek-kakkar/BeagleLogic/wiki>
+* LEDscape <https://github.com/Yona-Appletree/LEDscape>
+* MachineKit <http://www.machinekit.io/>
+* ArduPilot <http://ardupilot.org/>
 
 
 === Robotics Control Library
@@ -104,7 +104,7 @@ This comes from:
 
 * <https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#673_PRUICSS_Pin_Access>
 * [/opt/source/Robotics_Cape_Installer/pru_firmware/src/pru1-servo.asm]
-* <https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP8HeaderTable.pdf>
+* https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP8HeaderTable.pdf
 * <https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf>
 
 
