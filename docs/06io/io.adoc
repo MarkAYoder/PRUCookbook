@@ -53,6 +53,82 @@ Save the file and reboot.  You now have access to the `P8` pins.
 
 === Accessing gpio
 
+==== Problem
+I've used up all the GPIO in `__R30`, where can I get more?
+
+==== Solution
+So far we have focused on using PRU 0.  
+<<../05blocks/blocks.html#_pwm1_c,Table 3>> shows 
+// TODO Put a tag on Table 3
+that PRU 0 can access tem GPIO pins on the BeagleBone Black.  If you use
+PRU 1 you can get to and additional 14 pins (if they aren't in use for other things.)
+
+What if you need even more GPIO pins? You can access _any_ GPIO pin by going
+through the **o**ne **c**hip **p**eripheral (CP) port.
+
+.PRU Integration
+image:figures/pruIntegration.png[PRU Integration]
+
+The figure above shows we've been using the _Enhanced GPIO_ interface when using
+`__R30`, but it also shows you can useing the OCP.  You get access to many more
+GPIO pins, but it's a slower access.
+
+.gpio1.c
+[source,c,linenums]
+----
+include::code/gpio1.c[gpio1.c]
+----
+This code will toggle `P9_11` on and off. Here's the setup file.
+
+.gpio_setup.sh
+[source,bash,linenums]
+----
+include::code/gpio_setup.sh[gpio_setup.sh]
+----
+Notice in the code `config-pin` set `P9_11` to `gpio`, not `pruout`. This is because
+are are using the OCP interface to the pin, not the usual PRU interface.
+
+==== Discussion
+When you run the code you see `P9_11` toggling on and off.  Let's go through
+the code line-by-line to see what's happening.
+
+.gpio1 line-by-line
+|===
+|Line|Explanation
+
+|2-4 |Standard includes
+|6-9 |The AM335x has four 32-bit GPIO ports.  These lines define the addresses
+for each of the ports.  You can find these in Table 2-2 page 180 of the
+https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual].
+Look up `P9_11` in the https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf[P9 Header Table].
+Under the _Mode7_ column you see `gpio0[30]`.  This means `P9_11` is bit 30
+on GPIO port 0.  Therefore we will use `GPIO0` in this code.
+|10   |Here we define the address offset from `GIO0` that will allow us to clear
+any (or all) bits in GPIO port 0. Other architectures require you to read a port,
+then change some bit, then write it out again, three steps.  Here we can do the same by writing to one location, just one step.
+|11   |This is like above, but for setting bits.
+|12   |Using this offset lets us just read the bits without changing them.
+|13   |This shifts `0x1` to the 30^th^ bit position, which is the one corresponding
+to `P9_11`.
+|20   |Here we initialize `gpio0` to point to the start of GPIO port 0's control
+registeres.
+|23   |`gpio0[GPIO_SETDATAOUT/4]` refers to the `SETDATAOUT` register of port 0.
+The `/4` is since `gpio0[]` expects a _word_ index and `GPIO_SETDATAOUT` is
+a byte index. Writing to this register turns on the bits where 1's are written,
+but leaves alone the bits where 0's are.
+|24   |Wait 100,000,000 cycles, which is 0.5 seconds.
+|25   |This is like like line 23, but the output bit is set to 0 where 1's are written.
+|===
+
+===== How fast can it go?
+This approach to GPIO goes through the slower OCP interface.  If you set `__delay_cycls(0)` you can see how fast it is.
+
+.gpio1.c with __delay_cycles(0)
+image:figures/gpio0delay.png[gpio1.c with __delay_cycles(0)]
+
+The period is 80ns which is 12.MHz.  That's about one forth the speed of the
+`__R30` method, but still not bad.
+ 
 === UART?
 
 === ECAP/PWM?
