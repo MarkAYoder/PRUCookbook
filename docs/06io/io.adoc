@@ -1,9 +1,6 @@
 :sectnums:
 :sectids:
 :sectlinks:
-= PRU Cookbook
-:author: Mark A. Yoder
-:email:	Mark.A.Yoder@Rose-Hulman.edu
 :toc:
 :toclevels: 2
 // :source-highlighter: rouge
