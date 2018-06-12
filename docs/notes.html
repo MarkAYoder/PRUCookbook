@@ -5,8 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.5">
-<meta name="author" content="Mark A. Yoder">
-<title>PRU Cookbook</title>
+<title>Notes</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -421,213 +420,23 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>PRU Cookbook</h1>
-<div class="details">
-<span id="author" class="author">Mark A. Yoder</span><br>
-<span id="email" class="email"><a href="mailto:Mark.A.Yoder@Rose-Hulman.edu">Mark.A.Yoder@Rose-Hulman.edu</a></span><br>
-</div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_outline">1. Outline</h2>
+<h2 id="_notes">Notes</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A cookbook for programming the PRUs in C using remoteproc and
-compiling on the Beagle</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="notes.html">Notes</a></p>
-</li>
-<li>
-<p><a href="style.html">Style</a></p>
-</li>
-<li>
-<p><a href="todo.html">To Do</a></p>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><a href="01start/start.html">Getting started</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p>Hardware:  BeagleBone family or PocketBeagle</p>
-</li>
-<li>
-<p>Downloading and flashing current image</p>
-</li>
-<li>
-<p>Cloud9 IDE</p>
-</li>
-<li>
-<p>Blinking an LED</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><a href="02case/case.html">Case Studies</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p>Robotics Control Library</p>
-</li>
-<li>
-<p>LEDscape</p>
-</li>
-<li>
-<p>MachineKit</p>
-</li>
-<li>
-<p>ArduPilot</p>
-</li>
-<li>
-<p>BeagleLogic</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><a href="03details/details.thml">Details on compiling and running a file</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p>The standard Makefile</p>
-</li>
-<li>
-<p>clpru and lnkpru</p>
-</li>
-<li>
-<p>Loading firmware</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><a href="04debug/debug">Debugging and Benchmarking</a>
-<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnote_1" title="View footnote.">1</a>]</sup></p>
-<div class="ulist">
-<ul>
-<li>
-<p>LED and switch for debugging</p>
-</li>
-<li>
-<p>Oscilloscope</p>
-</li>
-<li>
-<p>dmesg –Hw</p>
-</li>
-<li>
-<p>prubug?</p>
-</li>
-<li>
-<p>UART</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><a href="05blocks/blocks.html">Building Blocks – Applications</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p>PWM generator</p>
-</li>
-<li>
-<p>Sine Wave Generator</p>
-</li>
-<li>
-<p>Ultrasonic Sensor Application</p>
-</li>
-<li>
-<p>neoPixel driver</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>[Accessing more I/O]
-<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnote_2" title="View footnote.">2</a>]</sup></p>
-<div class="ulist">
-<ul>
-<li>
-<p>/boot/uEnv.txt to access [P8 I/O]
-<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnote_3" title="View footnote.">3</a>]</sup></p>
-</li>
-<li>
-<p>Accessing gpio</p>
-</li>
-<li>
-<p>UART?</p>
-</li>
-<li>
-<p>ECAP/PWM?</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Talking to the rest of the processor</p>
-<div class="ulist">
-<ul>
-<li>
-<p>PRU Architecture, DRAM, Shared RAM</p>
-</li>
-<li>
-<p>interrupts to ARM</p>
-</li>
-<li>
-<p>ARM interrupts to PRU</p>
-</li>
-<li>
-<p>mmap()</p>
-</li>
-<li>
-<p>rpmsg</p>
-</li>
-<li>
-<p>use of OCP peripherals</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>[Running on an older kernel version]
-<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnote_4" title="View footnote.">4</a>]</sup></p>
-</li>
-<li>
-<p>More performance, assembly language programming</p>
-</li>
-</ol>
-</div>
-</li>
-</ul>
+<p>Here are things that might come in handy some time.</p>
 </div>
 <div class="paragraph">
-<p>[common]: # "Some kind of intro to these building blocks is needed. Look at the TI examples for a good list."</p>
+<p><a href="http://blog.machinekit.io/2013/06/beagle-bone-pru-links.html">MachineKit PRU Links</a></p>
 </div>
 </div>
-</div>
-</div>
-<div id="footnotes">
-<hr>
-<div class="footnote" id="_footnote_1">
-<a href="#_footnoteref_1">1</a>. Roadmap-wise, I&#8217;d want to consider how to plug RPMsg into a printf function to aide debug. I&#8217;m sure you&#8217;ve seen that with CCS in the past.
-</div>
-<div class="footnote" id="_footnote_2">
-<a href="#_footnoteref_2">2</a>. The split with talking to the ARM is a little confusing to me as I don&#8217;t know what the 'more' is.
-</div>
-<div class="footnote" id="_footnote_3">
-<a href="#_footnoteref_3">3</a>. What is the P8 issue?
-</div>
-<div class="footnote" id="_footnote_4">
-<a href="#_footnoteref_4">4</a>. You might make this just about <strong>alternate</strong> tools rather than necessarily older. You could provide relatively minimal pointers for anything beyond what is needed understand how the Case Studies work. Things like the gcc port could go here.
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-12 08:39:18 EDT
+Last updated 2018-06-12 08:32:02 EDT
 </div>
 </div>
 </body>
