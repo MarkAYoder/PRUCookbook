@@ -1,6 +1,7 @@
 :sectnums:
 :sectids:
 :sectlinks:
+= PRU Cookbook
 :toc:
 :toclevels: 2
 // :source-highlighter: rouge
@@ -23,7 +24,7 @@ Here we present
 * BeagleLogic <https://github.com/abhishek-kakkar/BeagleLogic/wiki>
 * LEDscape <https://github.com/Yona-Appletree/LEDscape>
 * MachineKit <http://www.machinekit.io/>
-* ArduPilot <http://ardupilot.org/>
+* ArduPilot <http://ardupilot.org/>, <http://ardupilot.org/dev/docs/beaglepilot.html>
 
 
 === Robotics Control Library
