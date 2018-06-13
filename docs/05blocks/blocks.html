@@ -532,6 +532,20 @@ table.CodeRay td.code>pre{padding:0}
 <div class="paragraph">
 <p>Here are some examples that use the basic PRU building blocks.</p>
 </div>
+<div class="paragraph">
+<p>The following are references used in this chapters.</p>
+</div>
+<div class="ulist">
+<div class="title">References</div>
+<ul>
+<li>
+<p><a href="http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf">PRU Optimizing C/C++ Compiler, v2.2, User&#8217;s Guide</a></p>
+</li>
+<li>
+<p><a href="https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf">AM335x Technical Reference Manual</a></p>
+</li>
+</ul>
+</div>
 <div class="sect2">
 <h3 id="_pwm_generator"><a class="link" href="#_pwm_generator">1.1. PWM generator</a></h3>
 <div class="paragraph">
@@ -684,7 +698,7 @@ start</pre></td>
 <p>Here&#8217;s a line-by-line expanation of the c code.</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 1. Line-by-line</caption>
+<caption class="title">Table 1. Line-by-line of pwm1.c</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -816,12 +830,14 @@ start</pre></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><em>R30</code> and <code></em>R31</code> are two variables that refer to the PRU output (<code><em>R30</code>) and input (<code></em>R31</code>) registers.
 When you write something to <code><em>R30</code> it will show up on the corresponding output pins.
 When you read from <code></em>R31</code> you read the data on the input pins.
-NOTE: Both names begin with two underscore&#8217;s. Section 5.7.2 of the [PRU Optimizing C/C++ Compiler, v2.2,
-User&#8217;s Guide](<a href="http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf" class="bare">http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf</a>) gives more details.</p></td>
+NOTE: Both names begin with two underscore&#8217;s. Section 5.7.2 of the
+<a href="http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf">PRU Optimizing C/C++ Compiler, v2.2, User&#8217;s Guide</a>
+gives more details.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">13</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CT_CFG.SYSCFG_bit.STANDBY_INIT</code> is set to <code>0</code> to enable the OCP master port. More details on this and thousands of other regesters see the [AM335x Technical Reference Manual](<a href="https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf" class="bare">https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf</a>). Section 4 is on the PRU and section 4.5 gives details for all the registers.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CT_CFG.SYSCFG_bit.STANDBY_INIT</code> is set to <code>0</code> to enable the OCP master port. More details on this and thousands of other regesters see the
+<a href="https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf">AM335x Technical Reference Manual</a>. Section 4 is on the PRU and section 4.5 gives details for all the registers.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">15</p></td>
@@ -1204,7 +1220,7 @@ User&#8217;s Guide](<a href="http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf" cla
 <td class="content">
 <div class="paragraph">
 <p>See page
-184 of the [AM335x Technical Reference Manual](<a href="https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf)" class="bare">https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf)</a>).</p>
+184 of the <a href="https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf">AM335x Technical Reference Manual</a>).</p>
 </div>
 </td>
 </tr>
@@ -1641,7 +1657,7 @@ the PWM on and off times.  Here&#8217;s the whole code:</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-12 15:10:45 EDT
+Last updated 2018-06-13 14:35:14 EDT
 </div>
 </div>
 </body>

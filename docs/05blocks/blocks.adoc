@@ -10,6 +10,12 @@
 
 Here are some examples that use the basic PRU building blocks.
 
+The following are resources used in this chapter.
+
+.Resources
+* http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler, v2.2, User's Guide]
+* https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]
+
 === PWM generator
 One of the simplest things a PRU can to is generate a simple
 problems starting with a single channel PWM that has a fixed frequency and
@@ -49,7 +55,7 @@ Then, tell Makefile which PRU you are compiling for and what your target file is
 Now you are ready to compile
 [source,bash,linenums] 
 ----
-make
+bone$ make
 -    Stopping PRU 0
 stop
 CC	pwm1.c
@@ -66,7 +72,7 @@ Since this is our first example we'll discuss the many parts in detail.
 ===== pwm1.c
 Here's a line-by-line expanation of the c code.
 
-.Line-by-line
+.Line-by-line of pwm1.c
 |===
 |Line|Explantion
 
@@ -89,9 +95,11 @@ include::code/resource_table_empty.h[]
 |5-6 |`__R30` and `__R31` are two variables that refer to the PRU output (`__R30`) and input (`__R31`) registers. 
 When you write something to `__R30` it will show up on the corresponding output pins.  
 When you read from `__R31` you read the data on the input pins.  
-NOTE: Both names begin with two underscore's. Section 5.7.2 of the [PRU Optimizing C/C++ Compiler, v2.2, 
-User's Guide](http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf) gives more details.
-|13    |`CT_CFG.SYSCFG_bit.STANDBY_INIT` is set to `0` to enable the OCP master port. More details on this and thousands of other regesters see the [AM335x Technical Reference Manual](https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf). Section 4 is on the PRU and section 4.5 gives details for all the registers.
+NOTE: Both names begin with two underscore's. Section 5.7.2 of the 
+http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler, v2.2, User's Guide]
+gives more details.
+|13    |`CT_CFG.SYSCFG_bit.STANDBY_INIT` is set to `0` to enable the OCP master port. More details on this and thousands of other regesters see the 
+https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]. Section 4 is on the PRU and section 4.5 gives details for all the registers.
 |15    |This line selects which GPIO pin to toggle.  The table below shows which bits in `__R30` map to which pins
 |===
 
@@ -189,7 +197,7 @@ The DRAM 0 address is 0x0000 for PRU 0.  The same DRAM appears at address 0x4A30
 [TIP]
 ====
 See page
-184 of the [AM335x Technical Reference Manual](https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf)).  
+184 of the https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]).  
 ====
 We take the previous PRU and add the lines
 
