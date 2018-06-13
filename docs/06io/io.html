@@ -534,6 +534,23 @@ table.CodeRay td.code>pre{padding:0}
 <code>P9</code> header and through the <code>__R30</code> register.  Below shows how more GPIO pins
 can be accessed.</p>
 </div>
+<div class="paragraph">
+<p>The following are resources used in this chapter.</p>
+</div>
+<div class="ulist">
+<div class="title">Resources</div>
+<ul>
+<li>
+<p><a href="https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP8HeaderTable.pdf">P8 Header Table</a></p>
+</li>
+<li>
+<p><a href="https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf">P9 Header Table</a></p>
+</li>
+<li>
+<p><a href="https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf">AM335x Technical Reference Manual</a></p>
+</li>
+</ul>
+</div>
 <div class="sect2">
 <h3 id="_editing_boot_uenv_txt_to_access_the_p8_header_on_the_black"><a class="link" href="#_editing_boot_uenv_txt_to_access_the_p8_header_on_the_black">1.1. Editing /boot/uEnv.txt to access the P8 header on the Black</a></h3>
 <div class="sect3">
@@ -607,12 +624,12 @@ shows what pins are allocated for what.</p>
 <div class="paragraph">
 <p>So far we have focused on using PRU 0.
 <a href="../05blocks/blocks.html#_pwm1_c">Table 3</a> shows
-that PRU 0 can access tem GPIO pins on the BeagleBone Black.  If you use
-PRU 1 you can get to and additional 14 pins (if they aren&#8217;t in use for other things.)</p>
+that PRU 0 can access ten GPIO pins on the BeagleBone Black.  If you use
+PRU 1 you can get to an additional 14 pins (if they aren&#8217;t in use for other things.)</p>
 </div>
 <div class="paragraph">
 <p>What if you need even more GPIO pins? You can access <em>any</em> GPIO pin by going
-through the <strong>o</strong>ne <strong>c</strong>hip <strong>p</strong>eripheral (CP) port.</p>
+through the <strong>o</strong>ne <strong>c</strong>hip <strong>p</strong>eripheral ()CP) port.</p>
 </div>
 <div class="paragraph">
 <div class="title">PRU Integration</div>
@@ -620,7 +637,7 @@ through the <strong>o</strong>ne <strong>c</strong>hip <strong>p</strong>eripher
 </div>
 <div class="paragraph">
 <p>The figure above shows we&#8217;ve been using the <em>Enhanced GPIO</em> interface when using
-<code>__R30</code>, but it also shows you can useing the OCP.  You get access to many more
+<code>__R30</code>, but it also shows you can use the OCP.  You get access to many more
 GPIO pins, but it&#8217;s a slower access.</p>
 </div>
 <div class="listingblock">
@@ -758,6 +775,21 @@ done</pre></td>
 <p>Notice in the code <code>config-pin</code> set <code>P9_11</code> to <code>gpio</code>, not <code>pruout</code>. This is because
 are are using the OCP interface to the pin, not the usual PRU interface.</p>
 </div>
+<div class="paragraph">
+<p>Set your exports and make.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">bone$ export PRUN=0
+bone$ export TARGET=pwm1
+bone$ make
+-    Stopping PRU 0
+stop
+-        copying firmware file /tmp/pru0-gen/gpio1.out to /lib/firmware/am335x-pru0-fw
+-    Starting PRU 0
+start</code></pre>
+</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_discussion"><a class="link" href="#_discussion">1.2.3. Discussion</a></h4>
@@ -819,7 +851,7 @@ registeres.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">23</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>gpio0[GPIO_SETDATAOUT/4]</code> refers to the <code>SETDATAOUT</code> register of port 0.
 The <code>/4</code> is since <code>gpio0[]</code> expects a <em>word</em> index and <code>GPIO_SETDATAOUT</code> is
-a byte index. Writing to this register turns on the bits where 1&#8217;s are written,
+a <em>byte</em> index. Writing to this register turns on the bits where 1&#8217;s are written,
 but leaves alone the bits where 0&#8217;s are.</p></td>
 </tr>
 <tr>
@@ -845,6 +877,25 @@ but leaves alone the bits where 0&#8217;s are.</p></td>
 <p>The period is 80ns which is 12.MHz.  That&#8217;s about one forth the speed of the
 <code>__R30</code> method, but still not bad.</p>
 </div>
+<div class="paragraph">
+<p>If you are using an oscilloscope, look closely and you&#8217;ll see the following.</p>
+</div>
+<div class="paragraph">
+<div class="title">PWM with jitter</div>
+<p><span class="image"><img src="figures/jitter.png" alt="PWM with jitter"></span></p>
+</div>
+<div class="paragraph">
+<p>The PRU is still as solid as before in it&#8217;s timing, but now it&#8217;s going through
+the OCP interface.  This interface is shared with other parts of the system,
+therefore the sometimes the PRU must wait for the other parts to finish.
+When this happens the pulse width is a bit longer than usual thus adding
+jitter to the output.</p>
+</div>
+<div class="paragraph">
+<p>For many applications a few nanoseconds of jitter is unimportant and this
+GPIO interface can be used.  If your application needs better timing,
+use the <code>__r30</code> interface.</p>
+</div>
 </div>
 </div>
 </div>
@@ -861,7 +912,7 @@ but leaves alone the bits where 0&#8217;s are.</p></td>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-12 15:06:13 EDT
+Last updated 2018-06-13 14:55:13 EDT
 </div>
 </div>
 </body>

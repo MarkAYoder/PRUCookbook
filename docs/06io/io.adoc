@@ -11,6 +11,13 @@ So far the examples have shown how to access the GPIO pins on the BeagleBone Bla
 `P9` header and through the `__R30` register.  Below shows how more GPIO pins
 can be accessed.
 
+The following are resources used in this chapter.
+
+.Resources
+* https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP8HeaderTable.pdf[P8 Header Table]
+* https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf[P9 Header Table]
+* https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]
+
 === Editing /boot/uEnv.txt to access the P8 header on the Black
 ==== Problem
 When I try ton configure some pins on the `P8` header of the Black I get an error.
@@ -57,17 +64,17 @@ I've used up all the GPIO in `__R30`, where can I get more?
 So far we have focused on using PRU 0.  
 <<../05blocks/blocks.html#_pwm1_c,Table 3>> shows 
 // TODO Put a tag on Table 3
-that PRU 0 can access tem GPIO pins on the BeagleBone Black.  If you use
-PRU 1 you can get to and additional 14 pins (if they aren't in use for other things.)
+that PRU 0 can access ten GPIO pins on the BeagleBone Black.  If you use
+PRU 1 you can get to an additional 14 pins (if they aren't in use for other things.)
 
 What if you need even more GPIO pins? You can access _any_ GPIO pin by going
-through the **o**ne **c**hip **p**eripheral (CP) port.
+through the **o**ne **c**hip **p**eripheral ()CP) port.
 
 .PRU Integration
 image:figures/pruIntegration.png[PRU Integration]
 
 The figure above shows we've been using the _Enhanced GPIO_ interface when using
-`__R30`, but it also shows you can useing the OCP.  You get access to many more
+`__R30`, but it also shows you can use the OCP.  You get access to many more
 GPIO pins, but it's a slower access.
 
 .gpio1.c
@@ -84,6 +91,19 @@ include::code/gpio_setup.sh[gpio_setup.sh]
 ----
 Notice in the code `config-pin` set `P9_11` to `gpio`, not `pruout`. This is because
 are are using the OCP interface to the pin, not the usual PRU interface.
+
+Set your exports and make.
+[source,bash] 
+----
+bone$ export PRUN=0
+bone$ export TARGET=pwm1
+bone$ make
+-    Stopping PRU 0
+stop
+-	copying firmware file /tmp/pru0-gen/gpio1.out to /lib/firmware/am335x-pru0-fw
+-    Starting PRU 0
+start
+----
 
 ==== Discussion
 When you run the code you see `P9_11` toggling on and off.  Let's go through
@@ -111,7 +131,7 @@ to `P9_11`.
 registeres.
 |23   |`gpio0[GPIO_SETDATAOUT/4]` refers to the `SETDATAOUT` register of port 0.
 The `/4` is since `gpio0[]` expects a _word_ index and `GPIO_SETDATAOUT` is
-a byte index. Writing to this register turns on the bits where 1's are written,
+a _byte_ index. Writing to this register turns on the bits where 1's are written,
 but leaves alone the bits where 0's are.
 |24   |Wait 100,000,000 cycles, which is 0.5 seconds.
 |25   |This is like like line 23, but the output bit is set to 0 where 1's are written.
@@ -125,7 +145,21 @@ image:figures/gpio0delay.png[gpio1.c with __delay_cycles(0)]
 
 The period is 80ns which is 12.MHz.  That's about one forth the speed of the
 `__R30` method, but still not bad.
+
+If you are using an oscilloscope, look closely and you'll see the following.
+
+.PWM with jitter
+image:figures/jitter.png[PWM with jitter]
+
+The PRU is still as solid as before in it's timing, but now it's going through
+the OCP interface.  This interface is shared with other parts of the system,
+therefore the sometimes the PRU must wait for the other parts to finish.  
+When this happens the pulse width is a bit longer than usual thus adding
+jitter to the output.
+
+For many applications a few nanoseconds of jitter is unimportant and this
+GPIO interface can be used.  If your application needs better timing,
+use the `__R30` interface.
  
-=== UART?
 
 === ECAP/PWM?
