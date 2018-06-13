@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.5">
-<title>Case Studies</title>
+<title>Case Studies - Introduction</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -514,13 +514,19 @@ table.CodeRay td.code>pre{padding:0}
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_case_studies">1. Case Studies</a>
+<li><a href="#_case_studies_introduction">1. Case Studies - Introduction</a>
 <ul class="sectlevel2">
 <li><a href="#_robotics_control_library">1.1. Robotics Control Library</a></li>
-<li><a href="#_beaglelogic">1.2. BeagleLogic</a></li>
-<li><a href="#_machinekit">1.3. MachineKit</a></li>
-<li><a href="#_ledscape">1.4. LEDScape</a></li>
-<li><a href="#_ardupilot">1.5. ArduPilot</a></li>
+<li><a href="#_configuring_pins">1.2. Configuring Pins</a></li>
+<li><a href="#_controlling_eight_servos">1.3. Controlling Eight Servos</a></li>
+<li><a href="#_controlling_individual_servos">1.4. Controlling Individual Servos</a></li>
+<li><a href="#_controlling_more_than_eight_channels">1.5. Controlling More Than Eight Channels</a></li>
+<li><a href="#_reading_hardware_encoders">1.6. Reading Hardware Encoders</a></li>
+<li><a href="#_reading_pru_encoder">1.7. Reading PRU Encoder</a></li>
+<li><a href="#_beaglelogic_a_14_channel_logic_analyzer">1.8. BeagleLogic - a 14-channel Logic Analyzer</a></li>
+<li><a href="#_machinekit">1.9. MachineKit</a></li>
+<li><a href="#_ledscape">1.10. LEDScape</a></li>
+<li><a href="#_ardupilot">1.11. ArduPilot</a></li>
 </ul>
 </li>
 </ul>
@@ -528,7 +534,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_case_studies"><a class="link" href="#_case_studies">1. Case Studies</a></h2>
+<h2 id="_case_studies_introduction"><a class="link" href="#_case_studies_introduction">1. Case Studies - Introduction</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The <strong>P</strong>rogrammable <strong>R</strong>eal-Time <strong>U</strong>nit (PRU) has two 32-bit cores which run
@@ -563,6 +569,23 @@ chapters you will see the details.</p>
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p>The following are resources used in this chapter.</p>
+</div>
+<div class="ulist">
+<div class="title">Resources</div>
+<ul>
+<li>
+<p><a href="https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#673_PRUICSS_Pin_Access">Pocket Beagle System Reference Manual</a></p>
+</li>
+<li>
+<p><a href="https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP8HeaderTable.pdf">P8 Header Table</a></p>
+</li>
+<li>
+<p><a href="https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf">P9 Header Table</a></p>
+</li>
+</ul>
+</div>
 <div class="sect2">
 <h3 id="_robotics_control_library"><a class="link" href="#_robotics_control_library">1.1. Robotics Control Library</a></h3>
 <div class="paragraph">
@@ -570,14 +593,17 @@ chapters you will see the details.</p>
 that contains a C library and example/testing programs for the BeagleBone Blue
 and the BeagleBone Black with Robotics Cape. It uses the PRU to extend the real-time hardware of the Bone.</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_configuring_pins"><a class="link" href="#_configuring_pins">1.2. Configuring Pins</a></h3>
 <div class="sect3">
-<h4 id="_problem"><a class="link" href="#_problem">1.1.1. Problem</a></h4>
+<h4 id="_problem"><a class="link" href="#_problem">Problem</a></h4>
 <div class="paragraph">
-<p>How do I configure the pins so the PRUs are accessable</p>
+<p>You want to configure the pins so the PRU input and outputs are accessable.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution"><a class="link" href="#_solution">1.1.2. Solution</a></h4>
+<h4 id="_solution"><a class="link" href="#_solution">Solution</a></h4>
 <div class="paragraph">
 <p>It depends on which Beagle you are running on.  If you are on the Blue, everything is already configured for you.
 If you are on the Black or Pocket you&#8217;ll need to run the following script.</p>
@@ -640,20 +666,23 @@ done</pre></td>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion"><a class="link" href="#_discussion">1.1.3. Discussion</a></h4>
+<h4 id="_discussion"><a class="link" href="#_discussion">Discussion</a></h4>
 <div class="paragraph">
 <p>The first part of the code looks in <code>/proc/device-tree/model</code> to see which Beagle is running. Based on that it
 assigns <code>pins</code> a list of pins to configure.  Then the last part of the script loops through each of the pins and configures it.</p>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_controlling_eight_servos"><a class="link" href="#_controlling_eight_servos">1.3. Controlling Eight Servos</a></h3>
 <div class="sect3">
-<h4 id="_problem_2"><a class="link" href="#_problem_2">1.1.4. Problem</a></h4>
+<h4 id="_problem_2"><a class="link" href="#_problem_2">Problem</a></h4>
 <div class="paragraph">
-<p>I need to control eight servos, but the Bone doesn&#8217;t have enough PWMs.</p>
+<p>You need to control eight servos, but the Bone doesn&#8217;t have enough PWMs.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_2"><a class="link" href="#_solution_2">1.1.5. Solution</a></h4>
+<h4 id="_solution_2"><a class="link" href="#_solution_2">Solution</a></h4>
 <div class="paragraph">
 <p>The Robotics Control Library provides eight additional PWM channels via the PRU that can be used out of the box.  Just run:</p>
 </div>
@@ -685,6 +714,9 @@ sample use to center servo channel 1:
    rc_test_servo -c 1 -p 0.0</code></pre>
 </div>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_2"><a class="link" href="#_discussion_2">Discussion</a></h4>
 <div class="paragraph">
 <p>The BeagleBone Blue sends these eight outputs to it&#8217;s servo channels.  The Black and the Pocket use the pins shown in this table.</p>
 </div>
@@ -755,37 +787,27 @@ sample use to center servo channel 1:
 </tr>
 </tbody>
 </table>
-</div>
-<div class="sect3">
-<h4 id="_discussion_2"><a class="link" href="#_discussion_2">1.1.6. Discussion</a></h4>
 <div class="paragraph">
-<p>This comes from:</p>
+<p>You can find these details in the
+<a href="https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP8HeaderTable.pdf">P8 Header Table</a>,
+<a href="https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf">P9 Header Table</a> and then <a href="https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#673_PRUICSS_Pin_Access">Pocket Beagle System Reference Manual</a>.</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#673_PRUICSS_Pin_Access" class="bare">https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#673_PRUICSS_Pin_Access</a></p>
-</li>
-<li>
-<p>[/opt/source/Robotics_Cape_Installer/pru_firmware/src/pru1-servo.asm]</p>
-</li>
-<li>
-<p><a href="https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP8HeaderTable.pdf" class="bare">https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP8HeaderTable.pdf</a></p>
-</li>
-<li>
-<p><a href="https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf" class="bare">https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf</a></p>
-</li>
-</ul>
+<div class="paragraph">
+<p>Be default the PRUs are already loaded with the code needed to run the
+servos.  All you have to do is run the command.</p>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_controlling_individual_servos"><a class="link" href="#_controlling_individual_servos">1.4. Controlling Individual Servos</a></h3>
 <div class="sect3">
-<h4 id="_problem_3"><a class="link" href="#_problem_3">1.1.7. Problem</a></h4>
+<h4 id="_problem_3"><a class="link" href="#_problem_3">Problem</a></h4>
 <div class="paragraph">
 <p><code>rc_test_servos</code> is nice, but I need to control the servos individually.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_3"><a class="link" href="#_solution_3">1.1.8. Solution</a></h4>
+<h4 id="_solution_3"><a class="link" href="#_solution_3">Solution</a></h4>
 <div class="paragraph">
 <p>You can modify <code>rc_test_servos.c</code>.  You&#8217;ll find it on the bone at
 <code>/opt/source/Robotics_Cape_Installer/examples/src/rc_test_servos.c</code>, or online at
@@ -797,27 +819,33 @@ sample use to center servo channel 1:
 sets the width to an absolute time.  Use whichever works for you.</p>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_controlling_more_than_eight_channels"><a class="link" href="#_controlling_more_than_eight_channels">1.5. Controlling More Than Eight Channels</a></h3>
 <div class="sect3">
-<h4 id="_problem_4"><a class="link" href="#_problem_4">1.1.9. Problem</a></h4>
+<h4 id="_problem_4"><a class="link" href="#_problem_4">Problem</a></h4>
 <div class="paragraph">
 <p>I need more than eight PWM channels, or I need less jitter on the off time.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_4"><a class="link" href="#_solution_4">1.1.10. Solution</a></h4>
+<h4 id="_solution_4"><a class="link" href="#_solution_4">Solution</a></h4>
 <div class="paragraph">
 <p>This is a more advanced problem and required reprograming the PRUs.  See
 <a href="../05blocks/blocks.html">Building Blocks - Applications</a> for an example.</p>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_reading_hardware_encoders"><a class="link" href="#_reading_hardware_encoders">1.6. Reading Hardware Encoders</a></h3>
 <div class="sect3">
-<h4 id="_problem_5"><a class="link" href="#_problem_5">1.1.11. Problem</a></h4>
+<h4 id="_problem_5"><a class="link" href="#_problem_5">Problem</a></h4>
 <div class="paragraph">
 <p>I want to use four encoders to measure four motors, but I only see hardware for three.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_5"><a class="link" href="#_solution_5">1.1.12. Solution</a></h4>
+<h4 id="_solution_5"><a class="link" href="#_solution_5">Solution</a></h4>
 <div class="paragraph">
 <p>The forth encoder can be implemented on the PRU. If you run <code>rc_test_encoders_eqep</code> on the Blue, you will see the output of
 encoders E1-E3 which are connected to the eEQP hardware.</p>
@@ -958,14 +986,17 @@ done</code></pre>
 <p>The eQEP pins are configured with the top half of the code.</p>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_reading_pru_encoder"><a class="link" href="#_reading_pru_encoder">1.7. Reading PRU Encoder</a></h3>
 <div class="sect3">
-<h4 id="_problem_6"><a class="link" href="#_problem_6">1.1.13. Problem</a></h4>
+<h4 id="_problem_6"><a class="link" href="#_problem_6">Problem</a></h4>
 <div class="paragraph">
 <p>I want to access the PRU encoder.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_6"><a class="link" href="#_solution_6">1.1.14. Solution</a></h4>
+<h4 id="_solution_6"><a class="link" href="#_solution_6">Solution</a></h4>
 <div class="paragraph">
 <p>The forth encoder is implemented on the PRU and accessed with <code>sudo rc_test_encoders_pru</code></p>
 </div>
@@ -978,7 +1009,7 @@ done</code></pre>
 <td class="content">
 <div class="paragraph">
 <p>This command
-needs root permissions, so the <code>sudo</code> is needed.</p>
+needs root permission, so the <code>sudo</code> is needed.</p>
 </div>
 </td>
 </tr>
@@ -1004,15 +1035,15 @@ does the PRU configuring.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_beaglelogic"><a class="link" href="#_beaglelogic">1.2. BeagleLogic</a></h3>
+<h3 id="_beaglelogic_a_14_channel_logic_analyzer"><a class="link" href="#_beaglelogic_a_14_channel_logic_analyzer">1.8. BeagleLogic - a 14-channel Logic Analyzer</a></h3>
 <div class="sect3">
-<h4 id="_problem_7"><a class="link" href="#_problem_7">1.2.1. Problem</a></h4>
+<h4 id="_problem_7"><a class="link" href="#_problem_7">Problem</a></h4>
 <div class="paragraph">
 <p>I need a 100Msps, 14-channel logic analyzer</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_7"><a class="link" href="#_solution_7">1.2.2. Solution</a></h4>
+<h4 id="_solution_7"><a class="link" href="#_solution_7">Solution</a></h4>
 <div class="paragraph">
 <p><a href="https://github.com/abhishek-kakkar/BeagleLogic/wiki">BeagleLogic</a> is a 100Msps, 14-channel logic analyzer that runs on the
 Beagle. The quickest solution is to get the <a href="https://github.com/abhishek-kakkar/BeagleLogic/wiki/BeagleLogic-%22no-setup-required%22-setup:-Introducing-System-Image!">no-setup-required image</a>.  It runs on an older image (15-Apr-2016) but should still work.</p>
@@ -1022,7 +1053,7 @@ Beagle. The quickest solution is to get the <a href="https://github.com/abhishek
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_3"><a class="link" href="#_discussion_3">1.2.3. Discussion</a></h4>
+<h4 id="_discussion_3"><a class="link" href="#_discussion_3">Discussion</a></h4>
 <div class="paragraph">
 <p>BeagleLogic uses the two PRUs to sample at 100Msps.  Getting a PRU running at 200Hz to sample at 100Msps is a slick trick.
 <a href="http://theembeddedkitchen.net/beaglelogic-building-a-logic-analyzer-with-the-prus-part-1/449">The Embedded Kitchen</a> has a nice article
@@ -1032,7 +1063,7 @@ explaining how the PRUs get this type of performance.   In section
 </div>
 </div>
 <div class="sect2">
-<h3 id="_machinekit"><a class="link" href="#_machinekit">1.3. MachineKit</a></h3>
+<h3 id="_machinekit"><a class="link" href="#_machinekit">1.9. MachineKit</a></h3>
 <div class="paragraph">
 <p>MachineKit is a platform for machine control applications.  It can control
 machine tools, robots, or other automated devices. It can control servo
@@ -1040,11 +1071,11 @@ motors, stepper motors, relays, and other devices related to machine tools.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ledscape"><a class="link" href="#_ledscape">1.4. LEDScape</a></h3>
+<h3 id="_ledscape"><a class="link" href="#_ledscape">1.10. LEDScape</a></h3>
 
 </div>
 <div class="sect2">
-<h3 id="_ardupilot"><a class="link" href="#_ardupilot">1.5. ArduPilot</a></h3>
+<h3 id="_ardupilot"><a class="link" href="#_ardupilot">1.11. ArduPilot</a></h3>
 
 </div>
 </div>
@@ -1052,7 +1083,7 @@ motors, stepper motors, relays, and other devices related to machine tools.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-12 15:09:59 EDT
+Last updated 2018-06-13 15:55:31 EDT
 </div>
 </div>
 </body>
