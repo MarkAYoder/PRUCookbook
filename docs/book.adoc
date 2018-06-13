@@ -13,3 +13,6 @@ include::04debug/debug.adoc[]
 include::05blocks/blocks.adoc[]
 
 include::06io/io.adoc[]
+
+[index]
+== Index
