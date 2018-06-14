@@ -17,10 +17,10 @@ compiling on the Beagle
   
 . link:02case/case.html[Case Studies]
   ** [x] Robotics Control Library
+  ** [ ] BeagleLogic
   ** [ ] LEDscape
   ** [ ] MachineKit
   ** [ ] ArduPilot
-  ** [ ] BeagleLogic
   
 . link:03details/details.html[Details on compiling and running a file]
   ** [x] Compiling and Running
@@ -58,6 +58,7 @@ footnote:[What is the P8 issue?]
   ** [ ] mmap() 
   ** [ ] rpmsg
   ** [ ] use of OCP peripherals
+  
 . [Running on an older kernel version]
 footnote:[You might make this just about *alternate* tools rather than necessarily older. You could provide relatively minimal pointers for anything beyond what is needed understand how the Case Studies work. Things like the gcc port could go here.]
 
