@@ -23,6 +23,8 @@ compiling on the Beagle
   ** [ ] BeagleLogic
   
 . link:03details/details.html[Details on compiling and running a file]
+  ** [x] Compiling and Running
+  ** [x] Stopping and Starting the PRU
   ** [x] The standard Makefile
   ** [x] Compiling with clpru and lnkpru
   ** [x] The Linker Command File - AM335x_PRU.cmd
@@ -32,22 +34,21 @@ compiling on the Beagle
 footnote:[Roadmap-wise, I'd want to consider how to plug RPMsg into a printf function to aide debug. I'm sure you've seen that with CCS in the past.]
   ** [ ] LED and switch for debugging
   ** [ ] Oscilloscope
-  ** [ ] dmesg –Hw
+  ** [x] dmesg –Hw
   ** [ ] prubug?
-  ** [ ] UART
+  ** [x] UART
   
 . link:05blocks/blocks.html[Building Blocks – Applications]
-  ** [ ] PWM generator
+  ** [x] PWM generator
   ** [ ] Sine Wave Generator
   ** [ ] Ultrasonic Sensor Application
   ** [ ] neoPixel driver
   
 . link:06io/io.html[Accessing more I/O]
 footnote:[The split with talking to the ARM is a little confusing to me as I don't know what the 'more' is.]
-  ** [ ] /boot/uEnv.txt to access [P8 I/O]
+  ** [x] /boot/uEnv.txt to access [P8 I/O]
 footnote:[What is the P8 issue?]
-  ** [ ] Accessing gpio
-  ** [ ] UART?
+  ** [x] Accessing gpio
   ** [ ] ECAP/PWM?
   
 . Talking to the rest of the processor
