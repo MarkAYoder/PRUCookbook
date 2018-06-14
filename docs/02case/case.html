@@ -5,6 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.5">
+<meta name="author" content="Mark A. Yoder">
 <title>PRU Cookbook</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -512,6 +513,10 @@ table.CodeRay td.code>pre{padding:0}
 <body class="article">
 <div id="header">
 <h1>PRU Cookbook</h1>
+<div class="details">
+<span id="author" class="author">Mark A. Yoder</span><br>
+<span id="email" class="email"><a href="mailto:Mark.A.Yoder@Rose-Hulman.edu">Mark.A.Yoder@Rose-Hulman.edu</a></span><br>
+</div>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
@@ -601,13 +606,13 @@ and the BeagleBone Black with Robotics Cape. It uses the PRU to extend the real-
 <div class="sect2">
 <h3 id="_configuring_pins"><a class="link" href="#_configuring_pins">1.2. Configuring Pins</a></h3>
 <div class="sect3">
-<h4 id="_problem"><a class="link" href="#_problem">1.2.1. Problem</a></h4>
+<h4 id="_problem"><a class="link" href="#_problem">Problem</a></h4>
 <div class="paragraph">
 <p>You want to configure the pins so the PRU input and outputs are accessable.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution"><a class="link" href="#_solution">1.2.2. Solution</a></h4>
+<h4 id="_solution"><a class="link" href="#_solution">Solution</a></h4>
 <div class="paragraph">
 <p>It depends on which Beagle you are running on.  If you are on the Blue, everything is already configured for you.
 If you are on the Black or Pocket you&#8217;ll need to run the following script.</p>
@@ -670,7 +675,7 @@ done</pre></td>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion"><a class="link" href="#_discussion">1.2.3. Discussion</a></h4>
+<h4 id="_discussion"><a class="link" href="#_discussion">Discussion</a></h4>
 <div class="paragraph">
 <p>The first part of the code looks in <code>/proc/device-tree/model</code> to see which Beagle is running. Based on that it
 assigns <code>pins</code> a list of pins to configure.  Then the last part of the script loops through each of the pins and configures it.</p>
@@ -680,13 +685,13 @@ assigns <code>pins</code> a list of pins to configure.  Then the last part of th
 <div class="sect2">
 <h3 id="_controlling_eight_servos"><a class="link" href="#_controlling_eight_servos">1.3. Controlling Eight Servos</a></h3>
 <div class="sect3">
-<h4 id="_problem_2"><a class="link" href="#_problem_2">1.3.1. Problem</a></h4>
+<h4 id="_problem_2"><a class="link" href="#_problem_2">Problem</a></h4>
 <div class="paragraph">
 <p>You need to control eight servos, but the Bone doesn&#8217;t have enough PWMs.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_2"><a class="link" href="#_solution_2">1.3.2. Solution</a></h4>
+<h4 id="_solution_2"><a class="link" href="#_solution_2">Solution</a></h4>
 <div class="paragraph">
 <p>The Robotics Control Library provides eight additional PWM channels via the PRU that can be used out of the box.  Just run:</p>
 </div>
@@ -720,7 +725,7 @@ sample use to center servo channel 1:
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_2"><a class="link" href="#_discussion_2">1.3.3. Discussion</a></h4>
+<h4 id="_discussion_2"><a class="link" href="#_discussion_2">Discussion</a></h4>
 <div class="paragraph">
 <p>The BeagleBone Blue sends these eight outputs to it&#8217;s servo channels.  The Black and the Pocket use the pins shown in the
 <a href="#_register_to_pin_table">Register to pin table</a>.</p>
@@ -806,13 +811,13 @@ servos.  All you have to do is run the command.</p>
 <div class="sect2">
 <h3 id="_controlling_individual_servos"><a class="link" href="#_controlling_individual_servos">1.4. Controlling Individual Servos</a></h3>
 <div class="sect3">
-<h4 id="_problem_3"><a class="link" href="#_problem_3">1.4.1. Problem</a></h4>
+<h4 id="_problem_3"><a class="link" href="#_problem_3">Problem</a></h4>
 <div class="paragraph">
 <p><code>rc_test_servos</code> is nice, but I need to control the servos individually.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_3"><a class="link" href="#_solution_3">1.4.2. Solution</a></h4>
+<h4 id="_solution_3"><a class="link" href="#_solution_3">Solution</a></h4>
 <div class="paragraph">
 <p>You can modify <code>rc_test_servos.c</code>.  You&#8217;ll find it on the bone at
 <code>/opt/source/Robotics_Cape_Installer/examples/src/rc_test_servos.c</code>, or online at
@@ -828,13 +833,13 @@ sets the width to an absolute time.  Use whichever works for you.</p>
 <div class="sect2">
 <h3 id="_controlling_more_than_eight_channels"><a class="link" href="#_controlling_more_than_eight_channels">1.5. Controlling More Than Eight Channels</a></h3>
 <div class="sect3">
-<h4 id="_problem_4"><a class="link" href="#_problem_4">1.5.1. Problem</a></h4>
+<h4 id="_problem_4"><a class="link" href="#_problem_4">Problem</a></h4>
 <div class="paragraph">
 <p>I need more than eight PWM channels, or I need less jitter on the off time.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_4"><a class="link" href="#_solution_4">1.5.2. Solution</a></h4>
+<h4 id="_solution_4"><a class="link" href="#_solution_4">Solution</a></h4>
 <div class="paragraph">
 <p>This is a more advanced problem and required reprograming the PRUs.  See
 <a href="../05blocks/blocks.html">Building Blocks - Applications</a> for an example.</p>
@@ -844,13 +849,13 @@ sets the width to an absolute time.  Use whichever works for you.</p>
 <div class="sect2">
 <h3 id="_reading_hardware_encoders"><a class="link" href="#_reading_hardware_encoders">1.6. Reading Hardware Encoders</a></h3>
 <div class="sect3">
-<h4 id="_problem_5"><a class="link" href="#_problem_5">1.6.1. Problem</a></h4>
+<h4 id="_problem_5"><a class="link" href="#_problem_5">Problem</a></h4>
 <div class="paragraph">
 <p>I want to use four encoders to measure four motors, but I only see hardware for three.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_5"><a class="link" href="#_solution_5">1.6.2. Solution</a></h4>
+<h4 id="_solution_5"><a class="link" href="#_solution_5">Solution</a></h4>
 <div class="paragraph">
 <p>The forth encoder can be implemented on the PRU. If you run <code>rc_test_encoders_eqep</code> on the Blue, you will see the output of
 encoders E1-E3 which are connected to the eEQP hardware.</p>
@@ -995,13 +1000,13 @@ done</code></pre>
 <div class="sect2">
 <h3 id="_reading_pru_encoder"><a class="link" href="#_reading_pru_encoder">1.7. Reading PRU Encoder</a></h3>
 <div class="sect3">
-<h4 id="_problem_6"><a class="link" href="#_problem_6">1.7.1. Problem</a></h4>
+<h4 id="_problem_6"><a class="link" href="#_problem_6">Problem</a></h4>
 <div class="paragraph">
 <p>I want to access the PRU encoder.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_6"><a class="link" href="#_solution_6">1.7.2. Solution</a></h4>
+<h4 id="_solution_6"><a class="link" href="#_solution_6">Solution</a></h4>
 <div class="paragraph">
 <p>The forth encoder is implemented on the PRU and accessed with <code>sudo rc_test_encoders_pru</code></p>
 </div>
@@ -1042,13 +1047,13 @@ does the PRU configuring.</p>
 <div class="sect2">
 <h3 id="_beaglelogic_a_14_channel_logic_analyzer"><a class="link" href="#_beaglelogic_a_14_channel_logic_analyzer">1.8. BeagleLogic - a 14-channel Logic Analyzer</a></h3>
 <div class="sect3">
-<h4 id="_problem_7"><a class="link" href="#_problem_7">1.8.1. Problem</a></h4>
+<h4 id="_problem_7"><a class="link" href="#_problem_7">Problem</a></h4>
 <div class="paragraph">
 <p>I need a 100Msps, 14-channel logic analyzer</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_7"><a class="link" href="#_solution_7">1.8.2. Solution</a></h4>
+<h4 id="_solution_7"><a class="link" href="#_solution_7">Solution</a></h4>
 <div class="paragraph">
 <p><a href="https://github.com/abhishek-kakkar/BeagleLogic/wiki">BeagleLogic</a> is a 100Msps, 14-channel logic analyzer that runs on the
 Beagle. The quickest solution is to get the <a href="https://github.com/abhishek-kakkar/BeagleLogic/wiki/BeagleLogic-%22no-setup-required%22-setup:-Introducing-System-Image!">no-setup-required image</a>.  It runs on an older image (15-Apr-2016) but should still work.</p>
@@ -1058,7 +1063,7 @@ Beagle. The quickest solution is to get the <a href="https://github.com/abhishek
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_3"><a class="link" href="#_discussion_3">1.8.3. Discussion</a></h4>
+<h4 id="_discussion_3"><a class="link" href="#_discussion_3">Discussion</a></h4>
 <div class="paragraph">
 <p>BeagleLogic uses the two PRUs to sample at 100Msps.  Getting a PRU running at 200Hz to sample at 100Msps is a slick trick.
 <a href="http://theembeddedkitchen.net/beaglelogic-building-a-logic-analyzer-with-the-prus-part-1/449">The Embedded Kitchen</a> has a nice article

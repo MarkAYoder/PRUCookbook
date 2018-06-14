@@ -14,6 +14,80 @@ The following are resources used in this chapter.
 * http://www.ti.com/lit/ug/spruhv6b/spruhv6b.pdf[PRU Assembly Language Tools]
 * https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]
 
+=== Compiling and Running
+==== Problem
+I just want to compile and run an example.
+
+==== Solution
+First install the code.
+----
+bone$ git clone https://github.com/MarkAYoder/PRUCookbook.git
+----
+
+Then change to the directory of the code you want to run.
+----
+bone$ cd PRUCookbook/doc/06io/code
+bone$ ls
+AM335x_PRU.cmd  gpio1.c  gpio_setup.sh  Makefile  resource_table_empty.h
+----
+
+Source the `setup.sh` file.
+----
+bone$ source gpio_setup.sh
+Black Found
+P9_11
+P9_11 Mode: gpio Direction: out Value: 0
+----
+
+Now you are ready to compile and run.  This is automated for you in the Makefile
+----
+bone$ make
+-    Stopping PRU 0
+[sudo] password for debian: 
+stop
+-	copying firmware file /tmp/pru0-gen/gpio1.out to /lib/firmware/am335x-pru0-fw
+-    Starting PRU 0
+start
+----
+
+Congratulations, your are now running a PRU.
+
+==== Discussion
+The `setup.sh` file set `PRUN` to the number of the PRU you are using and
+`TARGET` to the file you want to compile.
+
+----
+export PRUN=0
+export TARGET=gpio1
+----
+
+It also contains instructions to figure out which Beagle you are running
+and then configure the pins acordingly.
+
+The Makefile stops the PRU, compiles the file and moves it where it will be loaded,
+and then restarts the PRU.
+
+=== Stopping and Starting the PRU
+==== Problem
+I want to stop and start the PRU.
+
+==== Solution
+It's easy.
+----
+bone$ make stop
+bone$ make start
+----
+See <<../04debug/debug.html#_dmesg_hw,dmesg -Hw>> to see how to tell if the PRU
+is stopped.
+
+This assumes `PRUN` is set to the PRU you are using.  If you want to control
+the other PRU use:
+----
+bone$ make PRUN=1 stop
+bone$ make PRUN=1 start
+----
+
+
 === The Standard Makefile
 
 ==== Problem
@@ -39,6 +113,7 @@ include::code/Makefile[]
 Here's an highlevel overview of the Makefile
 
 .Makefile Overview
+[cols="1,9"]
 |===
 |Line |Explanation
 
@@ -102,7 +177,7 @@ The PRU compiler and linker are already installed on the standard images.
 They are called `clpru` and `lnkpru`.
 [source,bash]
 ----
-bone$ *which clpru`
+bone$ `which clpru`
 /usr/bin/clpru
 ----
 Details on each can be found here:
@@ -144,6 +219,7 @@ include::code/AM335x_PRU.cmd[AM335x_PRU.cmd]
 
 The important things to notice in the file are given in the following table.
 .AM335x_PRU.cmd important things
+[cols="1,9"]
 |===
 |Line|Explanation
 

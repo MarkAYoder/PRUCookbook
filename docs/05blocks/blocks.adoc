@@ -67,6 +67,7 @@ Since this is our first example we'll discuss the many parts in detail.
 Here's a line-by-line expanation of the c code.
 
 .Line-by-line of pwm1.c
+[cols="1,9"]
 |===
 |Line|Explantion
 
@@ -83,6 +84,7 @@ include::code/resource_table_empty.h[]
 ----
 
 .Line-by-line (continuted)
+[cols="1,9"]
 |===
 |Line|Explantion
 
@@ -135,6 +137,7 @@ Bit 0 is the LSB.
 Since we are running on PRU 0 we're using `0x0001`, that is bit 0, we'll be toggling `P9_31`.
 
 .Line-by-line (continued again)
+[cols="1,9"]
 |===
 |Line|Explantion
 

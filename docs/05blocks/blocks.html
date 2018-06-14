@@ -5,6 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.5">
+<meta name="author" content="Mark A. Yoder">
 <title>PRU Cookbook</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -512,6 +513,10 @@ table.CodeRay td.code>pre{padding:0}
 <body class="article">
 <div id="header">
 <h1>PRU Cookbook</h1>
+<div class="details">
+<span id="author" class="author">Mark A. Yoder</span><br>
+<span id="email" class="email"><a href="mailto:Mark.A.Yoder@Rose-Hulman.edu">Mark.A.Yoder@Rose-Hulman.edu</a></span><br>
+</div>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
@@ -556,13 +561,13 @@ duty cycle and ending with a multi channel PWM that the ARM can change
 the frequency and duty cycle on the fly.</p>
 </div>
 <div class="sect3">
-<h4 id="_problem"><a class="link" href="#_problem">1.1.1. Problem</a></h4>
+<h4 id="_problem"><a class="link" href="#_problem">Problem</a></h4>
 <div class="paragraph">
 <p>I want to generate a PWM signal that has a fixed frequency and duty cycle.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution"><a class="link" href="#_solution">1.1.2. Solution</a></h4>
+<h4 id="_solution"><a class="link" href="#_solution">Solution</a></h4>
 <div class="paragraph">
 <p>The solution is fairly easy, but be sure to check the <strong>Discussion</strong> section
 for details on making it work.</p>
@@ -689,7 +694,7 @@ start</pre></td>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion"><a class="link" href="#_discussion">1.1.3. Discussion</a></h4>
+<h4 id="_discussion"><a class="link" href="#_discussion">Discussion</a></h4>
 <div class="paragraph">
 <p>Since this is our first example we&#8217;ll discuss the many parts in detail.</p>
 </div>
@@ -701,8 +706,8 @@ start</pre></td>
 <table class="tableblock frame-all grid-all spread">
 <caption class="title">Table 1. Line-by-line of pwm1.c</caption>
 <colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
+<col style="width: 10%;">
+<col style="width: 90%;">
 </colgroup>
 <thead>
 <tr>
@@ -816,8 +821,8 @@ start</pre></td>
 <table class="tableblock frame-all grid-all spread">
 <caption class="title">Table 2. Line-by-line (continuted)</caption>
 <colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
+<col style="width: 10%;">
+<col style="width: 90%;">
 </colgroup>
 <thead>
 <tr>
@@ -1065,8 +1070,8 @@ gives more details.</p></td>
 <table class="tableblock frame-all grid-all spread">
 <caption class="title">Table 4. Line-by-line (continued again)</caption>
 <colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
+<col style="width: 10%;">
+<col style="width: 90%;">
 </colgroup>
 <thead>
 <tr>
@@ -1195,13 +1200,13 @@ gives more details.</p></td>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_problem_2"><a class="link" href="#_problem_2">1.1.4. Problem</a></h4>
+<h4 id="_problem_2"><a class="link" href="#_problem_2">Problem</a></h4>
 <div class="paragraph">
 <p>You would like to control the frequency and duty cycle of the PWM without recompiling.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_2"><a class="link" href="#_solution_2">1.1.5. Solution</a></h4>
+<h4 id="_solution_2"><a class="link" href="#_solution_2">Solution</a></h4>
 <div class="paragraph">
 <p>Have the PRU read the <em>on</em> and <em>off</em> times from a shared memory location.  Each PRU has is own 8KB of data memory (DRAM) and 12KB of shared memory (SHAREDMEM) that the ARM processor can also access.</p>
 </div>
@@ -1658,7 +1663,7 @@ the PWM on and off times.  Here&#8217;s the whole code:</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-14 10:45:43 EDT
+Last updated 2018-06-14 14:19:03 EDT
 </div>
 </div>
 </body>

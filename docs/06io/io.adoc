@@ -104,6 +104,7 @@ When you run the code you see `P9_11` toggling on and off.  Let's go through
 the code line-by-line to see what's happening.
 
 .gpio1 line-by-line
+[cols="1,9"]
 |===
 |Line|Explanation
 

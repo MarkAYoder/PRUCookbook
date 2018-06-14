@@ -522,10 +522,12 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel1">
 <li><a href="#_details_on_compiling_and_running_a_file">1. Details on compiling and running a file</a>
 <ul class="sectlevel2">
-<li><a href="#_the_standard_makefile">1.1. The Standard Makefile</a></li>
-<li><a href="#_compiling_with_clpru_and_lnkpru">1.2. Compiling with clpru and lnkpru</a></li>
-<li><a href="#_the_linker_command_file_am335x_pru_cmd">1.3. The Linker Command File - AM335x_PRU.cmd</a></li>
-<li><a href="#_loading_firmware">1.4. Loading Firmware</a></li>
+<li><a href="#_compiling_and_running">1.1. Compiling and Running</a></li>
+<li><a href="#_stopping_and_starting_the_pru">1.2. Stopping and Starting the PRU</a></li>
+<li><a href="#_the_standard_makefile">1.3. The Standard Makefile</a></li>
+<li><a href="#_compiling_with_clpru_and_lnkpru">1.4. Compiling with clpru and lnkpru</a></li>
+<li><a href="#_the_linker_command_file_am335x_pru_cmd">1.5. The Linker Command File - AM335x_PRU.cmd</a></li>
+<li><a href="#_loading_firmware">1.6. Loading Firmware</a></li>
 </ul>
 </li>
 </ul>
@@ -563,23 +565,137 @@ Here are some details on how it works.</p>
 </ul>
 </div>
 <div class="sect2">
-<h3 id="_the_standard_makefile"><a class="link" href="#_the_standard_makefile">1.1. The Standard Makefile</a></h3>
+<h3 id="_compiling_and_running"><a class="link" href="#_compiling_and_running">1.1. Compiling and Running</a></h3>
 <div class="sect3">
 <h4 id="_problem"><a class="link" href="#_problem">Problem</a></h4>
+<div class="paragraph">
+<p>I just want to compile and run an example.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution"><a class="link" href="#_solution">Solution</a></h4>
+<div class="paragraph">
+<p>First install the code.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>bone$ git clone https://github.com/MarkAYoder/PRUCookbook.git</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then change to the directory of the code you want to run.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>bone$ cd PRUCookbook/doc/06io/code
+bone$ ls
+AM335x_PRU.cmd  gpio1.c  gpio_setup.sh  Makefile  resource_table_empty.h</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Source the <code>setup.sh</code> file.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>bone$ source gpio_setup.sh
+Black Found
+P9_11
+P9_11 Mode: gpio Direction: out Value: 0</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now you are ready to compile and run.  This is automated for you in the Makefile</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>bone$ make
+-    Stopping PRU 0
+[sudo] password for debian:
+stop
+-	copying firmware file /tmp/pru0-gen/gpio1.out to /lib/firmware/am335x-pru0-fw
+-    Starting PRU 0
+start</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Congratulations, your are now running a PRU.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion"><a class="link" href="#_discussion">Discussion</a></h4>
+<div class="paragraph">
+<p>The <code>setup.sh</code> file set <code>PRUN</code> to the number of the PRU you are using and
+<code>TARGET</code> to the file you want to compile.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>export PRUN=0
+export TARGET=gpio1</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It also contains instructions to figure out which Beagle you are running
+and then configure the pins acordingly.</p>
+</div>
+<div class="paragraph">
+<p>The Makefile stops the PRU, compiles the file and moves it where it will be loaded,
+and then restarts the PRU.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_stopping_and_starting_the_pru"><a class="link" href="#_stopping_and_starting_the_pru">1.2. Stopping and Starting the PRU</a></h3>
+<div class="sect3">
+<h4 id="_problem_2"><a class="link" href="#_problem_2">Problem</a></h4>
+<div class="paragraph">
+<p>I want to stop and start the PRU.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_2"><a class="link" href="#_solution_2">Solution</a></h4>
+<div class="paragraph">
+<p>It&#8217;s easy.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>bone$ make stop
+bone$ make start</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="../04debug/debug.html#_dmesg_hw">dmesg -Hw</a> to see how to tell if the PRU
+is stopped.</p>
+</div>
+<div class="paragraph">
+<p>This assumes <code>PRUN</code> is set to the PRU you are using.  If you want to control
+the other PRU use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>bone$ make PRUN=1 stop
+bone$ make PRUN=1 start</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_standard_makefile"><a class="link" href="#_the_standard_makefile">1.3. The Standard Makefile</a></h3>
+<div class="sect3">
+<h4 id="_problem_3"><a class="link" href="#_problem_3">Problem</a></h4>
 <div class="paragraph">
 <p>There are all sorts of options that need to be set when compiling
 a program.  How can I be sure to get them all right?</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution"><a class="link" href="#_solution">Solution</a></h4>
+<h4 id="_solution_3"><a class="link" href="#_solution_3">Solution</a></h4>
 <div class="paragraph">
 <p>The surest way to make sure everything is right is to use our
 standard Makefile.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion"><a class="link" href="#_discussion">Discussion</a></h4>
+<h4 id="_discussion_2"><a class="link" href="#_discussion_2">Discussion</a></h4>
 <div class="paragraph">
 <p>It&#8217;s assumed you alrady know how Makefiles work.  If not, there are
 many resources on line that can bring you up to speed.</p>
@@ -721,8 +837,8 @@ clean:
 <table class="tableblock frame-all grid-all spread">
 <caption class="title">Table 1. Makefile Overview</caption>
 <colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
+<col style="width: 10%;">
+<col style="width: 90%;">
 </colgroup>
 <thead>
 <tr>
@@ -828,22 +944,22 @@ to <code>/lib/firmware/am335x-pru<em>X</em>-fw</code></p></td>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_compiling_with_clpru_and_lnkpru"><a class="link" href="#_compiling_with_clpru_and_lnkpru">1.2. Compiling with clpru and lnkpru</a></h3>
+<h3 id="_compiling_with_clpru_and_lnkpru"><a class="link" href="#_compiling_with_clpru_and_lnkpru">1.4. Compiling with clpru and lnkpru</a></h3>
 <div class="sect3">
-<h4 id="_problem_2"><a class="link" href="#_problem_2">Problem</a></h4>
+<h4 id="_problem_4"><a class="link" href="#_problem_4">Problem</a></h4>
 <div class="paragraph">
 <p>You need details on the c compiler, linker and other tools for the PRU.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_2"><a class="link" href="#_solution_2">Solution</a></h4>
+<h4 id="_solution_4"><a class="link" href="#_solution_4">Solution</a></h4>
 <div class="paragraph">
 <p>The PRU compiler and linker are already installed on the standard images.
 They are called <code>clpru</code> and <code>lnkpru</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bone$ *which clpru`
+<pre class="CodeRay highlight"><code data-lang="bash">bone$ `which clpru`
 /usr/bin/clpru</code></pre>
 </div>
 </div>
@@ -882,15 +998,15 @@ They are called <code>clpru</code> and <code>lnkpru</code>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_the_linker_command_file_am335x_pru_cmd"><a class="link" href="#_the_linker_command_file_am335x_pru_cmd">1.3. The Linker Command File - AM335x_PRU.cmd</a></h3>
+<h3 id="_the_linker_command_file_am335x_pru_cmd"><a class="link" href="#_the_linker_command_file_am335x_pru_cmd">1.5. The Linker Command File - AM335x_PRU.cmd</a></h3>
 <div class="sect3">
-<h4 id="_problem_3"><a class="link" href="#_problem_3">Problem</a></h4>
+<h4 id="_problem_5"><a class="link" href="#_problem_5">Problem</a></h4>
 <div class="paragraph">
 <p>The linker needs to be told where in memory to place the code and variables.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_3"><a class="link" href="#_solution_3">Solution</a></h4>
+<h4 id="_solution_5"><a class="link" href="#_solution_5">Solution</a></h4>
 <div class="paragraph">
 <p><code>AM335x_PRU.cmd</code> is the standard linker command file that tells the linker
 where to put what.</p>
@@ -1077,15 +1193,15 @@ SECTIONS {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_2"><a class="link" href="#_discussion_2">Discussion</a></h4>
+<h4 id="_discussion_3"><a class="link" href="#_discussion_3">Discussion</a></h4>
 <div class="paragraph">
 <p>The important things to notice in the file are given in the following table.
 .AM335x_PRU.cmd important things</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
+<col style="width: 10%;">
+<col style="width: 90%;">
 </colgroup>
 <thead>
 <tr>
@@ -1136,15 +1252,15 @@ the heap are in the locations below 0x0200.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_loading_firmware"><a class="link" href="#_loading_firmware">1.4. Loading Firmware</a></h3>
+<h3 id="_loading_firmware"><a class="link" href="#_loading_firmware">1.6. Loading Firmware</a></h3>
 <div class="sect3">
-<h4 id="_problem_4"><a class="link" href="#_problem_4">Problem</a></h4>
+<h4 id="_problem_6"><a class="link" href="#_problem_6">Problem</a></h4>
 <div class="paragraph">
 <p>I have my PRU code all compiled and need to load it on the PRU.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_4"><a class="link" href="#_solution_4">Solution</a></h4>
+<h4 id="_solution_6"><a class="link" href="#_solution_6">Solution</a></h4>
 <div class="paragraph">
 <p>It&#8217;s a simple three step process.</p>
 </div>
@@ -1166,7 +1282,7 @@ the heap are in the locations below 0x0200.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_3"><a class="link" href="#_discussion_3">Discussion</a></h4>
+<h4 id="_discussion_4"><a class="link" href="#_discussion_4">Discussion</a></h4>
 <div class="paragraph">
 <p>The PRUs appear in the Linux file space at
 <code>/sys/devices/platform/ocp/4a326000.pruss-soc-bus/4a300000.pruss</code>.</p>
@@ -1204,7 +1320,7 @@ to look for the code to run on the PRU.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-14 13:05:44 EDT
+Last updated 2018-06-14 14:24:06 EDT
 </div>
 </div>
 </body>
