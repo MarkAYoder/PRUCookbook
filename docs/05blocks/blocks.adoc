@@ -181,6 +181,7 @@ image:figures/pwm3.png[pwm2.c corrected delay]
 
 It's not hard to adjust the two `__delay_cycles` to get the desired frequency and duty cycle.
 
+### Controlling the PWM Frequency
 #### Problem
 You would like to control the frequency and duty cycle of the PWM without recompiling.
 
@@ -213,8 +214,8 @@ to define a pointer to the DRAM.  Later we use
 to write the `on` and `off` times to the DRAM.  Then inside the `while` loop we use
 [source,c,linenums] 
 ----
-				onCount[ch] = pru0_dram[ch];		// Read from DRAM0
-				offCount[ch]= pru0_dram[ch+MAXCH];
+				onCount[ch] = pru0_dram[2*ch];		// Read from DRAM0
+				offCount[ch]= pru0_dram[2*ch+1];
 ----
 to read from the DRAM when reseting the counters.  Now, while the PRU is running, the ARM can write values into the DRAM and change
 the PWM on and off times.  Here's the whole code:
@@ -224,7 +225,7 @@ the PWM on and off times.  Here's the whole code:
 ----
 include::code/pwm4.c[pwm4.c]
 ----
-Here's is code that runs on the ARM side to set the on and off time values.
+Here is code that runs on the ARM side to set the on and off time values.
 
 .pwm-test.c
 [source,c,linenums] 
@@ -232,6 +233,27 @@ Here's is code that runs on the ARM side to set the on and off time values.
 include::code/pwm-test.c[pwm-test.c]
 ----
 
-### Sine Wave Generator
-### Ultrasonic Sensor Application
-### neoPixel driver
+A check check on the 'scope shows:
+
+.pwm4.png PWM with ARM control
+image:figures/pwm4.png[pwm4.png]
+
+From the 'scope you see a 1 cycle on time results in a 450ns wide pulse and
+a 3.06us period is .326KHz  Much
+slower than the 10ns pusle we saw before.  But it may be more than fast enough
+for manny applicaions.  For example, most servos run at 50Hz.
+
+But we can do better.
+
+=== Loop Unrolling for Better Performance
+==== Problem
+The ARM controlled code runs too slowly.
+
+==== Solution
+Simple loops unrolling can greatly improve the speed.
+
+==== Discussion
+
+=== Sine Wave Generator
+=== Ultrasonic Sensor Application
+=== neoPixel driver

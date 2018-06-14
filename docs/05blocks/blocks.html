@@ -5,8 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.5">
-<meta name="author" content="Mark A. Yoder">
-<title>PRU Cookbook</title>
+<title>Building Blocks - Applications</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -512,20 +511,17 @@ table.CodeRay td.code>pre{padding:0}
 </head>
 <body class="article">
 <div id="header">
-<h1>PRU Cookbook</h1>
-<div class="details">
-<span id="author" class="author">Mark A. Yoder</span><br>
-<span id="email" class="email"><a href="mailto:Mark.A.Yoder@Rose-Hulman.edu">Mark.A.Yoder@Rose-Hulman.edu</a></span><br>
-</div>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#_building_blocks_applications">1. Building Blocks - Applications</a>
 <ul class="sectlevel2">
 <li><a href="#_pwm_generator">1.1. PWM generator</a></li>
-<li><a href="#_sine_wave_generator">1.2. Sine Wave Generator</a></li>
-<li><a href="#_ultrasonic_sensor_application">1.3. Ultrasonic Sensor Application</a></li>
-<li><a href="#_neopixel_driver">1.4. neoPixel driver</a></li>
+<li><a href="#_controlling_the_pwm_frequency">1.2. Controlling the PWM Frequency</a></li>
+<li><a href="#_loop_unrolling_for_better_performance">1.3. Loop Unrolling for Better Performance</a></li>
+<li><a href="#_sine_wave_generator">1.4. Sine Wave Generator</a></li>
+<li><a href="#_ultrasonic_sensor_application">1.5. Ultrasonic Sensor Application</a></li>
+<li><a href="#_neopixel_driver">1.6. neoPixel driver</a></li>
 </ul>
 </li>
 </ul>
@@ -1199,6 +1195,9 @@ gives more details.</p></td>
 </div>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_controlling_the_pwm_frequency"><a class="link" href="#_controlling_the_pwm_frequency">1.2. Controlling the PWM Frequency</a></h3>
 <div class="sect3">
 <h4 id="_problem_2"><a class="link" href="#_problem_2">Problem</a></h4>
 <div class="paragraph">
@@ -1269,8 +1268,8 @@ gives more details.</p></td>
   <td class="line-numbers"><pre>1
 2
 </pre></td>
-  <td class="code"><pre>                                onCount[ch] = pru0_dram[ch];                <span class="comment">// Read from DRAM0</span>
-                                offCount[ch]= pru0_dram[ch+MAXCH];</pre></td>
+  <td class="code"><pre>                                onCount[ch] = pru0_dram[<span class="integer">2</span>*ch];                <span class="comment">// Read from DRAM0</span>
+                                offCount[ch]= pru0_dram[<span class="integer">2</span>*ch+<span class="integer">1</span>];</pre></td>
 </tr></table></code></pre>
 </div>
 </div>
@@ -1387,7 +1386,7 @@ the PWM on and off times.  Here&#8217;s the whole code:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Here&#8217;s is code that runs on the ARM side to set the on and off time values.</p>
+<p>Here is code that runs on the ARM side to set the on and off time values.</p>
 </div>
 <div class="listingblock">
 <div class="title">pwm-test.c</div>
@@ -1644,18 +1643,53 @@ the PWM on and off times.  Here&#8217;s the whole code:</p>
 </tr></table></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>A check check on the 'scope shows:</p>
+</div>
+<div class="paragraph">
+<div class="title">pwm4.png PWM with ARM control</div>
+<p><span class="image"><img src="figures/pwm4.png" alt="pwm4.png"></span></p>
+</div>
+<div class="paragraph">
+<p>From the 'scope you see a 1 cycle on time results in a 450ns wide pulse and
+a 3.06us period is .326KHz  Much
+slower than the 10ns pusle we saw before.  But it may be more than fast enough
+for manny applicaions.  For example, most servos run at 50Hz.</p>
+</div>
+<div class="paragraph">
+<p>But we can do better.</p>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_sine_wave_generator"><a class="link" href="#_sine_wave_generator">1.2. Sine Wave Generator</a></h3>
+<h3 id="_loop_unrolling_for_better_performance"><a class="link" href="#_loop_unrolling_for_better_performance">1.3. Loop Unrolling for Better Performance</a></h3>
+<div class="sect3">
+<h4 id="_problem_3"><a class="link" href="#_problem_3">Problem</a></h4>
+<div class="paragraph">
+<p>The ARM controlled code runs too slowly.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_3"><a class="link" href="#_solution_3">Solution</a></h4>
+<div class="paragraph">
+<p>Simple loops unrolling can greatly improve the speed.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_2"><a class="link" href="#_discussion_2">Discussion</a></h4>
+
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sine_wave_generator"><a class="link" href="#_sine_wave_generator">1.4. Sine Wave Generator</a></h3>
 
 </div>
 <div class="sect2">
-<h3 id="_ultrasonic_sensor_application"><a class="link" href="#_ultrasonic_sensor_application">1.3. Ultrasonic Sensor Application</a></h3>
+<h3 id="_ultrasonic_sensor_application"><a class="link" href="#_ultrasonic_sensor_application">1.5. Ultrasonic Sensor Application</a></h3>
 
 </div>
 <div class="sect2">
-<h3 id="_neopixel_driver"><a class="link" href="#_neopixel_driver">1.4. neoPixel driver</a></h3>
+<h3 id="_neopixel_driver"><a class="link" href="#_neopixel_driver">1.6. neoPixel driver</a></h3>
 
 </div>
 </div>
@@ -1663,7 +1697,7 @@ the PWM on and off times.  Here&#8217;s the whole code:</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-14 14:19:03 EDT
+Last updated 2018-06-14 15:59:35 EDT
 </div>
 </div>
 </body>
