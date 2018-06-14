@@ -5,7 +5,8 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.5">
-<title>Details on compiling and running a file</title>
+<meta name="author" content="Mark A. Yoder">
+<title>PRU Cookbook</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -511,14 +512,20 @@ table.CodeRay td.code>pre{padding:0}
 </head>
 <body class="article">
 <div id="header">
+<h1>PRU Cookbook</h1>
+<div class="details">
+<span id="author" class="author">Mark A. Yoder</span><br>
+<span id="email" class="email"><a href="mailto:Mark.A.Yoder@Rose-Hulman.edu">Mark.A.Yoder@Rose-Hulman.edu</a></span><br>
+</div>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#_details_on_compiling_and_running_a_file">1. Details on compiling and running a file</a>
 <ul class="sectlevel2">
-<li><a href="#_problem">1.1. Problem</a></li>
-<li><a href="#_solution">1.2. Solution</a></li>
-<li><a href="#_discussion">1.3. Discussion</a></li>
+<li><a href="#_the_standard_makefile">1.1. The Standard Makefile</a></li>
+<li><a href="#_compiling_with_clpru_and_lnkpru">1.2. Compiling with clpru and lnkpru</a></li>
+<li><a href="#_the_linker_command_file_am335x_pru_cmd">1.3. The Linker Command File - AM335x_PRU.cmd</a></li>
+<li><a href="#_loading_firmware">1.4. Loading Firmware</a></li>
 </ul>
 </li>
 </ul>
@@ -532,22 +539,47 @@ table.CodeRay td.code>pre{padding:0}
 <p>There are a lot details in compiling and running PRU code.
 Here are some details on how it works.</p>
 </div>
+<div class="paragraph">
+<p>The following are resources used in this chapter.</p>
+</div>
+<div class="ulist">
+<div class="title">Resources</div>
+<ul>
+<li>
+<p><a href="http://software-dl.ti.com/codegen/esd/cgt_public_sw/PRU/2.1.5/ti_cgt_pru_2.1.5_armlinuxa8hf_busybox_installer.sh">PRU Code Generation Tools - Compiler</a></p>
+</li>
+<li>
+<p><a href="http://git.ti.com/pru-software-support-package">PRU Software Support Package</a></p>
+</li>
+<li>
+<p><a href="http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf">PRU Optimizing C/C++ Compiler</a></p>
+</li>
+<li>
+<p><a href="http://www.ti.com/lit/ug/spruhv6b/spruhv6b.pdf">PRU Assembly Language Tools</a></p>
+</li>
+<li>
+<p><a href="https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf">AM335x Technical Reference Manual</a></p>
+</li>
+</ul>
+</div>
 <div class="sect2">
-<h3 id="_problem"><a class="link" href="#_problem">1.1. Problem</a></h3>
+<h3 id="_the_standard_makefile"><a class="link" href="#_the_standard_makefile">1.1. The Standard Makefile</a></h3>
+<div class="sect3">
+<h4 id="_problem"><a class="link" href="#_problem">Problem</a></h4>
 <div class="paragraph">
 <p>There are all sorts of options that need to be set when compiling
 a program.  How can I be sure to get them all right?</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_solution"><a class="link" href="#_solution">1.2. Solution</a></h3>
+<div class="sect3">
+<h4 id="_solution"><a class="link" href="#_solution">Solution</a></h4>
 <div class="paragraph">
 <p>The surest way to make sure everything is right is to use our
 standard Makefile.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_discussion"><a class="link" href="#_discussion">1.3. Discussion</a></h3>
+<div class="sect3">
+<h4 id="_discussion"><a class="link" href="#_discussion">Discussion</a></h4>
 <div class="paragraph">
 <p>It&#8217;s assumed you alrady know how Makefiles work.  If not, there are
 many resources on line that can bring you up to speed.</p>
@@ -558,7 +590,69 @@ many resources on line that can bring you up to speed.</p>
 <div class="listingblock">
 <div class="title">Standard Makefile</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="makefile">#
+<pre class="CodeRay highlight"><code data-lang="makefile"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+</pre></td>
+  <td class="code"><pre>#
 # Copyright (c) 2016 Zubeen Tolani &lt;ZeekHuge - zeekhuge@gmail.com&gt;
 # Copyright (c) 2017 Texas Instruments - Jason Kridner &lt;jdk@ti.com&gt;
 #
@@ -617,7 +711,491 @@ $(GEN_DIR)/$(TARGET).obj: $(TARGET).c
 
 clean:
         @echo 'CLEAN        .    PRU $(PRUN)'
-        @rm -rf $(GEN_DIR)</code></pre>
+        @rm -rf $(GEN_DIR)</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s an highlevel overview of the Makefile</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 1. Makefile Overview</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Line</th>
+<th class="tableblock halign-left valign-top">Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">You need to define <code>TARGET</code> and <code>PRU</code> before running the Makefile.
+This is done in a <code>setup.sh</code>. <code>TARGET</code> is the name of the c source file, without
+the <code>.c</code>.  <code>PRUN</code> is the number of the PRU for which you are compiling.
+In our case it&#8217;s either 0 or 1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11,12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">These find where to find the PRU compiler and the support libraries.
+These files are already installed on the standard Beagle images.
+If they aren&#8217;t installed you can find them at
+<a href="http://software-dl.ti.com/codegen/esd/cgt_public_sw/PRU/2.1.5/ti_cgt_pru_2.1.5_armlinuxa8hf_busybox_installer.sh">PRU Code Generation Tools - Compiler</a> and
+<a href="http://git.ti.com/pru-software-support-package">PRU Software Support Package</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">14</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This points to the file that tells the linker where in memory to
+put things.  It will be covered in <a href="#_the_linker_command_file_AM335x_pru.cmd">The Linker Command File - AM335x_PRU.cmd</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">15,16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tells where to find the PRU libraries and include files.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17,18</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This gives the stack and heap sizes. <code>STACK_SIZE</code> is the size of section
+<code>.stack</code> and <code>HEAP_SIZE</code> is the size of the <code>.bss</code> section.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20,21</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flags for the c compiler and the linker</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">23</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This is where all the generated files are stored. <code>/tmp</code> is used since
+these files aren&#8217;t needed once the PRU is running. Running <code>make clean</code> removes
+these files for the given PRUN.  If you look in the directory you&#8217;ll find:<br>
+<code>bone$ <strong>ls /tmp/pru0-gen/</strong><br>
+file.map  gpio1.asm  gpio1.lst  gpio1.obj  gpio1.out  gpio1.pp</code><br>
+<code>file.map</code> shows what addresses the symbols are mapped to and <code>*.lst</code>
+is the assembly code output by the compiler.  It might be useful to see
+what your code is being compiled to.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">25-31</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Here we map the PRU number to its physical address. This is needed later
+when loading for the PRU. These addresses are fixed, no matter which Beagle you
+are using.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">33</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This computes the path to the given PRU. If you look in this directory
+you will find <code>state</code> and <code>firmware</code> (among other things).  <code>state</code> tells you
+if the PRU is running or not.<br>
+<code>bone$ <strong>cat state</strong></code><br>
+<code>running</code><br>
+<code>firmware</code> is the name of the file in
+<code>/lib/firmware</code> to copy the <code>*.out</code> file to that the PRU is to run.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">35</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Since this is the first rule, it&#8217;s the one that&#8217;s run what you enter
+<code>make</code> without a target. So here we stop the PRU, install the code and then
+start the PRU.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">37-39</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This rule stops the current PRU by writing the command <code>stop</code> into the
+<code>state</code> file noted above.  It&#8217;s a bit complicated since you have to have
+root permission to write to the file.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">41-43</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This does a simular thing for starting the PRU.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">45-47</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The PRU code is installed by simply copying the generated <code>*.out</code> file
+to <code>/lib/firmware/am335x-pru<em>X</em>-fw</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">49-56</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rules for compiling and linking.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">58-60</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rule for removing the generated files.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Fortunately you shouldn&#8217;t have to modify the Makefile.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_compiling_with_clpru_and_lnkpru"><a class="link" href="#_compiling_with_clpru_and_lnkpru">1.2. Compiling with clpru and lnkpru</a></h3>
+<div class="sect3">
+<h4 id="_problem_2"><a class="link" href="#_problem_2">Problem</a></h4>
+<div class="paragraph">
+<p>You need details on the c compiler, linker and other tools for the PRU.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_2"><a class="link" href="#_solution_2">Solution</a></h4>
+<div class="paragraph">
+<p>The PRU compiler and linker are already installed on the standard images.
+They are called <code>clpru</code> and <code>lnkpru</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">bone$ *which clpru`
+/usr/bin/clpru</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Details on each can be found here:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf">PRU Optimizing C/C++ Compiler</a></p>
+</li>
+<li>
+<p><a href="http://www.ti.com/lit/ug/spruhv6b/spruhv6b.pdf">PRU Assembly Language Tools</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If fact the are PRU versions of many of the standard code generation tools.
+.code tools[source,bash]</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>bone$ ls /usr/bin/*pru
+/usr/bin/abspru    /usr/bin/dempru      /usr/bin/nmpru
+/usr/bin/acpiapru  /usr/bin/dispru      /usr/bin/ofdpru
+/usr/bin/arpru     /usr/bin/embedpru    /usr/bin/optpru
+/usr/bin/asmpru    /usr/bin/hexpru      /usr/bin/rc_test_encoders_pru
+/usr/bin/cgpru     /usr/bin/ilkpru      /usr/bin/strippru
+/usr/bin/clistpru  /usr/bin/libinfopru  /usr/bin/xrefpru
+/usr/bin/clpru     /usr/bin/lnkpru</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See the <em>PRU Assembly Language Tools</em> for more details.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_linker_command_file_am335x_pru_cmd"><a class="link" href="#_the_linker_command_file_am335x_pru_cmd">1.3. The Linker Command File - AM335x_PRU.cmd</a></h3>
+<div class="sect3">
+<h4 id="_problem_3"><a class="link" href="#_problem_3">Problem</a></h4>
+<div class="paragraph">
+<p>The linker needs to be told where in memory to place the code and variables.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_3"><a class="link" href="#_solution_3">Solution</a></h4>
+<div class="paragraph">
+<p><code>AM335x_PRU.cmd</code> is the standard linker command file that tells the linker
+where to put what.</p>
+</div>
+<div class="listingblock">
+<div class="title">AM335x_PRU.cmd</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="linker"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+</pre></td>
+  <td class="code"><pre>/****************************************************************************/
+/*  AM335x_PRU.cmd                                                          */
+/*  Copyright (c) 2015  Texas Instruments Incorporated                      */
+/*                                                                          */
+/*    Description: This file is a linker command file that can be used for  */
+/*                 linking PRU programs built with the C compiler and       */
+/*                 the resulting .out file on an AM335x device.             */
+/****************************************************************************/
+
+-cr                                                                /* Link using C conventions */
+
+/* Specify the System Memory Map */
+MEMORY
+{
+      PAGE 0:
+        PRU_IMEM                : org = 0x00000000 len = 0x00002000  /* 8kB PRU0 Instruction RAM */
+
+      PAGE 1:
+
+        /* RAM */
+
+        PRU_DMEM_0_1        : org = 0x00000000 len = 0x00002000 CREGISTER=24 /* 8kB PRU Data RAM 0_1 */
+        PRU_DMEM_1_0        : org = 0x00002000 len = 0x00002000        CREGISTER=25 /* 8kB PRU Data RAM 1_0 */
+
+          PAGE 2:
+        PRU_SHAREDMEM        : org = 0x00010000 len = 0x00003000 CREGISTER=28 /* 12kB Shared RAM */
+
+        DDR                            : org = 0x80000000 len = 0x00000100        CREGISTER=31
+        L3OCMC                        : org = 0x40000000 len = 0x00010000        CREGISTER=30
+
+
+        /* Peripherals */
+
+        PRU_CFG                        : org = 0x00026000 len = 0x00000044        CREGISTER=4
+        PRU_ECAP                : org = 0x00030000 len = 0x00000060        CREGISTER=3
+        PRU_IEP                        : org = 0x0002E000 len = 0x0000031C        CREGISTER=26
+        PRU_INTC                : org = 0x00020000 len = 0x00001504        CREGISTER=0
+        PRU_UART                : org = 0x00028000 len = 0x00000038        CREGISTER=7
+
+        DCAN0                        : org = 0x481CC000 len = 0x000001E8        CREGISTER=14
+        DCAN1                        : org = 0x481D0000 len = 0x000001E8        CREGISTER=15
+        DMTIMER2                : org = 0x48040000 len = 0x0000005C        CREGISTER=1
+        PWMSS0                        : org = 0x48300000 len = 0x000002C4        CREGISTER=18
+        PWMSS1                        : org = 0x48302000 len = 0x000002C4        CREGISTER=19
+        PWMSS2                        : org = 0x48304000 len = 0x000002C4        CREGISTER=20
+        GEMAC                        : org = 0x4A100000 len = 0x0000128C        CREGISTER=9
+        I2C1                        : org = 0x4802A000 len = 0x000000D8        CREGISTER=2
+        I2C2                        : org = 0x4819C000 len = 0x000000D8        CREGISTER=17
+        MBX0                        : org = 0x480C8000 len = 0x00000140        CREGISTER=22
+        MCASP0_DMA                : org = 0x46000000 len = 0x00000100        CREGISTER=8
+        MCSPI0                        : org = 0x48030000 len = 0x000001A4        CREGISTER=6
+        MCSPI1                        : org = 0x481A0000 len = 0x000001A4        CREGISTER=16
+        MMCHS0                        : org = 0x48060000 len = 0x00000300        CREGISTER=5
+        SPINLOCK                : org = 0x480CA000 len = 0x00000880        CREGISTER=23
+        TPCC                        : org = 0x49000000 len = 0x00001098        CREGISTER=29
+        UART1                        : org = 0x48022000 len = 0x00000088        CREGISTER=11
+        UART2                        : org = 0x48024000 len = 0x00000088        CREGISTER=12
+
+        RSVD10                        : org = 0x48318000 len = 0x00000100        CREGISTER=10
+        RSVD13                        : org = 0x48310000 len = 0x00000100        CREGISTER=13
+        RSVD21                        : org = 0x00032400 len = 0x00000100        CREGISTER=21
+        RSVD27                        : org = 0x00032000 len = 0x00000100        CREGISTER=27
+
+}
+
+/* Specify the sections allocation into memory */
+SECTIONS {
+        /* Forces _c_int00 to the start of PRU IRAM. Not necessary when loading
+           an ELF file, but useful when loading a binary */
+        .text:_c_int00*        &gt;  0x0, PAGE 0
+
+        .text                &gt;  PRU_IMEM, PAGE 0
+        .stack                &gt;  PRU_DMEM_0_1, PAGE 1
+        .bss                &gt;  PRU_DMEM_0_1, PAGE 1
+        .cio                &gt;  PRU_DMEM_0_1, PAGE 1
+        .data                &gt;  PRU_DMEM_0_1, PAGE 1
+        .switch                &gt;  PRU_DMEM_0_1, PAGE 1
+        .sysmem                &gt;  PRU_DMEM_0_1, PAGE 1
+        .cinit                &gt;  PRU_DMEM_0_1, PAGE 1
+        .rodata                &gt;  PRU_DMEM_0_1, PAGE 1
+        .rofardata        &gt;  PRU_DMEM_0_1, PAGE 1
+        .farbss                &gt;  PRU_DMEM_0_1, PAGE 1
+        .fardata        &gt;  PRU_DMEM_0_1, PAGE 1
+
+        .resource_table &gt; PRU_DMEM_0_1, PAGE 1
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_2"><a class="link" href="#_discussion_2">Discussion</a></h4>
+<div class="paragraph">
+<p>The important things to notice in the file are given in the following table.
+.AM335x_PRU.cmd important things</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Line</th>
+<th class="tableblock halign-left valign-top">Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This is where the instructions are stored. See page 206 of the
+<a href="https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf">AM335x Technical Reference Manual</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">22</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This is where PRU 0&#8217;s DMEM 0 is mapped.  It&#8217;s also where PRU 1&#8217;s
+DMEM 1 is mapped.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">23</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The reverse to above.  PRU 0&#8217;s DMEM 1 appears here and PRU 1&#8217;s DMEM 0
+is here.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">26</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The shared memory for both PRU&#8217;s appears here.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">72</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>.text</code> section is where the code goes.  It&#8217;s mapped to <code>IMEM</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">73</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The stack is then mapped to DMEM 0. Notice that DMEM 0 is one bank
+of memory for PRU 0 and another for PRU1, so they both get their own stacks.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">74</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>.bss</code> section is where the heap goes.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Why is it important to understand this file?  If you are going to store things
+in DMEM, you need to be sure to stare at address 0x0200 since the stack and
+the heap are in the locations below 0x0200.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_loading_firmware"><a class="link" href="#_loading_firmware">1.4. Loading Firmware</a></h3>
+<div class="sect3">
+<h4 id="_problem_4"><a class="link" href="#_problem_4">Problem</a></h4>
+<div class="paragraph">
+<p>I have my PRU code all compiled and need to load it on the PRU.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_4"><a class="link" href="#_solution_4">Solution</a></h4>
+<div class="paragraph">
+<p>It&#8217;s a simple three step process.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Stop the PRU</p>
+</li>
+<li>
+<p>Write the <code>.out</code> file to the right place in <code>/lib/firmware</code></p>
+</li>
+<li>
+<p>Start the PRU.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>This is all handled in the <a href="#_the_standard_makefile">The Standard Makefile</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_3"><a class="link" href="#_discussion_3">Discussion</a></h4>
+<div class="paragraph">
+<p>The PRUs appear in the Linux file space at
+<code>/sys/devices/platform/ocp/4a326000.pruss-soc-bus/4a300000.pruss</code>.</p>
+</div>
+<div class="paragraph">
+<div class="title">Finding the PRUs</div>
+<p><code>bone$ <strong>cd /sys/devices/platform/ocp/4a326000.pruss-soc-bus/4a300000.pruss</strong></code><br>
+<code>bone$ <strong>ls</strong></code><br>
+<code>4a320000.intc  4a338000.pru1  driver_override  of_node  subsystem</code><br>
+<code>4a334000.pru0  driver         modalias         power    uevent</code><br></p>
+</div>
+<div class="paragraph">
+<p>Here we see PRU 0 and PRU 1 in the path.  Let&#8217;s follow PRU 0.</p>
+</div>
+<div class="paragraph">
+<p><code>bone$ <strong>cd 4a334000.pru0/remoteproc/remoteproc1</strong></code><br>
+<code>bone$ <strong>ls</strong></code><br>
+<code>device  firmware  power  state  subsystem  uevent</code><br></p>
+</div>
+<div class="paragraph">
+<p>Here we see the files that control PRU 0.  <code>firmware</code> tells where in <code>/lib/firmware</code>
+to look for the code to run on the PRU.</p>
+</div>
+<div class="paragraph">
+<p><code>bone$ <strong>cat firmware</strong></code><br>
+<code>am335x-pru0-fw</code></p>
+</div>
+<div class="paragraph">
+<p>Therefore you copy your <code>.out</code> file to <code>/lib/firmware/am335x-pru0-fw</code>.</p>
 </div>
 </div>
 </div>
@@ -626,7 +1204,7 @@ clean:
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-12 15:10:14 EDT
+Last updated 2018-06-14 13:05:44 EDT
 </div>
 </div>
 </body>

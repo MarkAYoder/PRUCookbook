@@ -1,12 +1,4 @@
-:sectnums:
-:sectnumlevels: 2
-:sectids:
-:sectlinks:
-= PRU Cookbook
-:toc:
-:toclevels: 2
-// :source-highlighter: rouge
-:source-highlighter: coderay
+include::../header.adoc[]
 
 == Case Studies - Introduction
 
@@ -24,6 +16,7 @@ Here we present
 * Robotics Control Library <http://strawsondesign.com/docs/roboticscape/>
 * BeagleLogic <https://github.com/abhishek-kakkar/BeagleLogic/wiki>
 * LEDscape <https://github.com/Yona-Appletree/LEDscape>
+* MachineKit <http://www.machinekit.io/>
 * MachineKit <http://www.machinekit.io/>
 * ArduPilot <http://ardupilot.org/>, <http://ardupilot.org/dev/docs/beaglepilot.html>
 
@@ -93,11 +86,12 @@ sample use to center servo channel 1:
 ----
 
 ==== Discussion
-The BeagleBone Blue sends these eight outputs to it's servo channels.  The Black and the Pocket use the pins shown in this table.
+The BeagleBone Blue sends these eight outputs to it's servo channels.  The Black and the Pocket use the pins shown in the 
+<<_register_to_pin_table,Register to pin table>>.
 
 .PRU register to pin table
 |===
-|Pru pin    |Blue pin|Black pin|Pocket pin
+|PRU pin    |Blue pin|Black pin|Pocket pin
 
 |pru1_r30_8 |1       |P8_27    |P2.35     
 |pru1_r30_10|2       |P8_28    |P1.35     
@@ -169,7 +163,8 @@ You can also access these hardware encoders on the Black and Pocket using the pi
 |    |E4      |P8_16      |P8_15      |P2.09       |P2.18       
 |===
 
-You will need to first configure the pins using
+You will need to first configure the pins using `encoder.sh`.
+
 .encoder.sh
 [source,bash]
 ----

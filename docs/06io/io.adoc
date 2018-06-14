@@ -1,10 +1,4 @@
-:sectnums:
-:sectids:
-:sectlinks:
-:toc:
-:toclevels: 2
-// :source-highlighter: rouge
-:source-highlighter: coderay
+include::../header.adoc[]
 
 == Accessing more I/O
 So far the examples have shown how to access the GPIO pins on the BeagleBone Black's 

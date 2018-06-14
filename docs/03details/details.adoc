@@ -1,32 +1,203 @@
-:sectnums:
-:sectids:
-:sectlinks:
-:toc:
-:toclevels: 2
-// :source-highlighter: rouge
-:source-highlighter: coderay
+include::../header.adoc[]
 
 == Details on compiling and running a file
 
 There are a lot details in compiling and running PRU code.
 Here are some details on how it works.
 
-=== Problem
+The following are resources used in this chapter.
+
+.Resources
+* http://software-dl.ti.com/codegen/esd/cgt_public_sw/PRU/2.1.5/ti_cgt_pru_2.1.5_armlinuxa8hf_busybox_installer.sh[PRU Code Generation Tools - Compiler]
+* http://git.ti.com/pru-software-support-package[PRU Software Support Package]
+* http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler]
+* http://www.ti.com/lit/ug/spruhv6b/spruhv6b.pdf[PRU Assembly Language Tools]
+* https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]
+
+=== The Standard Makefile
+
+==== Problem
 There are all sorts of options that need to be set when compiling
 a program.  How can I be sure to get them all right?
 
-=== Solution
+==== Solution
 The surest way to make sure everything is right is to use our
 standard Makefile.
 
-=== Discussion
+==== Discussion
 It's assumed you alrady know how Makefiles work.  If not, there are
 many resources on line that can bring you up to speed.
 
 Here is the stardard Makefile (`Makefile`) used throughout. 
 
 .Standard Makefile
-[source,makefile]
+[source,makefile,linenums]
 ----
 include::code/Makefile[]
 ----
+
+Here's an highlevel overview of the Makefile
+
+.Makefile Overview
+|===
+|Line |Explanation
+
+|     |You need to define `TARGET` and `PRU` before running the Makefile.
+This is done in a `setup.sh`. `TARGET` is the name of the c source file, without
+the `.c`.  `PRUN` is the number of the PRU for which you are compiling.
+In our case it's either 0 or 1.
+|11,12|These find where to find the PRU compiler and the support libraries.
+These files are already installed on the standard Beagle images. 
+If they aren't installed you can find them at 
+http://software-dl.ti.com/codegen/esd/cgt_public_sw/PRU/2.1.5/ti_cgt_pru_2.1.5_armlinuxa8hf_busybox_installer.sh[PRU Code Generation Tools - Compiler] and
+http://git.ti.com/pru-software-support-package[PRU Software Support Package].
+|14   |This points to the file that tells the linker where in memory to
+put things.  It will be covered in <<_the_linker_command_file_AM335x_pru.cmd,
+The Linker Command File - AM335x_PRU.cmd>>
+|15,16|Tells where to find the PRU libraries and include files.
+|17,18|This gives the stack and heap sizes. `STACK_SIZE` is the size of section
+`.stack` and `HEAP_SIZE` is the size of the `.bss` section.
+|20,21|Flags for the c compiler and the linker
+|23   |This is where all the generated files are stored. `/tmp` is used since
+these files aren't needed once the PRU is running. Running `make clean` removes
+these files for the given PRUN.  If you look in the directory you'll find: +
+//TODO Make this format like code.
+`bone$ *ls /tmp/pru0-gen/* +
+file.map  gpio1.asm  gpio1.lst  gpio1.obj  gpio1.out  gpio1.pp` +
+`file.map` shows what addresses the symbols are mapped to and `*.lst` 
+is the assembly code output by the compiler.  It might be useful to see
+what your code is being compiled to.
+|25-31|Here we map the PRU number to its physical address. This is needed later
+when loading for the PRU. These addresses are fixed, no matter which Beagle you
+are using.
+|33   |This computes the path to the given PRU. If you look in this directory
+you will find `state` and `firmware` (among other things).  `state` tells you
+if the PRU is running or not. +
+`bone$ *cat state*` +
+`running` +
+`firmware` is the name of the file in
+`/lib/firmware` to copy the `*.out` file to that the PRU is to run.
+|35   |Since this is the first rule, it's the one that's run what you enter
+`make` without a target. So here we stop the PRU, install the code and then
+start the PRU.
+|37-39|This rule stops the current PRU by writing the command `stop` into the 
+`state` file noted above.  It's a bit complicated since you have to have
+root permission to write to the file.
+|41-43|This does a simular thing for starting the PRU.
+|45-47|The PRU code is installed by simply copying the generated `*.out` file
+to `/lib/firmware/am335x-pru__X__-fw`
+|49-56|Rules for compiling and linking.
+|58-60|Rule for removing the generated files.
+|===
+
+Fortunately you shouldn't have to modify the Makefile.
+
+=== Compiling with clpru and lnkpru
+
+==== Problem
+You need details on the c compiler, linker and other tools for the PRU.
+
+==== Solution
+The PRU compiler and linker are already installed on the standard images.
+They are called `clpru` and `lnkpru`.
+[source,bash]
+----
+bone$ *which clpru`
+/usr/bin/clpru
+----
+Details on each can be found here:
+
+* http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler]
+* http://www.ti.com/lit/ug/spruhv6b/spruhv6b.pdf[PRU Assembly Language Tools]
+
+If fact the are PRU versions of many of the standard code generation tools.
+.code tools[source,bash]
+----
+bone$ ls /usr/bin/*pru
+/usr/bin/abspru    /usr/bin/dempru      /usr/bin/nmpru
+/usr/bin/acpiapru  /usr/bin/dispru      /usr/bin/ofdpru
+/usr/bin/arpru     /usr/bin/embedpru    /usr/bin/optpru
+/usr/bin/asmpru    /usr/bin/hexpru      /usr/bin/rc_test_encoders_pru
+/usr/bin/cgpru     /usr/bin/ilkpru      /usr/bin/strippru
+/usr/bin/clistpru  /usr/bin/libinfopru  /usr/bin/xrefpru
+/usr/bin/clpru     /usr/bin/lnkpru
+----
+See the _PRU Assembly Language Tools_ for more details.
+
+=== The Linker Command File - AM335x_PRU.cmd
+
+==== Problem
+The linker needs to be told where in memory to place the code and variables.
+
+==== Solution
+`AM335x_PRU.cmd` is the standard linker command file that tells the linker
+where to put what.
+
+.AM335x_PRU.cmd
+[source,linker,linenums]
+----
+include::code/AM335x_PRU.cmd[AM335x_PRU.cmd]
+----
+//TODO This file isn't displaying well.
+
+==== Discussion
+
+The important things to notice in the file are given in the following table.
+.AM335x_PRU.cmd important things
+|===
+|Line|Explanation
+
+|16   |This is where the instructions are stored. See page 206 of the
+https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]
+|22   |This is where PRU 0's DMEM 0 is mapped.  It's also where PRU 1's
+DMEM 1 is mapped.
+|23   |The reverse to above.  PRU 0's DMEM 1 appears here and PRU 1's DMEM 0 
+is here.
+|26   |The shared memory for both PRU's appears here.
+|72   |The `.text` section is where the code goes.  It's mapped to `IMEM`
+|73   |The stack is then mapped to DMEM 0. Notice that DMEM 0 is one bank
+of memory for PRU 0 and another for PRU1, so they both get their own stacks.
+|74   |The `.bss` section is where the heap goes.
+|===
+
+Why is it important to understand this file?  If you are going to store things
+in DMEM, you need to be sure to stare at address 0x0200 since the stack and 
+the heap are in the locations below 0x0200.
+
+=== Loading Firmware
+
+==== Problem
+I have my PRU code all compiled and need to load it on the PRU.
+
+==== Solution
+It's a simple three step process.
+
+. Stop the PRU
+. Write the `.out` file to the right place in `/lib/firmware`
+. Start the PRU.
+
+This is all handled in the <<_the_standard_makefile,The Standard Makefile>>.
+
+==== Discussion
+The PRUs appear in the Linux file space at
+`/sys/devices/platform/ocp/4a326000.pruss-soc-bus/4a300000.pruss`.
+
+.Finding the PRUs
+`bone$ *cd /sys/devices/platform/ocp/4a326000.pruss-soc-bus/4a300000.pruss*` +
+`bone$ *ls*` + 
+`4a320000.intc  4a338000.pru1  driver_override  of_node  subsystem` +
+`4a334000.pru0  driver         modalias         power    uevent` +
+
+Here we see PRU 0 and PRU 1 in the path.  Let's follow PRU 0.
+
+`bone$ *cd 4a334000.pru0/remoteproc/remoteproc1*` +
+`bone$ *ls*` +
+`device  firmware  power  state  subsystem  uevent` +
+
+Here we see the files that control PRU 0.  `firmware` tells where in `/lib/firmware`
+to look for the code to run on the PRU.
+
+`bone$ *cat firmware*` +
+`am335x-pru0-fw`
+
+Therefore you copy your `.out` file to `/lib/firmware/am335x-pru0-fw`.
