@@ -1,3 +1,5 @@
+include::header.adoc[]
+
 = PRU Cookbook
 :author: Mark A. Yoder
 :email:	Mark.A.Yoder@Rose-Hulman.edu
@@ -5,18 +7,23 @@
 :imagesdir: ./01start
 include::01start/start.adoc[]
 
+<<<
 :imagesdir: ./02case
 include::02case/case.adoc[]
 
+<<<
 :imagesdir: ./03details
 include::03details/details.adoc[]
 
+<<<
 :imagesdir: ./04debug
 include::04debug/debug.adoc[]
 
+<<<
 :imagesdir: ./05blocks
 include::05blocks/blocks.adoc[]
 
+<<<
 :imagesdir: ./06io
 include::06io/io.adoc[]
 
