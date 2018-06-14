@@ -1,8 +1,4 @@
-:sectnums:
-= PRU Cookbook
-:author: Mark A. Yoder
-:email:	Mark.A.Yoder@Rose-Hulman.edu
-:toclevels: 2
+include::header.adoc[]
 
 ## Outline
 
@@ -14,52 +10,53 @@ compiling on the Beagle
 * link:todo.html[To Do]
 
 . link:01start/start.html[Getting started]
-  ** Hardware:  BeagleBone family or PocketBeagle
-  ** Downloading and flashing current image
-  ** Cloud9 IDE
-  ** Blinking an LED
+  ** [ ] Hardware:  BeagleBone family or PocketBeagle
+  ** [ ] Downloading and flashing current image
+  ** [ ] Cloud9 IDE
+  ** [ ] Blinking an LED
   
 . link:02case/case.html[Case Studies]
-  ** Robotics Control Library
-  ** LEDscape
-  ** MachineKit
-  ** ArduPilot
-  ** BeagleLogic
+  ** [x] Robotics Control Library
+  ** [ ] LEDscape
+  ** [ ] MachineKit
+  ** [ ] ArduPilot
+  ** [ ] BeagleLogic
   
 . link:03details/details.html[Details on compiling and running a file]
-  ** The standard Makefile
-  ** clpru and lnkpru
-  ** Loading firmware
+  ** [x] The standard Makefile
+  ** [x] Compiling with clpru and lnkpru
+  ** [x] The Linker Command File - AM335x_PRU.cmd
+  ** [x] Loading firmware
   
 . link:04debug/debug.html[Debugging and Benchmarking]
 footnote:[Roadmap-wise, I'd want to consider how to plug RPMsg into a printf function to aide debug. I'm sure you've seen that with CCS in the past.]
-  ** LED and switch for debugging
-  ** Oscilloscope
-  ** dmesg –Hw
-  ** prubug?
-  ** UART
+  ** [ ] LED and switch for debugging
+  ** [ ] Oscilloscope
+  ** [ ] dmesg –Hw
+  ** [ ] prubug?
+  ** [ ] UART
   
 . link:05blocks/blocks.html[Building Blocks – Applications]
-  ** PWM generator
-  ** Sine Wave Generator
-  ** Ultrasonic Sensor Application
-  ** neoPixel driver
+  ** [ ] PWM generator
+  ** [ ] Sine Wave Generator
+  ** [ ] Ultrasonic Sensor Application
+  ** [ ] neoPixel driver
   
 . link:06io/io.html[Accessing more I/O]
 footnote:[The split with talking to the ARM is a little confusing to me as I don't know what the 'more' is.]
-  ** /boot/uEnv.txt to access [P8 I/O]
+  ** [ ] /boot/uEnv.txt to access [P8 I/O]
 footnote:[What is the P8 issue?]
-  ** Accessing gpio
-  ** UART?
-  ** ECAP/PWM?
+  ** [ ] Accessing gpio
+  ** [ ] UART?
+  ** [ ] ECAP/PWM?
   
 . Talking to the rest of the processor
-  ** PRU Architecture, DRAM, Shared RAM
-  ** interrupts to ARM
-  ** ARM interrupts to PRU
-  ** mmap() 
-  ** rpmsg
-  ** use of OCP peripherals
+  ** [ ] PRU Architecture, DRAM, Shared RAM
+  ** [ ] interrupts to ARM
+  ** [ ] ARM interrupts to PRU
+  ** [ ] mmap() 
+  ** [ ] rpmsg
+  ** [ ] use of OCP peripherals
 . [Running on an older kernel version]
 footnote:[You might make this just about *alternate* tools rather than necessarily older. You could provide relatively minimal pointers for anything beyond what is needed understand how the Case Studies work. Things like the gcc port could go here.]
 
