@@ -40,3 +40,4 @@ image:01start/figures/debianImages.png[Latest Debian images]
 Here is a test.
 ====
 
+<<05blocks/blocks.html#, Building Blocks - Applications>>
