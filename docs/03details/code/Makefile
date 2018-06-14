@@ -11,7 +11,7 @@
 PRU_CGT:=/usr/share/ti/cgt-pru
 PRU_SUPPORT:=/usr/lib/ti/pru-software-support-package
 
-LINKER_COMMAND_FILE=$(dir $(realpath $(firstword $(MAKEFILE_LIST))))/AM335x_PRU.cmd
+LINKER_COMMAND_FILE=AM335x_PRU.cmd
 LIBS=--library=$(PRU_SUPPORT)/lib/rpmsg_lib.lib
 INCLUDE=--include_path=$(PRU_SUPPORT)/include --include_path=$(PRU_SUPPORT)/include/am335x
 STACK_SIZE=0x100
