@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 export PRUN=0
-export TARGET=pwm1
+export TARGET=pwm5
 
 # Configure the PRU pins based on which Beagle is running
 machine=$(awk '{print $NF}' /proc/device-tree/model)
@@ -14,7 +14,7 @@ elif [ $machine = "Blue" ]; then
     pins=""
 elif [ $machine = "PocketBeagle" ]; then
     echo " Found"
-    pins="P1_36"
+    pins="P1_36 P1_33 P2_32 P2_30"
 else
     echo " Not Found"
     pins=""
