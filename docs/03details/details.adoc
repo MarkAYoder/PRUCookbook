@@ -161,7 +161,10 @@ root permission to write to the file.
 |41-43|This does a simular thing for starting the PRU.
 |45-47|The PRU code is installed by simply copying the generated `*.out` file
 to `/lib/firmware/am335x-pru__X__-fw`
-|49-56|Rules for compiling and linking.
+|49-56|Rules for compiling and linking. Notice the `clpru` command has `-D=PRUN=$(PRUN)`.
+This will define `PRUN` to equal the PRU number in the code being compiled. This
+way the code can have conditional compilation based on which PRU it's being
+compiled for.
 |58-60|Rule for removing the generated files.
 |===
 

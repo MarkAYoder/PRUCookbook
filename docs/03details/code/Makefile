@@ -53,7 +53,7 @@ $(GEN_DIR)/$(TARGET).out: $(GEN_DIR)/$(TARGET).obj
 $(GEN_DIR)/$(TARGET).obj: $(TARGET).c
 	@mkdir -p $(GEN_DIR)
 	@echo 'CC	$<'
-	@clpru --include_path=$(PRU_CGT)/include $(INCLUDE) $(CFLAGS) -fe $@ $<
+	@clpru --include_path=$(PRU_CGT)/include $(INCLUDE) $(CFLAGS) -D=PRUN=$(PRUN) -fe $@ $<
 
 clean:
 	@echo 'CLEAN	.    PRU $(PRUN)'
