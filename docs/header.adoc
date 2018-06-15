@@ -7,6 +7,8 @@
 // :source-highlighter: rouge
 :source-highlighter: coderay
 
+:tabsize: 4
+
 // = PRU Cookbook
 // :author: Mark A. Yoder
 // :email:	Mark.A.Yoder@Rose-Hulman.edu
