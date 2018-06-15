@@ -2412,7 +2412,6 @@ has details of how it works.  Here&#8217;s the code (<code>pwm8.c</code>).</p>
 84
 85
 86
-87
 </pre></td>
   <td class="code"><pre><span class="comment">// This code does MAXCH parallel PWM channels on both PRU 0 and PRU 1</span>
 <span class="comment">// All channels start at the same time.</span>
@@ -2486,19 +2485,18 @@ has details of how it works.  Here&#8217;s the code (<code>pwm8.c</code>).</p>
     Rtmp = __R30;
 
     <span class="keyword">while</span> (<span class="integer">1</span>) {
-<span class="preprocessor">#if</span> PRUN==<span class="integer">0</span>
-<span class="preprocessor">#define</span> PRU0_PRU1_EVT <span class="integer">16</span>
-    __R31 = (PRU0_PRU1_EVT-<span class="integer">16</span>) | (<span class="hex">0x1</span>&lt;&lt;<span class="integer">5</span>);  <span class="comment">//Tell PRU 1 to start</span>
-    __delay_cycles(<span class="integer">8</span>);
-<span class="preprocessor">#endif</span>
 <span class="preprocessor">#if</span> PRUN==<span class="integer">1</span>
-    <span class="keyword">while</span>((__R31 &amp; (<span class="hex">0x1</span>&lt;&lt;<span class="integer">31</span>))==<span class="integer">0</span>) {         <span class="comment">// Wait for PRU 0</span>
-    }
-    CT_INTC.SICR = <span class="integer">16</span>;                  <span class="comment">// Ensure event 16 is cleared</span>
+        <span class="keyword">while</span>((__R31 &amp; (<span class="hex">0x1</span>&lt;&lt;<span class="integer">31</span>))==<span class="integer">0</span>) {     <span class="comment">// Wait for PRU 0</span>
+        }
+        CT_INTC.SICR = <span class="integer">16</span>;                  <span class="comment">// Clear event 16</span>
 <span class="preprocessor">#endif</span>
         __R30 = Rtmp;
         update(<span class="integer">0</span>)
         update(<span class="integer">1</span>)
+<span class="preprocessor">#if</span> PRUN==<span class="integer">0</span>
+<span class="preprocessor">#define</span> PRU0_PRU1_EVT <span class="integer">16</span>
+        __R31 = (PRU0_PRU1_EVT-<span class="integer">16</span>) | (<span class="hex">0x1</span>&lt;&lt;<span class="integer">5</span>);  <span class="comment">//Tell PRU 1 to start</span>
+<span class="preprocessor">#endif</span>
     }
 }</pre></td>
 </tr></table></code></pre>
@@ -2548,15 +2546,15 @@ for a diagram explaining events, channels, hosts, etc.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">73-77</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">On PRU 0 this generates the interupt to send to PRU 1.  I found PRU 1 was
-slow to respond to the interupt, so I added some <code>__delay_cycles()</code> to keep the
-two in sync.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">78-82</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRU 1 then waits for PRU 0 to signal it.  Bit 31 of <code>__R31</code> corresponds
 to the Host-1 channel which <code>configInitc()</code> set up. We also clear event 16 so
 PRU 0 can set it again.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">81-84</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">On PRU 0 this generates the interupt to send to PRU 1.  I found PRU 1 was
+slow to respond to the interupt, so I put this code at the end of the loop to
+give time for the signal to get to PRU 1.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2596,7 +2594,7 @@ PRU 0 can set it again.</p></td>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-15 15:27:14 EDT
+Last updated 2018-06-15 15:33:51 EDT
 </div>
 </div>
 </body>

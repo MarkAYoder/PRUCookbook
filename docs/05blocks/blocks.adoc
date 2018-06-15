@@ -457,13 +457,12 @@ See page 226 of the
 https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]
 for a diagram explaining events, channels, hosts, etc.
 |55-58|Set a configuration register and call `configInitc`.
-
-|73-77|On PRU 0 this generates the interupt to send to PRU 1.  I found PRU 1 was 
-slow to respond to the interupt, so I added some `__delay_cycles()` to keep the
-two in sync.
-|78-82|PRU 1 then waits for PRU 0 to signal it.  Bit 31 of `__R31` corresponds
+|73-77|PRU 1 then waits for PRU 0 to signal it.  Bit 31 of `__R31` corresponds
 to the Host-1 channel which `configInitc()` set up. We also clear event 16 so 
 PRU 0 can set it again.
+|81-84|On PRU 0 this generates the interupt to send to PRU 1.  I found PRU 1 was 
+slow to respond to the interupt, so I put this code at the end of the loop to
+give time for the signal to get to PRU 1.
 |===
 
 === Poling an Input at Regular Intervals.

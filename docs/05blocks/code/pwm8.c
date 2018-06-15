@@ -70,18 +70,17 @@ void main(void)
 	Rtmp = __R30;
 
 	while (1) {
-#if PRUN==0
-#define PRU0_PRU1_EVT 16
-	__R31 = (PRU0_PRU1_EVT-16) | (0x1<<5);	//Tell PRU 1 to start
-	__delay_cycles(8);
-#endif
 #if PRUN==1
-	while((__R31 & (0x1<<31))==0) {		// Wait for PRU 0
-	}
-	CT_INTC.SICR = 16;					// Clear event 16
+		while((__R31 & (0x1<<31))==0) {		// Wait for PRU 0
+		}
+		CT_INTC.SICR = 16;					// Clear event 16
 #endif
 		__R30 = Rtmp;
 		update(0)
 		update(1)
+#if PRUN==0
+#define PRU0_PRU1_EVT 16
+		__R31 = (PRU0_PRU1_EVT-16) | (0x1<<5);	//Tell PRU 1 to start
+#endif
 	}
 }
