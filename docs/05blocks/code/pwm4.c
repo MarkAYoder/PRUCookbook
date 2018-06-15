@@ -7,9 +7,9 @@
 #define PRU0_DRAM		0x00000			// Offset to DRAM
 // Skip the first 0x200 byte of DRAM since the Makefile allocates
 // 0x100 for the STACK and 0x100 for the HEAP.
-unsigned int *pru0_dram = (unsigned int *) (PRU0_DRAM + 0x200);
+volatile unsigned int *pru0_dram = (unsigned int *) (PRU0_DRAM + 0x200);
 
-#define MAXCH	4	// Maximum number of channels
+#define MAXCH	4	// Maximum number of channels per PRU
 
 volatile register uint32_t __R30;
 volatile register uint32_t __R31;
