@@ -58,7 +58,7 @@ LD	/tmp/pru0-gen/pwm1.obj
 -    Starting PRU 0
 start
 ----
-Now attach and LED (or oscilloscope) to `P9_31` on the Black or `P1.36` on the Pocket.  You should see a squarewave.
+Now attach an LED (or oscilloscope) to `P9_31` on the Black or `P1.36` on the Pocket.  You should see a squarewave.
 
 ==== Discussion
 Since this is our first example we'll discuss the many parts in detail.
@@ -101,6 +101,7 @@ https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manua
 
 Bit 0 is the LSB.
 
+[#bit_positions]
 .Mapping bit positions to pin names
 |===
 |PRU|Bit|Black pin|Blue pin|Pocket pin
@@ -202,9 +203,15 @@ We take the previous PRU and add the lines
 [source,c,linenums] 
 ----
 #define PRU0_DRAM		0x00000			// Offset to DRAM
-unsigned int *pru0_dram = PRU0_DRAM;
+volatile unsigned int *pru0_dram = PRU0_DRAM;
 ----
-to define a pointer to the DRAM.  Later we use
+to define a pointer to the DRAM. 
+[NOTE]
+====
+The `volatile` keyword is used here to tell the compiler the value this
+points to may change, so don't make any assumptions while optimizing.
+====
+Later in the code we use
 
 [source,c,linenums] 
 ----
@@ -322,6 +329,114 @@ longer than before.
 
 .pwm6 Synchronized Channels
 image:figures/pwm6 synced.png[pwm6 Synchronized Channels]
+
+
+=== Adding More Channels via PRU 1
+==== Problem
+You need more output channels, or you need to shorten the period.
+
+==== Solution
+PRU 0 can output up to eight output pins (see 
+<<#bit_positions,Mapping bit position to pin names>>). The code presented so far
+can be easily extended to use the eight output pins.
+
+But what if you need more channels?
+You can always use PRU1, it has 14 output pins.
+
+Or, what if four channels is enough, but you need a shorter period. Everytime
+you add a channel, the overall period gets longer.  Twice as many channels 
+means twice as long a period.  If you move half the channels to PRU 1, you
+will make the period half as long.
+
+Here's the code (`pwm7.c`)
+
+.pwm7.c Using Both PRUs
+[source,c,linenums]
+----
+include::code/pwm7.c[pwm7.c Using Both PRUs]
+----
+
+Be sure to run `pwm7_setup.sh` to get the coffect pins configured.
+.pwm7_setup.sh
+----
+include::code/pwm7_setup.sh[pw7_setup.sh]
+----
+This makes sure the PRU 1 pins are properly configured.
+
+Then compile and run with
+[source,bash]
+----
+bone$ make PRUN=0; make PRUN=1
+-    Stopping PRU 0
+stop
+CC	pwm7.c
+LD	/tmp/pru0-gen/pwm7.obj
+-	copying firmware file /tmp/pru0-gen/pwm7.out to /lib/firmware/am335x-pru0-fw
+-    Starting PRU 0
+start
+-    Stopping PRU 1
+stop
+CC	pwm7.c
+LD	/tmp/pru1-gen/pwm7.obj
+-	copying firmware file /tmp/pru1-gen/pwm7.out to /lib/firmware/am335x-pru1-fw
+-    Starting PRU 1
+start
+----
+This will first stop, compile and start PRU 0, then do the same for PRU 1.
+
+Moving half of the channels to PRU1 dropped the period from 510ns to 370ns, so
+we gained a bit.
+
+==== Discussion
+There weren't many changes to be made.  Line 13 we set MAXCH to 2. Lines 43-46
+is where the big change is.
+[source,c]
+----
+		pru0_dram[2*ch  ] = on [ch+PRUN*MAXCH];	// Copy to DRAM0 so the ARM can change it
+		pru0_dram[2*ch+1] = off[ch+PRUN*MAXCH];	// Interleave the on and off values
+		onCount[ch] = on [ch+PRUN*MAXCH];
+		offCount[ch]= off[ch+PRUN*MAXCH];
+----
+The Makefile sets `PRUN` to be the number of the PRU we are compiling for.  If 
+we are compiling for PRU 0, `on[ch+PRUN*MAXCH]` becomes `on[ch+0*2]` which is
+`on[ch]` which is what we had before.  But now if we are on PRU 1 it becomes
+`on[ch+1*2]` which is `on[ch+2]`.  That means we are picking up the second 
+half of the `on` and `off` arrays.  The first half goes to PRU 0, the second to
+PRU 1.  So the same code can be used for both PRUs, but we get slightly different 
+behavior.
+
+Running the code you will see the next figure.
+
+.pwm7 Two PRUs running
+image:figures/pwm7 two prus running.png[pwm7 Two PRUs running]
+
+What's going on there, the first channels look fine, but the PRU 1 channels
+are blurred.  To see what's happening, let's stop the oscilloscope.
+
+.pwm7 Two PRUs stopped
+image:figures/pwm7 two prus stopped.png[pwm7 Two PRUs stopped]
+
+The stopped display shows that the four channels are doing what we wanted, except 
+The PRU 0 channels have a period of 370ns while the PRU 1 channels at 330ns.
+It appears the compiler has optimied the two PRUs slightly differenty.
+
+
+=== Sychronziing Two PRUs
+==== Problem
+I need to synchronize the two PRUs so they run together.
+
+==== Solution
+
+==== Discussion
+
+=== Poling an Input at Regular Intervals.
+==== Problem
+You have an input pin that need to be read at regular intervals.
+
+==== Solution
+
+
+==== Discussion
 
 
 === Sine Wave Generator

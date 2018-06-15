@@ -520,9 +520,11 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_controlling_the_pwm_frequency">1.2. Controlling the PWM Frequency</a></li>
 <li><a href="#_loop_unrolling_for_better_performance">1.3. Loop Unrolling for Better Performance</a></li>
 <li><a href="#_making_all_the_pulses_start_at_the_same_time">1.4. Making All the Pulses Start at the Same Time</a></li>
-<li><a href="#_sine_wave_generator">1.5. Sine Wave Generator</a></li>
-<li><a href="#_ultrasonic_sensor_application">1.6. Ultrasonic Sensor Application</a></li>
-<li><a href="#_neopixel_driver">1.7. neoPixel driver</a></li>
+<li><a href="#_adding_more_channels_via_pru_1">1.5. Adding More Channels via PRU 1</a></li>
+<li><a href="#_poling_an_input_at_regular_intervals">1.6. Poling an Input at Regular Intervals.</a></li>
+<li><a href="#_sine_wave_generator">1.7. Sine Wave Generator</a></li>
+<li><a href="#_ultrasonic_sensor_application">1.8. Ultrasonic Sensor Application</a></li>
+<li><a href="#_neopixel_driver">1.9. neoPixel driver</a></li>
 </ul>
 </li>
 </ul>
@@ -687,7 +689,7 @@ start</pre></td>
 </div>
 </div>
 <div class="paragraph">
-<p>Now attach and LED (or oscilloscope) to <code>P9_31</code> on the Black or <code>P1.36</code> on the Pocket.  You should see a squarewave.</p>
+<p>Now attach an LED (or oscilloscope) to <code>P9_31</code> on the Black or <code>P1.36</code> on the Pocket.  You should see a squarewave.</p>
 </div>
 </div>
 <div class="sect3">
@@ -851,7 +853,7 @@ gives more details.</p></td>
 <div class="paragraph">
 <p>Bit 0 is the LSB.</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table id="bit_positions" class="tableblock frame-all grid-all spread">
 <caption class="title">Table 3. Mapping bit positions to pin names</caption>
 <colgroup>
 <col style="width: 20%;">
@@ -1242,12 +1244,30 @@ gives more details.</p></td>
 2
 </pre></td>
   <td class="code"><pre><span class="preprocessor">#define</span> PRU0_DRAM       <span class="hex">0x00000</span>         <span class="comment">// Offset to DRAM</span>
-<span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> *pru0_dram = PRU0_DRAM;</pre></td>
+<span class="directive">volatile</span> <span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> *pru0_dram = PRU0_DRAM;</pre></td>
 </tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>to define a pointer to the DRAM.  Later we use</p>
+<p>to define a pointer to the DRAM.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The <code>volatile</code> keyword is used here to tell the compiler the value this
+points to may change, so don&#8217;t make any assumptions while optimizing.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Later in the code we use</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1342,9 +1362,9 @@ the PWM on and off times.  Here&#8217;s the whole code:</p>
 <span class="preprocessor">#define</span> PRU0_DRAM       <span class="hex">0x00000</span>         <span class="comment">// Offset to DRAM</span>
 <span class="comment">// Skip the first 0x200 byte of DRAM since the Makefile allocates</span>
 <span class="comment">// 0x100 for the STACK and 0x100 for the HEAP.</span>
-<span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> *pru0_dram = (<span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> *) (PRU0_DRAM + <span class="hex">0x200</span>);
+<span class="directive">volatile</span> <span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> *pru0_dram = (<span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> *) (PRU0_DRAM + <span class="hex">0x200</span>);
 
-<span class="preprocessor">#define</span> MAXCH   <span class="integer">4</span>   <span class="comment">// Maximum number of channels</span>
+<span class="preprocessor">#define</span> MAXCH   <span class="integer">4</span>   <span class="comment">// Maximum number of channels per PRU</span>
 
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t __R30;
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t __R31;
@@ -1743,9 +1763,9 @@ version.</p>
 <span class="preprocessor">#define</span> PRU0_DRAM       <span class="hex">0x00000</span>         <span class="comment">// Offset to DRAM</span>
 <span class="comment">// Skip the first 0x200 byte of DRAM since the Makefile allocates</span>
 <span class="comment">// 0x100 for the STACK and 0x100 for the HEAP.</span>
-<span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> *pru0_dram = (<span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> *) (PRU0_DRAM + <span class="hex">0x200</span>);
+<span class="directive">volatile</span> <span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> *pru0_dram = (<span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> *) (PRU0_DRAM + <span class="hex">0x200</span>);
 
-<span class="preprocessor">#define</span> MAXCH   <span class="integer">4</span>   <span class="comment">// Maximum number of channels</span>
+<span class="preprocessor">#define</span> MAXCH   <span class="integer">4</span>   <span class="comment">// Maximum number of channels per PRU</span>
 
 <span class="preprocessor">#define</span> update(ch) \
             <span class="keyword">if</span>(onCount[ch]) {           \
@@ -1958,9 +1978,9 @@ it.</p>
 <span class="preprocessor">#define</span> PRU0_DRAM       <span class="hex">0x00000</span>         <span class="comment">// Offset to DRAM</span>
 <span class="comment">// Skip the first 0x200 byte of DRAM since the Makefile allocates</span>
 <span class="comment">// 0x100 for the STACK and 0x100 for the HEAP.</span>
-<span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> *pru0_dram = (<span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> *) (PRU0_DRAM + <span class="hex">0x200</span>);
+<span class="directive">volatile</span> <span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> *pru0_dram = (<span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> *) (PRU0_DRAM + <span class="hex">0x200</span>);
 
-<span class="preprocessor">#define</span> MAXCH   <span class="integer">4</span>   <span class="comment">// Maximum number of channels</span>
+<span class="preprocessor">#define</span> MAXCH   <span class="integer">4</span>   <span class="comment">// Maximum number of channels per PRU</span>
 
 <span class="preprocessor">#define</span> update(ch) \
             <span class="keyword">if</span>(onCount[ch]) {           \
@@ -2026,15 +2046,292 @@ longer than before.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_sine_wave_generator"><a class="link" href="#_sine_wave_generator">1.5. Sine Wave Generator</a></h3>
+<h3 id="_adding_more_channels_via_pru_1"><a class="link" href="#_adding_more_channels_via_pru_1">1.5. Adding More Channels via PRU 1</a></h3>
+<div class="sect3">
+<h4 id="_problem_5"><a class="link" href="#_problem_5">Problem</a></h4>
+<div class="paragraph">
+<p>You need more output channels, or you need to shorten the period.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_5"><a class="link" href="#_solution_5">Solution</a></h4>
+<div class="paragraph">
+<p>PRU 0 can output up to eight output pins (see
+&lt;&lt;#bit_positions,Mapping bit position to pin names&gt;&gt;). The code presented so far
+can be easily extended to use the eight output pins.</p>
+</div>
+<div class="paragraph">
+<p>But what if you need more channels?
+You can always use PRU1, it has 14 output pins.</p>
+</div>
+<div class="paragraph">
+<p>Or, what if four channels is enough, but you need a shorter period. Everytime
+you add a channel, the overall period gets longer.  Twice as many channels
+means twice as long a period.  If you move half the channels to PRU 1, you
+will make the period half as long.</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s the code (<code>pwm7.c</code>)</p>
+</div>
+<div class="listingblock">
+<div class="title">pwm7.c Using Both PRUs</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+</pre></td>
+  <td class="code"><pre><span class="comment">// This code does MAXCH parallel PWM channels on both PRU 0 and PRU 1</span>
+<span class="comment">// All channels start at the same time.</span>
+<span class="comment">// It's period is 510ns</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
+
+<span class="preprocessor">#define</span> PRU0_DRAM       <span class="hex">0x00000</span>         <span class="comment">// Offset to DRAM</span>
+<span class="comment">// Skip the first 0x200 byte of DRAM since the Makefile allocates</span>
+<span class="comment">// 0x100 for the STACK and 0x100 for the HEAP.</span>
+<span class="directive">volatile</span> <span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> *pru0_dram = (<span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> *) (PRU0_DRAM + <span class="hex">0x200</span>);
+
+<span class="preprocessor">#define</span> MAXCH   <span class="integer">2</span>   <span class="comment">// Maximum number of channels per PRU</span>
+
+<span class="preprocessor">#define</span> update(ch) \
+            <span class="keyword">if</span>(onCount[ch]) {           \
+                onCount[ch]--;          \
+                Rtmp |= <span class="hex">0x1</span>&lt;&lt;ch;        \
+            } <span class="keyword">else</span> <span class="keyword">if</span>(offCount[ch]) {   \
+                offCount[ch]--;         \
+                Rtmp &amp;= ~(<span class="hex">0x1</span>&lt;&lt;ch); \
+            } <span class="keyword">else</span> {                    \
+                onCount[ch] = pru0_dram[<span class="integer">2</span>*ch];  \
+                offCount[ch]= pru0_dram[<span class="integer">2</span>*ch+<span class="integer">1</span>];    \
+            }
+
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t __R30;
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t __R31;
+
+<span class="directive">void</span> main(<span class="directive">void</span>)
+{
+    uint32_t ch;
+    uint32_t on[]  = {<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>, <span class="integer">4</span>};
+    uint32_t off[] = {<span class="integer">4</span>, <span class="integer">3</span>, <span class="integer">2</span>, <span class="integer">1</span>};
+    uint32_t onCount[MAXCH], offCount[MAXCH];
+    <span class="directive">register</span> uint32_t Rtmp;
+
+    <span class="comment">/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */</span>
+    CT_CFG.SYSCFG_bit.STANDBY_INIT = <span class="integer">0</span>;
+
+<span class="preprocessor">#pragma</span> UNROLL(MAXCH)
+    <span class="keyword">for</span>(ch=<span class="integer">0</span>; ch&lt;MAXCH; ch++) {
+        pru0_dram[<span class="integer">2</span>*ch  ] = on [ch+PRUN*MAXCH]; <span class="comment">// Copy to DRAM0 so the ARM can change it</span>
+        pru0_dram[<span class="integer">2</span>*ch+<span class="integer">1</span>] = off[ch+PRUN*MAXCH]; <span class="comment">// Interleave the on and off values</span>
+        onCount[ch] = on [ch+PRUN*MAXCH];
+        offCount[ch]= off[ch+PRUN*MAXCH];
+    }
+    Rtmp = __R30;
+
+    <span class="keyword">while</span> (<span class="integer">1</span>) {
+        update(<span class="integer">0</span>)
+        update(<span class="integer">1</span>)
+        __R30 = Rtmp;
+    }
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Be sure to run <code>pwm7_setup.sh</code> to get the coffect pins configured.
+.pwm7_setup.sh</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>#!/bin/bash
+#
+export PRUN=0
+export TARGET=pwm7
+
+# Configure the PRU pins based on which Beagle is running
+machine=$(awk '{print $NF}' /proc/device-tree/model)
+echo -n $machine
+if [ $machine = "Black" ]; then
+    echo " Found"
+    pins="P9_31 P9_29 P8_45 P8_46"
+elif [ $machine = "Blue" ]; then
+    echo " Found"
+    pins=""
+elif [ $machine = "PocketBeagle" ]; then
+    echo " Found"
+    pins="P1_36 P1_33"
+else
+    echo " Not Found"
+    pins=""
+fi
+
+for pin in $pins
+do
+    echo $pin
+    config-pin $pin pruout
+    config-pin -q $pin
+done</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This makes sure the PRU 1 pins are properly configured.</p>
+</div>
+<div class="paragraph">
+<p>Then compile and run with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">bone$ make PRUN=0; make PRUN=1
+-    Stopping PRU 0
+stop
+CC  pwm7.c
+LD  /tmp/pru0-gen/pwm7.obj
+-   copying firmware file /tmp/pru0-gen/pwm7.out to /lib/firmware/am335x-pru0-fw
+-    Starting PRU 0
+start
+-    Stopping PRU 1
+stop
+CC  pwm7.c
+LD  /tmp/pru1-gen/pwm7.obj
+-   copying firmware file /tmp/pru1-gen/pwm7.out to /lib/firmware/am335x-pru1-fw
+-    Starting PRU 1
+start</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will first stop, compile and start PRU 0, then do the same for PRU 1.</p>
+</div>
+<div class="paragraph">
+<p>Moving half of the channels to PRU1 dropped the period from 510ns to 370ns, so
+we gained a bit.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_4"><a class="link" href="#_discussion_4">Discussion</a></h4>
+<div class="paragraph">
+<p>There weren&#8217;t many changes to be made.  Line 13 we set MAXCH to 2. Lines 43-46
+is where the big change is.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c">        pru0_dram[<span class="integer">2</span>*ch  ] = on [ch+PRUN*MAXCH]; <span class="comment">// Copy to DRAM0 so the ARM can change it</span>
+        pru0_dram[<span class="integer">2</span>*ch+<span class="integer">1</span>] = off[ch+PRUN*MAXCH]; <span class="comment">// Interleave the on and off values</span>
+        onCount[ch] = on [ch+PRUN*MAXCH];
+        offCount[ch]= off[ch+PRUN*MAXCH];</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The Makefile sets <code>PRUN</code> to be the number of the PRU we are compiling for.  If
+we are compiling for PRU 0, <code>on[ch+PRUN*MAXCH]</code> becomes <code>on[ch+0*2]</code> which is
+<code>on[ch]</code> which is what we had before.  But now if we are on PRU 1 it becomes
+<code>on[ch+1*2]</code> which is <code>on[ch+2]</code>.  That means we are picking up the second
+half of the <code>on</code> and <code>off</code> arrays.  The first half goes to PRU 0, the second to
+PRU 1.  So the same code can be used for both PRUs, but we get slightly different
+behavior.</p>
+</div>
+<div class="paragraph">
+<p>Running the code you will see the next figure.</p>
+</div>
+<div class="paragraph">
+<div class="title">pwm7 Two PRUs running</div>
+<p><span class="image"><img src="figures/pwm7 two prus running.png" alt="pwm7 Two PRUs running"></span></p>
+</div>
+<div class="paragraph">
+<p>What&#8217;s going on there, the first channels look fine, but the PRU 1 channels
+are blurred.  To see what&#8217;s happening, let&#8217;s stop the oscilloscope.</p>
+</div>
+<div class="paragraph">
+<div class="title">pwm7 Two PRUs stopped</div>
+<p><span class="image"><img src="figures/pwm7 two prus stopped.png" alt="pwm7 Two PRUs stopped"></span></p>
+</div>
+<div class="paragraph">
+<p>The stopped display shows that the four channels are doing what we wanted, except
+The PRU 0 channels have a period of 370ns while the PRU 1 channels at 330ns.
+It appears the compiler has optimied the two PRUs slightly differenty.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_poling_an_input_at_regular_intervals"><a class="link" href="#_poling_an_input_at_regular_intervals">1.6. Poling an Input at Regular Intervals.</a></h3>
+<div class="sect3">
+<h4 id="_problem_6"><a class="link" href="#_problem_6">Problem</a></h4>
+<div class="paragraph">
+<p>You have an input pin that need to be read at regular intervals.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_6"><a class="link" href="#_solution_6">Solution</a></h4>
+
+</div>
+<div class="sect3">
+<h4 id="_discussion_5"><a class="link" href="#_discussion_5">Discussion</a></h4>
+
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sine_wave_generator"><a class="link" href="#_sine_wave_generator">1.7. Sine Wave Generator</a></h3>
 
 </div>
 <div class="sect2">
-<h3 id="_ultrasonic_sensor_application"><a class="link" href="#_ultrasonic_sensor_application">1.6. Ultrasonic Sensor Application</a></h3>
+<h3 id="_ultrasonic_sensor_application"><a class="link" href="#_ultrasonic_sensor_application">1.8. Ultrasonic Sensor Application</a></h3>
 
 </div>
 <div class="sect2">
-<h3 id="_neopixel_driver"><a class="link" href="#_neopixel_driver">1.7. neoPixel driver</a></h3>
+<h3 id="_neopixel_driver"><a class="link" href="#_neopixel_driver">1.9. neoPixel driver</a></h3>
 
 </div>
 </div>
@@ -2042,7 +2339,7 @@ longer than before.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-15 10:03:42 EDT
+Last updated 2018-06-15 13:12:41 EDT
 </div>
 </div>
 </body>
