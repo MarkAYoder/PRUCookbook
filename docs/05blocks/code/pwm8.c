@@ -76,9 +76,9 @@ void main(void)
 	__delay_cycles(8);
 #endif
 #if PRUN==1
-	while((__R31 & (0x1<<31))==0) {			// Wait for PRU 0
+	while((__R31 & (0x1<<31))==0) {		// Wait for PRU 0
 	}
-	CT_INTC.SICR = 16;					// Ensure event 16 is cleared
+	CT_INTC.SICR = 16;					// Clear event 16
 #endif
 		__R30 = Rtmp;
 		update(0)
