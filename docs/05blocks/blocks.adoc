@@ -291,6 +291,39 @@ make it harder to maintain the code.  Instead I convered the loop into a
 This is not a function call. Whenever the preprocessor sees the `update()` 
 it copies the code an then it's compiled.
 
+This unrolling gets us an impressive 6x speedup.
+
+=== Making All the Pulses Start at the Same Time
+==== Problem
+I have a mutlichannel PWM working, but the pulses aren't synchronized, that is
+they don't all start at the same time.
+
+==== Solution
+The figure below is a zoomed in version of the previous figure. Notice the pulse in each channel starts about 15ns later than the channel above 
+it.
+
+.pwm5 Zoomed In 
+image:figures/pwm5 zoomed.png[pwm5 zoomed.png]
+
+The solution is to declare `Rtmp` (line 35) which holds the value for `__R30`.
+
+.pwm6.c Sync'ed Version of pwm5.c 
+[source,c,linenums]
+----
+include::code/pwm6.c[pwm6.c Sync'ed Version of pwm5.c]
+----
+
+Each channel writes it's value to `Rtmp` (lines 17 and 20) and then after
+each channel has updated, `Rtmp` is copied to `__R30` (line 54).
+
+==== Discussion
+The following figure shows the channel are sync'ed. Though the period is slightly
+longer than before.
+
+.pwm6 Synchronized Channels
+image:figures/pwm6 synced.png[pwm6 Synchronized Channels]
+
+
 === Sine Wave Generator
 === Ultrasonic Sensor Application
 === neoPixel driver
