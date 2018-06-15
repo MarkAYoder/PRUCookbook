@@ -31,7 +31,23 @@ Here's what `dmesg` said for the example above.
 It quickly told me I needed to add the line `#include "resource_table_empty.h"`
 to my code.
 
-=== prubug?
+=== prudebug - A Simple Debugger for the PRU
+==== Problem
+You need to examine registers and memory on the PRUs.
+
+==== Solution
+prudebug is a simple debugger for the PRUs that lets you start and stop the PRUs,
+examine the registers and memory. It can be found on GitHub 
+<https://github.com/RRvW/prudebug-rl>.  I have a version I updated to use byte
+addressing rather than word addressing.  This makes it easier to work with the
+assembler output. You can find it in my GitHug BeagleBoard repo 
+<https://github.com/MarkAYoder/BeagleBoard-exercises/tree/master/pru/prudebug>.
+
+Just download the files and type `make`.
+
+
+==== Discussion
+
 
 === UART
 

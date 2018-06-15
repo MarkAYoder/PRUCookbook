@@ -5,8 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.5">
-<meta name="author" content="Mark A. Yoder">
-<title>PRU Cookbook</title>
+<title>Accessing more I/O</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -512,11 +511,6 @@ table.CodeRay td.code>pre{padding:0}
 </head>
 <body class="article">
 <div id="header">
-<h1>PRU Cookbook</h1>
-<div class="details">
-<span id="author" class="author">Mark A. Yoder</span><br>
-<span id="email" class="email"><a href="mailto:Mark.A.Yoder@Rose-Hulman.edu">Mark.A.Yoder@Rose-Hulman.edu</a></span><br>
-</div>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
@@ -683,28 +677,28 @@ GPIO pins, but it&#8217;s a slower access.</p>
 <span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
 
-<span class="preprocessor">#define</span> GPIO0        <span class="hex">0x44e07000</span>                <span class="comment">// GPIO Bank 0  See Table 2.2 of TRM </span><b class="conum">(1)</b>
-<span class="preprocessor">#define</span> GPIO1        <span class="hex">0x4804c000</span>                <span class="comment">// GPIO Bank 1</span>
-<span class="preprocessor">#define</span> GPIO2        <span class="hex">0x481ac000</span>                <span class="comment">// GPIO Bank 2</span>
-<span class="preprocessor">#define</span> GPIO3        <span class="hex">0x481ae000</span>                <span class="comment">// GPIO Bank 3</span>
-<span class="preprocessor">#define</span> GPIO_CLEARDATAOUT        <span class="hex">0x190</span>        <span class="comment">// For clearing the GPIO registers</span>
-<span class="preprocessor">#define</span> GPIO_SETDATAOUT                <span class="hex">0x194</span>        <span class="comment">// For setting the GPIO registers</span>
-<span class="preprocessor">#define</span> GPIO_DATAOUT                <span class="hex">0x138</span>        <span class="comment">// For reading the GPIO registers</span>
-<span class="preprocessor">#define</span> P9_11        (<span class="hex">0x1</span>&lt;&lt;<span class="integer">30</span>)                        <span class="comment">// Bit position tied to P9_11</span>
+<span class="preprocessor">#define</span> GPIO0   <span class="hex">0x44e07000</span>      <span class="comment">// GPIO Bank 0  See Table 2.2 of TRM </span><b class="conum">(1)</b>
+<span class="preprocessor">#define</span> GPIO1   <span class="hex">0x4804c000</span>      <span class="comment">// GPIO Bank 1</span>
+<span class="preprocessor">#define</span> GPIO2   <span class="hex">0x481ac000</span>      <span class="comment">// GPIO Bank 2</span>
+<span class="preprocessor">#define</span> GPIO3   <span class="hex">0x481ae000</span>      <span class="comment">// GPIO Bank 3</span>
+<span class="preprocessor">#define</span> GPIO_CLEARDATAOUT   <span class="hex">0x190</span>   <span class="comment">// For clearing the GPIO registers</span>
+<span class="preprocessor">#define</span> GPIO_SETDATAOUT     <span class="hex">0x194</span>   <span class="comment">// For setting the GPIO registers</span>
+<span class="preprocessor">#define</span> GPIO_DATAOUT        <span class="hex">0x138</span>   <span class="comment">// For reading the GPIO registers</span>
+<span class="preprocessor">#define</span> P9_11   (<span class="hex">0x1</span>&lt;&lt;<span class="integer">30</span>)           <span class="comment">// Bit position tied to P9_11</span>
 
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t __R30;
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t __R31;
 
 <span class="directive">void</span> main(<span class="directive">void</span>)
 {
-        uint32_t *gpio0 = (uint32_t *)GPIO0;
+    uint32_t *gpio0 = (uint32_t *)GPIO0;
 
-        <span class="keyword">while</span>(<span class="integer">1</span>) {
-                gpio0[GPIO_SETDATAOUT/<span class="integer">4</span>] = P9_11;
-                __delay_cycles(<span class="integer">0</span>);
-                gpio0[GPIO_CLEARDATAOUT/<span class="integer">4</span>] = P9_11;
-                __delay_cycles(<span class="integer">0</span>);
-        }
+    <span class="keyword">while</span>(<span class="integer">1</span>) {
+        gpio0[GPIO_SETDATAOUT/<span class="integer">4</span>] = P9_11;
+        __delay_cycles(<span class="integer">0</span>);
+        gpio0[GPIO_CLEARDATAOUT/<span class="integer">4</span>] = P9_11;
+        __delay_cycles(<span class="integer">0</span>);
+    }
 }</pre></td>
 </tr></table></code></pre>
 </div>
@@ -790,7 +784,7 @@ bone$ export TARGET=pwm1
 bone$ make
 -    Stopping PRU 0
 stop
--        copying firmware file /tmp/pru0-gen/gpio1.out to /lib/firmware/am335x-pru0-fw
+-   copying firmware file /tmp/pru0-gen/gpio1.out to /lib/firmware/am335x-pru0-fw
 -    Starting PRU 0
 start</code></pre>
 </div>
