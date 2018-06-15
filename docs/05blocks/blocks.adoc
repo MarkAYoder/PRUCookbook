@@ -426,8 +426,45 @@ It appears the compiler has optimied the two PRUs slightly differenty.
 I need to synchronize the two PRUs so they run together.
 
 ==== Solution
+Use the Interrupt Controller (INTC).  It allows one PRU to signal the other.
+Page 225 of the 
+https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]
+has details of how it works.  Here's the code (`pwm8.c`).
+
+.pwm8.c Using INTC to signal from one PRU to the other
+[source,c,linenums]
+----
+include::code/pwm8.c[pwm8.c Using INTC to signal from one PRU to the other]
+----
+
+In `pwm8.c` PRU 1 waits for a signal from PRU 0, so be sure to start PRU 1 first.
+`bone$ *make PRUN=1; make PRUN=0*
 
 ==== Discussion
+The figure below shows the two PRUs are synchronized, though there is some extra
+overhead in the process so the period is longer.
+
+.pwm8 PRUs sycned
+image:figures/pwm8 prus sycned.png[pwm8 PRUs sycned]
+
+This isn't much different from the previous examples.
+.pwm8.c changes from pwm7.c 
+|===
+|Line|Change
+
+|32-45|For PRU 0 these define `configInitc()` which initializes the interupts.
+See page 226 of the 
+https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]
+for a diagram explaining events, channels, hosts, etc.
+|55-58|Set a configuration register and call `configInitc`.
+
+|73-77|On PRU 0 this generates the interupt to send to PRU 1.  I found PRU 1 was 
+slow to respond to the interupt, so I added some `__delay_cycles()` to keep the
+two in sync.
+|78-82|PRU 1 then waits for PRU 0 to signal it.  Bit 31 of `__R31` corresponds
+to the Host-1 channel which `configInitc()` set up. We also clear event 16 so 
+PRU 0 can set it again.
+|===
 
 === Poling an Input at Regular Intervals.
 ==== Problem
