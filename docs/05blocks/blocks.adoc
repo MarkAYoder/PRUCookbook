@@ -250,9 +250,46 @@ But we can do better.
 The ARM controlled code runs too slowly.
 
 ==== Solution
-Simple loops unrolling can greatly improve the speed.
+Simple loops unrolling can greatly improve the speed.  `pwm5.c` is our unrolled
+version.
+
+.pwm5.c Unrolled
+[source,c,linenums]
+----
+include::code/pwm5.c[pwm5.c]
+----
+
+The output of `pwm5.c` is in the figure below.
+
+.pwm5.c Unrolled version of pwm4.c
+image:figures/pwm5 - no loop.png[pwm5.c Unrolled version of pwm4.c]
+
+It's running about 6 times faster than `pwm4.c`.
+
+.pwm4.c vs. pwm5.c
+|===
+|Measure|pwm4.c time|pwm5.c time|Speedup|pwm5.c w/o UNROLL|Speedup
+
+|Period|3.06&mu;s   |510ns      |6x     |1.81&mu;s      |~1.7x
+|Width+|450ns       |70ns       |~6x    |1.56&mu;s      |~.3x
+|===
+
+Not a bad speed up for just a couple of simple changes.
 
 ==== Discussion
+Here's how it works.
+First look at line 39.  You see `#pragma UNROLL(MAXCH)` which is a `pragma`
+that tells the compiler to unroll the loop that follows.  We are unrolling it
+`MAXCH` times (four times in this example). Just removing the `pragma` causes
+the speedup compared to the `pwm4.c` case to drop from 6x to only 1.7x.  
+
+We also have our `for` loop inside the `while` loop that can be unrolled.
+Unfortunately `UNROLL()` doesn't work on it, therefore we have to do it by
+hand. We could take the loop and just copy it three times, but that would
+make it harder to maintain the code.  Instead I convered the loop into a 
+`#define` (lines 14-24) and invoked `update()` as needed (lines 48-51).
+This is not a function call. Whenever the preprocessor sees the `update()` 
+it copies the code an then it's compiled.
 
 === Sine Wave Generator
 === Ultrasonic Sensor Application
