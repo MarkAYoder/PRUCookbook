@@ -18,6 +18,7 @@ Here we present
 * LEDscape <https://github.com/Yona-Appletree/LEDscape>
 * MachineKit <http://www.machinekit.io/>
 * ArduPilot <http://ardupilot.org/>, <http://ardupilot.org/dev/docs/beaglepilot.html>
+* BeagleScope <https://github.com/ZeekHuge/BeagleScope>
 
 The following are resources used in this chapter.
 

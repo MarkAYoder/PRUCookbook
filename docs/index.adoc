@@ -21,6 +21,7 @@ compiling on the Beagle
   ** [ ] LEDscape
   ** [ ] MachineKit
   ** [ ] ArduPilot
+  ** [ ] BeagleScope
   
 . link:03details/details.html[Details on compiling and running a file]
   ** [x] Compiling and Running
