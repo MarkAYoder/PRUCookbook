@@ -59,16 +59,18 @@ You need to control eight servos, but the Bone doesn't have enough PWMs.
 ==== Solution
 The Robotics Control Library provides eight additional PWM channels via the PRU that can be used out of the box.  Just run:
 [source,bash]
+[subs=+quotes]
 ----
-bone$ sudo rc_test_servos -f 10 -p 1.5
+bone$ *sudo rc_test_servos -f 10 -p 1.5*
 ----
 
 The `-f 10` says to use a frequency of 10 Hz and the `-p 1.5` says to set the position to `1.5`.  The range of positions is
 `-1.5` to `1.5`.   Run `rc_test_servos -h` to see all the options.
 
 [source,bash]
+[subs=+quotes]
 ----
-bone$ rc_test_servos -h
+bone$ *rc_test_servos -h*
 
  Options
  -c {channel}   Specify one channel from 1-8.
@@ -143,8 +145,9 @@ I want to use four encoders to measure four motors, but I only see hardware for 
 The forth encoder can be implemented on the PRU. If you run `rc_test_encoders_eqep` on the Blue, you will see the output of 
 encoders E1-E3 which are connected to the eEQP hardware.
 [source,bash]
+[subs=+quotes]
 ----
-bone$ rc_test_encoders_eqep 
+bone$ *rc_test_encoders_eqep* 
 
 Raw encoder positions
       E1   |      E2   |      E3   | 
@@ -185,8 +188,9 @@ needs root permission, so the `sudo` is needed.
 ====
 Here's what you will see
 [source,bash]
+[subs=+quotes]
 ----
-bone$ sudo rc_test_encoders_pru 
+bone$ *sudo rc_test_encoders_pru*
 [sudo] password for debian: 
 
 Raw encoder position

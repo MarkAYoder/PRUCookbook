@@ -573,7 +573,7 @@ Here are some details on how it works.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>bone$ git clone https://github.com/MarkAYoder/PRUCookbook.git</pre>
+<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>git clone https://github.com/MarkAYoder/PRUCookbook.git</strong></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -581,9 +581,9 @@ Here are some details on how it works.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>bone$ cd PRUCookbook/doc/06io/code
-bone$ ls
-AM335x_PRU.cmd  gpio1.c  gpio_setup.sh  Makefile  resource_table_empty.h</pre>
+<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>cd PRUCookbook/doc/06io/code</strong>
+bone$ <strong>ls</strong>
+AM335x_PRU.cmd  gpio1.c  gpio_setup.sh  Makefile  resource_table_empty.h</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -591,10 +591,10 @@ AM335x_PRU.cmd  gpio1.c  gpio_setup.sh  Makefile  resource_table_empty.h</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>bone$ source gpio_setup.sh
+<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>source gpio_setup.sh</strong>
 Black Found
 P9_11
-P9_11 Mode: gpio Direction: out Value: 0</pre>
+P9_11 Mode: gpio Direction: out Value: 0</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -602,13 +602,13 @@ P9_11 Mode: gpio Direction: out Value: 0</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>bone$ make
+<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>make</strong>
 -    Stopping PRU 0
 [sudo] password for debian:
 stop
 -   copying firmware file /tmp/pru0-gen/gpio1.out to /lib/firmware/am335x-pru0-fw
 -    Starting PRU 0
-start</pre>
+start</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -618,7 +618,7 @@ start</pre>
 <div class="sect3">
 <h4 id="_discussion"><a class="link" href="#_discussion">Discussion</a></h4>
 <div class="paragraph">
-<p>The <code>setup.sh</code> file set <code>PRUN</code> to the number of the PRU you are using and
+<p>The <code>setup.sh</code> file sets <code>PRUN</code> to the number of the PRU you are using and
 <code>TARGET</code> to the file you want to compile.</p>
 </div>
 <div class="listingblock">
@@ -652,8 +652,8 @@ and then restarts the PRU.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>bone$ make stop
-bone$ make start</pre>
+<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>make stop</strong>
+bone$ <strong>make start</strong></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -666,8 +666,8 @@ the other PRU use:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>bone$ make PRUN=1 stop
-bone$ make PRUN=1 start</pre>
+<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>make PRUN=1 stop</strong>
+bone$ <strong>make PRUN=1 start</strong></code></pre>
 </div>
 </div>
 </div>
@@ -956,7 +956,7 @@ They are called <code>clpru</code> and <code>lnkpru</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bone$ `which clpru`
+<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>which clpru</strong>
 /usr/bin/clpru</code></pre>
 </div>
 </div>
@@ -979,7 +979,7 @@ They are called <code>clpru</code> and <code>lnkpru</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>bone$ ls /usr/bin/*pru
+<pre>bone$ <strong>ls /usr/bin/*pru</strong>
 /usr/bin/abspru    /usr/bin/dempru      /usr/bin/nmpru
 /usr/bin/acpiapru  /usr/bin/dispru      /usr/bin/ofdpru
 /usr/bin/arpru     /usr/bin/embedpru    /usr/bin/optpru
@@ -1317,7 +1317,7 @@ to look for the code to run on the PRU.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-15 10:36:15 EDT
+Last updated 2018-06-18 10:55:43 EDT
 </div>
 </div>
 </body>

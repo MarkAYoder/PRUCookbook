@@ -36,7 +36,7 @@ footnote:[Roadmap-wise, I'd want to consider how to plug RPMsg into a printf fun
   ** [ ] LED and switch for debugging
   ** [ ] Oscilloscope
   ** [x] dmesg –Hw
-  ** [ ] prudebug
+  ** [x] prudebug
   ** [x] UART
   
 . link:05blocks/blocks.html[Building Blocks – Applications]

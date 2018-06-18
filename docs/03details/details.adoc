@@ -20,28 +20,36 @@ I just want to compile and run an example.
 
 ==== Solution
 First install the code.
+[source,bash]
+[subs=+quotes]
 ----
-bone$ git clone https://github.com/MarkAYoder/PRUCookbook.git
+bone$ *git clone https://github.com/MarkAYoder/PRUCookbook.git*
 ----
 
 Then change to the directory of the code you want to run.
+[source,bash]
+[subs=+quotes]
 ----
-bone$ cd PRUCookbook/doc/06io/code
-bone$ ls
+bone$ *cd PRUCookbook/doc/06io/code*
+bone$ *ls*
 AM335x_PRU.cmd  gpio1.c  gpio_setup.sh  Makefile  resource_table_empty.h
 ----
 
 Source the `setup.sh` file.
+[source,bash]
+[subs=+quotes]
 ----
-bone$ source gpio_setup.sh
+bone$ *source gpio_setup.sh*
 Black Found
 P9_11
 P9_11 Mode: gpio Direction: out Value: 0
 ----
 
 Now you are ready to compile and run.  This is automated for you in the Makefile
+[source,bash]
+[subs=+quotes]
 ----
-bone$ make
+bone$ *make*
 -    Stopping PRU 0
 [sudo] password for debian: 
 stop
@@ -53,7 +61,7 @@ start
 Congratulations, your are now running a PRU.
 
 ==== Discussion
-The `setup.sh` file set `PRUN` to the number of the PRU you are using and
+The `setup.sh` file sets `PRUN` to the number of the PRU you are using and
 `TARGET` to the file you want to compile.
 
 ----
@@ -73,18 +81,22 @@ I want to stop and start the PRU.
 
 ==== Solution
 It's easy.
+[source,bash]
+[subs=+quotes]
 ----
-bone$ make stop
-bone$ make start
+bone$ *make stop*
+bone$ *make start*
 ----
 See <<../04debug/debug.html#_dmesg_hw,dmesg -Hw>> to see how to tell if the PRU
 is stopped.
 
 This assumes `PRUN` is set to the PRU you are using.  If you want to control
 the other PRU use:
+[source,bash]
+[subs=+quotes]
 ----
-bone$ make PRUN=1 stop
-bone$ make PRUN=1 start
+bone$ *make PRUN=1 stop*
+bone$ *make PRUN=1 start*
 ----
 
 
@@ -179,8 +191,9 @@ You need details on the c compiler, linker and other tools for the PRU.
 The PRU compiler and linker are already installed on the standard images.
 They are called `clpru` and `lnkpru`.
 [source,bash]
+[subs=+quotes]
 ----
-bone$ `which clpru`
+bone$ *which clpru*
 /usr/bin/clpru
 ----
 Details on each can be found here:
@@ -190,8 +203,9 @@ Details on each can be found here:
 
 If fact the are PRU versions of many of the standard code generation tools.
 .code tools[source,bash]
+[subs=+quotes]
 ----
-bone$ ls /usr/bin/*pru
+bone$ *ls /usr/bin/*pru*
 /usr/bin/abspru    /usr/bin/dempru      /usr/bin/nmpru
 /usr/bin/acpiapru  /usr/bin/dispru      /usr/bin/ofdpru
 /usr/bin/arpru     /usr/bin/embedpru    /usr/bin/optpru
@@ -216,7 +230,6 @@ where to put what.
 ----
 include::code/AM335x_PRU.cmd[AM335x_PRU.cmd]
 ----
-//TODO This file isn't displaying well.
 
 ==== Discussion
 

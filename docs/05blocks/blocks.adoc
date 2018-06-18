@@ -32,24 +32,30 @@ include::code/pwm1.c[]
 ----
 
 To run this code you need to configure the pin muxes to output the PRU.  If you are on the Black run
-[source,bash,linenums] 
+[source,bash] 
+[subs=+quotes]
 ----
-config-pin P9_31 pruout
+bone$ *config-pin P9_31 pruout*
 ----
 On the Pocket run
-[source,bash,linenums] 
+[source,bash] 
+[subs=+quotes]
 ----
-config-pin P1_36 pruout
+bone$ *config-pin P1_36 pruout*
 ----
 Then, tell Makefile which PRU you are compiling for and what your target file is
-
-  bone$ export PRUN=0
-  bone$ export TARGET=pwm1
+[source,bash]
+[subs=+quotes]
+----
+bone$ *export PRUN=0*
+bone$ *export TARGET=pwm1*
+----
 
 Now you are ready to compile
 [source,bash,linenums] 
+[subs=+quotes]
 ----
-bone$ make
+bone$ *make*
 -    Stopping PRU 0
 stop
 CC	pwm1.c
@@ -101,7 +107,7 @@ https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manua
 
 Bit 0 is the LSB.
 
-[#bit_positions]
+[[blocks_mapping_bits]]
 .Mapping bit positions to pin names
 |===
 |PRU|Bit|Black pin|Blue pin|Pocket pin
@@ -365,8 +371,9 @@ This makes sure the PRU 1 pins are properly configured.
 
 Then compile and run with
 [source,bash]
+[subs=+quotes]
 ----
-bone$ make PRUN=0; make PRUN=1
+bone$ *make PRUN=0; make PRUN=1*
 -    Stopping PRU 0
 stop
 CC	pwm7.c
@@ -465,12 +472,36 @@ slow to respond to the interupt, so I put this code at the end of the loop to
 give time for the signal to get to PRU 1.
 |===
 
-=== Poling an Input at Regular Intervals.
+=== Reading an Input at Regular Intervals
 ==== Problem
-You have an input pin that need to be read at regular intervals.
+You have an input pin that needs to be read at regular intervals.
 
 ==== Solution
+You can use the `__R31` register to read an input pin. Let's use the following
+pins.
+[[blocks_io_pins]]
+.Input/Output pins
+|===
+|Direction|Bit number|Black|Pocket
+|out      |0         |P9_31|P1.36
+|in       |7         |P9_25|P1.29
+|===
+These values came from <<blocks_mapping_bits>>.
 
+Configure the pins with `input_setup.sh`.
+
+.input_setup.sh
+[source,bash,linenums]
+----
+include::code/input_setup.sh[]input_setup.sh]
+----
+
+The following code reads the input pin and writes its value to the output pin.
+.input1.c
+[source,c,linenums]
+----
+include::code/input1.c[input1.c]
+----
 
 ==== Discussion
 

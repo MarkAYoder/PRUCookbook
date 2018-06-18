@@ -18,8 +18,9 @@ When I try ton configure some pins on the `P8` header of the Black I get an erro
 
 .config-pin
 [source,bash]
+[subs=+quotes]
 ----
-bone$ config-pin P8_28 pruout
+bone$ *config-pin P8_28 pruout*
 P8_27 pinmux file not found!
 Pin has no cape: P8_27
 ----
@@ -88,10 +89,11 @@ are are using the OCP interface to the pin, not the usual PRU interface.
 
 Set your exports and make.
 [source,bash] 
+[subs=+quotes]
 ----
-bone$ export PRUN=0
-bone$ export TARGET=pwm1
-bone$ make
+bone$ *export PRUN=0*
+bone$ *export TARGET=pwm1*
+bone$ *make*
 -    Stopping PRU 0
 stop
 -	copying firmware file /tmp/pru0-gen/gpio1.out to /lib/firmware/am335x-pru0-fw

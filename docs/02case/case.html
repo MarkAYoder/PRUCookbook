@@ -567,6 +567,9 @@ chapters you will see the details.</p>
 <li>
 <p>ArduPilot <a href="http://ardupilot.org/" class="bare">http://ardupilot.org/</a>, <a href="http://ardupilot.org/dev/docs/beaglepilot.html" class="bare">http://ardupilot.org/dev/docs/beaglepilot.html</a></p>
 </li>
+<li>
+<p>BeagleScope <a href="https://github.com/ZeekHuge/BeagleScope" class="bare">https://github.com/ZeekHuge/BeagleScope</a></p>
+</li>
 </ul>
 </div>
 <div class="paragraph">
@@ -688,7 +691,7 @@ assigns <code>pins</code> a list of pins to configure.  Then the last part of th
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bone$ sudo rc_test_servos -f 10 -p 1.5</code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>sudo rc_test_servos -f 10 -p 1.5</strong></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -697,7 +700,7 @@ assigns <code>pins</code> a list of pins to configure.  Then the last part of th
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bone$ rc_test_servos -h
+<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>rc_test_servos -h</strong>
 
  Options
  -c {channel}   Specify one channel from 1-8.
@@ -853,7 +856,7 @@ encoders E1-E3 which are connected to the eEQP hardware.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bone$ rc_test_encoders_eqep
+<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>rc_test_encoders_eqep</strong>
 
 Raw encoder positions
       E1   |      E2   |      E3   |
@@ -1021,7 +1024,7 @@ needs root permission, so the <code>sudo</code> is needed.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bone$ sudo rc_test_encoders_pru
+<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>sudo rc_test_encoders_pru</strong>
 [sudo] password for debian:
 
 Raw encoder position
@@ -1084,7 +1087,7 @@ motors, stepper motors, relays, and other devices related to machine tools.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-14 15:02:56 EDT
+Last updated 2018-06-18 10:44:03 EDT
 </div>
 </div>
 </body>
