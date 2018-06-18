@@ -27,5 +27,6 @@ include::05blocks/blocks.adoc[]
 :imagesdir: ./06io
 include::06io/io.adoc[]
 
+<<<
 [index]
 == Index
