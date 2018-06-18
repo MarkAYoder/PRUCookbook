@@ -36,7 +36,7 @@ to my code.
 You need to examine registers and memory on the PRUs.
 
 ==== Solution
-prudebug is a simple debugger for the PRUs that lets you start and stop the PRUs,
+`prudebug` is a simple debugger for the PRUs that lets you start and stop the PRUs and
 examine the registers and memory. It can be found on GitHub 
 <https://github.com/RRvW/prudebug-rl>.  I have a version I updated to use byte
 addressing rather than word addressing.  This makes it easier to work with the
@@ -45,8 +45,150 @@ assembler output. You can find it in my GitHug BeagleBoard repo
 
 Just download the files and type `make`.
 
-
 ==== Discussion
+Once `prudebug` is installed is rather easy to use.
+
+[source,bash]
+[subs=+quotes]
+----
+bone$ *sudo prudebug*
+PRU Debugger v0.25
+(C) Copyright 2011, 2013 by Arctica Technologies.  All rights reserved.
+Written by Steven Anderson
+
+Using /dev/mem device.
+Processor type		AM335x
+PRUSS memory address	0x4a300000
+PRUSS memory length	0x00080000
+
+         offsets below are in 32-bit byte addresses (not ARM byte addresses)
+         PRU            Instruction    Data         Ctrl
+         0              0x00034000     0x00000000   0x00022000
+         1              0x00038000     0x00002000   0x00024000
+----
+You get help by entering `help`.  You cal also enter `hb` to get a brief help.
+[source.bash]
+[subs=+quotes]
+
+----
+PRU0> *hb*
+Command help
+
+    BR [breakpoint_number [address]] - View or set an instruction breakpoint
+    D memory_location_ba [length] - Raw dump of PRU data memory (32-bit byte offset from beginning of full PRU memory block - all PRUs)
+    DD memory_location_ba [length] - Dump data memory (32-bit byte offset from beginning of PRU data memory)
+    DI memory_location_ba [length] - Dump instruction memory (32-bit byte offset from beginning of PRU instruction memory)
+    DIS memory_location_ba [length] - Disassemble instruction memory (32-bit byte offset from beginning of PRU instruction memory)
+    G - Start processor execution of instructions (at current IP)
+    GSS - Start processor execution using automatic single stepping - this allows running a program with breakpoints
+    HALT - Halt the processor
+    L memory_location_iwa file_name - Load program file into instruction memory
+    PRU pru_number - Set the active PRU where pru_number ranges from 0 to 1
+    Q - Quit the debugger and return to shell prompt.
+    R - Display the current PRU registers.
+    RESET - Reset the current PRU
+    SS - Single step the current instruction.
+    WA [watch_num [address [value]]] - Clear or set a watch point
+    WR memory_location_ba value1 [value2 [value3 ...]] - Write a 32-bit value to a raw (offset from beginning of full PRU memory block)
+    WRD memory_location_ba value1 [value2 [value3 ...]] - Write a 32-bit value to PRU data memory for current PRU
+    WRI memory_location_ba value1 [value2 [value3 ...]] - Write a 32-bit value to PRU instruction memory for current PRU
+
+----
+Initially you are talking to PRU 0.  You can enter `pru 1` to talk to PRU 1.
+The commands I find most use are, `r`, to see the registers.
+[source,bash]
+[subs=+quotes]
+----
+PRU0> *r*
+Register info for PRU0
+    Control register: 0x00008003
+      Reset PC:0x0000  RUNNING, FREE_RUN, COUNTER_DISABLED, NOT_SLEEPING, PROC_ENABLED
+
+    Program counter: 0x0030
+      Current instruction: ADD R0.b0, R0.b0, R0.b0
+
+    Rxx registers not available since PRU is RUNNING.
+----
+Notice the PRU has to be stopped to see the resster contents.
+[source,bash]
+[subs=+quotes]
+----
+PRU0> *h*
+PRU0 Halted.
+PRU0> *r*
+Register info for PRU0
+    Control register: 0x00000001
+      Reset PC:0x0000  STOPPED, FREE_RUN, COUNTER_DISABLED, NOT_SLEEPING, PROC_DISABLED
+
+    Program counter: 0x0028
+      Current instruction: LBBO R15, R15, 4, 4
+
+    R00: 0x00000000    R08: 0x00000000    R16: 0x00000001    R24: 0x00000002
+    R01: 0x00000000    R09: 0xaf40dcf2    R17: 0x00000000    R25: 0x00000003
+    R02: 0x000000dc    R10: 0xd8255b1b    R18: 0x00000003    R26: 0x00000003
+    R03: 0x000f0000    R11: 0xc50cbefd    R19: 0x00000100    R27: 0x00000002
+    R04: 0x00000000    R12: 0xb037c0d7    R20: 0x00000100    R28: 0x8ca9d976
+    R05: 0x00000009    R13: 0xf48bbe23    R21: 0x441fb678    R29: 0x00000002
+    R06: 0x00000000    R14: 0x00000134    R22: 0xc8cc0752    R30: 0x00000000
+    R07: 0x00000009    R15: 0x00000200    R23: 0xe346fee9    R31: 0x00000000
+
+----
+You can resume using `g` which starts right where you left off, or use `reset` to
+resstart back at the beginning.
+
+The `dd` command dumps the memory.  Keep in mind the following.
+.Important memory locations
+[cols="1,9"]
+|===
+|Address|Contents
+
+|0x00000|Start of the stack for PRU 0.  The file ((AM335x_PRU.cmd)) specifies 
+where the stack is.
+|0x00100|Start of the help for PRU 0.
+|0x00200|Start of DRAM that your programs can use.  The ((Makefile)) specifies
+the size of the ((stack)) and the ((heap)).
+|0x10000|Start of the memory shared between the PRUs.
+|===
+
+Using `dd` with no address prints the next section of memory.
+[source,bash]
+[subs=+quotes]
+----
+PRU0> *dd*
+dd 
+Absolute addr = 0x0000, offset = 0x0000, Len = 16
+[0x0000] 0x00000000 0x00000000 0x00000000 0x00000000 
+[0x0010] 0x00000000 0x00000000 0x00000000 0x00000000 
+[0x0020] 0x00000000 0x00000000 0x00000000 0x00000000 
+[0x0030] 0x00000000 0x00000000 0x00000000 0x00000000 
+
+PRU0> *dd 0x100*
+dd 0x100
+Absolute addr = 0x0100, offset = 0x0000, Len = 16
+[0x0100] 0x00000001 0x00000002 0x00000003 0x00000004 
+[0x0110] 0x00000004 0x00000003 0x00000002 0x00000001 
+[0x0120] 0x00000001 0x00000000 0x00000000 0x00000000 
+[0x0130] 0x00000000 0x00000200 0x862e5c18 0xfeb21aca 
+
+PRU0> *dd 0x200*
+dd 0x200
+Absolute addr = 0x0200, offset = 0x0000, Len = 16
+[0x0200] 0x00000001 0x00000004 0x00000002 0x00000003 
+[0x0210] 0x00000003 0x00000011 0x00000004 0x00000010 
+[0x0220] 0x0a4fe833 0xb222ebda 0xe5575236 0xc50cbefd 
+[0x0230] 0xb037c0d7 0xf48bbe23 0x88c460f0 0x011550d4 
+
+PRU0> *dd 0x10000*
+dd 0x10000
+Absolute addr = 0x10000, offset = 0x0000, Len = 16
+[0x10000] 0x8ca9d976 0xebcb119e 0x3aebce31 0x68c44d8b 
+[0x10010] 0xc370ba7e 0x2fea993b 0x15c67fa5 0xfbf68557 
+[0x10020] 0x5ad81b4f 0x4a55071a 0x48576eb7 0x1004786b 
+[0x10030] 0x2265ebc6 0xa27b32a0 0x340d34dc 0xbfa02d4b
+----
+
+You can also use `prudebug` to set breakpoints and signle step, but I haven't 
+used that feature much.
 
 
 === UART
@@ -84,15 +226,17 @@ bone$ config-pin P9_26 pru_uart
 Set the following variables so `make` will know what to compile.
 .make
 [source,bash,linenums] 
+[subs=+quotes]
 ----
-bone$ export PRUN=0
-bone$ export TARGET=uart1
-bone$ make
+bone$ *export PRUN=0*
+bone$ *export TARGET=uart1*
+bone$ *make*
 ----
 Now `make` will compile, load PRU0 and start it.  In a terminal window run
 [source,bash,linenums] 
+[subs=+quotes]
 ----
-bone$ screen /dev/ttyUSB0 115200
+bone$ *screen /dev/ttyUSB0 115200*
 ----
 
 It will initially display the first charters (`H`) and then as you enter
@@ -129,10 +273,11 @@ debugging information.
 If you want to try `uart2.c`, run the following:
 .make
 [source,bash,linenums]
+[subs=+quotes]
 ----
-bone$ export PRUN=0
-bone$ export TARGET=uart2
-bone$make
+bone$ *export PRUN=0*
+bone$ *export TARGET=uart2*
+bone$ *make*
 ----
 
 You will see:

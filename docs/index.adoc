@@ -40,6 +40,7 @@ footnote:[Roadmap-wise, I'd want to consider how to plug RPMsg into a printf fun
   
 . link:05blocks/blocks.html[Building Blocks – Applications]
   ** [x] PWM generator
+  ** [ ] Encoder
   ** [ ] Sine Wave Generator
   ** [ ] Ultrasonic Sensor Application
   ** [ ] neoPixel driver
