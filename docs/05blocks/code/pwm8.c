@@ -29,7 +29,7 @@ volatile unsigned int *pru0_dram = (unsigned int *) (PRU0_DRAM + 0x200);
 volatile register uint32_t __R30;
 volatile register uint32_t __R31;
 
-// Initialize intrupts so the PRUs can be syncronized.
+// Initialize interupts so the PRUs can be syncronized.
 // PRU1 is started first and then waits for PRU0
 // PRU0 is then started and tells PRU1 when to start going
 #if PRUN==0
@@ -81,6 +81,7 @@ void main(void)
 #if PRUN==0
 #define PRU0_PRU1_EVT 16
 		__R31 = (PRU0_PRU1_EVT-16) | (0x1<<5);	//Tell PRU 1 to start
+		__delay_cycles(1);
 #endif
 	}
 }
