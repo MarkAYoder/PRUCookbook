@@ -1,5 +1,7 @@
 include::../header.adoc[]
 
+include::../copyright.adoc[copyright]
+
 == Debugging and Benchmarking
 
 Here's where we learn how to debug. On of the challenges is getting debug
@@ -299,4 +301,11 @@ Here's the code (`uart2.c`) that does it.
 [source,c,linenums]
 ----
 include::code/uart2.c[uart2.c]
+----
+
+=== Copyright
+[source,c,linenums]
+.copyright.c
+----
+include::code/copyright.c[copyright.c]
 ----

@@ -1,0 +1,4 @@
+These examples are based on other's examples.  The copyright headers
+have been removed from the code for claity and reproduced at the end of the
+chaper.
+

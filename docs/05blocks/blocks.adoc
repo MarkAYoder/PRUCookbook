@@ -10,6 +10,8 @@ The following are resources used in this chapter.
 * http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler, v2.2, User's Guide]
 * https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]
 
+include::../copyright.adoc[copyright]
+
 === PWM generator
 One of the simplest things a PRU can to is generate a simple
 problems starting with a single channel PWM that has a fixed frequency and
@@ -509,3 +511,10 @@ include::code/input1.c[input1.c]
 === Sine Wave Generator
 === Ultrasonic Sensor Application
 === neoPixel driver
+
+=== Copyright
+[source,c,linenums]
+.copyright.c
+----
+include::code/copyright.c[copyright.c]
+----

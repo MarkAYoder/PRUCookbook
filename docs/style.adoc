@@ -54,3 +54,10 @@ Here is a test.
 
 [[tag]]
 <<05blocks/blocks.html#, Building Blocks - Applications>>
+
+=== Copyright
+[source,c,linenums]
+.copyright.c
+----
+include::code/copyright.c[copyright.c]
+----
