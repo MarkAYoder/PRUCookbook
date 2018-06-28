@@ -213,6 +213,7 @@ The second example (`uart2.c`) prints out a string and then waits for characters
 Once an ENTER appears the string is sent back.
 
 For either of these you will need to set the pin muxes.
+
 .config-pin
 [source,bash,linenums] 
 ----
@@ -226,6 +227,7 @@ bone$ config-pin P9_26 pru_uart
 
 ===== uart1.c
 Set the following variables so `make` will know what to compile.
+
 .make
 [source,bash,linenums] 
 [subs=+quotes]
@@ -273,6 +275,7 @@ debugging information.
 
 ===== uart2.c
 If you want to try `uart2.c`, run the following:
+
 .make
 [source,bash,linenums]
 [subs=+quotes]
