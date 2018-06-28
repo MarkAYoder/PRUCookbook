@@ -458,6 +458,7 @@ image:figures/pwm8 prus sycned.png[pwm8 PRUs sycned]
 
 This isn't much different from the previous examples.
 .pwm8.c changes from pwm7.c 
+[cols="1,9"]
 |===
 |Line|Change
 
