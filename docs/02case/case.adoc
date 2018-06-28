@@ -5,7 +5,8 @@ include::../header.adoc[]
 The **P**rogrammable **R**eal-Time **U**nit (PRU) has two 32-bit cores which run
 independently of the ARM processor that is running Linux.  Therefore they can
 be programmed to respond quickly to inputs and produce very precisely timed 
-outputs. A good way to learn how to use the PRUs is to study how others have 
+outputs. There are many projects that use the PRU (<http://processors.wiki.ti.com/index.php/PRU_Projects>).
+A good way to learn how to use the PRUs is to study how others have 
 used them.  Here we present some case studies that do just that.  
 
 In these study you'll see a high-level view of using the PRUs.  In later

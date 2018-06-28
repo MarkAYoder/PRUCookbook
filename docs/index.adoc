@@ -23,7 +23,7 @@ compiling on the Beagle
   ** [ ] ArduPilot
   ** [ ] BeagleScope
   
-. link:03details/details.html[Details on compiling and running a file]
+. link:03details/details.html[Details on Compiling and Running a File]
   ** [x] Compiling and Running
   ** [x] Stopping and Starting the PRU
   ** [x] The standard Makefile
@@ -46,14 +46,14 @@ footnote:[Roadmap-wise, I'd want to consider how to plug RPMsg into a printf fun
   ** [ ] Ultrasonic Sensor Application
   ** [ ] neoPixel driver
   
-. link:06io/io.html[Accessing more I/O]
+. link:06io/io.html[Accessing More I/O]
 footnote:[The split with talking to the ARM is a little confusing to me as I don't know what the 'more' is.]
   ** [x] /boot/uEnv.txt to access [P8 I/O]
 footnote:[What is the P8 issue?]
   ** [x] Accessing gpio
   ** [ ] ECAP/PWM?
   
-. Talking to the rest of the processor
+. Talking to the Rest of the Processor
   ** [ ] PRU Architecture, DRAM, Shared RAM
   ** [ ] interrupts to ARM
   ** [ ] ARM interrupts to PRU
@@ -61,9 +61,12 @@ footnote:[What is the P8 issue?]
   ** [ ] rpmsg
   ** [ ] use of OCP peripherals
   
-. [Running on an older kernel version]
-footnote:[You might make this just about *alternate* tools rather than necessarily older. You could provide relatively minimal pointers for anything beyond what is needed understand how the Case Studies work. Things like the gcc port could go here.]
+. More Performance
+  ** [ ] Assembly Language Programming
 
-. More performance, assembly language programming
+. Alternate Tools
+footnote:[You might make this just about *alternate* tools rather than necessarily older. You could provide relatively minimal pointers for anything beyond what is needed understand how the Case Studies work. Things like the gcc port could go here.]
+  ** [ ] Barebones with Starterware
+  ** [ ] Other Kernel Verions
 
 [common]: # "Some kind of intro to these building blocks is needed. Look at the TI examples for a good list."
