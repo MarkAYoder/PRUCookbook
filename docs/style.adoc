@@ -61,3 +61,10 @@ Here is a test.
 ----
 include::code/copyright.c[copyright.c]
 ----
+
+=== Index
+((Include term))
+(((Don't include term)))
+
+=== Callouts
+<1>
