@@ -32,12 +32,12 @@ int main(void)
 	/*****************************************************************/
 
 	/* C28 defaults to 0x00000000, we need to set bits 23:8 to 0x0100 in order to have it point to 0x00010000	 */
-	// PRU0_CTRL.CTPPR0_bit.C28_BLK_POINTER = 0x0100;
+	PRU0_CTRL.CTPPR0_bit.C28_BLK_POINTER = 0x0100;
 
-	/* Define value of shared_freq_1 */
+	/* Define value of shared_1 */
 	shared_1 = 0xdeadbeef;
 
-	/* Read PRU Shared RAM Freq_1 memory */
+	/* Read PRU Shared RAM 1 memory */
 	if (shared_1 == 0xdeadbeef)
 		shared_2 = shared_2 + 1;
 	else
