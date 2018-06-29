@@ -6,6 +6,7 @@
 
 #ifndef PRU_SRAM
 #define PRU_SRAM __far __attribute__((cregister("PRU_SHAREDMEM", near)))
+#define PRU_DRAM __far __attribute__((cregister("PRU_DMEM_1_0",  near)))
 #endif
 
 /* NOTE:  Allocating shared_freq_x to PRU Shared Memory means that other PRU cores on
@@ -15,7 +16,8 @@
  */
 PRU_SRAM volatile uint32_t shared_1;
 PRU_SRAM volatile uint32_t shared_2;
-PRU_SRAM volatile uint32_t shared_3;
+#pragma DATA_SECTION(shared_3, ".bss")
+volatile uint32_t shared_3;
 
 int main(void)
 {
@@ -37,11 +39,10 @@ int main(void)
 	/* Define value of shared_1 */
 	shared_1 = 0xdeadbeef;
 
-	/* Read PRU Shared RAM 1 memory */
-	if (shared_1 == 0xdeadbeef)
-		shared_2 = shared_2 + 1;
-	else
-		shared_2 = shared_3;
+	/* Read PRU Shared RAM 2 memory */
+	shared_2 = shared_2 + 0xfeed;
+	
+	shared_3 = shared_3 + 0xdeed;
 
 	/* Halt PRU core */
 	__halt();
