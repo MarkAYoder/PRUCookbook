@@ -9,6 +9,7 @@ The following are resources used in this chapter.
 .Resources
 * http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler, v2.2, User's Guide]
 * https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]
+* http://exploringbeaglebone.com/[Exploring BeagleBone by Derek Molly]
 
 include::../copyright.adoc[copyright]
 
@@ -77,7 +78,7 @@ Here's a line-by-line expanation of the c code.
 .Line-by-line of pwm1.c
 [cols="1,9"]
 |===
-|Line|Explantion
+|Line|Explanation
 
 |1   |Standard c-header include
 |2   |Include for the PRU.  The compiler know where to find this since the Makefile says to look for includes in `/usr/lib/ti/pru-software-support-package`
@@ -94,7 +95,7 @@ include::code/resource_table_empty.h[]
 .Line-by-line (continuted)
 [cols="1,9"]
 |===
-|Line|Explantion
+|Line|Explanation
 
 |5-6 |`__R30` and `__R31` are two variables that refer to the PRU output (`__R30`) and input (`__R31`) registers. 
 When you write something to `__R30` it will show up on the corresponding output pins.  
@@ -148,7 +149,7 @@ Since we are running on PRU 0 we're using `0x0001`, that is bit 0, we'll be togg
 .Line-by-line (continued again)
 [cols="1,9"]
 |===
-|Line|Explantion
+|Line|Explanation
 
 |18  |Here is where the action is.  This line reads `__R30` and then ORs it with `gpio`, setting the bits where there is a 1 in `gpio` and leaving the bits where there is a 0.  Thus we are setting the bit we selected. Finally the new value is written back to `__R30`. 
 |19  |`__delay_cycles` is an instrinsic function that delays with number of cycles passed to it. Each cycle is 5ns, and we are delaying 100,000,000 cycles which is 500,000,000ns, or 0.5 seconds. 
@@ -509,7 +510,124 @@ include::code/input1.c[input1.c]
 ==== Discussion
 
 
-=== Sine Wave Generator
+=== Analog Wave Generator
+==== Problem
+I want to generate an analog output, but only have GPIO pins.
+
+==== Solution
+The Beagle doesn't have a built in  analog to digital converter. You could
+get a https://www.amazon.com/external-Adapter-Windows-Microphone-SD-CM-UAUD/dp/B001MSS6CS/0&keywords=audio+dongle[USB Audio Dongle] which are under $10.  But here
+we'll take another approach.
+
+Earlier we generated a PWM signal.  Here we'll generate a PWM whose duty cycle
+changes with time.  A small duty cycle for when the output signal is small and
+a large dudty cycle for when it is large.
+
+This example was inspired by _A PRU Sin Wave Generator_ in chapter 13 of 
+http://exploringbeaglebone.com/[Exploring BeagleBone by Derek Molly].
+
+Here's the code.
+
+.sine1.c
+[source,bash,linenums]
+[subs=+quotes]
+----
+include::code/sine1.c[since1.c]
+----
+Set the `#define` at <1> to the number of samples in one cycle of the waveform 
+and get the `#define` at <2> to which waveform and then run `make`.
+
+==== Discussion
+The code has two parts.  The first part (lines 21 to 39) generate the waveform
+to be output. The ``#define``s let you select which waveform you want to
+generate.  Since the output is a percent duty cycle, the values in `waveform[]` 
+must be between 0 and 100 inclusive. The waveform is only generated once, so
+this part of the code isn't time critical.
+
+The second part (lines 44 to 54) uses the generated data to set the
+duty cycle of the PWM on a cycle-by-cycle basis. This part is time critical; 
+the faster we can output the values, the higher the frequency of the output 
+signal.
+
+Suppose you want to generate a sawtooth waveform like the one shown in <<blocks_sawtooth>>.
+
+[[blocks_sawtooth]]
+.Continuous Sawtooth Waveform
+image:figures/sawtoothsmooth.png[Continuous Sawtooth Waveform]
+
+You need to sample the waveform and store one cycle. <<blocks_sawtoothsampled>>
+shows a sampled version of the sawtooth. You need to generate `MAXT` samples; 
+here we show 20 samples, which may be enough. In the code `MAXT` is set to 100.
+
+[[blocks_sawtoothsmooth]]
+.Sampled Sawtooth Waveform
+image:figures/sawtoothsampled.png[Sampled Sawtooth Waveform]
+
+There's a lot going on here; let's take it line by line.
+
+.Line-by-line of sine1.c
+[cols="1,9"]
+|===
+|Line |Explanation
+
+|2-5  |Standard c-header includes
+|7    |Number for samples in one cycle of the analog waveform
+|9    |Which waveform to use.  We've defined SAWTOOTH, TRIANGLE and SINE, but
+you can define your own too.
+|10-11|Declaring registers `_R30` and `_R31`.
+|15-16|`onCount`	 how many cycles the PWM should be 1 and `offCount` counts
+how many it should be off.
+|18   |`waveform[]` stores the analog waveform being ouput.
+|21-24|`SAWTOOTH` is the simplest of the waveforms. Each sample is the duty cycle 
+at that time and must therefore be between 0 and 100. 
+|26-31|`TRIANGLE` is also a simple waveform.  
+|32-39|`SINE` generates a sine wave and also introduces floating point.  Yes, you can use floating point, but the PRUs don't have floating point hardware, 
+rather, it's all done in software.  This mean using floating point will make
+your code much bigger and slower.  Slower doesn't matter in this part, and 
+bigger isn't bigger than our instruction memory, so we're OK.
+|47   |Here the for loop looks up each value of the generated waveform.
+|48,49|`onCount` is the number of cycles to be at 1 and `offCount` is the number 
+of cycles to be 0. The two add to 100, one full cycle.
+|50-52|Stay on for `onCount` cycles.
+|53-55|No turn off for `offCount` cycles, the loop back and look up the next 
+cycle count.
+|===
+
+<<blocks_sawunfiltered>> shows the output of the code. 
+
+[[blocks_sawunfiltered]]
+.Unfiltered Sawtooth Waveform
+image:figures/sawunfiltered.png[Unfiltered Sawtooth Waveform]
+
+It doesn't look like a sawtooth; but if you look at the left side you will 
+see each cycle has a longer and longer on time.  The duty cycle is increasing.
+Once it's almost 100% duty cycle, it switches to a very small duty cycle.
+Therefore it's output what we programmed, but what we want is the average of 
+the signal.  The left had side has a large (and increasing) average which 
+would be for top of the sawtooth.  The right hand side has a small average,
+which is what you want for the start of the sawtooth.
+
+A simple low-pass filter, built with one resistor and one capacitor will do it.
+<<blocks_filter>> shows how to wire it up.
+
+[[blocks_filterwiring]]
+.Low-Pass Filter Wiring Diagram
+image:figures/filter_bb.png[Low-Pass Filter Wiring Diagram]
+
+[NOTE]
+====
+I used a 10K&Omega; variable resistor and a 0.022&mu;F capacitor. (The figure
+has the wrong value.) Probe the circuit between the resistor and the capacitor andI adjust the resistor until you get a good looking waveform.
+====
+
+<<blocks_sawscope>> shows the results for filtered the SAWTOOTH.
+
+[[blocks_sawscope]]
+.Reconstructed Sawtooth Waveform
+image:figures/sawscope.png[Reconstructed Sawtooth Waveform]
+
+
+
 === Ultrasonic Sensor Application
 === neoPixel driver
 

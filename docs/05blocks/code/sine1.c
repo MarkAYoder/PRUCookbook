@@ -1,11 +1,11 @@
-// Generates an analog waveform and uses a filter to reconstruct it.
+// Generate an analog waveform and use a filter to reconstruct it.
 #include <stdint.h>
 #include <pru_cfg.h>
 #include "resource_table_empty.h"
 #include <math.h>
 
-#define MAXT	100	// Maximum number of time samples
-#define SAWTOOTH	// Pick which waveform
+#define MAXT	100	// Maximum number of time samples	<1>
+#define SAWTOOTH	// Pick which waveform				<2>
 
 volatile register uint32_t __R30;
 volatile register uint32_t __R31;
@@ -42,6 +42,8 @@ void main(void)
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
 
 	while (1) {
+		// Generate a PWM signal whose duty cycle matches
+		// the amplitude of the signal.
 		for(i=0; i<MAXT; i++) {
 			onCount = waveform[i];
 			offCount = 100 - onCount;

@@ -1,0 +1,27 @@
+% Plots for PRU example
+MAXT=100
+waveform = linspace(0, MAXT-1, 100);
+
+plot(waveform)
+
+%%
+T = 10*(1/50);
+Fs = 100;
+dt = 1/Fs;
+t = 0:dt:T-dt;
+x = 50*sawtooth(2*pi*10*t)+50;
+
+stem(t,x)
+title('Sawtooth Waveform')
+grid on
+
+%% Solid sawtooth
+T = 10*(1/50);
+Fs = 100;
+dt = 1/Fs;
+t = 0:dt:T-dt;
+x = 50*sawtooth(2*pi*20*t)+50;
+
+stem(t,x)
+title('Sampled Sawtooth Waveform')
+grid on

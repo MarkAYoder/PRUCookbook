@@ -523,7 +523,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_adding_more_channels_via_pru_1">1.5. Adding More Channels via PRU 1</a></li>
 <li><a href="#_sychronziing_two_prus">1.6. Sychronziing Two PRUs</a></li>
 <li><a href="#_reading_an_input_at_regular_intervals">1.7. Reading an Input at Regular Intervals</a></li>
-<li><a href="#_sine_wave_generator">1.8. Sine Wave Generator</a></li>
+<li><a href="#_analog_wave_generator">1.8. Analog Wave Generator</a></li>
 <li><a href="#_ultrasonic_sensor_application">1.9. Ultrasonic Sensor Application</a></li>
 <li><a href="#_neopixel_driver">1.10. neoPixel driver</a></li>
 <li><a href="#_copyright">1.11. Copyright</a></li>
@@ -550,6 +550,9 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 <li>
 <p><a href="https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf">AM335x Technical Reference Manual</a></p>
+</li>
+<li>
+<p><a href="http://exploringbeaglebone.com/">Exploring BeagleBone by Derek Molly</a></p>
 </li>
 </ul>
 </div>
@@ -710,7 +713,7 @@ start</pre></td>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Line</th>
-<th class="tableblock halign-left valign-top">Explantion</th>
+<th class="tableblock halign-left valign-top">Explanation</th>
 </tr>
 </thead>
 <tbody>
@@ -825,7 +828,7 @@ start</pre></td>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Line</th>
-<th class="tableblock halign-left valign-top">Explantion</th>
+<th class="tableblock halign-left valign-top">Explanation</th>
 </tr>
 </thead>
 <tbody>
@@ -1074,7 +1077,7 @@ gives more details.</p></td>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Line</th>
-<th class="tableblock halign-left valign-top">Explantion</th>
+<th class="tableblock halign-left valign-top">Explanation</th>
 </tr>
 </thead>
 <tbody>
@@ -2199,7 +2202,7 @@ will make the period half as long.</p>
 <pre>#!/bin/bash
 #
 export PRUN=0
-export TARGET=pwm8
+export TARGET=pwm7
 
 # Configure the PRU pins based on which Beagle is running
 machine=$(awk '{print $NF}' /proc/device-tree/model)
@@ -2523,8 +2526,8 @@ overhead in the process so the period is longer.</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
+<col style="width: 10%;">
+<col style="width: 90%;">
 </colgroup>
 <thead>
 <tr>
@@ -2740,8 +2743,317 @@ fi</pre></td>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_sine_wave_generator"><a class="link" href="#_sine_wave_generator">1.8. Sine Wave Generator</a></h3>
+<h3 id="_analog_wave_generator"><a class="link" href="#_analog_wave_generator">1.8. Analog Wave Generator</a></h3>
+<div class="sect3">
+<h4 id="_problem_8"><a class="link" href="#_problem_8">Problem</a></h4>
+<div class="paragraph">
+<p>I want to generate an analog output, but only have GPIO pins.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_8"><a class="link" href="#_solution_8">Solution</a></h4>
+<div class="paragraph">
+<p>The Beagle doesn&#8217;t have a built in  analog to digital converter. You could
+get a <a href="https://www.amazon.com/external-Adapter-Windows-Microphone-SD-CM-UAUD/dp/B001MSS6CS/0&amp;keywords=audio+dongle">USB Audio Dongle</a> which are under $10.  But here
+we&#8217;ll take another approach.</p>
+</div>
+<div class="paragraph">
+<p>Earlier we generated a PWM signal.  Here we&#8217;ll generate a PWM whose duty cycle
+changes with time.  A small duty cycle for when the output signal is small and
+a large dudty cycle for when it is large.</p>
+</div>
+<div class="paragraph">
+<p>This example was inspired by <em>A PRU Sin Wave Generator</em> in chapter 13 of
+<a href="http://exploringbeaglebone.com/">Exploring BeagleBone by Derek Molly</a>.</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s the code.</p>
+</div>
+<div class="listingblock">
+<div class="title">sine1.c</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+</pre></td>
+  <td class="code"><pre>// Generate an analog waveform and use a filter to reconstruct it.
+#include &lt;stdint.h&gt;
+#include &lt;pru_cfg.h&gt;
+#include &quot;resource_table_empty.h&quot;
+#include &lt;math.h&gt;
 
+#define MAXT    100 // Maximum number of time samples   <b class="conum">(1)</b>
+#define SAWTOOTH    // Pick which waveform              <b class="conum">(2)</b>
+
+volatile register uint32_t <em>R30;
+volatile register uint32_t </em>R31;
+
+void main(void)
+{
+    uint32_t onCount;       // Current count for 1 out
+    uint32_t offCount;      // count for 0 out
+    uint32_t i;
+    uint32_t waveform[MAXT]; // Waveform to be produced
+
+    // Generate a periodic wave in an array of MAXT values
+#ifdef SAWTOOTH
+    for(i=0; i&lt;MAXT; i++) {
+        waveform[i] = i*100/MAXT;
+    }
+#endif
+#ifdef TRIANGLE
+    for(i=0; i&lt;MAXT/2; i++) {
+        waveform[i]        = 2*i*100/MAXT;
+        waveform[MAXT-i-1] = 2*i*100/MAXT;
+    }
+#endif
+#ifdef SINE
+    float gain = 50.0f;
+    float bias = 50.0f;
+    float freq = 2.0f * 3.14159f / MAXT;
+    for (i=0; i&lt;MAXT; i++){
+        waveform[i] = (uint32_t)(bias+gain*sin(i*freq));
+    }
+#endif
+
+    /* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */
+    CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
+
+    while (1) {
+        // Generate a PWM signal whose duty cycle matches
+        // the amplitude of the signal.
+        for(i=0; i&lt;MAXT; i++) {
+            onCount = waveform[i];
+            offCount = 100 - onCount;
+            while(onCount--) {
+                <em>R30 |= 0x1;       // Set the GPIO pin to 1
+            }
+            while(offCount--) {
+                </em>R30 &amp;= ~(0x1);    // Clear the GPIO pin
+            }
+        }
+    }
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Set the <code>#define</code> at &lt;1&gt; to the number of samples in one cycle of the waveform
+and get the <code>#define</code> at &lt;2&gt; to which waveform and then run <code>make</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_7"><a class="link" href="#_discussion_7">Discussion</a></h4>
+<div class="paragraph">
+<p>The code has two parts.  The first part (lines 21 to 39) generate the waveform
+to be output. The <code>#define</code>s let you select which waveform you want to
+generate.  Since the output is a percent duty cycle, the values in <code>waveform[]</code>
+must be between 0 and 100 inclusive. The waveform is only generated once, so
+this part of the code isn&#8217;t time critical.</p>
+</div>
+<div class="paragraph">
+<p>The second part (lines 44 to 54) uses the generated data to set the
+duty cycle of the PWM on a cycle-by-cycle basis. This part is time critical;
+the faster we can output the values, the higher the frequency of the output
+signal.</p>
+</div>
+<div class="paragraph">
+<p>Suppose you want to generate a sawtooth waveform like the one shown in <a href="#blocks_sawtooth">Continuous Sawtooth Waveform</a>.</p>
+</div>
+<div id="blocks_sawtooth" class="paragraph">
+<div class="title">Continuous Sawtooth Waveform</div>
+<p><span class="image"><img src="figures/sawtoothsmooth.png" alt="Continuous Sawtooth Waveform"></span></p>
+</div>
+<div class="paragraph">
+<p>You need to sample the waveform and store one cycle. <a href="#blocks_sawtoothsampled">[blocks_sawtoothsampled]</a>
+shows a sampled version of the sawtooth. You need to generate <code>MAXT</code> samples;
+here we show 20 samples, which may be enough. In the code <code>MAXT</code> is set to 100.</p>
+</div>
+<div id="blocks_sawtoothsmooth" class="paragraph">
+<div class="title">Sampled Sawtooth Waveform</div>
+<p><span class="image"><img src="figures/sawtoothsampled.png" alt="Sampled Sawtooth Waveform"></span></p>
+</div>
+<div class="paragraph">
+<p>There&#8217;s a lot going on here; let&#8217;s take it line by line.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 7. Line-by-line of sine1.c</caption>
+<colgroup>
+<col style="width: 10%;">
+<col style="width: 90%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Line</th>
+<th class="tableblock halign-left valign-top">Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2-5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Standard c-header includes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number for samples in one cycle of the analog waveform</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Which waveform to use.  We&#8217;ve defined SAWTOOTH, TRIANGLE and SINE, but
+you can define your own too.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10-11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declaring registers <code>_R30</code> and <code>_R31</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">15-16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>onCount</code>	 how many cycles the PWM should be 1 and <code>offCount</code> counts
+how many it should be off.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">18</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>waveform[]</code> stores the analog waveform being ouput.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">21-24</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SAWTOOTH</code> is the simplest of the waveforms. Each sample is the duty cycle
+at that time and must therefore be between 0 and 100.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">26-31</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TRIANGLE</code> is also a simple waveform.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">32-39</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SINE</code> generates a sine wave and also introduces floating point.  Yes, you can use floating point, but the PRUs don&#8217;t have floating point hardware,
+rather, it&#8217;s all done in software.  This mean using floating point will make
+your code much bigger and slower.  Slower doesn&#8217;t matter in this part, and
+bigger isn&#8217;t bigger than our instruction memory, so we&#8217;re OK.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">47</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Here the for loop looks up each value of the generated waveform.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">48,49</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>onCount</code> is the number of cycles to be at 1 and <code>offCount</code> is the number
+of cycles to be 0. The two add to 100, one full cycle.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">50-52</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stay on for <code>onCount</code> cycles.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">53-55</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No turn off for <code>offCount</code> cycles, the loop back and look up the next
+cycle count.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a href="#blocks_sawunfiltered">Unfiltered Sawtooth Waveform</a> shows the output of the code.</p>
+</div>
+<div id="blocks_sawunfiltered" class="paragraph">
+<div class="title">Unfiltered Sawtooth Waveform</div>
+<p><span class="image"><img src="figures/sawunfiltered.png" alt="Unfiltered Sawtooth Waveform"></span></p>
+</div>
+<div class="paragraph">
+<p>It doesn&#8217;t look like a sawtooth; but if you look at the left side you will
+see each cycle has a longer and longer on time.  The duty cycle is increasing.
+Once it&#8217;s almost 100% duty cycle, it switches to a very small duty cycle.
+Therefore it&#8217;s output what we programmed, but what we want is the average of
+the signal.  The left had side has a large (and increasing) average which
+would be for top of the sawtooth.  The right hand side has a small average,
+which is what you want for the start of the sawtooth.</p>
+</div>
+<div class="paragraph">
+<p>A simple low-pass filter, built with one resistor and one capacitor will do it.
+<a href="#blocks_filter">[blocks_filter]</a> shows how to wire it up.</p>
+</div>
+<div id="blocks_filterwiring" class="paragraph">
+<div class="title">Low-Pass Filter Wiring Diagram</div>
+<p><span class="image"><img src="figures/filter_bb.png" alt="Low-Pass Filter Wiring Diagram"></span></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>I used a 10K&Omega; variable resistor and a 0.022&mu; capacitor. (The figure
+has the wrong value.) Probe the circuit between the resistor and the capacitor andI adjust the resistor until you get a good looking waveform.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a href="#blocks_sawscope">Reconstructed Sawtooth Waveform</a> shows the results for the SAWTOOTH.</p>
+</div>
+<div id="blocks_sawscope" class="paragraph">
+<div class="title">Reconstructed Sawtooth Waveform</div>
+<p><span class="image"><img src="figures/sawscope.png" alt="Reconstructed Sawtooth Waveform"></span></p>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_ultrasonic_sensor_application"><a class="link" href="#_ultrasonic_sensor_application">1.9. Ultrasonic Sensor Application</a></h3>
@@ -2831,7 +3143,7 @@ fi</pre></td>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-18 15:48:09 EDT
+Last updated 2018-06-29 13:10:09 EDT
 </div>
 </div>
 </body>
