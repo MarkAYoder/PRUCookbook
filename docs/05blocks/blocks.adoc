@@ -9,7 +9,7 @@ The following are resources used in this chapter.
 .Resources
 * http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler, v2.2, User's Guide]
 * https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]
-* http://exploringbeaglebone.com/[Exploring BeagleBone by Derek Molly]
+* http://exploringbeaglebone.com/[Exploring BeagleBone by Derek Molloy]
 
 include::../copyright.adoc[copyright]
 
@@ -524,18 +524,18 @@ changes with time.  A small duty cycle for when the output signal is small and
 a large dudty cycle for when it is large.
 
 This example was inspired by _A PRU Sin Wave Generator_ in chapter 13 of 
-http://exploringbeaglebone.com/[Exploring BeagleBone by Derek Molly].
+http://exploringbeaglebone.com/[Exploring BeagleBone by Derek Molloy].
 
 Here's the code.
 
 .sine1.c
-[source,bash,linenums]
+[source,c,linenums]
 [subs=+quotes]
 ----
 include::code/sine1.c[since1.c]
 ----
-Set the `#define` at <1> to the number of samples in one cycle of the waveform 
-and get the `#define` at <2> to which waveform and then run `make`.
+Set the `#define` at line 7 to the number of samples in one cycle of the waveform 
+and get the `#define` at line 8 to which waveform and then run `make`.
 
 ==== Discussion
 The code has two parts.  The first part (lines 21 to 39) generate the waveform
@@ -559,7 +559,7 @@ You need to sample the waveform and store one cycle. <<blocks_sawtoothsampled>>
 shows a sampled version of the sawtooth. You need to generate `MAXT` samples; 
 here we show 20 samples, which may be enough. In the code `MAXT` is set to 100.
 
-[[blocks_sawtoothsmooth]]
+[[blocks_sawtoothsampled]]
 .Sampled Sawtooth Waveform
 image:figures/sawtoothsampled.png[Sampled Sawtooth Waveform]
 
@@ -624,7 +624,7 @@ has the wrong value.) Probe the circuit between the resistor and the capacitor a
 
 [[blocks_sawscope]]
 .Reconstructed Sawtooth Waveform
-image:figures/sawscope.png[Reconstructed Sawtooth Waveform]
+image:figures/sawscope.png[Reconstructed Sawtooth Waveform, width=500]
 
 Now that look more like a sawtooth wave.  The top plot is the time-domain
 plot of the output of the low-pass filter. The bottom plot is the FFT of the top 
@@ -655,15 +655,15 @@ Adjust to taste, though the real solution is to build a higher order filter.
 Search for _second order filter_ and you'll find some nice circuits.
 
 You can adjust the frequency of the signal by adjesting `MAXT`.  A smaller 
-~MAXT` will give a higher frequency.  I'm gotten good results with `MAXT` 
+`MAXT` will give a higher frequency.  I'm gotten good results with `MAXT` 
 as small as 20.
 
 You can also get a triangle waveform by setting the `#define`. 
 <<blocks_triangle>> shows the output signal.
 
 [[blocks_triangle]]
-.Reconstructed Tirnagle Waveform
-image:figures/triangle.png[Reconstructed Tirnagle Waveform]
+.Reconstructed Triangle Waveform
+image:figures/triangle.png[Reconstructed Triangle Waveform]
 
 And also the sine wave as shown in <<blocks_sine>>.
 

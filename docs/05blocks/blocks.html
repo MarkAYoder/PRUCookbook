@@ -552,7 +552,7 @@ table.CodeRay td.code>pre{padding:0}
 <p><a href="https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf">AM335x Technical Reference Manual</a></p>
 </li>
 <li>
-<p><a href="http://exploringbeaglebone.com/">Exploring BeagleBone by Derek Molly</a></p>
+<p><a href="http://exploringbeaglebone.com/">Exploring BeagleBone by Derek Molloy</a></p>
 </li>
 </ul>
 </div>
@@ -2764,7 +2764,7 @@ a large dudty cycle for when it is large.</p>
 </div>
 <div class="paragraph">
 <p>This example was inspired by <em>A PRU Sin Wave Generator</em> in chapter 13 of
-<a href="http://exploringbeaglebone.com/">Exploring BeagleBone by Derek Molly</a>.</p>
+<a href="http://exploringbeaglebone.com/">Exploring BeagleBone by Derek Molloy</a>.</p>
 </div>
 <div class="paragraph">
 <p>Here&#8217;s the code.</p>
@@ -2772,7 +2772,7 @@ a large dudty cycle for when it is large.</p>
 <div class="listingblock">
 <div class="title">sine1.c</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
 2
 3
@@ -2832,60 +2832,60 @@ a large dudty cycle for when it is large.</p>
 57
 58
 </pre></td>
-  <td class="code"><pre>// Generate an analog waveform and use a filter to reconstruct it.
-#include &lt;stdint.h&gt;
-#include &lt;pru_cfg.h&gt;
-#include &quot;resource_table_empty.h&quot;
-#include &lt;math.h&gt;
+  <td class="code"><pre><span class="comment">// Generate an analog waveform and use a filter to reconstruct it.</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;math.h&gt;</span>
 
-#define MAXT    100 // Maximum number of time samples
-#define SINE        // Pick which waveform
+<span class="preprocessor">#define</span> MAXT    <span class="integer">100</span> <span class="comment">// Maximum number of time samples</span>
+<span class="preprocessor">#define</span> SAWTOOTH    <span class="comment">// Pick which waveform</span>
 
-volatile register uint32_t <em>R30;
-volatile register uint32_t </em>R31;
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t <em>R30;
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t </em>R31;
 
-void main(void)
+<span class="directive">void</span> main(<span class="directive">void</span>)
 {
-    uint32_t onCount;       // Current count for 1 out
-    uint32_t offCount;      // count for 0 out
+    uint32_t onCount;       <span class="comment">// Current count for 1 out</span>
+    uint32_t offCount;      <span class="comment">// count for 0 out</span>
     uint32_t i;
-    uint32_t waveform[MAXT]; // Waveform to be produced
+    uint32_t waveform[MAXT]; <span class="comment">// Waveform to be produced</span>
 
-    // Generate a periodic wave in an array of MAXT values
-#ifdef SAWTOOTH
-    for(i=0; i&lt;MAXT; i++) {
-        waveform[i] = i*100/MAXT;
+    <span class="comment">// Generate a periodic wave in an array of MAXT values</span>
+<span class="preprocessor">#ifdef</span> SAWTOOTH
+    <span class="keyword">for</span>(i=<span class="integer">0</span>; i&lt;MAXT; i++) {
+        waveform[i] = i*<span class="integer">100</span>/MAXT;
     }
-#endif
-#ifdef TRIANGLE
-    for(i=0; i&lt;MAXT/2; i++) {
-        waveform[i]        = 2*i*100/MAXT;
-        waveform[MAXT-i-1] = 2*i*100/MAXT;
+<span class="preprocessor">#endif</span>
+<span class="preprocessor">#ifdef</span> TRIANGLE
+    <span class="keyword">for</span>(i=<span class="integer">0</span>; i&lt;MAXT/<span class="integer">2</span>; i++) {
+        waveform[i]        = <span class="integer">2</span><strong>i</strong><span class="integer">100</span>/MAXT;
+        waveform[MAXT-i-<span class="integer">1</span>] = <span class="integer">2</span><strong>i</strong><span class="integer">100</span>/MAXT;
     }
-#endif
-#ifdef SINE
-    float gain = 50.0f;
-    float bias = 50.0f;
-    float freq = 2.0f * 3.14159f / MAXT;
-    for (i=0; i&lt;MAXT; i++){
+<span class="preprocessor">#endif</span>
+<span class="preprocessor">#ifdef</span> SINE
+    <span class="predefined-type">float</span> gain = <span class="integer">5</span><span class="float">0</span><span class="float">.0f</span>;
+    <span class="predefined-type">float</span> bias = <span class="integer">5</span><span class="float">0</span><span class="float">.0f</span>;
+    <span class="predefined-type">float</span> freq = <span class="float">2</span><span class="float">.0f</span> * <span class="float">3</span><span class="float">.14159f</span> / MAXT;
+    <span class="keyword">for</span> (i=<span class="integer">0</span>; i&lt;MAXT; i++){
         waveform[i] = (uint32_t)(bias+gain*sin(i*freq));
     }
-#endif
+<span class="preprocessor">#endif</span>
 
-    /* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */
-    CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
+    <span class="comment">/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */</span>
+    CT_CFG.SYSCFG_bit.STANDBY_INIT = <span class="integer">0</span>;
 
-    while (1) {
-        // Generate a PWM signal whose duty cycle matches
-        // the amplitude of the signal.
-        for(i=0; i&lt;MAXT; i++) {
+    <span class="keyword">while</span> (<span class="integer">1</span>) {
+        <span class="comment">// Generate a PWM signal whose duty cycle matches</span>
+        <span class="comment">// the amplitude of the signal.</span>
+        <span class="keyword">for</span>(i=<span class="integer">0</span>; i&lt;MAXT; i++) {
             onCount = waveform[i];
-            offCount = 100 - onCount;
-            while(onCount--) {
-                <em>R30 |= 0x1;       // Set the GPIO pin to 1
+            offCount = <span class="integer">100</span> - onCount;
+            <span class="keyword">while</span>(onCount--) {
+                <em>R30 |= <span class="hex">0x1</span>;       <span class="comment">// Set the GPIO pin to 1</span>
             }
-            while(offCount--) {
-                </em>R30 &amp;= ~(0x1);    // Clear the GPIO pin
+            <span class="keyword">while</span>(offCount--) {
+                </em>R30 &amp;= ~(<span class="hex">0x1</span>);    <span class="comment">// Clear the GPIO pin</span>
             }
         }
     }
@@ -2894,8 +2894,8 @@ void main(void)
 </div>
 </div>
 <div class="paragraph">
-<p>Set the <code>#define</code> at &lt;1&gt; to the number of samples in one cycle of the waveform
-and get the <code>#define</code> at &lt;2&gt; to which waveform and then run <code>make</code>.</p>
+<p>Set the <code>#define</code> at line 7 to the number of samples in one cycle of the waveform
+and get the <code>#define</code> at line 8 to which waveform and then run <code>make</code>.</p>
 </div>
 </div>
 <div class="sect3">
@@ -2921,11 +2921,11 @@ signal.</p>
 <p><span class="image"><img src="figures/sawtoothsmooth.png" alt="Continuous Sawtooth Waveform"></span></p>
 </div>
 <div class="paragraph">
-<p>You need to sample the waveform and store one cycle. <a href="#blocks_sawtoothsampled">[blocks_sawtoothsampled]</a>
+<p>You need to sample the waveform and store one cycle. <a href="#blocks_sawtoothsampled">Sampled Sawtooth Waveform</a>
 shows a sampled version of the sawtooth. You need to generate <code>MAXT</code> samples;
 here we show 20 samples, which may be enough. In the code <code>MAXT</code> is set to 100.</p>
 </div>
-<div id="blocks_sawtoothsmooth" class="paragraph">
+<div id="blocks_sawtoothsampled" class="paragraph">
 <div class="title">Sampled Sawtooth Waveform</div>
 <p><span class="image"><img src="figures/sawtoothsampled.png" alt="Sampled Sawtooth Waveform"></span></p>
 </div>
@@ -3051,7 +3051,7 @@ has the wrong value.) Probe the circuit between the resistor and the capacitor a
 </div>
 <div id="blocks_sawscope" class="paragraph">
 <div class="title">Reconstructed Sawtooth Waveform</div>
-<p><span class="image"><img src="figures/sawscope.png" alt="Reconstructed Sawtooth Waveform"></span></p>
+<p><span class="image"><img src="figures/sawscope.png" alt="Reconstructed Sawtooth Waveform" width="500"></span></p>
 </div>
 <div class="paragraph">
 <p>Now that look more like a sawtooth wave.  The top plot is the time-domain
@@ -3086,16 +3086,16 @@ Search for <em>second order filter</em> and you&#8217;ll find some nice circuits
 </div>
 <div class="paragraph">
 <p>You can adjust the frequency of the signal by adjesting <code>MAXT</code>.  A smaller
-~MAXT` will give a higher frequency.  I&#8217;m gotten good results with <code>MAXT</code>
+<code>MAXT</code> will give a higher frequency.  I&#8217;m gotten good results with <code>MAXT</code>
 as small as 20.</p>
 </div>
 <div class="paragraph">
 <p>You can also get a triangle waveform by setting the <code>#define</code>.
-<a href="#blocks_triangle">Reconstructed Tirnagle Waveform</a> shows the output signal.</p>
+<a href="#blocks_triangle">Reconstructed Triangle Waveform</a> shows the output signal.</p>
 </div>
 <div id="blocks_triangle" class="paragraph">
-<div class="title">Reconstructed Tirnagle Waveform</div>
-<p><span class="image"><img src="figures/triangle.png" alt="Reconstructed Tirnagle Waveform"></span></p>
+<div class="title">Reconstructed Triangle Waveform</div>
+<p><span class="image"><img src="figures/triangle.png" alt="Reconstructed Triangle Waveform"></span></p>
 </div>
 <div class="paragraph">
 <p>And also the sine wave as shown in <a href="#blocks_sine">Reconstructed Sinusoid Waveform</a>.</p>
@@ -3139,9 +3139,8 @@ You can look in <code>/tmp/pru0-gen/sine.map</code> to see how much memory is be
 21
 22
 </pre></td>
-  <td class="code"><pre><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong>
-                     PRU Linker Unix v2.1.5
-</strong><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong></strong><strong><strong></strong></strong>
+  <td class="code"><pre>                     PRU Linker Unix v2.1.5
+
 &gt;&gt; Linked Fri Jun 29 13:58:08 2018
 
 OUTPUT FILE NAME:   &lt;/tmp/pru0-gen/sine1.out&gt;
@@ -3160,9 +3159,20 @@ PAGE 1:
   PRU_DMEM_1_0          00002000   00002000  00000000  00002000  RWIX
 
 PAGE 2:
-  PRU_SHAREDMEM         00010000   00003000  00000000  00003000  RWIX</pre></td>
+  PRU_SHAREDMEM         00010000   00003000  00000000  00003000  RWIX
+  PRU_INTC              00020000   00001504  00000000  00001504  RWIX</pre></td>
 </tr></table></code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>Notice line 19 shows 0x18c0 bytes are being used for instructions.  That&#8217;s 6336
+in decimal.</p>
+</div>
+<div class="paragraph">
+<p>Now compile for the sawtooth and you see only 444 byes are used.  Floating-point
+requires over 5K more bytes.  Use with care.  If you are short on instruction
+space, you can move the table generation to the ARM and just copy the table
+to the PRU.</p>
 </div>
 </div>
 </div>
@@ -3254,7 +3264,7 @@ PAGE 2:
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-29 14:12:29 EDT
+Last updated 2018-06-29 15:04:01 EDT
 </div>
 </div>
 </body>
