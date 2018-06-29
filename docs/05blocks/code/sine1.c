@@ -4,8 +4,8 @@
 #include "resource_table_empty.h"
 #include <math.h>
 
-#define MAXT	100	// Maximum number of time samples	<1>
-#define SAWTOOTH	// Pick which waveform				<2>
+#define MAXT	100	// Maximum number of time samples
+#define SAWTOOTH	// Pick which waveform
 
 volatile register uint32_t __R30;
 volatile register uint32_t __R31;

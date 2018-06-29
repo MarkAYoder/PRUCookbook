@@ -2838,8 +2838,8 @@ a large dudty cycle for when it is large.</p>
 #include &quot;resource_table_empty.h&quot;
 #include &lt;math.h&gt;
 
-#define MAXT    100 // Maximum number of time samples   <b class="conum">(1)</b>
-#define SAWTOOTH    // Pick which waveform              <b class="conum">(2)</b>
+#define MAXT    100 // Maximum number of time samples
+#define SINE        // Pick which waveform
 
 volatile register uint32_t <em>R30;
 volatile register uint32_t </em>R31;
@@ -3039,7 +3039,7 @@ which is what you want for the start of the sawtooth.</p>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>I used a 10K&Omega; variable resistor and a 0.022&mu; capacitor. (The figure
+<p>I used a 10K&Omega; variable resistor and a 0.022&mu;F capacitor. (The figure
 has the wrong value.) Probe the circuit between the resistor and the capacitor andI adjust the resistor until you get a good looking waveform.</p>
 </div>
 </td>
@@ -3047,11 +3047,122 @@ has the wrong value.) Probe the circuit between the resistor and the capacitor a
 </table>
 </div>
 <div class="paragraph">
-<p><a href="#blocks_sawscope">Reconstructed Sawtooth Waveform</a> shows the results for the SAWTOOTH.</p>
+<p><a href="#blocks_sawscope">Reconstructed Sawtooth Waveform</a> shows the results for filtered the SAWTOOTH.</p>
 </div>
 <div id="blocks_sawscope" class="paragraph">
 <div class="title">Reconstructed Sawtooth Waveform</div>
 <p><span class="image"><img src="figures/sawscope.png" alt="Reconstructed Sawtooth Waveform"></span></p>
+</div>
+<div class="paragraph">
+<p>Now that look more like a sawtooth wave.  The top plot is the time-domain
+plot of the output of the low-pass filter. The bottom plot is the FFT of the top
+plot, therefore it&#8217;s the frequency domain. We are getting a sawtooth with a
+frequency of about 6.1KHz. You can see the fundamental frequency on the
+bottom plot along with several harmonics.</p>
+</div>
+<div class="paragraph">
+<p>The top looks like a sawtooth wave,
+but there is a high freqnecy superimposed on it.  We are only using a simple
+first-order filter.  You could lower the cutoff freqnecy by adjusting the
+resistor.  You&#8217;ll see something like <a href="#blocks_lowercutoff">Reconstructed Sawtooth Waveform with Lower Cutoff Frequency</a>.</p>
+</div>
+<div id="blocks_lowercutoff" class="paragraph">
+<div class="title">Reconstructed Sawtooth Waveform with Lower Cutoff Frequency</div>
+<p><span class="image"><img src="figures/sawlowercutoff.png" alt="Reconstructed Sawtooth Waveform with Lower Cutoff Frequency"></span></p>
+</div>
+<div class="paragraph">
+<p>The high freqencies have been reduced, but the corner of the waveform has
+been rounded.  You can also adjust the cutoff to a higher frequency and you&#8217;ll
+get a sharper corner, but you&#8217;ll also get more high frequencies. See
+<a href="#blocks_highercutoff">Reconstructed Sawtooth Waveform with Higher Cutoff Frequency</a></p>
+</div>
+<div id="blocks_highercutoff" class="paragraph">
+<div class="title">Reconstructed Sawtooth Waveform with Higher Cutoff Frequency</div>
+<p><span class="image"><img src="figures/sawhighercutoff.png" alt="Reconstructed Sawtooth Waveform with Higher Cutoff Frequency"></span></p>
+</div>
+<div class="paragraph">
+<p>Adjust to taste, though the real solution is to build a higher order filter.
+Search for <em>second order filter</em> and you&#8217;ll find some nice circuits.</p>
+</div>
+<div class="paragraph">
+<p>You can adjust the frequency of the signal by adjesting <code>MAXT</code>.  A smaller
+~MAXT` will give a higher frequency.  I&#8217;m gotten good results with <code>MAXT</code>
+as small as 20.</p>
+</div>
+<div class="paragraph">
+<p>You can also get a triangle waveform by setting the <code>#define</code>.
+<a href="#blocks_triangle">Reconstructed Tirnagle Waveform</a> shows the output signal.</p>
+</div>
+<div id="blocks_triangle" class="paragraph">
+<div class="title">Reconstructed Tirnagle Waveform</div>
+<p><span class="image"><img src="figures/triangle.png" alt="Reconstructed Tirnagle Waveform"></span></p>
+</div>
+<div class="paragraph">
+<p>And also the sine wave as shown in <a href="#blocks_sine">Reconstructed Sinusoid Waveform</a>.</p>
+</div>
+<div id="blocks_sine" class="paragraph">
+<div class="title">Reconstructed Sinusoid Waveform</div>
+<p><span class="image"><img src="figures/sine.png" alt="Reconstructed Sinusoid Waveform"></span></p>
+</div>
+<div class="paragraph">
+<p>Notice on the bottom plot the harmonics are much more suppressed.</p>
+</div>
+<div class="paragraph">
+<p>Generating the sine waveform uses floats. This requires much more code.
+You can look in <code>/tmp/pru0-gen/sine.map</code> to see how much memory is being used.
+<a href="#blocks_sine_map">/tmp/pru0-gen/sine1.map for Sine Wave</a> shows the first few lines for the sine wave.</p>
+</div>
+<div id="blocks_sine_map" class="listingblock">
+<div class="title">/tmp/pru0-gen/sine1.map for Sine Wave</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+</pre></td>
+  <td class="code"><pre><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong>
+                     PRU Linker Unix v2.1.5
+</strong><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong></strong><strong><strong></strong><strong></strong></strong><strong><strong></strong></strong>
+&gt;&gt; Linked Fri Jun 29 13:58:08 2018
+
+OUTPUT FILE NAME:   &lt;/tmp/pru0-gen/sine1.out&gt;
+ENTRY POINT SYMBOL: &quot;_c_int00_noinit_noargs_noexit&quot;  address: 00000000
+
+
+MEMORY CONFIGURATION
+
+         name            origin    length      used     unused   attr    fill
+----------------------  --------  ---------  --------  --------  ----  --------
+PAGE 0:
+  PRU_IMEM              00000000   00002000  000018c0  00000740  RWIX
+
+PAGE 1:
+  PRU_DMEM_0_1          00000000   00002000  00000154  00001eac  RWIX
+  PRU_DMEM_1_0          00002000   00002000  00000000  00002000  RWIX
+
+PAGE 2:
+  PRU_SHAREDMEM         00010000   00003000  00000000  00003000  RWIX</pre></td>
+</tr></table></code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -3143,7 +3254,7 @@ has the wrong value.) Probe the circuit between the resistor and the capacitor a
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-29 13:10:09 EDT
+Last updated 2018-06-29 14:12:29 EDT
 </div>
 </div>
 </body>

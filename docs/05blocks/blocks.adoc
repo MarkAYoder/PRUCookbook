@@ -626,9 +626,76 @@ has the wrong value.) Probe the circuit between the resistor and the capacitor a
 .Reconstructed Sawtooth Waveform
 image:figures/sawscope.png[Reconstructed Sawtooth Waveform]
 
+Now that look more like a sawtooth wave.  The top plot is the time-domain
+plot of the output of the low-pass filter. The bottom plot is the FFT of the top 
+plot, therefore it's the frequency domain. We are getting a sawtooth with a
+frequency of about 6.1KHz. You can see the fundamental frequency on the 
+bottom plot along with several harmonics.
+
+
+The top looks like a sawtooth wave, 
+but there is a high freqnecy superimposed on it.  We are only using a simple 
+first-order filter.  You could lower the cutoff freqnecy by adjusting the
+resistor.  You'll see something like <<blocks_lowercutoff>>.
+
+[[blocks_lowercutoff]]
+.Reconstructed Sawtooth Waveform with Lower Cutoff Frequency
+image:figures/sawlowercutoff.png[Reconstructed Sawtooth Waveform with Lower Cutoff Frequency]
+
+The high freqencies have been reduced, but the corner of the waveform has 
+been rounded.  You can also adjust the cutoff to a higher frequency and you'll 
+get a sharper corner, but you'll also get more high frequencies. See 
+<<blocks_highercutoff>>
+
+[[blocks_highercutoff]]
+.Reconstructed Sawtooth Waveform with Higher Cutoff Frequency
+image:figures/sawhighercutoff.png[Reconstructed Sawtooth Waveform with Higher Cutoff Frequency]
+
+Adjust to taste, though the real solution is to build a higher order filter. 
+Search for _second order filter_ and you'll find some nice circuits.
+
+You can adjust the frequency of the signal by adjesting `MAXT`.  A smaller 
+~MAXT` will give a higher frequency.  I'm gotten good results with `MAXT` 
+as small as 20.
+
+You can also get a triangle waveform by setting the `#define`. 
+<<blocks_triangle>> shows the output signal.
+
+[[blocks_triangle]]
+.Reconstructed Tirnagle Waveform
+image:figures/triangle.png[Reconstructed Tirnagle Waveform]
+
+And also the sine wave as shown in <<blocks_sine>>.
+
+[[blocks_sine]]
+.Reconstructed Sinusoid Waveform
+image:figures/sine.png[Reconstructed Sinusoid Waveform]
+
+Notice on the bottom plot the harmonics are much more suppressed.
+
+Generating the sine waveform uses ((floats)). This requires much more code.
+You can look in `/tmp/pru0-gen/sine.map` to see how much memory is being used.
+<<blocks_sine_map>> shows the first few lines for the sine wave.
+
+[[blocks_sine_map]]
+./tmp/pru0-gen/sine1.map for Sine Wave
+[source,bash,linenums]
+[subs=+quotes]
+----
+include::code/sine.map[lines=1..22]
+----
+
+Notice line 19 shows 0x18c0 bytes are being used for instructions.  That's 6336 
+in decimal.
+
+Now compile for the sawtooth and you see only 444 byes are used.  Floating-point 
+requires over 5K more bytes.  Use with care.  If you are short on instruction
+space, you can move the table generation to the ARM and just copy the table
+to the PRU.
 
 
 === Ultrasonic Sensor Application
+
 === neoPixel driver
 
 === Copyright
