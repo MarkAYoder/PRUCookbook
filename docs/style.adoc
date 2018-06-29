@@ -20,7 +20,7 @@ Here are some notes what style to use.
 [source,bash,linenums]
 [subs=+quotes]
 ----
-include::04debug/code/uart_setup.sh[]
+include::04debug/code/uart_setup.sh[lines=1..22]
 ----
 
 === Including figures
