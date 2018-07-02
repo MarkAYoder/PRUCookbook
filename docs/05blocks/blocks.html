@@ -526,7 +526,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_reading_an_input_at_regular_intervals">1.8. Reading an Input at Regular Intervals</a></li>
 <li><a href="#_analog_wave_generator">1.9. Analog Wave Generator</a></li>
 <li><a href="#_ultrasonic_sensor_application">1.10. Ultrasonic Sensor Application</a></li>
-<li><a href="#_neopixel_driver">1.11. neoPixel driver</a></li>
+<li><a href="#_ws2812_neopixel_driver">1.11. WS2812 (NeoPixel) driver</a></li>
 <li><a href="#_copyright">1.12. Copyright</a></li>
 </ul>
 </li>
@@ -554,6 +554,9 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 <li>
 <p><a href="http://exploringbeaglebone.com/">Exploring BeagleBone by Derek Molloy</a></p>
+</li>
+<li>
+<p><a href="https://cdn-shop.adafruit.com/datasheets/WS2812.pdf">WS2812 Data Sheet</a></p>
 </li>
 </ul>
 </div>
@@ -872,7 +875,7 @@ OUTPUT FILE NAME:   &lt;/tmp/pru0-gen/shared.out&gt;
 </div>
 </div>
 <div class="paragraph">
-<p>We see, <code>shared_0</code> had no directives and was places in the heap is is 0x100
+<p>We see, <code>shared_0</code> had no directives and was places in the heap that is 0x100
 to 0x1ff.  <code>shared_1</code> was directed to go to the SHAREDMEM, <code>shared_2</code> to
 the start of the local DRAM (which is also the top of the stack).  <code>shared_3</code>
 was placed in the DRAM of PRU 1, <code>shared_4</code> was placed in the <code>.bss</code> section,
@@ -881,7 +884,7 @@ is stored.</p>
 </div>
 <div class="paragraph">
 <p>Where are <code>shared_6</code> and <code>shared_7</code>?  They are declared inside <code>main()</code> and are
-therefor placed on the stack at run time.  The <code>shared.map</code> file shows the
+therefore placed on the stack at run time.  The <code>shared.map</code> file shows the
 compile time allocations.  We have to look in the memory itself to see what
 happen at run time.</p>
 </div>
@@ -929,7 +932,7 @@ PRUSS memory length 0x00080000
          0              0x00034000     0x00000000   0x00022000
          1              0x00038000     0x00002000   0x00024000
 
-PRU0&gt; d 0
+PRU0&gt; <strong>d 0</strong>
 Absolute addr = 0x0000, offset = 0x0000, Len = 16
 [0x0000] 0x0000feed 0x00000000 0x00000000 0x00000000
 [0x0010] 0x00000000 0x00000000 0x00000000 0x00000000
@@ -1038,7 +1041,7 @@ the compiler is putting things.</p>
 <h3 id="_pwm_generator"><a class="link" href="#_pwm_generator">1.2. PWM generator</a></h3>
 <div class="paragraph">
 <p>One of the simplest things a PRU can to is generate a simple
-problems starting with a single channel PWM that has a fixed frequency and
+signals starting with a single channel PWM that has a fixed frequency and
 duty cycle and ending with a multi channel PWM that the ARM can change
 the frequency and duty cycle on the fly.</p>
 </div>
@@ -3650,8 +3653,173 @@ to the PRU.</p>
 
 </div>
 <div class="sect2">
-<h3 id="_neopixel_driver"><a class="link" href="#_neopixel_driver">1.11. neoPixel driver</a></h3>
+<h3 id="_ws2812_neopixel_driver"><a class="link" href="#_ws2812_neopixel_driver">1.11. WS2812 (NeoPixel) driver</a></h3>
+<div class="sect3">
+<h4 id="_problem_10"><a class="link" href="#_problem_10">Problem</a></h4>
+<div class="paragraph">
+<p>
 
+
+
+
+You have an <a href="http://www.adafruit.com/products/1138">Adafruit NeoPixel LED string</a>
+or <a href="http://www.adafruit.com/products/1487">Adafruit NeoPixel LED matrix</a>
+and want to light it up.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_10"><a class="link" href="#_solution_10">Solution</a></h4>
+<div class="paragraph">
+<p>NeoPixel is Adafruit&#8217;s name for the WS2812 Intelligent control LED.  Each
+NeoPixel contains a Red, Green and Blue LED with a PWM controller that can
+dim each one individually making a rainbow of colors possible.  The
+NeoPixel is driven by a single serial line.  The timing on the line is very
+sensesitive, which make the PRU a perfect candidate for driving it.</p>
+</div>
+<div class="paragraph">
+<p>Wire the input to <code>P9_29</code> and power to 3.3V and ground to ground as shown in
+<a href="#blocks_neo_wiring">NeoPixel Wiring</a>.</p>
+</div>
+<div id="blocks_neo_wiring" class="paragraph">
+<div class="title">NeoPixel Wiring</div>
+<p><span class="image"><img src="figures/neo_bb.png" alt="NeoPixel Wiring"></span></p>
+</div>
+<div class="paragraph">
+<p>Test your wiring with the simple code in <a href="#blocks_neo1">Code to turn all NeoPixels&#8217;s white</a>
+which to turns all pixels white.</p>
+</div>
+<div id="blocks_neo1" class="listingblock">
+<div class="title">Code to turn all NeoPixels&#8217;s white</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+</pre></td>
+  <td class="code"><pre><span class="comment">// Control a ws2812 (neo pixel) display</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
+
+<span class="preprocessor">#define</span> oneCyclesOn     <span class="integer">700</span>/<span class="integer">5</span>   <span class="comment">// Stay on 700ns</span>
+<span class="preprocessor">#define</span> oneCyclesOff    <span class="integer">800</span>/<span class="integer">5</span>
+<span class="preprocessor">#define</span> zeroCyclesOn    <span class="integer">350</span>/<span class="integer">5</span>
+<span class="preprocessor">#define</span> zeroCyclesOff   <span class="integer">600</span>/<span class="integer">5</span>
+<span class="preprocessor">#define</span> out <span class="integer">1</span>       <span class="comment">// Bit number to output one</span>
+
+<span class="comment">// #define ONE</span>
+
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t <em>R30;
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t </em>R31;
+
+<span class="directive">void</span> main(<span class="directive">void</span>)
+{
+    <span class="comment">/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */</span>
+    CT_CFG.SYSCFG_bit.STANDBY_INIT = <span class="integer">0</span>;
+
+    <span class="keyword">while</span> (<span class="integer">1</span>) {
+<span class="preprocessor">#ifdef</span> ONE
+        <em>R30 |= <span class="hex">0x1</span>&lt;&lt;out;      <span class="comment">// Set the GPIO pin to 1</span>
+        </em>delay_cycles(oneCyclesOn-<span class="integer">1</span>);
+        <em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;out);   <span class="comment">// Clear the GPIO pin</span>
+        </em>delay_cycles(oneCyclesOff-<span class="integer">2</span>);
+<span class="preprocessor">#else</span>
+        <em>R30 |= <span class="hex">0x1</span>&lt;&lt;out;      <span class="comment">// Set the GPIO pin to 1</span>
+        </em>delay_cycles(zeroCyclesOn-<span class="integer">1</span>);
+        <em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;out);   <span class="comment">// Clear the GPIO pin</span>
+        </em>delay_cycles(zeroCyclesOff-<span class="integer">2</span>);
+<span class="preprocessor">#endif</span>
+    }
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_9"><a class="link" href="#_discussion_9">Discussion</a></h4>
+<div class="paragraph">
+<p><a href="#blocks_sequence">NeoPixel bit sequence</a> (taken from  <a href="https://cdn-shop.adafruit.com/datasheets/WS2812.pdf">WS2812 Data Sheet</a>) shows the following waveforms are used to send a bit of data.</p>
+</div>
+<div id="blocks_sequence" class="paragraph">
+<div class="title">NeoPixel bit sequence</div>
+<p><span class="image"><img src="figures/neo_sequence.png" alt="NeoPixel bit sequence"></span></p>
+</div>
+<div class="paragraph">
+<p>Where the times are:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Label</th>
+<th class="tableblock halign-left valign-top">Time in ns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T0H</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">350</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T0L</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">800</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T1H</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">700</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T1L</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">600</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The code in <a href="#blocks_neo1">Code to turn all NeoPixels&#8217;s white</a> define these times in lines 6-9.  The <code>/5</code> is because
+each instruction take 5ns.  Lines 24-27 then set the output to 1 for
+the desired time and then to 0 and keeps repeating it.  <a href="#blocks_zero_scope">NeoPixel zero timing</a>
+shows the waveform for sending a 0 value.  Note the times are spot on.</p>
+</div>
+<div id="blocks_zero_scope" class="paragraph">
+<div class="title">NeoPixel zero timing</div>
+<p><span class="image"><img src="figures/neo_scope.png" alt="neo scope"></span></p>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_copyright"><a class="link" href="#_copyright">1.12. Copyright</a></h3>
@@ -3733,7 +3901,7 @@ to the PRU.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-02 13:06:46 EDT
+Last updated 2018-07-02 15:49:24 EDT
 </div>
 </div>
 </body>

@@ -10,6 +10,7 @@ The following are resources used in this chapter.
 * http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler, v2.2, User's Guide]
 * https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]
 * http://exploringbeaglebone.com/[Exploring BeagleBone by Derek Molloy]
+* https://cdn-shop.adafruit.com/datasheets/WS2812.pdf[WS2812 Data Sheet]
 
 include::../copyright.adoc[copyright]
 
@@ -111,7 +112,7 @@ OUTPUT FILE NAME:   </tmp/pru0-gen/shared.out>
 2     00010000  shared_1              
 ----
 
-We see, `shared_0` had no directives and was places in the heap is is 0x100
+We see, `shared_0` had no directives and was places in the heap that is 0x100
 to 0x1ff.  `shared_1` was directed to go to the SHAREDMEM, `shared_2` to 
 the start of the local DRAM (which is also the top of the stack).  `shared_3`
 was placed in the DRAM of PRU 1, `shared_4` was placed in the `.bss` section,
@@ -119,7 +120,7 @@ which is in the ((heap)).  Finallly `shared_5` is a pointer to where the value
 is stored.
 
 Where are `shared_6` and `shared_7`?  They are declared inside `main()` and are
-therefor placed on the stack at run time.  The `shared.map` file shows the
+therefore placed on the stack at run time.  The `shared.map` file shows the
 compile time allocations.  We have to look in the memory itself to see what
 happen at run time.
 
@@ -143,7 +144,7 @@ PRUSS memory length	0x00080000
          0              0x00034000     0x00000000   0x00022000
          1              0x00038000     0x00002000   0x00024000
 
-PRU0> d 0
+PRU0> *d 0*
 Absolute addr = 0x0000, offset = 0x0000, Len = 16
 [0x0000] 0x0000feed 0x00000000 0x00000000 0x00000000 
 [0x0010] 0x00000000 0x00000000 0x00000000 0x00000000 
@@ -883,7 +884,68 @@ to the PRU.
 
 === Ultrasonic Sensor Application
 
-=== neoPixel driver
+=== WS2812 (NeoPixel) driver
+==== Problem
+((("displays", "NeoPixel LED strings")))
+((("outputs", "NeoPixel LED strings")))
+((("Adafruit Neopixel LED strings")))
+((("Neopixel LED strings")))
+((("LEDs", "Adafruit Neopixel LED strings")))
+You have an http://www.adafruit.com/products/1138[Adafruit NeoPixel LED string]
+or http://www.adafruit.com/products/1487[Adafruit NeoPixel LED matrix] 
+and want to light it up.
+
+==== Solution
+NeoPixel is Adafruit's name for the WS2812 Intelligent control LED.  Each 
+NeoPixel contains a Red, Green and Blue LED with a PWM controller that can
+dim each one individually making a rainbow of colors possible.  The
+NeoPixel is driven by a single serial line.  The timing on the line is very
+sensesitive, which make the PRU a perfect candidate for driving it.
+
+Wire the input to `P9_29` and power to 3.3V and ground to ground as shown in
+<<blocks_neo_wiring>>.
+
+[[blocks_neo_wiring]]
+.NeoPixel Wiring
+image:figures/neo_bb.png[NeoPixel Wiring]
+
+Test your wiring with the simple code in <<blocks_neo1>> 
+which to turns all pixels white.
+
+[[blocks_neo1]]
+.Code to turn all NeoPixels's white
+[source,c,linenums]
+[subs=+quotes]
+----
+include::code/neo1.c[]
+----
+
+==== Discussion
+<<blocks_sequence>> (taken from  https://cdn-shop.adafruit.com/datasheets/WS2812.pdf[WS2812 Data Sheet]) shows the following waveforms are used to send a bit of data.
+
+[[blocks_sequence]]
+.NeoPixel bit sequence
+image:figures/neo_sequence.png[NeoPixel bit sequence]
+
+Where the times are:
+|===
+|Label|Time in ns
+
+|T0H|350
+|T0L|800
+|T1H|700
+|T1L|600
+|===
+
+The code in <<blocks_neo1>> define these times in lines 6-9.  The `/5` is because 
+each instruction take 5ns.  Lines 24-27 then set the output to 1 for
+the desired time and then to 0 and keeps repeating it.  <<blocks_zero_scope>> 
+shows the waveform for sending a 0 value.  Note the times are spot on.
+
+[[blocks_zero_scope]]
+.NeoPixel zero timing
+image:figures/neo_scope.png[]
+
 
 === Copyright
 [source,c,linenums]
