@@ -13,6 +13,67 @@ The following are resources used in this chapter.
 
 include::../copyright.adoc[copyright]
 
+=== Memory Allocation
+
+==== Problem
+I want to control where my variables are stored in memory.
+
+==== Solution
+Each PRU has is own 8KB of data memory (Data Mem0 and Mem1) and 12KB of shared memory (Shared RAM) as shown in <<blocks_PRU_block_diagram>>.
+
+[[blocks_PRU_block_diagram]]
+.PRU Block Diagram
+image:figures/blockDiagram.png[PRU Block diagram]
+
+Each PRU accesses it's own DRAM starting at location 0x0000_0000. Each PRU
+can also access the other PRU's DRAM starting at 0x0000_2000. Both PRUs 
+access the shared RAM at 0x0001_0000. The compiler can control where each 
+of these memories variables are stored.
+
+<<blocks_shared>> shows how to allocate seven variable in six different locations.
+
+[[blocks_shared]]
+.shared.c - Examples of Using Different Memory Locations
+[source,c,linenums]
+[subs=+quotes]
+----
+include::code/shared.c[]
+----
+
+==== Discussion
+Here's the line-by-line
+
+.Line-byline for shared.c
+[cols="1,9"]
+|===
+|Line |Explanation
+
+|7    |`PRU_SRAM` is defined here.  It will be used later to declare variables
+in the `Shared RAM` location of memory.  Section 5.5.2 on page 75 of the
+http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler, v2.2, User's Guide] gives details of the command.  The `PRU_SHAREDMEM` 
+referes to the memory section defined in `AM335x_PRU.cmd` on line 26.  
+|8,9  |These are like the previous line except for the DMEM sections.
+|16   |Variables declared outside of `main()` are put on the heap.
+|17   |Adding `PRU_SRAM` has the variable stored in the shared memory.
+|18,19|These are stored in the PRU's local RAM.
+|20,21|These lines are for storing in the `.bss` section as declared on
+line 74 of `AM335x_PRU.cmd`.
+|28-31|All the previous examples direct the compiler to an area in memory
+and the compilers figures out what to put where.  With these lines we 
+specify the exact location.  Here are start with the PRU_DRAM starting address and add 0x200 to it to avoid
+the ((STACK)) and the ((HEAP)).  The advantage of this technique is you can
+easily share these variables between the ARM and the two PRUs.
+|36,37|Variable declared inside `main()` go on the stack.
+|===
+
+[CAUTION]
+====
+Using the technique of line 28-31 you can put variables anywhere, 
+even where the compiler has put them.
+Be careful, it's easy to overwrite what the compiler has done
+====
+
+
 === PWM generator
 One of the simplest things a PRU can to is generate a simple
 problems starting with a single channel PWM that has a fixed frequency and
@@ -196,10 +257,7 @@ It's not hard to adjust the two `__delay_cycles` to get the desired frequency an
 You would like to control the frequency and duty cycle of the PWM without recompiling.
 
 #### Solution
-Have the PRU read the _on_ and _off_ times from a shared memory location.  Each PRU has is own 8KB of data memory (DRAM) and 12KB of shared memory (SHAREDMEM) that the ARM processor can also access.
-
-.PRU Block Diagram
-image:figures/blockDiagram.png[PRU Block diagram]
+Have the PRU read the _on_ and _off_ times from a shared memory location.  Each PRU has is own 8KB of data memory (DRAM) and 12KB of shared memory (SHAREDMEM) that the ARM processor can also access.  See <<blocks_PRU_block_diagram>>.
 
 The DRAM 0 address is 0x0000 for PRU 0.  The same DRAM appears at address 0x4A300000 as seen from the ARM processor.
 [TIP]
