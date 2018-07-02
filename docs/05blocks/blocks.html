@@ -799,6 +799,239 @@ Be careful, it&#8217;s easy to overwrite what the compiler has done</p>
 </tr>
 </table>
 </div>
+<div class="paragraph">
+<p>Compile and run the program.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td>
+  <td class="code"><pre>bone$ <strong>source pwm_setup.sh</strong>
+Black Found
+P9_31
+P9_31 Mode: pruout
+P9_29
+P9_29 Mode: pruout
+P9_30
+P9_30 Mode: pruout
+P9_28
+P9_28 Mode: pruout
+bone$ <strong>export TARGET=shared</strong>
+bone$ <strong>make</strong>
+-    Stopping PRU 0
+stop
+-   copying firmware file /tmp/pru0-gen/shared.out to /lib/firmware/am335x-pru0-fw
+-    Starting PRU 0
+start</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now check the symbol table to see where things are allocated.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td>
+  <td class="code"><pre>bone $ <strong>grep shared /tmp/pru0-gen/shared.map</strong>
+OUTPUT FILE NAME:   &lt;/tmp/pru0-gen/shared.out&gt;
+....
+1     00000000  shared_2
+1     00000118  shared_4
+1     0000011c  shared_0
+1     00000120  shared_5
+1     00002000  shared_3
+2     00010000  shared_1</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We see, <code>shared_0</code> had no directives and was places in the heap is is 0x100
+to 0x1ff.  <code>shared_1</code> was directed to go to the SHAREDMEM, <code>shared_2</code> to
+the start of the local DRAM (which is also the top of the stack).  <code>shared_3</code>
+was placed in the DRAM of PRU 1, <code>shared_4</code> was placed in the <code>.bss</code> section,
+which is in the heap.  Finallly <code>shared_5</code> is a pointer to where the value
+is stored.</p>
+</div>
+<div class="paragraph">
+<p>Where are <code>shared_6</code> and <code>shared_7</code>?  They are declared inside <code>main()</code> and are
+therefor placed on the stack at run time.  The <code>shared.map</code> file shows the
+compile time allocations.  We have to look in the memory itself to see what
+happen at run time.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s fire up <code>prudebug</code> (<a href="#prudebug - A Simple Debugger for the PRU">[prudebug - A Simple Debugger for the PRU]</a>) to see
+where things are.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre></td>
+  <td class="code"><pre>bone$ <strong>sudo ./prudebug</strong>
+PRU Debugger v0.25
+(C) Copyright 2011, 2013 by Arctica Technologies.  All rights reserved.
+Written by Steven Anderson
+
+Using /dev/mem device.
+Processor type      AM335x
+PRUSS memory address    0x4a300000
+PRUSS memory length 0x00080000
+
+         offsets below are in 32-bit byte addresses (not ARM byte addresses)
+         PRU            Instruction    Data         Ctrl
+         0              0x00034000     0x00000000   0x00022000
+         1              0x00038000     0x00002000   0x00024000
+
+PRU0&gt; d 0
+Absolute addr = 0x0000, offset = 0x0000, Len = 16
+[0x0000] 0x0000feed 0x00000000 0x00000000 0x00000000
+[0x0010] 0x00000000 0x00000000 0x00000000 0x00000000
+[0x0020] 0x00000000 0x00000000 0x00000000 0x00000000
+[0x0030] 0x00000000 0x00000000 0x00000000 0x00000000</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The value of <code>shared_2</code> is in memory location 0.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+</pre></td>
+  <td class="code"><pre>PRU0&gt; <strong>dd 0x100</strong>
+Absolute addr = 0x0100, offset = 0x0000, Len = 16
+[0x0100] 0x00000000 0x00000001 0x00000000 0x00000000
+[0x0110] 0x00000000 0x00000000 0x0000beed 0x0000feef
+[0x0120] 0x00000200 0x3ec71de3 0x1a013e1a 0xbf2a01a0
+[0x0130] 0x111110b0 0x3f811111 0x55555555 0xbfc55555</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There are <code>shared_0</code> and <code>shared_3</code> in the heap, but where is <code>shared_6</code> and
+<code>shared_7</code>?  They are supposed to be on the stack that starts at 0.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+</pre></td>
+  <td class="code"><pre>PRU0&gt; dd <strong>0xc0</strong>
+Absolute addr = 0x00c0, offset = 0x0000, Len = 16
+[0x00c0] 0x00000000 0x00000000 0x00000000 0x00000000
+[0x00d0] 0x00000000 0x00000000 0x00000000 0x00000000
+[0x00e0] 0x00000000 0x00000000 0x00000000 0x00000000
+[0x00f0] 0x00000000 0x00000000 0x00004321 0x00009876</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There they are; the stack grows from the top. (The heap grows from the bottom.)</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+</pre></td>
+  <td class="code"><pre>PRU0&gt; dd <strong>0x2000</strong>
+Absolute addr = 0x2000, offset = 0x0000, Len = 16
+[0x2000] 0x0000deed 0x00000001 0x00000000 0x557fcfb5
+[0x2010] 0xce97bd0f 0x6afb2c8f 0xc7f35df4 0x5afb6dcb
+[0x2020] 0x8dec3da3 0xe39a6756 0x642cb8b8 0xcb6952c0
+[0x2030] 0x2f22ebda 0x548d97c5 0x9241786f 0x72dfeb86</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And there is PRU 1&#8217;s memory. And finally the shared memory.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+</pre></td>
+  <td class="code"><pre>PRU0&gt; <strong>dd 0x10000</strong>
+Absolute addr = 0x10000, offset = 0x0000, Len = 16
+[0x10000] 0xdeadbeef 0x0000feed 0x00000000 0x68c44f8b
+[0x10010] 0xc372ba7e 0x2ffa993b 0x11c66da5 0xfbf6c5d7
+[0x10020] 0x5ada3fcf 0x4a5d0712 0x48576fb7 0x1004796b
+[0x10030] 0x2267ebc6 0xa2793aa1 0x100d34dc 0x9ca06d4a</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The compiler offers great control over where variables are stored. Just
+be sure if you are hand picking where thing are put not to put them where
+the compiler is putting things.</p>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -3500,7 +3733,7 @@ to the PRU.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-02 12:37:27 EDT
+Last updated 2018-07-02 13:06:46 EDT
 </div>
 </div>
 </body>
