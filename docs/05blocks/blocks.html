@@ -3109,10 +3109,10 @@ as small as 20.</p>
 </div>
 <div class="paragraph">
 <p>Generating the sine waveform uses floats. This requires much more code.
-You can look in <code>/tmp/pru0-gen/sine.map</code> to see how much memory is being used.
-<a href="#blocks_sine_map">/tmp/pru0-gen/sine1.map for Sine Wave</a> shows the first few lines for the sine wave.</p>
+You can look in <code>/tmp/pru0-gen/sine1.map</code> to see how much memory is being used.
+<a href="#blocks_sine1_map">/tmp/pru0-gen/sine1.map for Sine Wave</a> shows the first few lines for the sine wave.</p>
 </div>
-<div id="blocks_sine_map" class="listingblock">
+<div id="blocks_sine1_map" class="listingblock">
 <div class="title">/tmp/pru0-gen/sine1.map for Sine Wave</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
@@ -3139,8 +3139,9 @@ You can look in <code>/tmp/pru0-gen/sine.map</code> to see how much memory is be
 21
 22
 </pre></td>
-  <td class="code"><pre>                     PRU Linker Unix v2.1.5
-
+  <td class="code"><pre>******************************************************************************
+PRU Linker Unix v2.1.5
+******************************************************************************
 &gt;&gt; Linked Fri Jun 29 13:58:08 2018
 
 OUTPUT FILE NAME:   &lt;/tmp/pru0-gen/sine1.out&gt;
@@ -3159,8 +3160,7 @@ PAGE 1:
   PRU_DMEM_1_0          00002000   00002000  00000000  00002000  RWIX
 
 PAGE 2:
-  PRU_SHAREDMEM         00010000   00003000  00000000  00003000  RWIX
-  PRU_INTC              00020000   00001504  00000000  00001504  RWIX</pre></td>
+  PRU_SHAREDMEM         00010000   00003000  00000000  00003000  RWIX</pre></td>
 </tr></table></code></pre>
 </div>
 </div>
@@ -3264,7 +3264,7 @@ to the PRU.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-29 15:04:01 EDT
+Last updated 2018-07-02 08:22:43 EDT
 </div>
 </div>
 </body>

@@ -674,15 +674,14 @@ image:figures/sine.png[Reconstructed Sinusoid Waveform]
 Notice on the bottom plot the harmonics are much more suppressed.
 
 Generating the sine waveform uses ((floats)). This requires much more code.
-You can look in `/tmp/pru0-gen/sine.map` to see how much memory is being used.
-<<blocks_sine_map>> shows the first few lines for the sine wave.
+You can look in `/tmp/pru0-gen/sine1.map` to see how much memory is being used.
+<<blocks_sine1_map>> shows the first few lines for the sine wave.
 
-[[blocks_sine_map]]
+[[blocks_sine1_map]]
 ./tmp/pru0-gen/sine1.map for Sine Wave
 [source,bash,linenums]
-[subs=+quotes]
 ----
-include::code/sine.map[lines=1..22]
+include::code/sine1.map[lines=1..22]
 ----
 
 Notice line 19 shows 0x18c0 bytes are being used for instructions.  That's 6336 
