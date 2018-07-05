@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.4">
+<meta name="generator" content="Asciidoctor 1.5.5">
 <title>Case Studies - Introduction</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -17,7 +17,6 @@ audio:not([controls]){display:none;height:0}
 [hidden],template{display:none}
 script{display:none!important}
 html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
-body{margin:0}
 a{background:transparent}
 a:focus{outline:thin dotted}
 a:active,a:hover{outline:0}
@@ -52,7 +51,7 @@ textarea{overflow:auto;vertical-align:top}
 table{border-collapse:collapse;border-spacing:0}
 *,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
 html,body{font-size:100%}
-body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
 a:hover{cursor:pointer}
 img,object,embed{max-width:100%;height:auto}
 object,embed{height:100%}
@@ -64,7 +63,6 @@ img{-ms-interpolation-mode:bicubic}
 .text-center{text-align:center!important}
 .text-justify{text-align:justify!important}
 .hide{display:none}
-body{-webkit-font-smoothing:antialiased}
 img,object,svg{display:inline-block;vertical-align:middle}
 textarea{height:auto;min-height:50px}
 select{width:100%}
@@ -119,13 +117,16 @@ table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:
 table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
 table tr.even,table tr.alt,table tr:nth-of-type(even){background:#f8f8f7}
 table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
-body{tab-size:4}
 h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
 h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
 .clearfix:before,.clearfix:after,.float-group:before,.float-group:after{content:" ";display:table}
 .clearfix:after,.float-group:after{clear:both}
-*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
+*:not(pre)>code.nobreak{word-wrap:normal}
+*:not(pre)>code.nowrap{white-space:nowrap}
 pre,pre>code{line-height:1.45;color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;text-rendering:optimizeSpeed}
+em em{font-style:normal}
+strong strong{font-weight:400}
 .keyseq{color:rgba(51,51,51,.8)}
 kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
 .keyseq kbd:first-child{margin-left:0}
@@ -516,16 +517,10 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_case_studies_introduction">1. Case Studies - Introduction</a>
 <ul class="sectlevel2">
 <li><a href="#_robotics_control_library">1.1. Robotics Control Library</a></li>
-<li><a href="#_configuring_pins">1.2. Configuring Pins</a></li>
-<li><a href="#_controlling_eight_servos">1.3. Controlling Eight Servos</a></li>
-<li><a href="#_controlling_individual_servos">1.4. Controlling Individual Servos</a></li>
-<li><a href="#_controlling_more_than_eight_channels">1.5. Controlling More Than Eight Channels</a></li>
-<li><a href="#_reading_hardware_encoders">1.6. Reading Hardware Encoders</a></li>
-<li><a href="#_reading_pru_encoder">1.7. Reading PRU Encoder</a></li>
-<li><a href="#_beaglelogic_a_14_channel_logic_analyzer">1.8. BeagleLogic - a 14-channel Logic Analyzer</a></li>
-<li><a href="#_machinekit">1.9. MachineKit</a></li>
-<li><a href="#_ledscape">1.10. LEDScape</a></li>
-<li><a href="#_ardupilot">1.11. ArduPilot</a></li>
+<li><a href="#_beaglelogic_a_14_channel_logic_analyzer">1.2. BeagleLogic - a 14-channel Logic Analyzer</a></li>
+<li><a href="#_ledscape">1.3. LEDScape</a></li>
+<li><a href="#_machinekit">1.4. MachineKit</a></li>
+<li><a href="#_ardupilot">1.5. ArduPilot</a></li>
 </ul>
 </li>
 </ul>
@@ -599,17 +594,16 @@ chapters you will see the details.</p>
 that contains a C library and example/testing programs for the BeagleBone Blue
 and the BeagleBone Black with Robotics Cape. It uses the PRU to extend the real-time hardware of the Bone.</p>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_configuring_pins"><a class="link" href="#_configuring_pins">1.2. Configuring Pins</a></h3>
 <div class="sect3">
-<h4 id="_problem"><a class="link" href="#_problem">Problem</a></h4>
+<h4 id="_configuring_pins"><a class="link" href="#_configuring_pins">Configuring Pins</a></h4>
+<div class="sect4">
+<h5 id="_problem"><a class="link" href="#_problem">Problem</a></h5>
 <div class="paragraph">
 <p>You want to configure the pins so the PRU input and outputs are accessable.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_solution"><a class="link" href="#_solution">Solution</a></h4>
+<div class="sect4">
+<h5 id="_solution"><a class="link" href="#_solution">Solution</a></h5>
 <div class="paragraph">
 <p>It depends on which Beagle you are running on.  If you are on the Blue, everything is already configured for you.
 If you are on the Black or Pocket you&#8217;ll need to run the following script.</p>
@@ -671,24 +665,24 @@ done</pre></td>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_discussion"><a class="link" href="#_discussion">Discussion</a></h4>
+<div class="sect4">
+<h5 id="_discussion"><a class="link" href="#_discussion">Discussion</a></h5>
 <div class="paragraph">
 <p>The first part of the code looks in <code>/proc/device-tree/model</code> to see which Beagle is running. Based on that it
 assigns <code>pins</code> a list of pins to configure.  Then the last part of the script loops through each of the pins and configures it.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_controlling_eight_servos"><a class="link" href="#_controlling_eight_servos">1.3. Controlling Eight Servos</a></h3>
 <div class="sect3">
-<h4 id="_problem_2"><a class="link" href="#_problem_2">Problem</a></h4>
+<h4 id="_controlling_eight_servos"><a class="link" href="#_controlling_eight_servos">Controlling Eight Servos</a></h4>
+<div class="sect4">
+<h5 id="_problem_2"><a class="link" href="#_problem_2">Problem</a></h5>
 <div class="paragraph">
 <p>You need to control eight servos, but the Bone doesn&#8217;t have enough PWMs.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_solution_2"><a class="link" href="#_solution_2">Solution</a></h4>
+<div class="sect4">
+<h5 id="_solution_2"><a class="link" href="#_solution_2">Solution</a></h5>
 <div class="paragraph">
 <p>The Robotics Control Library provides eight additional PWM channels via the PRU that can be used out of the box.  Just run:</p>
 </div>
@@ -721,8 +715,8 @@ sample use to center servo channel 1:
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_discussion_2"><a class="link" href="#_discussion_2">Discussion</a></h4>
+<div class="sect4">
+<h5 id="_discussion_2"><a class="link" href="#_discussion_2">Discussion</a></h5>
 <div class="paragraph">
 <p>The BeagleBone Blue sends these eight outputs to it&#8217;s servo channels.  The Black and the Pocket use the pins shown in the
 <a href="#_register_to_pin_table">Register to pin table</a>.</p>
@@ -805,16 +799,16 @@ servos.  All you have to do is run the command.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_controlling_individual_servos"><a class="link" href="#_controlling_individual_servos">1.4. Controlling Individual Servos</a></h3>
 <div class="sect3">
-<h4 id="_problem_3"><a class="link" href="#_problem_3">Problem</a></h4>
+<h4 id="_controlling_individual_servos"><a class="link" href="#_controlling_individual_servos">Controlling Individual Servos</a></h4>
+<div class="sect4">
+<h5 id="_problem_3"><a class="link" href="#_problem_3">Problem</a></h5>
 <div class="paragraph">
 <p><code>rc_test_servos</code> is nice, but I need to control the servos individually.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_solution_3"><a class="link" href="#_solution_3">Solution</a></h4>
+<div class="sect4">
+<h5 id="_solution_3"><a class="link" href="#_solution_3">Solution</a></h5>
 <div class="paragraph">
 <p>You can modify <code>rc_test_servos.c</code>.  You&#8217;ll find it on the bone at
 <code>/opt/source/Robotics_Cape_Installer/examples/src/rc_test_servos.c</code>, or online at
@@ -827,32 +821,32 @@ sets the width to an absolute time.  Use whichever works for you.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_controlling_more_than_eight_channels"><a class="link" href="#_controlling_more_than_eight_channels">1.5. Controlling More Than Eight Channels</a></h3>
 <div class="sect3">
-<h4 id="_problem_4"><a class="link" href="#_problem_4">Problem</a></h4>
+<h4 id="_controlling_more_than_eight_channels"><a class="link" href="#_controlling_more_than_eight_channels">Controlling More Than Eight Channels</a></h4>
+<div class="sect4">
+<h5 id="_problem_4"><a class="link" href="#_problem_4">Problem</a></h5>
 <div class="paragraph">
 <p>I need more than eight PWM channels, or I need less jitter on the off time.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_solution_4"><a class="link" href="#_solution_4">Solution</a></h4>
+<div class="sect4">
+<h5 id="_solution_4"><a class="link" href="#_solution_4">Solution</a></h5>
 <div class="paragraph">
 <p>This is a more advanced problem and required reprograming the PRUs.  See
 <a href="../05blocks/blocks.html">Building Blocks - Applications</a> for an example.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_reading_hardware_encoders"><a class="link" href="#_reading_hardware_encoders">1.6. Reading Hardware Encoders</a></h3>
 <div class="sect3">
-<h4 id="_problem_5"><a class="link" href="#_problem_5">Problem</a></h4>
+<h4 id="_reading_hardware_encoders"><a class="link" href="#_reading_hardware_encoders">Reading Hardware Encoders</a></h4>
+<div class="sect4">
+<h5 id="_problem_5"><a class="link" href="#_problem_5">Problem</a></h5>
 <div class="paragraph">
 <p>I want to use four encoders to measure four motors, but I only see hardware for three.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_solution_5"><a class="link" href="#_solution_5">Solution</a></h4>
+<div class="sect4">
+<h5 id="_solution_5"><a class="link" href="#_solution_5">Solution</a></h5>
 <div class="paragraph">
 <p>The forth encoder can be implemented on the PRU. If you run <code>rc_test_encoders_eqep</code> on the Blue, you will see the output of
 encoders E1-E3 which are connected to the eEQP hardware.</p>
@@ -994,16 +988,16 @@ done</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_reading_pru_encoder"><a class="link" href="#_reading_pru_encoder">1.7. Reading PRU Encoder</a></h3>
 <div class="sect3">
-<h4 id="_problem_6"><a class="link" href="#_problem_6">Problem</a></h4>
+<h4 id="_reading_pru_encoder"><a class="link" href="#_reading_pru_encoder">Reading PRU Encoder</a></h4>
+<div class="sect4">
+<h5 id="_problem_6"><a class="link" href="#_problem_6">Problem</a></h5>
 <div class="paragraph">
 <p>I want to access the PRU encoder.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_solution_6"><a class="link" href="#_solution_6">Solution</a></h4>
+<div class="sect4">
+<h5 id="_solution_6"><a class="link" href="#_solution_6">Solution</a></h5>
 <div class="paragraph">
 <p>The forth encoder is implemented on the PRU and accessed with <code>sudo rc_test_encoders_pru</code></p>
 </div>
@@ -1041,8 +1035,9 @@ does the PRU configuring.</p>
 </div>
 </div>
 </div>
+</div>
 <div class="sect2">
-<h3 id="_beaglelogic_a_14_channel_logic_analyzer"><a class="link" href="#_beaglelogic_a_14_channel_logic_analyzer">1.8. BeagleLogic - a 14-channel Logic Analyzer</a></h3>
+<h3 id="_beaglelogic_a_14_channel_logic_analyzer"><a class="link" href="#_beaglelogic_a_14_channel_logic_analyzer">1.2. BeagleLogic - a 14-channel Logic Analyzer</a></h3>
 <div class="sect3">
 <h4 id="_problem_7"><a class="link" href="#_problem_7">Problem</a></h4>
 <div class="paragraph">
@@ -1070,7 +1065,58 @@ explaining how the PRUs get this type of performance.   In section
 </div>
 </div>
 <div class="sect2">
-<h3 id="_machinekit"><a class="link" href="#_machinekit">1.9. MachineKit</a></h3>
+<h3 id="_ledscape"><a class="link" href="#_ledscape">1.3. LEDScape</a></h3>
+<div class="sect3">
+<h4 id="_problem_8"><a class="link" href="#_problem_8">Problem</a></h4>
+<div class="paragraph">
+<p>
+
+
+
+
+You have an <a href="http://www.adafruit.com/products/1138">Adafruit NeoPixel LED string</a>
+or <a href="http://www.adafruit.com/products/1487">Adafruit NeoPixel LED matrix</a>
+and want to light it up.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_8"><a class="link" href="#_solution_8">Solution</a></h4>
+<div class="paragraph">
+<p>You can either write your own code (See the Building BLocks chapter for an
+example.) Or use a library.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/Yona-Appletree/LEDscape">LEDScape</a> is a library for
+controlling NeoPixles.</p>
+</div>
+<div class="verseblock">
+<pre class="content">LEDscape is a library and service for controlling individually addressable LEDs from a Beagle Bone Black or Beagle Bone Green using the onboard PRUs. It currently supports WS281x (WS2811, WS2812, WS2812b), WS2801 and initial support for DMX.
+
+It can support up to 48 connected strings and can drive them with very little load on the main processor.
+
+Background
+LEDscape was originally written by Trammell Hudson (<a href="http://trmm.net/Category:LEDscape" class="bare">http://trmm.net/Category:LEDscape</a>) for controlling WS2811-based LEDs. Since his original work, his version (<a href="https://github.com/osresearch/LEDscape" class="bare">https://github.com/osresearch/LEDscape</a>) has been repurposed to drive a different type of LED panel (e.g. <a href="http://www.adafruit.com/products/420" class="bare">http://www.adafruit.com/products/420</a>).
+
+This version of the library was forked from his original WS2811 work. Various improvements have been made in the attempt to make an accessible and powerful LED driver based on the BBB. Many thanks to Trammell for his excellent work in scaffolding the BBB and PRUs for driving LEDs.</pre>
+<div class="attribution">
+&#8212; https://github.com/Yona-Appletree/LEDscape
+</div>
+</div>
+<div class="paragraph">
+<p>LEDScape can drive 48 strings of LEDs are arbitary length with no addional
+hardware!</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_4"><a class="link" href="#_discussion_4">Discussion</a></h4>
+<div class="paragraph">
+<p>LEDScape was written for an earlier version of the Linux kernel, so you will
+have to follow the instructions for installing it.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_machinekit"><a class="link" href="#_machinekit">1.4. MachineKit</a></h3>
 <div class="paragraph">
 <p>MachineKit is a platform for machine control applications.  It can control
 machine tools, robots, or other automated devices. It can control servo
@@ -1078,11 +1124,7 @@ motors, stepper motors, relays, and other devices related to machine tools.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ledscape"><a class="link" href="#_ledscape">1.10. LEDScape</a></h3>
-
-</div>
-<div class="sect2">
-<h3 id="_ardupilot"><a class="link" href="#_ardupilot">1.11. ArduPilot</a></h3>
+<h3 id="_ardupilot"><a class="link" href="#_ardupilot">1.5. ArduPilot</a></h3>
 
 </div>
 </div>
@@ -1090,7 +1132,7 @@ motors, stepper motors, relays, and other devices related to machine tools.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-03 08:19:17 EDT
+Last updated 2018-07-05 13:02:53 EDT
 </div>
 </div>
 </body>

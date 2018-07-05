@@ -34,11 +34,11 @@ The http://strawsondesign.com/docs/roboticscape/[Robotics Control Library] is a 
 that contains a C library and example/testing programs for the BeagleBone Blue
 and the BeagleBone Black with Robotics Cape. It uses the PRU to extend the real-time hardware of the Bone.
 
-=== Configuring Pins
-==== Problem
+==== Configuring Pins
+===== Problem
 You want to ((configure)) the pins so the PRU input and outputs are accessable.
 
-==== Solution
+===== Solution
 It depends on which Beagle you are running on.  If you are on the Blue, everything is already configured for you.
 If you are on the Black or Pocket you'll need to run the following script.
 
@@ -48,16 +48,16 @@ If you are on the Black or Pocket you'll need to run the following script.
 include::code/servos_setup.sh[servos_setup.sh]
 ----
 
-==== Discussion
+===== Discussion
 The first part of the code looks in `/proc/device-tree/model` to see which Beagle is running. Based on that it
 assigns `pins` a list of pins to configure.  Then the last part of the script loops through each of the pins and configures it.
 
 
-=== Controlling Eight Servos
-==== Problem
+==== Controlling Eight Servos
+===== Problem
 You need to control eight servos, but the Bone doesn't have enough PWMs.  
 
-==== Solution
+===== Solution
 The Robotics Control Library provides eight additional PWM channels via the PRU that can be used out of the box.  Just run:
 [source,bash]
 [subs=+quotes]
@@ -88,7 +88,7 @@ sample use to center servo channel 1:
    rc_test_servo -c 1 -p 0.0
 ----
 
-==== Discussion
+===== Discussion
 The BeagleBone Blue sends these eight outputs to it's servo channels.  The Black and the Pocket use the pins shown in the 
 <<_register_to_pin_table,Register to pin table>>.
 
@@ -115,11 +115,11 @@ servos.  All you have to do is run the command.
 
 //[/opt/source/Robotics_Cape_Installer/pru_firmware/src/pru1-servo.asm]
 
-=== Controlling Individual Servos
-==== Problem
+==== Controlling Individual Servos
+===== Problem
 `rc_test_servos` is nice, but I need to control the servos individually.
 
-==== Solution
+===== Solution
 You can modify `rc_test_servos.c`.  You'll find it on the bone at
 `/opt/source/Robotics_Cape_Installer/examples/src/rc_test_servos.c`, or online at
 <https://github.com/StrawsonDesign/Robotics_Cape_Installer/blob/master/examples/src/rc_test_servos.c>.
@@ -128,21 +128,21 @@ Just past line 250 you'll find a `while` loop that has calls to `rc_servo_send_p
 `rc_servo_send_pulse_us(ch, width_us)`.  The first call sets the pulse width relative to the pulse period; the other
 sets the width to an absolute time.  Use whichever works for you.
 
-=== Controlling More Than Eight Channels
-==== Problem
+==== Controlling More Than Eight Channels
+===== Problem
 I need more than eight PWM channels, or I need less jitter on the off time.
 
-==== Solution
+===== Solution
 This is a more advanced problem and required reprograming the PRUs.  See 
 <<../05blocks/blocks.html#, Building Blocks - Applications>> for an example.
 // ToDo, fill in XXXXX
 
 
-=== Reading Hardware Encoders
-==== Problem
+==== Reading Hardware Encoders
+===== Problem
 I want to use four encoders to measure four motors, but I only see hardware for three.
 
-==== Solution
+===== Solution
 The forth encoder can be implemented on the PRU. If you run `rc_test_encoders_eqep` on the Blue, you will see the output of 
 encoders E1-E3 which are connected to the eEQP hardware.
 [source,bash]
@@ -176,11 +176,11 @@ include::code/encoder_setup.sh[encoder.sh]
 ----
 The eQEP pins are configured with the top half of the code.
 
-=== Reading PRU Encoder
-==== Problem
+==== Reading PRU Encoder
+===== Problem
 I want to access the PRU encoder.
 
-==== Solution
+===== Solution
 The forth encoder is implemented on the PRU and accessed with `sudo rc_test_encoders_pru`  
 [NOTE]
 ====
@@ -223,12 +223,47 @@ explaining how the PRUs get this type of performance.   In section
 // Todo:  Fill in XXXXX
 
 
+=== LEDScape
+==== Problem
+((("displays", "NeoPixel LED strings")))
+((("outputs", "NeoPixel LED strings")))
+((("Adafruit Neopixel LED strings")))
+((("Neopixel LED strings")))
+((("LEDs", "Adafruit Neopixel LED strings")))
+You have an http://www.adafruit.com/products/1138[Adafruit NeoPixel LED string]
+or http://www.adafruit.com/products/1487[Adafruit NeoPixel LED matrix] 
+and want to light it up.
+
+==== Solution
+You can either write your own code (See the Building BLocks chapter for an
+example.) Or use a library.
+
+https://github.com/Yona-Appletree/LEDscape[LEDScape] is a library for
+controlling NeoPixles.
+[verse, https://github.com/Yona-Appletree/LEDscape]
+____
+LEDscape is a library and service for controlling individually addressable LEDs from a Beagle Bone Black or Beagle Bone Green using the onboard PRUs. It currently supports WS281x (WS2811, WS2812, WS2812b), WS2801 and initial support for DMX.
+
+It can support up to 48 connected strings and can drive them with very little load on the main processor.
+
+Background
+LEDscape was originally written by Trammell Hudson (http://trmm.net/Category:LEDscape) for controlling WS2811-based LEDs. Since his original work, his version (https://github.com/osresearch/LEDscape) has been repurposed to drive a different type of LED panel (e.g. http://www.adafruit.com/products/420).
+
+This version of the library was forked from his original WS2811 work. Various improvements have been made in the attempt to make an accessible and powerful LED driver based on the BBB. Many thanks to Trammell for his excellent work in scaffolding the BBB and PRUs for driving LEDs.
+____
+
+LEDScape can drive 48 strings of LEDs are arbitary length with no addional
+hardware!
+
+==== Discussion
+LEDScape was written for an earlier version of the Linux kernel, so you will
+have to follow the instructions for installing it.
+
 === MachineKit
 MachineKit is a platform for machine control applications.  It can control 
 machine tools, robots, or other automated devices. It can control servo 
 motors, stepper motors, relays, and other devices related to machine tools.
 
-=== LEDScape
 
 === ArduPilot
 
