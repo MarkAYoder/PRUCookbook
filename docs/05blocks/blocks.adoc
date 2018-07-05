@@ -913,7 +913,7 @@ Test your wiring with the simple code in <<blocks_neo1>>
 which to turns all pixels white.
 
 [[blocks_neo1]]
-.Code to turn all NeoPixels's white
+.neo1.c - Code to turn all NeoPixels's white
 [source,c,linenums]
 [subs=+quotes]
 ----
@@ -935,17 +935,84 @@ Where the times are:
 |T0L|800
 |T1H|700
 |T1L|600
+|Treset|>50,000
 |===
 
-The code in <<blocks_neo1>> define these times in lines 6-9.  The `/5` is because 
-each instruction take 5ns.  Lines 24-27 then set the output to 1 for
-the desired time and then to 0 and keeps repeating it.  <<blocks_zero_scope>> 
+The code in <<blocks_neo1>> define these times in lines 7-10.  
+The `/5` is because 
+each instruction take 5ns.  Lines 27-30 then set the output to 1 for
+the desired time and then to 0 and keeps repeating it for the entire
+string length.  <<blocks_zero_scope>> 
 shows the waveform for sending a 0 value.  Note the times are spot on.
 
 [[blocks_zero_scope]]
 .NeoPixel zero timing
 image:figures/neo_scope.png[]
 
+Each NeoPixel listens for a RGB value. Once a value has arrived all other values
+that follow are passed on to the next NeoPixel which does the same thing.
+That way you can individually control all of the NeoPixels.
+
+Lines 38-40 send out a reset pulse.  If a NeoPixel sees a reset pulse it will
+grab the next value for itself and start over again.
+
+
+
+=== Setting NeoPixels to Different Colors
+==== Problem
+I want to set the LEDs to different colors.
+
+==== Solution
+Wire your NeoPixels as shown in <<blocks_neo_wiring>> then run the code in 
+<<blocks_neo2>>.
+
+[[blocks_neo2]]
+.neo2.c - Code to turn aon green, red, blue
+[source,c,linenums]
+[subs=+quotes]
+----
+include::code/neo2.c[]
+----
+
+This will make the first LED green, the second red and the third blue.
+
+==== Discussion
+<<blocks_new_data_seq>> shows the sequence of bits used to control the
+green, red and blue values.
+
+[[blocks_new_data_seq]]
+.NeoPixel data sequence
+image:figures/neo_data_seq.png[]
+[NOTE]
+====
+The usual order for colors is RGB (red, green, blue), but the NeoPixels use
+GRB (green, red, blue).
+====
+
+<<blocks_neo2_line>> is the line-by-line for `neo2.c`.
+[[blocks_neo2_line]]
+[cols="1,9"]
+|====
+|Line |Explanation
+
+|22   |Define the string of colors to be output.  Here the ordering of the
+bits is the same as <<blocks_new_data_seq>>, GRB. 
+|25   |Loop for each color to output.
+|26   |Loop for each bit in an GRB color.
+|27   |Get the j^th^ color and mask off all but the j^th^ bit.  `(0x1<<i)` takes
+the value `0x1` and shifts it left `i` bits.  When anded (&) with `color[j]` 
+it will zero out all but the i^th^ bit.  If the result of the operation is
+1, the `if` is done, otherwise the `else` is done.
+|28-31|Send a 1.
+|33-36|Send a 0.
+|40-32|Send a reset pulse once all the colors have been sent.
+|====
+
+[NOTE]
+====
+This will only change the first `STR_LEN` LEDs.  The LEDs that follow will not
+be changed.
+====
 
 === Copyright
 [source,c,linenums]
