@@ -2,6 +2,8 @@
 #
 export PRUN=0
 export TARGET=neo1
+echo PRUN=$PRUN
+echo TARGET=$TARGET
 
 # Configure the PRU pins based on which Beagle is running
 machine=$(awk '{print $NF}' /proc/device-tree/model)
