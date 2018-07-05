@@ -17,8 +17,8 @@ compiling on the Beagle
   
 . link:02case/case.html[Case Studies]
   ** [x] Robotics Control Library
-  ** [ ] BeagleLogic
-  ** [ ] LEDscape
+  ** [X] BeagleLogic
+  ** [x] LEDscape
   ** [ ] MachineKit
   ** [ ] ArduPilot
   ** [ ] BeagleScope
@@ -43,8 +43,8 @@ footnote:[Roadmap-wise, I'd want to consider how to plug RPMsg into a printf fun
   ** [x] PWM generator
   ** [ ] Encoder
   ** [x] Analog Wave Generator
+  ** [x] neoPixel driver
   ** [ ] Ultrasonic Sensor Application
-  ** [ ] neoPixel driver
   
 . link:06io/io.html[Accessing More I/O]
 footnote:[The split with talking to the ARM is a little confusing to me as I don't know what the 'more' is.]
