@@ -528,7 +528,8 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_ultrasonic_sensor_application">1.10. Ultrasonic Sensor Application</a></li>
 <li><a href="#_ws2812_neopixel_driver">1.11. WS2812 (NeoPixel) driver</a></li>
 <li><a href="#_setting_neopixels_to_different_colors">1.12. Setting NeoPixels to Different Colors</a></li>
-<li><a href="#_copyright">1.13. Copyright</a></li>
+<li><a href="#_controlling_arbitrary_leds">1.13. Controlling Arbitrary LEDs</a></li>
+<li><a href="#_copyright">1.14. Copyright</a></li>
 </ul>
 </li>
 </ul>
@@ -3870,10 +3871,10 @@ grab the next value for itself and start over again.</p>
 <h4 id="_solution_11"><a class="link" href="#_solution_11">Solution</a></h4>
 <div class="paragraph">
 <p>Wire your NeoPixels as shown in <a href="#blocks_neo_wiring">NeoPixel Wiring</a> then run the code in
-<a href="#blocks_neo2">neo2.c - Code to turn aon green, red, blue</a>.</p>
+<a href="#blocks_neo2">neo2.c - Code to turn on green, red, blue</a>.</p>
 </div>
 <div id="blocks_neo2" class="listingblock">
-<div class="title">neo2.c - Code to turn aon green, red, blue</div>
+<div class="title">neo2.c - Code to turn on green, red, blue</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -4048,10 +4049,232 @@ it will zero out all but the i<sup>th</sup> bit.  If the result of the operation
 </tr>
 </tbody>
 </table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This will only change the first <code>STR_LEN</code> LEDs.  The LEDs that follow will not
+be changed.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_copyright"><a class="link" href="#_copyright">1.13. Copyright</a></h3>
+<h3 id="_controlling_arbitrary_leds"><a class="link" href="#_controlling_arbitrary_leds">1.13. Controlling Arbitrary LEDs</a></h3>
+<div class="sect3">
+<h4 id="_problem_12"><a class="link" href="#_problem_12">Problem</a></h4>
+<div class="paragraph">
+<p>I want to change the 10<sup>th</sup> LED and not have to change the others.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_12"><a class="link" href="#_solution_12">Solution</a></h4>
+<div class="paragraph">
+<p>You need to keep an array of colors for the whole string in the PRU.  Change
+the color of any pixels you want in the array and then send out the whole
+string to the LEDs.  <a href="#blocks_neo3">neo3.c - Code animate a red pixel running around a ring of blue</a> shows an example animates a red pixel
+running around a ring of blue background.  <a href="#blocks_neo3_video">neo3.c - Simple animation</a> shows
+the code in action.</p>
+</div>
+<div id="blocks_neo3_video" class="videoblock">
+<div class="title">neo3.c - Simple animation</div>
+<div class="content">
+<video src="figures/ring_around.mp4#t=,4" width="320" controls>
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+<div id="blocks_neo3" class="listingblock">
+<div class="title">neo3.c - Code animate a red pixel running around a ring of blue</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+</pre></td>
+  <td class="code"><pre><span class="comment">// Control a ws2812 (neo pixel) display, green, red, blue, green, ...</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
+
+<span class="preprocessor">#define</span> STR_LEN <span class="integer">24</span>
+<span class="preprocessor">#define</span> oneCyclesOn     <span class="integer">700</span>/<span class="integer">5</span>   <span class="comment">// Stay on 700ns</span>
+<span class="preprocessor">#define</span> oneCyclesOff    <span class="integer">800</span>/<span class="integer">5</span>
+<span class="preprocessor">#define</span> zeroCyclesOn    <span class="integer">350</span>/<span class="integer">5</span>
+<span class="preprocessor">#define</span> zeroCyclesOff   <span class="integer">600</span>/<span class="integer">5</span>
+<span class="preprocessor">#define</span> resetCycles     <span class="integer">60000</span>/<span class="integer">5</span> <span class="comment">// Must be at least 50u, use 60u</span>
+<span class="preprocessor">#define</span> out <span class="integer">1</span>       <span class="comment">// Bit number to output one</span>
+
+<span class="preprocessor">#define</span> SPEED <span class="integer">20000000</span>/<span class="integer">5</span>    <span class="comment">// Time to wait between updates</span>
+
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t <em>R30;
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t </em>R31;
+
+<span class="directive">void</span> main(<span class="directive">void</span>)
+{
+    uint32_t background = <span class="hex">0x00000f</span>;
+    uint32_t foreground = <span class="hex">0x000f00</span>;
+
+    <span class="comment">/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */</span>
+    CT_CFG.SYSCFG_bit.STANDBY_INIT = <span class="integer">0</span>;
+
+    uint32_t color[STR_LEN];    <span class="comment">// green, red, blue</span>
+    <span class="predefined-type">int</span> i, j;
+    <span class="predefined-type">int</span> k, oldk = <span class="integer">0</span>;;
+    <span class="comment">// Set everything to background</span>
+    <span class="keyword">for</span>(i=<span class="integer">0</span>; i&lt;STR_LEN; i++) {
+        color[i] = background;
+    }
+
+    <span class="keyword">while</span>(<span class="integer">1</span>) {
+        <span class="comment">// Move forward one position</span>
+        <span class="keyword">for</span>(k=<span class="integer">0</span>; k&lt;STR_LEN; k++) {
+            color[oldk] = background;
+            color[k]    = foreground;
+            oldk=k;
+
+            <span class="comment">// Output the string</span>
+            <span class="keyword">for</span>(j=<span class="integer">0</span>; j&lt;STR_LEN; j++) {
+                <span class="keyword">for</span>(i=<span class="integer">23</span>; i&gt;=<span class="integer">0</span>; i--) {
+                    <span class="keyword">if</span>(color[j] &amp; (<span class="hex">0x1</span>&lt;&lt;i)) {
+                        <em>R30 |= <span class="hex">0x1</span>&lt;&lt;out;      <span class="comment">// Set the GPIO pin to 1</span>
+                        </em>delay_cycles(oneCyclesOn-<span class="integer">1</span>);
+                        <em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;out);   <span class="comment">// Clear the GPIO pin</span>
+                        </em>delay_cycles(oneCyclesOff-<span class="integer">2</span>);
+                    } <span class="keyword">else</span> {
+                        <em>R30 |= <span class="hex">0x1</span>&lt;&lt;out;      <span class="comment">// Set the GPIO pin to 1</span>
+                        </em>delay_cycles(zeroCyclesOn-<span class="integer">1</span>);
+                        <em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;out);   <span class="comment">// Clear the GPIO pin</span>
+                        </em>delay_cycles(zeroCyclesOff-<span class="integer">2</span>);
+                    }
+                }
+            }
+            <span class="comment">// Send Reset</span>
+            <em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;out);   <span class="comment">// Clear the GPIO pin</span>
+            </em>delay_cycles(resetCycles);
+
+            <span class="comment">// Wait</span>
+            __delay_cycles(SPEED);
+        }
+    }
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_11"><a class="link" href="#_discussion_11">Discussion</a></h4>
+<div class="paragraph">
+<p>Here&#8217;s the highlights.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 10%;">
+<col style="width: 90%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Line</th>
+<th class="tableblock halign-left valign-top">Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">31,32</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Initiallize the array of colors.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">37-40</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Update the array.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">43-57</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Send the array to the LEDs.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">58-60</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Send a reset.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">62,63</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Wait a bit.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_copyright"><a class="link" href="#_copyright">1.14. Copyright</a></h3>
 <div class="listingblock">
 <div class="title">copyright.c</div>
 <div class="content">
@@ -4130,7 +4353,7 @@ it will zero out all but the i<sup>th</sup> bit.  If the result of the operation
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-05 11:32:22 EDT
+Last updated 2018-07-05 12:29:17 EDT
 </div>
 </div>
 </body>
