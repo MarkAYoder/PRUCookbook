@@ -78,7 +78,9 @@ Compile and run the program.
 [source,bash,linenums]
 [subs=+quotes]
 ----
-bone$ *source pwm_setup.sh*
+bone$ *source shared_setup.sh*
+PRUN=0
+TARGET=shared
 Black Found
 P9_31
 P9_31 Mode: pruout
@@ -88,7 +90,6 @@ P9_30
 P9_30 Mode: pruout
 P9_28
 P9_28 Mode: pruout
-bone$ *export TARGET=shared*
 bone$ *make*
 -    Stopping PRU 0
 stop
@@ -205,7 +206,104 @@ The compiler offers great control over where variables are stored. Just
 be sure if you are hand picking where thing are put not to put them where
 the compiler is putting things.
 
-=== PWM generator
+=== Auto Initialization of Builtin LED Triggers
+==== Problem
+I see the builtin LEDs blink to their own patterns.  How do I turn this off? 
+Can this be automated?
+
+==== Solution
+Each builtin LED has a default action (trigger) when the Bone boots up. 
+This is controlled by `/sys/class/leds`.
+[subs=+quotes]
+----
+bone$ *cd /sys/class/leds*
+bone$ *ls*
+beaglebone:green:usr0  beaglebone:green:usr2
+beaglebone:green:usr1  beaglebone:green:usr3
+----
+Here you see a directory for each of the LEDs.  Let's pick USR1.
+[subs=+quotes]
+----
+bone$ *cd beaglebone\:green\:usr1*
+bone$ *ls*
+brightness  device  max_brightness  power  subsystem  trigger  uevent
+bone$ *cat trigger*
+none rc-feedback kbd-scrolllock kbd-numlock kbd-capslock kbd-kanalock 
+kbd-shiftlock kbd-altgrlock kbd-ctrllock kbd-altlock kbd-shiftllock 
+kbd-shiftrlock kbd-ctrlllock kbd-ctrlrlock usb-gadget usb-host 
+*[mmc0]* mmc1 timer oneshot disk-activity ide-disk mtd nand-disk 
+heartbeat backlight gpio cpu0 default-on 
+----
+Notice `[mmc0]` is in brackets.  This means it's the current trigger; it flashes 
+when the builtin flash memory is in use.  You can turn this off using:
+[subs=+quotes]
+----
+bone$ *echo none | sudo tee trigger*
+bone$ *cat trigger*
+[none] rc-feedback kbd-scrolllock kbd-numlock kbd-capslock kbd-kanalock 
+kbd-shiftlock kbd-altgrlock kbd-ctrllock kbd-altlock kbd-shiftllock 
+kbd-shiftrlock kbd-ctrlllock kbd-ctrlrlock usb-gadget usb-host 
+mmc0 mmc1 timer oneshot disk-activity ide-disk mtd nand-disk 
+heartbeat backlight gpio cpu0 default-on 
+----
+Now it is no longer flashing.
+[TIP]
+====
+You have to have root permissions to write to `trigger`.  Here we use 
+`| sudo tee trigger` since `sudo echo none > trigger` doesn't do what you want.
+====
+
+How can this be automated so when code is run that needs the trigger off, it's 
+turned off automatically?  Here's a trick.  Include the following in your code.
+
+[source,c,linenums]
+[subs=+quotes]
+----
+#pragma DATA_SECTION(init_pins, ".init_pins")
+#pragma RETAIN(init_pins)
+const char init_pins[] =  
+        "/sys/class/leds/beaglebone:green:usr3/trigger\0none\0" \
+        "\0\0";
+----
+Lines 3 and 4 declare the array `init_pins` to have an entry which is the path 
+to `trigger` and the value that should be 'echoed' into it. Both are NULL
+terminated.  Line 1 says to put this in a section called `.init_pins` and 
+line 2 says to `RETAIN` it.  That is don't throw it away if it appears to be 
+unused.
+
+==== Discussion
+The above code stores this array in the `.out` file that created, but that's not 
+enough. You need to run <<blocks_write_init_pins>> on the `.out` file to make 
+the code work.
+[[blocks_write_init_pins]]
+.write_init_pins.sh
+[source,bash,linenums]
+[subs=+quotes]
+----
+include::code/write_init_pins.sh[]
+----
+
+The `readelf` command extracts the path and value from the `.out` file.
+
+[source,bash,linenums]
+[subs=+quotes]
+----
+bone$ *readelf -x .init_pins /tmp/pru0-gen/shared.out* 
+
+Hex dump of section '.init_pins':
+  0x000000c0 2f737973 2f636c61 73732f6c 6564732f /sys/class/leds/
+  0x000000d0 62656167 6c65626f 6e653a67 7265656e beaglebone:green
+  0x000000e0 3a757372 332f7472 69676765 72006e6f :usr3/trigger.no
+  0x000000f0 6e650000 0000                       ne....
+----
+The rest of the command formats it.  Finally line 6 echos the `none` into 
+the path.
+
+This can be generalized to initialize other things.  The point is, the `.out` 
+file contains everything needed to run the executable.
+
+
+=== PWM Generator
 One of the simplest things a PRU can to is generate a simple
 signals starting with a single channel PWM that has a fixed frequency and
 duty cycle and ending with a multi channel PWM that the ARM can change

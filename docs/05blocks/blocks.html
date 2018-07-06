@@ -517,19 +517,20 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_building_blocks_applications">1. Building Blocks - Applications</a>
 <ul class="sectlevel2">
 <li><a href="#_memory_allocation">1.1. Memory Allocation</a></li>
-<li><a href="#_pwm_generator">1.2. PWM generator</a></li>
-<li><a href="#_controlling_the_pwm_frequency">1.3. Controlling the PWM Frequency</a></li>
-<li><a href="#_loop_unrolling_for_better_performance">1.4. Loop Unrolling for Better Performance</a></li>
-<li><a href="#_making_all_the_pulses_start_at_the_same_time">1.5. Making All the Pulses Start at the Same Time</a></li>
-<li><a href="#_adding_more_channels_via_pru_1">1.6. Adding More Channels via PRU 1</a></li>
-<li><a href="#_sychronziing_two_prus">1.7. Sychronziing Two PRUs</a></li>
-<li><a href="#_reading_an_input_at_regular_intervals">1.8. Reading an Input at Regular Intervals</a></li>
-<li><a href="#_analog_wave_generator">1.9. Analog Wave Generator</a></li>
-<li><a href="#_ultrasonic_sensor_application">1.10. Ultrasonic Sensor Application</a></li>
-<li><a href="#_ws2812_neopixel_driver">1.11. WS2812 (NeoPixel) driver</a></li>
-<li><a href="#_setting_neopixels_to_different_colors">1.12. Setting NeoPixels to Different Colors</a></li>
-<li><a href="#_controlling_arbitrary_leds">1.13. Controlling Arbitrary LEDs</a></li>
-<li><a href="#_copyright">1.14. Copyright</a></li>
+<li><a href="#_auto_initialization_of_builtin_led_triggers">1.2. Auto Initialization of Builtin LED Triggers</a></li>
+<li><a href="#_pwm_generator">1.3. PWM Generator</a></li>
+<li><a href="#_controlling_the_pwm_frequency">1.4. Controlling the PWM Frequency</a></li>
+<li><a href="#_loop_unrolling_for_better_performance">1.5. Loop Unrolling for Better Performance</a></li>
+<li><a href="#_making_all_the_pulses_start_at_the_same_time">1.6. Making All the Pulses Start at the Same Time</a></li>
+<li><a href="#_adding_more_channels_via_pru_1">1.7. Adding More Channels via PRU 1</a></li>
+<li><a href="#_sychronziing_two_prus">1.8. Sychronziing Two PRUs</a></li>
+<li><a href="#_reading_an_input_at_regular_intervals">1.9. Reading an Input at Regular Intervals</a></li>
+<li><a href="#_analog_wave_generator">1.10. Analog Wave Generator</a></li>
+<li><a href="#_ultrasonic_sensor_application">1.11. Ultrasonic Sensor Application</a></li>
+<li><a href="#_ws2812_neopixel_driver">1.12. WS2812 (NeoPixel) driver</a></li>
+<li><a href="#_setting_neopixels_to_different_colors">1.13. Setting NeoPixels to Different Colors</a></li>
+<li><a href="#_controlling_arbitrary_leds">1.14. Controlling Arbitrary LEDs</a></li>
+<li><a href="#_copyright">1.15. Copyright</a></li>
 </ul>
 </li>
 </ul>
@@ -663,6 +664,11 @@ of these memories variables are stored.</p>
 61
 62
 63
+64
+65
+66
+67
+68
 </pre></td>
   <td class="code"><pre><span class="comment">// From: http://git.ti.com/pru-software-support-package/pru-software-support-package/blobs/master/examples/am335x/PRU_access_const_table/PRU_access_const_table.c</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
@@ -696,6 +702,11 @@ PRU_DMEM1 <span class="directive">volatile</span> uint32_t shared_3;
 <span class="comment">// 0x100 for the STACK and 0x100 for the HEAP.</span>
 <span class="directive">volatile</span> <span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> *shared_5 = (<span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> *) (PRU0_DRAM + <span class="hex">0x200</span>);
 
+<span class="preprocessor">#pragma</span> DATA_SECTION(init_pins, <span class="string"><span class="delimiter">&quot;</span><span class="content">.init_pins</span><span class="delimiter">&quot;</span></span>)
+<span class="preprocessor">#pragma</span> RETAIN(init_pins)
+<span class="directive">const</span> <span class="predefined-type">char</span> init_pins[] =
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">/sys/class/leds/beaglebone:green:usr3/trigger</span><span class="char">\0</span><span class="content">none</span><span class="char">\0</span><span class="delimiter">&quot;</span></span> \
+        <span class="string"><span class="delimiter">&quot;</span><span class="char">\0</span><span class="char">\0</span><span class="delimiter">&quot;</span></span>;
 
 <span class="predefined-type">int</span> main(<span class="directive">void</span>)
 {
@@ -830,8 +841,11 @@ Be careful, it&#8217;s easy to overwrite what the compiler has done</p>
 15
 16
 17
+18
 </pre></td>
-  <td class="code"><pre>bone$ <strong>source pwm_setup.sh</strong>
+  <td class="code"><pre>bone$ <strong>source shared_setup.sh</strong>
+PRUN=0
+TARGET=shared
 Black Found
 P9_31
 P9_31 Mode: pruout
@@ -841,7 +855,6 @@ P9_30
 P9_30 Mode: pruout
 P9_28
 P9_28 Mode: pruout
-bone$ <strong>export TARGET=shared</strong>
 bone$ <strong>make</strong>
 -    Stopping PRU 0
 stop
@@ -1043,7 +1056,173 @@ the compiler is putting things.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_pwm_generator"><a class="link" href="#_pwm_generator">1.2. PWM generator</a></h3>
+<h3 id="_auto_initialization_of_builtin_led_triggers"><a class="link" href="#_auto_initialization_of_builtin_led_triggers">1.2. Auto Initialization of Builtin LED Triggers</a></h3>
+<div class="sect3">
+<h4 id="_problem_2"><a class="link" href="#_problem_2">Problem</a></h4>
+<div class="paragraph">
+<p>I see the builtin LEDs blink to their own patterns.  How do I turn this off?
+Can this be automated?</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_2"><a class="link" href="#_solution_2">Solution</a></h4>
+<div class="paragraph">
+<p>Each builtin LED has a default action (trigger) when the Bone boots up.
+This is controlled by <code>/sys/class/leds</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>bone$ <strong>cd /sys/class/leds</strong>
+bone$ <strong>ls</strong>
+beaglebone:green:usr0  beaglebone:green:usr2
+beaglebone:green:usr1  beaglebone:green:usr3</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here you see a directory for each of the LEDs.  Let&#8217;s pick USR1.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>bone$ <strong>cd beaglebone\:green\:usr1</strong>
+bone$ <strong>ls</strong>
+brightness  device  max_brightness  power  subsystem  trigger  uevent
+bone$ <strong>cat trigger</strong>
+none rc-feedback kbd-scrolllock kbd-numlock kbd-capslock kbd-kanalock
+kbd-shiftlock kbd-altgrlock kbd-ctrllock kbd-altlock kbd-shiftllock
+kbd-shiftrlock kbd-ctrlllock kbd-ctrlrlock usb-gadget usb-host
+<strong>[mmc0]</strong> mmc1 timer oneshot disk-activity ide-disk mtd nand-disk
+heartbeat backlight gpio cpu0 default-on</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice <code>[mmc0]</code> is in brackets.  This means it&#8217;s the current trigger; it flashes
+when the builtin flash memory is in use.  You can turn this off using:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>bone$ <strong>echo none | sudo tee trigger</strong>
+bone$ <strong>cat trigger</strong>
+[none] rc-feedback kbd-scrolllock kbd-numlock kbd-capslock kbd-kanalock
+kbd-shiftlock kbd-altgrlock kbd-ctrllock kbd-altlock kbd-shiftllock
+kbd-shiftrlock kbd-ctrlllock kbd-ctrlrlock usb-gadget usb-host
+mmc0 mmc1 timer oneshot disk-activity ide-disk mtd nand-disk
+heartbeat backlight gpio cpu0 default-on</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now it is no longer flashing.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You have to have root permissions to write to <code>trigger</code>.  Here we use
+<code>| sudo tee trigger</code> since <code>sudo echo none &gt; trigger</code> doesn&#8217;t do what you want.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>How can this be automated so when code is run that needs the trigger off, it&#8217;s
+turned off automatically?  Here&#8217;s a trick.  Include the following in your code.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre><span class="preprocessor">#pragma</span> DATA_SECTION(init_pins, <span class="string"><span class="delimiter">&quot;</span><span class="content">.init_pins</span><span class="delimiter">&quot;</span></span>)
+<span class="preprocessor">#pragma</span> RETAIN(init_pins)
+<span class="directive">const</span> <span class="predefined-type">char</span> init_pins[] =
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">/sys/class/leds/beaglebone:green:usr3/trigger</span><span class="char">\0</span><span class="content">none</span><span class="char">\0</span><span class="delimiter">&quot;</span></span> \
+        <span class="string"><span class="delimiter">&quot;</span><span class="char">\0</span><span class="char">\0</span><span class="delimiter">&quot;</span></span>;</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Lines 3 and 4 declare the array <code>init_pins</code> to have an entry which is the path
+to <code>trigger</code> and the value that should be 'echoed' into it. Both are NULL
+terminated.  Line 1 says to put this in a section called <code>.init_pins</code> and
+line 2 says to <code>RETAIN</code> it.  That is don&#8217;t throw it away if it appears to be
+unused.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_2"><a class="link" href="#_discussion_2">Discussion</a></h4>
+<div class="paragraph">
+<p>The above code stores this array in the <code>.out</code> file that created, but that&#8217;s not
+enough. You need to run <a href="#blocks_write_init_pins">write_init_pins.sh</a> on the <code>.out</code> file to make
+the code work.</p>
+</div>
+<div id="blocks_write_init_pins" class="listingblock">
+<div class="title">write_init_pins.sh</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td>
+  <td class="code"><pre>#!/bin/bash
+init_pins=$(readelf -x .init_pins $1 | grep 0x000 | cut -d' ' -f4-7 | xxd -r -p | tr '\0' '\n' | paste - -)
+while read -a line; do
+    if [ ${#line[@]} == 2 ]; then
+        echo writing \&quot;${line[1]}\&quot; to \&quot;${line[0]}\&quot;
+        echo ${line[1]} &gt; ${line[0]}
+    fi
+done &lt;&lt;&lt; &quot;$init_pins&quot;</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>readelf</code> command extracts the path and value from the <code>.out</code> file.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td>
+  <td class="code"><pre>bone$ <strong>readelf -x .init_pins /tmp/pru0-gen/shared.out</strong>
+
+Hex dump of section '.init_pins':
+  0x000000c0 2f737973 2f636c61 73732f6c 6564732f /sys/class/leds/
+  0x000000d0 62656167 6c65626f 6e653a67 7265656e beaglebone:green
+  0x000000e0 3a757372 332f7472 69676765 72006e6f :usr3/trigger.no
+  0x000000f0 6e650000 0000                       ne....</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The rest of the command formats it.  Finally line 6 echos the <code>none</code> into
+the path.</p>
+</div>
+<div class="paragraph">
+<p>This can be generalized to initialize other things.  The point is, the <code>.out</code>
+file contains everything needed to run the executable.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pwm_generator"><a class="link" href="#_pwm_generator">1.3. PWM Generator</a></h3>
 <div class="paragraph">
 <p>One of the simplest things a PRU can to is generate a simple
 signals starting with a single channel PWM that has a fixed frequency and
@@ -1051,13 +1230,13 @@ duty cycle and ending with a multi channel PWM that the ARM can change
 the frequency and duty cycle on the fly.</p>
 </div>
 <div class="sect3">
-<h4 id="_problem_2"><a class="link" href="#_problem_2">Problem</a></h4>
+<h4 id="_problem_3"><a class="link" href="#_problem_3">Problem</a></h4>
 <div class="paragraph">
 <p>I want to generate a PWM signal that has a fixed frequency and duty cycle.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_2"><a class="link" href="#_solution_2">Solution</a></h4>
+<h4 id="_solution_3"><a class="link" href="#_solution_3">Solution</a></h4>
 <div class="paragraph">
 <p>The solution is fairly easy, but be sure to check the <strong>Discussion</strong> section
 for details on making it work.</p>
@@ -1176,7 +1355,7 @@ start</pre></td>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_2"><a class="link" href="#_discussion_2">Discussion</a></h4>
+<h4 id="_discussion_3"><a class="link" href="#_discussion_3">Discussion</a></h4>
 <div class="paragraph">
 <p>Since this is our first example we&#8217;ll discuss the many parts in detail.</p>
 </div>
@@ -1683,15 +1862,15 @@ gives more details.</p></td>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_controlling_the_pwm_frequency"><a class="link" href="#_controlling_the_pwm_frequency">1.3. Controlling the PWM Frequency</a></h3>
+<h3 id="_controlling_the_pwm_frequency"><a class="link" href="#_controlling_the_pwm_frequency">1.4. Controlling the PWM Frequency</a></h3>
 <div class="sect3">
-<h4 id="_problem_3"><a class="link" href="#_problem_3">Problem</a></h4>
+<h4 id="_problem_4"><a class="link" href="#_problem_4">Problem</a></h4>
 <div class="paragraph">
 <p>You would like to control the frequency and duty cycle of the PWM without recompiling.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_3"><a class="link" href="#_solution_3">Solution</a></h4>
+<h4 id="_solution_4"><a class="link" href="#_solution_4">Solution</a></h4>
 <div class="paragraph">
 <p>Have the PRU read the <em>on</em> and <em>off</em> times from a shared memory location.  Each PRU has is own 8KB of data memory (DRAM) and 12KB of shared memory (SHAREDMEM) that the ARM processor can also access.  See <a href="#blocks_PRU_block_diagram">PRU Block Diagram</a>.</p>
 </div>
@@ -2162,15 +2341,15 @@ for manny applicaions.  For example, most servos run at 50Hz.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_loop_unrolling_for_better_performance"><a class="link" href="#_loop_unrolling_for_better_performance">1.4. Loop Unrolling for Better Performance</a></h3>
+<h3 id="_loop_unrolling_for_better_performance"><a class="link" href="#_loop_unrolling_for_better_performance">1.5. Loop Unrolling for Better Performance</a></h3>
 <div class="sect3">
-<h4 id="_problem_4"><a class="link" href="#_problem_4">Problem</a></h4>
+<h4 id="_problem_5"><a class="link" href="#_problem_5">Problem</a></h4>
 <div class="paragraph">
 <p>The ARM controlled code runs too slowly.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_4"><a class="link" href="#_solution_4">Solution</a></h4>
+<h4 id="_solution_5"><a class="link" href="#_solution_5">Solution</a></h4>
 <div class="paragraph">
 <p>Simple loops unrolling can greatly improve the speed.  <code>pwm5.c</code> is our unrolled
 version.</p>
@@ -2343,7 +2522,7 @@ version.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_3"><a class="link" href="#_discussion_3">Discussion</a></h4>
+<h4 id="_discussion_4"><a class="link" href="#_discussion_4">Discussion</a></h4>
 <div class="paragraph">
 <p>Here&#8217;s how it works.
 First look at line 39.  You see <code>#pragma UNROLL(MAXCH)</code> which is a <code>pragma</code>
@@ -2366,16 +2545,16 @@ it copies the code an then it&#8217;s compiled.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_making_all_the_pulses_start_at_the_same_time"><a class="link" href="#_making_all_the_pulses_start_at_the_same_time">1.5. Making All the Pulses Start at the Same Time</a></h3>
+<h3 id="_making_all_the_pulses_start_at_the_same_time"><a class="link" href="#_making_all_the_pulses_start_at_the_same_time">1.6. Making All the Pulses Start at the Same Time</a></h3>
 <div class="sect3">
-<h4 id="_problem_5"><a class="link" href="#_problem_5">Problem</a></h4>
+<h4 id="_problem_6"><a class="link" href="#_problem_6">Problem</a></h4>
 <div class="paragraph">
 <p>I have a mutlichannel PWM working, but the pulses aren&#8217;t synchronized, that is
 they don&#8217;t all start at the same time.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_5"><a class="link" href="#_solution_5">Solution</a></h4>
+<h4 id="_solution_6"><a class="link" href="#_solution_6">Solution</a></h4>
 <div class="paragraph">
 <p>The figure below is a zoomed in version of the previous figure. Notice the pulse in each channel starts about 15ns later than the channel above
 it.</p>
@@ -2513,7 +2692,7 @@ each channel has updated, <code>Rtmp</code> is copied to <code>__R30</code> (lin
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_4"><a class="link" href="#_discussion_4">Discussion</a></h4>
+<h4 id="_discussion_5"><a class="link" href="#_discussion_5">Discussion</a></h4>
 <div class="paragraph">
 <p>The following figure shows the channel are sync&#8217;ed. Though the period is slightly
 longer than before.</p>
@@ -2525,15 +2704,15 @@ longer than before.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_adding_more_channels_via_pru_1"><a class="link" href="#_adding_more_channels_via_pru_1">1.6. Adding More Channels via PRU 1</a></h3>
+<h3 id="_adding_more_channels_via_pru_1"><a class="link" href="#_adding_more_channels_via_pru_1">1.7. Adding More Channels via PRU 1</a></h3>
 <div class="sect3">
-<h4 id="_problem_6"><a class="link" href="#_problem_6">Problem</a></h4>
+<h4 id="_problem_7"><a class="link" href="#_problem_7">Problem</a></h4>
 <div class="paragraph">
 <p>You need more output channels, or you need to shorten the period.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_6"><a class="link" href="#_solution_6">Solution</a></h4>
+<h4 id="_solution_7"><a class="link" href="#_solution_7">Solution</a></h4>
 <div class="paragraph">
 <p>PRU 0 can output up to eight output pins (see
 &lt;&lt;#bit_positions,Mapping bit position to pin names&gt;&gt;). The code presented so far
@@ -2742,7 +2921,7 @@ we gained a bit.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_5"><a class="link" href="#_discussion_5">Discussion</a></h4>
+<h4 id="_discussion_6"><a class="link" href="#_discussion_6">Discussion</a></h4>
 <div class="paragraph">
 <p>There weren&#8217;t many changes to be made.  Line 13 we set MAXCH to 2. Lines 43-46
 is where the big change is.</p>
@@ -2787,15 +2966,15 @@ It appears the compiler has optimied the two PRUs slightly differenty.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_sychronziing_two_prus"><a class="link" href="#_sychronziing_two_prus">1.7. Sychronziing Two PRUs</a></h3>
+<h3 id="_sychronziing_two_prus"><a class="link" href="#_sychronziing_two_prus">1.8. Sychronziing Two PRUs</a></h3>
 <div class="sect3">
-<h4 id="_problem_7"><a class="link" href="#_problem_7">Problem</a></h4>
+<h4 id="_problem_8"><a class="link" href="#_problem_8">Problem</a></h4>
 <div class="paragraph">
 <p>I need to synchronize the two PRUs so they run together.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_7"><a class="link" href="#_solution_7">Solution</a></h4>
+<h4 id="_solution_8"><a class="link" href="#_solution_8">Solution</a></h4>
 <div class="paragraph">
 <p>Use the Interrupt Controller (INTC).  It allows one PRU to signal the other.
 Page 225 of the
@@ -2990,7 +3169,7 @@ has details of how it works.  Here&#8217;s the code (<code>pwm8.c</code>).</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_6"><a class="link" href="#_discussion_6">Discussion</a></h4>
+<h4 id="_discussion_7"><a class="link" href="#_discussion_7">Discussion</a></h4>
 <div class="paragraph">
 <p>The figure below shows the two PRUs are synchronized, though there is some extra
 overhead in the process so the period is longer.</p>
@@ -3043,15 +3222,15 @@ give time for the signal to get to PRU 1.</p></td>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_reading_an_input_at_regular_intervals"><a class="link" href="#_reading_an_input_at_regular_intervals">1.8. Reading an Input at Regular Intervals</a></h3>
+<h3 id="_reading_an_input_at_regular_intervals"><a class="link" href="#_reading_an_input_at_regular_intervals">1.9. Reading an Input at Regular Intervals</a></h3>
 <div class="sect3">
-<h4 id="_problem_8"><a class="link" href="#_problem_8">Problem</a></h4>
+<h4 id="_problem_9"><a class="link" href="#_problem_9">Problem</a></h4>
 <div class="paragraph">
 <p>You have an input pin that needs to be read at regular intervals.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_8"><a class="link" href="#_solution_8">Solution</a></h4>
+<h4 id="_solution_9"><a class="link" href="#_solution_9">Solution</a></h4>
 <div class="paragraph">
 <p>You can use the <code>__R31</code> register to read an input pin. Let&#8217;s use the following
 pins.</p>
@@ -3122,11 +3301,15 @@ pins.</p>
 25
 26
 27
+28
+29
 </pre></td>
   <td class="code"><pre>#!/bin/bash
 #
 export PRUN=0
 export TARGET=input1
+echo PRUN=$PRUN
+echo TARGET=$TARGET
 
 # Configure the PRU pins based on which Beagle is running
 machine=$(awk '{print $NF}' /proc/device-tree/model)
@@ -3217,20 +3400,20 @@ fi</pre></td>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_7"><a class="link" href="#_discussion_7">Discussion</a></h4>
+<h4 id="_discussion_8"><a class="link" href="#_discussion_8">Discussion</a></h4>
 
 </div>
 </div>
 <div class="sect2">
-<h3 id="_analog_wave_generator"><a class="link" href="#_analog_wave_generator">1.9. Analog Wave Generator</a></h3>
+<h3 id="_analog_wave_generator"><a class="link" href="#_analog_wave_generator">1.10. Analog Wave Generator</a></h3>
 <div class="sect3">
-<h4 id="_problem_9"><a class="link" href="#_problem_9">Problem</a></h4>
+<h4 id="_problem_10"><a class="link" href="#_problem_10">Problem</a></h4>
 <div class="paragraph">
 <p>I want to generate an analog output, but only have GPIO pins.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_9"><a class="link" href="#_solution_9">Solution</a></h4>
+<h4 id="_solution_10"><a class="link" href="#_solution_10">Solution</a></h4>
 <div class="paragraph">
 <p>The Beagle doesn&#8217;t have a built in  analog to digital converter. You could
 get a <a href="https://www.amazon.com/external-Adapter-Windows-Microphone-SD-CM-UAUD/dp/B001MSS6CS/0&amp;keywords=audio+dongle">USB Audio Dongle</a> which are under $10.  But here
@@ -3378,7 +3561,7 @@ and get the <code>#define</code> at line 8 to which waveform and then run <code>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_8"><a class="link" href="#_discussion_8">Discussion</a></h4>
+<h4 id="_discussion_9"><a class="link" href="#_discussion_9">Discussion</a></h4>
 <div class="paragraph">
 <p>The code has two parts.  The first part (lines 21 to 39) generate the waveform
 to be output. The <code>#define</code>s let you select which waveform you want to
@@ -3656,13 +3839,13 @@ to the PRU.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ultrasonic_sensor_application"><a class="link" href="#_ultrasonic_sensor_application">1.10. Ultrasonic Sensor Application</a></h3>
+<h3 id="_ultrasonic_sensor_application"><a class="link" href="#_ultrasonic_sensor_application">1.11. Ultrasonic Sensor Application</a></h3>
 
 </div>
 <div class="sect2">
-<h3 id="_ws2812_neopixel_driver"><a class="link" href="#_ws2812_neopixel_driver">1.11. WS2812 (NeoPixel) driver</a></h3>
+<h3 id="_ws2812_neopixel_driver"><a class="link" href="#_ws2812_neopixel_driver">1.12. WS2812 (NeoPixel) driver</a></h3>
 <div class="sect3">
-<h4 id="_problem_10"><a class="link" href="#_problem_10">Problem</a></h4>
+<h4 id="_problem_11"><a class="link" href="#_problem_11">Problem</a></h4>
 <div class="paragraph">
 <p>
 
@@ -3675,7 +3858,7 @@ and want to light it up.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_10"><a class="link" href="#_solution_10">Solution</a></h4>
+<h4 id="_solution_11"><a class="link" href="#_solution_11">Solution</a></h4>
 <div class="paragraph">
 <p>NeoPixel is Adafruit&#8217;s name for the WS2812 Intelligent control LED.  Each
 NeoPixel contains a Red, Green and Blue LED with a PWM controller that can
@@ -3791,7 +3974,7 @@ which to turns all pixels white.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_9"><a class="link" href="#_discussion_9">Discussion</a></h4>
+<h4 id="_discussion_10"><a class="link" href="#_discussion_10">Discussion</a></h4>
 <div class="paragraph">
 <p><a href="#blocks_sequence">NeoPixel bit sequence</a> (taken from  <a href="https://cdn-shop.adafruit.com/datasheets/WS2812.pdf">WS2812 Data Sheet</a>) shows the following waveforms are used to send a bit of data.</p>
 </div>
@@ -3860,15 +4043,15 @@ grab the next value for itself and start over again.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_setting_neopixels_to_different_colors"><a class="link" href="#_setting_neopixels_to_different_colors">1.12. Setting NeoPixels to Different Colors</a></h3>
+<h3 id="_setting_neopixels_to_different_colors"><a class="link" href="#_setting_neopixels_to_different_colors">1.13. Setting NeoPixels to Different Colors</a></h3>
 <div class="sect3">
-<h4 id="_problem_11"><a class="link" href="#_problem_11">Problem</a></h4>
+<h4 id="_problem_12"><a class="link" href="#_problem_12">Problem</a></h4>
 <div class="paragraph">
 <p>I want to set the LEDs to different colors.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_11"><a class="link" href="#_solution_11">Solution</a></h4>
+<h4 id="_solution_12"><a class="link" href="#_solution_12">Solution</a></h4>
 <div class="paragraph">
 <p>Wire your NeoPixels as shown in <a href="#blocks_neo_wiring">NeoPixel Wiring</a> then run the code in
 <a href="#blocks_neo2">neo2.c - Code to turn on green, red, blue</a>.</p>
@@ -3976,7 +4159,7 @@ grab the next value for itself and start over again.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_10"><a class="link" href="#_discussion_10">Discussion</a></h4>
+<h4 id="_discussion_11"><a class="link" href="#_discussion_11">Discussion</a></h4>
 <div class="paragraph">
 <p><a href="#blocks_new_data_seq">NeoPixel data sequence</a> shows the sequence of bits used to control the
 green, red and blue values.</p>
@@ -4067,15 +4250,15 @@ be changed.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_controlling_arbitrary_leds"><a class="link" href="#_controlling_arbitrary_leds">1.13. Controlling Arbitrary LEDs</a></h3>
+<h3 id="_controlling_arbitrary_leds"><a class="link" href="#_controlling_arbitrary_leds">1.14. Controlling Arbitrary LEDs</a></h3>
 <div class="sect3">
-<h4 id="_problem_12"><a class="link" href="#_problem_12">Problem</a></h4>
+<h4 id="_problem_13"><a class="link" href="#_problem_13">Problem</a></h4>
 <div class="paragraph">
 <p>I want to change the 10<sup>th</sup> LED and not have to change the others.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_12"><a class="link" href="#_solution_12">Solution</a></h4>
+<h4 id="_solution_13"><a class="link" href="#_solution_13">Solution</a></h4>
 <div class="paragraph">
 <p>You need to keep an array of colors for the whole string in the PRU.  Change
 the color of any pixels you want in the array and then send out the whole
@@ -4233,7 +4416,7 @@ Your browser does not support the video tag.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_11"><a class="link" href="#_discussion_11">Discussion</a></h4>
+<h4 id="_discussion_12"><a class="link" href="#_discussion_12">Discussion</a></h4>
 <div class="paragraph">
 <p>Here&#8217;s the highlights.</p>
 </div>
@@ -4274,7 +4457,7 @@ Your browser does not support the video tag.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_copyright"><a class="link" href="#_copyright">1.14. Copyright</a></h3>
+<h3 id="_copyright"><a class="link" href="#_copyright">1.15. Copyright</a></h3>
 <div class="listingblock">
 <div class="title">copyright.c</div>
 <div class="content">
@@ -4353,7 +4536,7 @@ Your browser does not support the video tag.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-05 12:29:37 EDT
+Last updated 2018-07-06 08:25:16 EDT
 </div>
 </div>
 </body>
