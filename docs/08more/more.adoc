@@ -88,10 +88,88 @@ is used.  The other register conventions are found on page 108.
 Here we subtract 1 from `r14` and save it back into `r14`.
 |7    |`qbne` is a quick branch if not equal.
 |9    |Once we've delayed enough we drop through the quick branch and 
-hit the jump.  The upper bits of register `r3` has the return address.
+hit the jump.  The upper bits of register `r3` has the return address,
+therefore we return to the c code.
 |===
 
+The Makefile (<<more_makefile>>) has just a couple of additions.  First
+`TARGETasm` is the name of the assembler file.  Generally this is set
+outside with Makefile with `export TARGETasm=delay`.  Line 49 has the
+bold part added of the assmbler output is also linked in.
 
+[source,bash]
+[subs=+quotes]
+----
+$(GEN_DIR)/$(TARGET).out: $(GEN_DIR)/$(TARGET).obj *$(GEN_DIR)/$(TARGETasm).obj*
+
+----
+
+Finally lines 58-61 are added to assemble the `TARGETasm` file.
+
+[source,bash]
+[subs=+quotes]
+----
+$(GEN_DIR)/$(TARGETasm).obj: $(TARGETasm).asm
+	@mkdir -p $(GEN_DIR)
+	@echo 'CC	$<'
+	@clpru --include_path=$(PRU_CGT)/include $(INCLUDE) $(CFLAGS) -D=PRUN=$(PRUN) -fe $@ $<
+----
+
+The following will compile and run everything.
+[source,bash]
+[subs=+quotes]
+----
+bone$ *export PRUN=0*
+bone$ *export TARGET=delay-test*
+bone$ *export TARGETasm=delay*
+bone$ *config-pin $pin pruout*
+bone$ *make*
+-    Stopping PRU 0
+stop
+CC	delay-test.c
+CC	delay.asm
+LD	/tmp/pru0-gen/delay-test.obj /tmp/pru0-gen/delay.obj
+-	copying firmware file /tmp/pru0-gen/delay-test.out to /lib/firmware/am335x-pru0-fw
+-    Starting PRU 0
+start
+----
+
+<<more_my_delay_cycles>> shows the on time is 35ns and the off time is 30ns.
+With 5ns/cycle this give 7 cycles on and 6 off. These times make sense 
+because each instruction takes a cycle and you have, set R30, jump to
+`my_delay_cycles`, sub, qbne, jmp. Plus the instruction (not seen) that
+initilizes `r14` to the passed value.  That's a total of six instructions.
+The extra instruction is the branch at the bottom of the `while` loop.
+
+=== Returning a Value from Assembly
+==== Problem
+Your assembly code needs to return a value.
+
+==== Solution
+`R14` is how the return value is passed back.  <<more_test2>> shows the c
+code.
+
+[[more_test2]]
+.test-delay2.c
+[source,c,linenums]
+[subs=+quotes]
+----
+include::code/delay-test2.c[]
+----
+
+<<more_delay2>> is the assembly code.
+[[more_delay2]]
+.delay2.asm
+[source,c,linenums]
+[subs=+quotes]
+----
+include::code/delay2.asm[]
+----
+
+An additional feature is shown in line 4 of <<more_delay2>>.  The
+`.cdecls "delay-test2.c"` says to include any defines from `delay-test2.c`
+In this example, line 6 of <<more_test2>> #defines TEST and line 12 of 
+<<more_delay2>> reference it.
 
 === Copyright
 [source,c,linenums]

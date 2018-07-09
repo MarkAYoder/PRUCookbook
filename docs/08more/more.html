@@ -517,7 +517,8 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_more_performance">1. More Performance</a>
 <ul class="sectlevel2">
 <li><a href="#_calling_assembly_from_c">1.1. Calling Assembly from C</a></li>
-<li><a href="#_copyright">1.2. Copyright</a></li>
+<li><a href="#_returning_a_value_from_assembly">1.2. Returning a Value from Assembly</a></li>
+<li><a href="#_copyright">1.3. Copyright</a></li>
 </ul>
 </li>
 </ul>
@@ -672,7 +673,7 @@ of 1.</p>
     .global my_delay_cycles
 my_delay_cycles:
 delay:
-    sub     r14, r14, <span class="integer">1</span>     ; The first argument is passed in r14
+    sub     r14,   r14, <span class="integer">1</span>       ; The first argument is passed in r14
     qbne    delay, r14, <span class="integer">0</span>
 
     jmp     r3.w2           ; r3 contains the <span class="keyword">return</span> address</pre></td>
@@ -851,7 +852,7 @@ clean:
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Declare <code>.my_delay_cycles</code> to be global so the linker can find it.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declare <code>my_delay_cycles</code> to be global so the linker can find it.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
@@ -865,10 +866,10 @@ clean:
 <td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The first argument is passed in register <code>r14</code>.  Page 111 of
 <a href="http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf">PRU Optimizing C/C++ Compiler, v2.2, User&#8217;s Guide</a>
-give the argument passing convention.  Registers <code>r14</code> to <code>r29</code> are used
-to pass arguments if there are more arguments, the argument stack (<code>r4</code>) is
-used.  The other register conventions are found on page 108.
-Here we subtract 1 from '`r14` and save it back into <code>r14</code>.</p></td>
+gives the argument passing convention.  Registers <code>r14</code> to <code>r29</code> are used
+to pass arguments, if there are more arguments, the argument stack (<code>r4</code>)
+is used.  The other register conventions are found on page 108.
+Here we subtract 1 from <code>r14</code> and save it back into <code>r14</code>.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
@@ -877,14 +878,198 @@ Here we subtract 1 from '`r14` and save it back into <code>r14</code>.</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Once we&#8217;ve delayed enough we drop through the quick branch and
-hit the jump.  The upper bits of register <code>r3</code> has the return address.</p></td>
+hit the jump.  The upper bits of register <code>r3</code> has the return address,
+therefore we return to the c code.</p></td>
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p>The Makefile (<a href="#more_makefile">Makefile</a>) has just a couple of additions.  First
+<code>TARGETasm</code> is the name of the assembler file.  Generally this is set
+outside with Makefile with <code>export TARGETasm=delay</code>.  Line 49 has the
+bold part added of the assmbler output is also linked in.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">$(GEN_DIR)/$(TARGET).out: $(GEN_DIR)/$(TARGET).obj <strong>$(GEN_DIR)/$(TARGETasm).obj</strong></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Finally lines 58-61 are added to assemble the <code>TARGETasm</code> file.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">$(GEN_DIR)/$(TARGETasm).obj: $(TARGETasm).asm
+    @mkdir -p $(GEN_DIR)
+    @echo 'CC   $&lt;'
+    @clpru --include_path=$(PRU_CGT)/include $(INCLUDE) $(CFLAGS) -D=PRUN=$(PRUN) -fe $@ $&lt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following will compile and run everything.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>export PRUN=0</strong>
+bone$ <strong>export TARGET=delay-test</strong>
+bone$ <strong>export TARGETasm=delay</strong>
+bone$ <strong>config-pin $pin pruout</strong>
+bone$ <strong>make</strong>
+-    Stopping PRU 0
+stop
+CC  delay-test.c
+CC  delay.asm
+LD  /tmp/pru0-gen/delay-test.obj /tmp/pru0-gen/delay.obj
+-   copying firmware file /tmp/pru0-gen/delay-test.out to /lib/firmware/am335x-pru0-fw
+-    Starting PRU 0
+start</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#more_my_delay_cycles">Output of my_delays_cycles()</a> shows the on time is 35ns and the off time is 30ns.
+With 5ns/cycle this give 7 cycles on and 6 off. These times make sense
+because each instruction takes a cycle and you have, set R30, jump to
+<code>my_delay_cycles</code>, sub, qbne, jmp. Plus the instruction (not seen) that
+initilizes <code>r14</code> to the passed value.  That&#8217;s a total of six instructions.
+The extra instruction is the branch at the bottom of the <code>while</code> loop.</p>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_copyright"><a class="link" href="#_copyright">1.2. Copyright</a></h3>
+<h3 id="_returning_a_value_from_assembly"><a class="link" href="#_returning_a_value_from_assembly">1.2. Returning a Value from Assembly</a></h3>
+<div class="sect3">
+<h4 id="_problem_2"><a class="link" href="#_problem_2">Problem</a></h4>
+<div class="paragraph">
+<p>Your assembly code need to return a value.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_2"><a class="link" href="#_solution_2">Solution</a></h4>
+<div class="paragraph">
+<p><code>R14</code> is how the return value is passed back.  <a href="#more_test2">test-delay2.c</a> shows the c
+code.</p>
+</div>
+<div id="more_test2" class="listingblock">
+<div class="title">test-delay2.c</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+</pre></td>
+  <td class="code"><pre><span class="comment">// Control a ws2812 (neo pixel) display, All on or all off</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
+
+<span class="preprocessor">#define</span> TEST    <span class="integer">100</span>
+
+<span class="comment">// The function is defined in delay.asm in same dir</span>
+<span class="comment">// We just need to add a declaration here, the defination can be</span>
+<span class="comment">// seperately linked</span>
+<span class="directive">extern</span> uint32_t my_delay_cycles(uint32_t);
+
+uint32_t ret;
+
+<span class="preprocessor">#define</span> out <span class="integer">1</span>       <span class="comment">// Bit number to output on</span>
+
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t <em>R30;
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t </em>R31;
+
+<span class="directive">void</span> main(<span class="directive">void</span>)
+{
+    <span class="comment">/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */</span>
+    CT_CFG.SYSCFG_bit.STANDBY_INIT = <span class="integer">0</span>;
+
+    <span class="keyword">while</span>(<span class="integer">1</span>) {
+        <em>R30 |= <span class="hex">0x1</span>&lt;&lt;out;      <span class="comment">// Set the GPIO pin to 1</span>
+        ret = my_delay_cycles(<span class="integer">1</span>);
+        </em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;out);   <span class="comment">// Clear the GPIO pin</span>
+        ret = my_delay_cycles(<span class="integer">1</span>);
+    }
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#more_delay2">delay2.asm</a> is the assembly code.</p>
+</div>
+<div id="more_delay2" class="listingblock">
+<div class="title">delay2.asm</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td>
+  <td class="code"><pre>; This is an example of how to call an assembly routine from C.
+;   Mark A. Yoder, <span class="integer">9</span>-July-<span class="integer">2018</span>
+
+    .cdecls <span class="string"><span class="delimiter">&quot;</span><span class="content">delay-test2.c</span><span class="delimiter">&quot;</span></span>
+
+    .global my_delay_cycles
+my_delay_cycles:
+delay:
+    sub     r14,   r14, <span class="integer">1</span>       ; The first argument is passed in r14
+    qbne    delay, r14, <span class="integer">0</span>
+
+    ldi     r14, TEST       ; TEST is defined in delay-test2.c
+                            ; r14 is the <span class="keyword">return</span> <span class="directive">register</span>
+
+    jmp     r3.w2           ; r3 contains the <span class="keyword">return</span> address</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>An additional feature is shown in line 4 of <a href="#more_delay2">delay2.asm</a>.  The
+<code>.cdecls "delay-test2.c"</code> says to include any defines from <code>delay-test2.c</code>
+In this example, line 6 of <a href="#more_test2">test-delay2.c</a> #defines TEST and line 12 of
+<a href="#more_delay2">delay2.asm</a> reference it.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_copyright"><a class="link" href="#_copyright">1.3. Copyright</a></h3>
 <div class="listingblock">
 <div class="title">copyright.c</div>
 <div class="content">
@@ -901,7 +1086,7 @@ hit the jump.  The upper bits of register <code>r3</code> has the return address
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-09 11:58:39 EDT
+Last updated 2018-07-09 12:59:07 EDT
 </div>
 </div>
 </body>
