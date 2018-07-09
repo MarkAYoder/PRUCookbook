@@ -39,7 +39,7 @@ volatile register uint32_t __R31;
 char payload[RPMSG_BUF_SIZE];
 
 #define STR_LEN 24
-#define	oneCyclesOn		700/5	// Stay on 700ns
+#define	oneCyclesOn		700/5	// Stay on for 700ns
 #define oneCyclesOff	600/5
 #define zeroCyclesOn	350/5
 #define zeroCyclesOff	800/5
