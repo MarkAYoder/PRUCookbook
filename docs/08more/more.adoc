@@ -167,6 +167,73 @@ An additional feature is shown in line 4 of <<more_delay2>>.  The
 In this example, line 6 of <<more_test2>> #defines TEST and line 12 of 
 <<more_delay2>> reference it.
 
+=== Using the Built In Counter for Timing
+==== Problem
+I want to count how many cycles my routine takes.
+
+==== Solution
+Each PRU has a `CYCLE` register which counts the number of cycles since
+the PRU was enabled. They also have a `STALL` register that counts how
+many times the PRU stalled fetching an instruction.
+<<more_cycle>> shows they are used.
+
+[[more_cycle]]
+.cycle.c - Code to count cycles.
+[source,c,linenums]
+[subs=+quotes]
+----
+include::code/cycle.c[]
+----
+
+==== Discission
+The code is mostly the same. We'll save `CYCLE` in `cycle` so we an read
+it using prudebug.
+<<more_cycle_lines>> is the Line-by-line.
+
+[[more_cycle_lines]]
+[cols="1,9"]
+.Line-by-line for cycle.c
+|===
+|Line|Explanation
+
+|4   |Needed to reference `CYCLE` and `STALL`. 
+|12  |The `volatile` keyword is
+used to force the compiler to save the values in DRAM.
+|19  |Enables `CYCLE`.
+|23  |Reset `CYCLE`. It ignores the value assigned to it and always sets it
+to 0.
+|25,26|Reads the `CYCLE` and `STALL` registers.
+|===
+
+You can see where `cycle` and `stall` are stored by looking into cycle.map.
+[source,bash]
+[subs=+quotes]
+----
+bone$ *grep 'cycle\|stall' /tmp/pru0-gen/cycle.map*
+1     00000114  cycle                        
+1     00000118  stall 
+----
+Now fire up ((prudebug)) and look at those memory locations.
+[source,bash]
+[subs=+quotes]
+----
+bone$ *prudebug*
+PRU0> *dd 0x100*
+dd 0x100
+Absolute addr = 0x0100, offset = 0x0000, Len = 16
+[0x0100] 0x00000001 0x00000000 0x00000000 0x00000000 
+[0x0110] 0x00000000 *0x00000003 0x00000006* 0x00000000 
+[0x0120] 0x00000000 0x00000000 0x00000000 0x00000000 
+[0x0130] 0x00000000 0x00000000 0x00000000 0x00000000 
+----
+So `cycles` is 3 and `stall` is 6. It must be one cycle to clear the GPIO
+and 2 cycles to read the `CYCLE` register and save it to DRAM.
+
+It's interesting there are 6 `stall` cycles. If you switch the order of
+lines 25 and 26 you'll see `cycle` is 9 and `stall` is 2. `cycle` now
+includes the time needed to read `stall` and `stall` no longer includes
+the time to read `cycle`.
+
 === Copyright
 [source,c,linenums]
 .copyright.c
