@@ -18,10 +18,6 @@ The following are resources used in this chapter.
 * http://www.ti.com/lit/ug/spruhv6b/spruhv6b.pdf[PRU Assembly Language Tools User's Guide]
 * http://www.ti.com/lit/ug/spruij2/spruij2.pdf[PRU Assembly Instruction User Guide]
 
-* https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]
-* http://exploringbeaglebone.com/[Exploring BeagleBone by Derek Molloy]
-* https://cdn-shop.adafruit.com/datasheets/WS2812.pdf[WS2812 Data Sheet]
-
 === Calling Assembly from C
 ==== Problem
 You have some C code and you want to call an assembly language routine from
