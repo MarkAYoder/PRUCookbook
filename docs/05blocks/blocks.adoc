@@ -1149,6 +1149,123 @@ Here's the highlights.
 |62,63|Wait a bit.
 |===
 
+=== Controlling NeoPixels Through a Kernel Driver
+==== Problem
+You want to control your NeoPixels through a kernel driver so you can control it 
+through a `/dev` interface.
+
+==== Solution
+The https://github.com/beagleboard/linux/raw/4.9/drivers/rpmsg/rpmsg_pru.c[rpmsg_pru] 
+driver provides a way to pass data between the ARM processor and
+the PRUs.  It's already included on current images. <<blocks_neo4>> shows
+an example.
+
+[[blocks_neo4]]
+.neo4.c - Code to talk to the PRU via rpmsg_pru
+[source,c,linenums]
+[subs=+quotes]
+----
+include::code/neo4.c[]
+----
+
+Run the code as usual.
+[source,c]
+[subs=+quotes]
+----
+bone$ *export TARGET=neo4*
+bone$ *make*
+-    Stopping PRU 0
+stop
+CC	neo4.c
+LD	/tmp/pru0-gen/neo4.obj
+-	copying firmware file /tmp/pru0-gen/neo4.out to /lib/firmware/am335x-pru0-fw
+-    Starting PRU 0
+start
+bone$ *sudo chmod 666 /dev/rpmsg_pru30*
+bone$ *echo 0 0xff 0 127 > /dev/rpmsg_pru30*
+bone$ *echo -1 > /dev/rpmsg_pru30*
+----
+
+`/dev/rpmsg_pru30` is a device driver that lets the ARM talk to the PRU.
+The first `echo` says to set the 0^th^ LED to RGB value 0xff 0 127. (Note: you can
+mix hex and decimal.) The second `echo` tells the driver to send the data to the
+LEDs.  You 0^th^ LED should now be lit.
+
+==== Discussion
+There's a lot here.  I'll just hit some of the highlights in <<blocks_neo4_lines>>.
+
+[[blocks_neo4_lines]]
+.Line-by-line for neo4.c
+[cols="1,9"]
+|====
+|Line |Explanation
+
+|29   |The `CHAN_NAME` of `rpmsg-pru` matches that `prmsg_pru` driver that is
+is already installed.  This connects this PRU to the driver.
+|31   |The `CHAN_PORT` tells it to use port 30.  That's why we use
+`/dev/rpmsg_pru30`
+|39-45|Same as the previous NeoPixel examples.
+|49   |`payload[]` is the buffer that receives the data from the ARM.
+|50   |`color[]` is the state to be sent to the LEDs.
+|63-66|`color[]` is initialized.
+|68-82|Where are a number of details needed to set up the channel between 
+the PRU and the ARM.
+|85   |Here we wait until the ARM sends us some numbers.
+|89   |Receive all the data from the ARM, store it in `payload[]`.
+|93-101|The data sent is:  index red green blue.  Pull off the index.  If it's 
+in the right range, pull off the red, green and blue values.
+|103  |The NeoPixels want the data in GRB order.  Shift and or everything 
+together.
+|106-130|If the `index` = 1, send the contents of `color` to the LEDs.  This
+code is same as before.
+|====
+
+You can now use programs running on the ARM to send colors to the PRU.
+<<blocks_neo-rainbow>> shows an example.
+[[blocks_neo-rainbow]]
+.neo-rainbow.py - A python program using /dev/rpmsg_pru30
+[source,python,linenums]
+[subs=+quotes]
+----
+include::code/neo-rainbow.py[]
+----
+Line 19 writes the data to the PRU.  Be sure to have a newline, or space after
+the last number, or you numbers will get blurred together.
+
+=== Compiling and Inserting rpmsg_pru
+==== Problem
+Your Beagle doesn't have rpmsg_pru.
+
+==== Solution
+Do the following.
+[source,bash]
+[subs=+quotes]
+----
+bone$ *cd 05blocks/code/module*
+bone$ *sudo apt install linux-headers-\`uname -r`*
+bone$ *wget https://github.com/beagleboard/linux/raw/4.9/drivers/rpmsg/rpmsg_pru.c*
+bone$ *make*
+make -C /lib/modules/4.9.88-ti-r111/build M=$PWD
+make[1]: Entering directory '/usr/src/linux-headers-4.9.88-ti-r111'
+  LD      /home/debian/PRUCookbook/docs/05blocks/code/module/built-in.o
+  CC [M]  /home/debian/PRUCookbook/docs/05blocks/code/module/rpmsg_client_sample.o
+  CC [M]  /home/debian/PRUCookbook/docs/05blocks/code/module/rpmsg_pru.o
+  Building modules, stage 2.
+  MODPOST 2 modules
+  CC      /home/debian/PRUCookbook/docs/05blocks/code/module/rpmsg_client_sample.mod.o
+  LD [M]  /home/debian/PRUCookbook/docs/05blocks/code/module/rpmsg_client_sample.ko
+  CC      /home/debian/PRUCookbook/docs/05blocks/code/module/rpmsg_pru.mod.o
+  LD [M]  /home/debian/PRUCookbook/docs/05blocks/code/module/rpmsg_pru.ko
+make[1]: Leaving directory '/usr/src/linux-headers-4.9.88-ti-r111'
+bone$ *insmod rpmsg_pru.ko*
+bone$ *lsmod | grep rpm*
+rpmsg_pru               5799  2
+virtio_rpmsg_bus       13620  0
+rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus
+----
+It's now installed and ready to go.
+
+
 === Copyright
 [source,c,linenums]
 .copyright.c

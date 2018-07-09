@@ -530,7 +530,9 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_ws2812_neopixel_driver">1.12. WS2812 (NeoPixel) driver</a></li>
 <li><a href="#_setting_neopixels_to_different_colors">1.13. Setting NeoPixels to Different Colors</a></li>
 <li><a href="#_controlling_arbitrary_leds">1.14. Controlling Arbitrary LEDs</a></li>
-<li><a href="#_copyright">1.15. Copyright</a></li>
+<li><a href="#_controlling_neopixels_through_a_kernel_driver">1.15. Controlling NeoPixels Through a Kernel Driver</a></li>
+<li><a href="#_compiling_and_inserting_rpmsg_pru">1.16. Compiling and Inserting rpmsg_pru</a></li>
+<li><a href="#_copyright">1.17. Copyright</a></li>
 </ul>
 </li>
 </ul>
@@ -664,11 +666,6 @@ of these memories variables are stored.</p>
 61
 62
 63
-64
-65
-66
-67
-68
 </pre></td>
   <td class="code"><pre><span class="comment">// From: http://git.ti.com/pru-software-support-package/pru-software-support-package/blobs/master/examples/am335x/PRU_access_const_table/PRU_access_const_table.c</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
@@ -702,11 +699,6 @@ PRU_DMEM1 <span class="directive">volatile</span> uint32_t shared_3;
 <span class="comment">// 0x100 for the STACK and 0x100 for the HEAP.</span>
 <span class="directive">volatile</span> <span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> *shared_5 = (<span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> *) (PRU0_DRAM + <span class="hex">0x200</span>);
 
-<span class="preprocessor">#pragma</span> DATA_SECTION(init_pins, <span class="string"><span class="delimiter">&quot;</span><span class="content">.init_pins</span><span class="delimiter">&quot;</span></span>)
-<span class="preprocessor">#pragma</span> RETAIN(init_pins)
-<span class="directive">const</span> <span class="predefined-type">char</span> init_pins[] =
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">/sys/class/leds/beaglebone:green:usr3/trigger</span><span class="char">\0</span><span class="content">none</span><span class="char">\0</span><span class="delimiter">&quot;</span></span> \
-        <span class="string"><span class="delimiter">&quot;</span><span class="char">\0</span><span class="char">\0</span><span class="delimiter">&quot;</span></span>;
 
 <span class="predefined-type">int</span> main(<span class="directive">void</span>)
 {
@@ -4457,7 +4449,519 @@ Your browser does not support the video tag.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_copyright"><a class="link" href="#_copyright">1.15. Copyright</a></h3>
+<h3 id="_controlling_neopixels_through_a_kernel_driver"><a class="link" href="#_controlling_neopixels_through_a_kernel_driver">1.15. Controlling NeoPixels Through a Kernel Driver</a></h3>
+<div class="sect3">
+<h4 id="_problem_14"><a class="link" href="#_problem_14">Problem</a></h4>
+<div class="paragraph">
+<p>You want to control your NeoPixels through a kernel driver so you can control it
+through a <code>/dev</code> interface.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_14"><a class="link" href="#_solution_14">Solution</a></h4>
+<div class="paragraph">
+<p>The <a href="https://github.com/beagleboard/linux/raw/4.9/drivers/rpmsg/rpmsg_pru.c">rpmsg_pru</a>
+driver provides a way to pass data between the ARM processor and
+the PRUs.  It&#8217;s already included on current images. <a href="#blocks_neo4">neo4.c - Code to talk to the PRU via rpmsg_pru</a> shows
+an example.</p>
+</div>
+<div id="blocks_neo4" class="listingblock">
+<div class="title">neo4.c - Code to talk to the PRU via rpmsg_pru</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+</pre></td>
+  <td class="code"><pre><span class="comment">// Use rpmsg to control the NeoPixels via /dev/rpmsg_pru30</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdio.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdlib.h&gt;</span>         <span class="comment">// atoi</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;string.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;pru_intc.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;rsc_types.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;pru_rpmsg.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;resource_table_0.h&quot;</span>
+
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t <em>R30;
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t </em>R31;
+
+<span class="comment">/* Host-0 Interrupt sets bit 30 in register R31 <strong>/</span>
+<span class="preprocessor">#define</span> HOST_INT            ((uint32_t) <span class="integer">1</span> &lt;&lt; <span class="integer">30</span>)
+
+<span class="comment">/</strong> The PRU-ICSS system events used for RPMsg are defined in the Linux device tree
+ * PRU0 uses system event 16 (To ARM) and 17 (From ARM)
+ * PRU1 uses system event 18 (To ARM) and 19 (From ARM)
+ <strong>/</span>
+<span class="preprocessor">#define</span> TO_ARM_HOST         <span class="integer">16</span>
+<span class="preprocessor">#define</span> FROM_ARM_HOST       <span class="integer">17</span>
+
+<span class="comment">/</strong>
+* Using the name 'rpmsg-pru' will probe the rpmsg_pru driver found
+* at linux-x.y.z/drivers/rpmsg/rpmsg_pru.c
+<strong>/</span>
+<span class="preprocessor">#define</span> CHAN_NAME           <span class="string"><span class="delimiter">&quot;</span><span class="content">rpmsg-pru</span><span class="delimiter">&quot;</span></span>
+<span class="preprocessor">#define</span> CHAN_DESC           <span class="string"><span class="delimiter">&quot;</span><span class="content">Channel 30</span><span class="delimiter">&quot;</span></span>
+<span class="preprocessor">#define</span> CHAN_PORT           <span class="integer">30</span>
+
+<span class="comment">/</strong>
+ * Used to make sure the Linux drivers are ready for RPMsg communication
+ * Found at linux-x.y.z/include/uapi/linux/virtio_config.h
+ <strong>/</span>
+<span class="preprocessor">#define</span> VIRTIO_CONFIG_S_DRIVER_OK   <span class="integer">4</span>
+
+<span class="predefined-type">char</span> payload[RPMSG_BUF_SIZE];
+
+<span class="preprocessor">#define</span> STR_LEN <span class="integer">24</span>
+<span class="preprocessor">#define</span> oneCyclesOn     <span class="integer">700</span>/<span class="integer">5</span>   <span class="comment">// Stay on for 700ns</span>
+<span class="preprocessor">#define</span> oneCyclesOff    <span class="integer">600</span>/<span class="integer">5</span>
+<span class="preprocessor">#define</span> zeroCyclesOn    <span class="integer">350</span>/<span class="integer">5</span>
+<span class="preprocessor">#define</span> zeroCyclesOff   <span class="integer">800</span>/<span class="integer">5</span>
+<span class="preprocessor">#define</span> resetCycles     <span class="integer">51000</span>/<span class="integer">5</span> <span class="comment">// Must be at least 50u, use 51u</span>
+<span class="preprocessor">#define</span> out <span class="integer">1</span>                   <span class="comment">// Bit number to output on</span>
+
+<span class="preprocessor">#define</span> SPEED <span class="integer">20000000</span>/<span class="integer">5</span>        <span class="comment">// Time to wait between updates</span>
+
+uint32_t color[STR_LEN];    <span class="comment">// green, red, blue</span>
+
+<span class="comment">/</strong>
+ * main.c
+ <strong>/</span>
+<span class="directive">void</span> main(<span class="directive">void</span>)
+{
+    <span class="keyword">struct</span> pru_rpmsg_transport transport;
+    uint16_t src, dst, len;
+    <span class="directive">volatile</span> uint8_t *status;
+
+    uint8_t r, g, b;
+    <span class="predefined-type">int</span> i, j;
+    <span class="comment">// Set everything to background</span>
+    <span class="keyword">for</span>(i=<span class="integer">0</span>; i&lt;STR_LEN; i++) {
+        color[i] = <span class="hex">0x010000</span>;
+    }
+
+    <span class="comment">/</strong> Allow OCP master port access by the PRU so the PRU can read external memories <strong>/</span>
+    CT_CFG.SYSCFG_bit.STANDBY_INIT = <span class="integer">0</span>;
+
+    <span class="comment">/</strong> Clear the status of the PRU-ICSS system event that the ARM will use to 'kick' us <strong>/</span>
+    CT_INTC.SICR_bit.STS_CLR_IDX = FROM_ARM_HOST;
+
+    <span class="comment">/</strong> Make sure the Linux drivers are ready for RPMsg communication <strong>/</span>
+    status = &amp;resourceTable.rpmsg_vdev.status;
+    <span class="keyword">while</span> (!(*status &amp; VIRTIO_CONFIG_S_DRIVER_OK));
+
+    <span class="comment">/</strong> Initialize the RPMsg transport structure <strong>/</span>
+    pru_rpmsg_init(&amp;transport, &amp;resourceTable.rpmsg_vring0, &amp;resourceTable.rpmsg_vring1, TO_ARM_HOST, FROM_ARM_HOST);
+
+    <span class="comment">/</strong> Create the RPMsg channel between the PRU and ARM user space using the transport structure. <strong>/</span>
+    <span class="keyword">while</span> (pru_rpmsg_channel(RPMSG_NS_CREATE, &amp;transport, CHAN_NAME, CHAN_DESC, CHAN_PORT) != PRU_RPMSG_SUCCESS);
+    <span class="keyword">while</span> (<span class="integer">1</span>) {
+        <span class="comment">/</strong> Check bit 30 of register R31 to see if the ARM has kicked us <strong>/</span>
+        <span class="keyword">if</span> (<em>R31 &amp; HOST_INT) {
+            <span class="comment">/</strong> Clear the event status <strong>/</span>
+            CT_INTC.SICR_bit.STS_CLR_IDX = FROM_ARM_HOST;
+            <span class="comment">/</strong> Receive all available messages, multiple messages can be sent per kick */</span>
+            <span class="keyword">while</span> (pru_rpmsg_receive(&amp;transport, &amp;src, &amp;dst, payload, &amp;len) == PRU_RPMSG_SUCCESS) {
+                <span class="predefined-type">char</span> *ret;  <span class="comment">// rest of payload after front character is removed</span>
+                <span class="predefined-type">int</span> index;  <span class="comment">// index of LED to control</span>
+                <span class="comment">// Input format is:  index red green blue</span>
+                index = atoi(payload);
+                <span class="comment">// Update the array, but don't write it out.</span>
+                <span class="keyword">if</span>((index &gt;=<span class="integer">0</span>) &amp; (index &lt; STR_LEN)) {
+                    ret = strchr(payload, <span class="char">' '</span>); <span class="comment">// Skip over index</span>
+                    r = strtol(&amp;ret[<span class="integer">1</span>], <span class="predefined-constant">NULL</span>, <span class="integer">0</span>);
+                    ret = strchr(&amp;ret[<span class="integer">1</span>], <span class="char">' '</span>); <span class="comment">// Skip over r, etc.</span>
+                    g = strtol(&amp;ret[<span class="integer">1</span>], <span class="predefined-constant">NULL</span>, <span class="integer">0</span>);
+                    ret = strchr(&amp;ret[<span class="integer">1</span>], <span class="char">' '</span>);
+                    b = strtol(&amp;ret[<span class="integer">1</span>], <span class="predefined-constant">NULL</span>, <span class="integer">0</span>);
+
+                    color[index] = (g&lt;&lt;<span class="integer">16</span>)|(r&lt;&lt;<span class="integer">8</span>)|b;    <span class="comment">// String wants GRB</span>
+                }
+                <span class="comment">// When index is -1, send the array to the LED string</span>
+                <span class="keyword">if</span>(index == -<span class="integer">1</span>) {
+                    <span class="comment">// Output the string</span>
+                    <span class="keyword">for</span>(j=<span class="integer">0</span>; j&lt;STR_LEN; j++) {
+                        <span class="comment">// Cycle through each bit</span>
+                        <span class="keyword">for</span>(i=<span class="integer">23</span>; i&gt;=<span class="integer">0</span>; i--) {
+                            <span class="keyword">if</span>(color[j] &amp; (<span class="hex">0x1</span>&lt;&lt;i)) {
+                                </em>R30 |= <span class="hex">0x1</span>&lt;&lt;out;      <span class="comment">// Set the GPIO pin to 1</span>
+                                <em>delay_cycles(oneCyclesOn-<span class="integer">1</span>);
+                                </em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;out);   <span class="comment">// Clear the GPIO pin</span>
+                                <em>delay_cycles(oneCyclesOff-<span class="integer">14</span>);
+                            } <span class="keyword">else</span> {
+                                </em>R30 |= <span class="hex">0x1</span>&lt;&lt;out;      <span class="comment">// Set the GPIO pin to 1</span>
+                                <em>delay_cycles(zeroCyclesOn-<span class="integer">1</span>);
+                                </em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;out);   <span class="comment">// Clear the GPIO pin</span>
+                                <em>delay_cycles(zeroCyclesOff-<span class="integer">14</span>);
+                            }
+                        }
+                    }
+                    <span class="comment">// Send Reset</span>
+                    </em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;out);   <span class="comment">// Clear the GPIO pin</span>
+                    <em>delay_cycles(resetCycles);
+
+                    <span class="comment">// Wait</span>
+                    </em>delay_cycles(SPEED);
+                }
+
+            }
+        }
+    }
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run the code as usual.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c">bone$ <strong>export TARGET=neo4</strong>
+bone$ <strong>make</strong>
+-    Stopping PRU <span class="integer">0</span>
+stop
+CC  neo4.c
+LD  /tmp/pru0-gen/neo4.obj
+-   copying firmware file /tmp/pru0-gen/neo4.out to /lib/firmware/am335x-pru0-fw
+-    Starting PRU <span class="integer">0</span>
+start
+bone$ <strong>sudo chmod <span class="integer">666</span> /dev/rpmsg_pru30</strong>
+bone$ <strong>echo <span class="integer">0</span> <span class="hex">0xff</span> <span class="integer">0</span> <span class="integer">127</span> &gt; /dev/rpmsg_pru30</strong>
+bone$ <strong>echo -<span class="integer">1</span> &gt; /dev/rpmsg_pru30</strong></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>/dev/rpmsg_pru30</code> is a device driver that lets the ARM talk to the PRU.
+The first <code>echo</code> says to set the 0<sup>th</sup> LED to RGB value 0xff 0 127. (Note: you can
+mix hex and decimal.) The second <code>echo</code> tells the driver to send the data to the
+LEDs.  You 0<sup>th</sup> LED should now be lit.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_13"><a class="link" href="#_discussion_13">Discussion</a></h4>
+<div class="paragraph">
+<p>There&#8217;s a lot here.  I&#8217;ll just hit some of the highlights in <a href="#blocks_neo4_lines">Line-by-line for neo4.c</a>.</p>
+</div>
+<table id="blocks_neo4_lines" class="tableblock frame-all grid-all spread">
+<caption class="title">Table 9. Line-by-line for neo4.c</caption>
+<colgroup>
+<col style="width: 10%;">
+<col style="width: 90%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Line</th>
+<th class="tableblock halign-left valign-top">Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">29</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>CHAN_NAME</code> of <code>rpmsg-pru</code> matches that <code>prmsg_pru</code> driver that is
+is already installed.  This connects this PRU to the driver.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">31</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>CHAN_PORT</code> tells it to use port 30.  That&#8217;s why we use
+<code>/dev/rpmsg_pru30</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">39-45</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Same as the previous NeoPixel examples.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">49</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>payload[]</code> is the buffer that receives the data from the ARM.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">50</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>color[]</code> is the state to be sent to the LEDs.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">63-66</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>color[]</code> is initialized.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">68-82</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Where are a number of details needed to set up the channel between
+the PRU and the ARM.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">85</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Here we wait until the ARM sends us some numbers.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">89</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Receive all the data from the ARM, store it in <code>payload[]</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">93-101</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The data sent is:  index red green blue.  Pull off the index.  If it&#8217;s
+in the right range, pull off the red, green and blue values.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">103</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The NeoPixels want the data in GRB order.  Shift and or everything
+together.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">106-130</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If the <code>index</code> = 1, send the contents of <code>color</code> to the LEDs.  This
+code is same as before.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>You can now use programs running on the ARM to send colors to the PRU.
+<a href="#blocks_neo-rainbow">neo-rainbow.py - A python program using /dev/rpmsg_pru30</a> shows an example.</p>
+</div>
+<div id="blocks_neo-rainbow" class="listingblock">
+<div class="title">neo-rainbow.py - A python program using /dev/rpmsg_pru30</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="python"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+</pre></td>
+  <td class="code"><pre><span class="comment"><mark>!/usr/bin/python</span>
+<span class="keyword">from</span> <span class="include">time</span> <span class="keyword">import</span> <span class="include">sleep</span>
+<span class="keyword">import</span> <span class="include">math</span>
+
+len = <span class="integer">24</span>
+amp = <span class="integer">12</span>
+f = <span class="integer">25</span>
+shift = <span class="integer">3</span>
+phase = <span class="integer">0</span>
+
+<span class="comment"></mark> Open a file</span>
+fo = <span class="predefined">open</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/dev/rpmsg_pru30</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">w</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>)
+
+<span class="keyword">while</span> <span class="predefined-constant">True</span>:
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="predefined">range</span>(<span class="integer">0</span>, <span class="predefined">len</span>):
+        r = (amp * (math.sin(<span class="integer">2</span><strong>math.pi*f</strong>(i-phase-<span class="integer">0</span><strong>shift)/<span class="predefined">len</span>) + <span class="integer">1</span>)) + <span class="integer">1</span>;
+        g = (amp * (math.sin(<span class="integer">2</span>*math.pi*f</strong>(i-phase-<span class="integer">1</span><strong>shift)/<span class="predefined">len</span>) + <span class="integer">1</span>)) + <span class="integer">1</span>;
+        b = (amp * (math.sin(<span class="integer">2</span>*math.pi*f</strong>(i-phase-<span class="integer">2</span>*shift)/<span class="predefined">len</span>) + <span class="integer">1</span>)) + <span class="integer">1</span>;
+        fo.write(<span class="string"><span class="delimiter">&quot;</span><span class="content">%d %d %d %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span> % (i, r, g, b))
+        <span class="comment"># print(&quot;0 0 127 %d&quot; % (i))</span>
+
+    fo.write(<span class="string"><span class="delimiter">&quot;</span><span class="content">-1 0 0 0</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
+    phase = phase + <span class="integer">1</span>
+    sleep(<span class="float">0.05</span>)
+
+<span class="comment"># Close opened file</span>
+fo.close()</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Line 19 writes the data to the PRU.  Be sure to have a newline, or space after
+the last number, or you numbers will get blurred together.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_compiling_and_inserting_rpmsg_pru"><a class="link" href="#_compiling_and_inserting_rpmsg_pru">1.16. Compiling and Inserting rpmsg_pru</a></h3>
+<div class="sect3">
+<h4 id="_problem_15"><a class="link" href="#_problem_15">Problem</a></h4>
+<div class="paragraph">
+<p>Your Beagle doesn&#8217;t have rpmsg_pru.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_15"><a class="link" href="#_solution_15">Solution</a></h4>
+<div class="paragraph">
+<p>Do the following.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>cd 05blocks/code/module</strong>
+bone$ <strong>sudo apt install linux-headers-`uname -r`</strong>
+bone$ <strong>wget https://github.com/beagleboard/linux/raw/4.9/drivers/rpmsg/rpmsg_pru.c</strong>
+bone$ <strong>make</strong>
+make -C /lib/modules/4.9.88-ti-r111/build M=$PWD
+make[1]: Entering directory '/usr/src/linux-headers-4.9.88-ti-r111'
+  LD      /home/debian/PRUCookbook/docs/05blocks/code/module/built-in.o
+  CC [M]  /home/debian/PRUCookbook/docs/05blocks/code/module/rpmsg_client_sample.o
+  CC [M]  /home/debian/PRUCookbook/docs/05blocks/code/module/rpmsg_pru.o
+  Building modules, stage 2.
+  MODPOST 2 modules
+  CC      /home/debian/PRUCookbook/docs/05blocks/code/module/rpmsg_client_sample.mod.o
+  LD [M]  /home/debian/PRUCookbook/docs/05blocks/code/module/rpmsg_client_sample.ko
+  CC      /home/debian/PRUCookbook/docs/05blocks/code/module/rpmsg_pru.mod.o
+  LD [M]  /home/debian/PRUCookbook/docs/05blocks/code/module/rpmsg_pru.ko
+make[1]: Leaving directory '/usr/src/linux-headers-4.9.88-ti-r111'
+bone$ <strong>insmod rpmsg_pru.ko</strong>
+bone$ <strong>lsmod | grep rpm</strong>
+rpmsg_pru               5799  2
+virtio_rpmsg_bus       13620  0
+rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It&#8217;s now installed and ready to go.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_copyright"><a class="link" href="#_copyright">1.17. Copyright</a></h3>
 <div class="listingblock">
 <div class="title">copyright.c</div>
 <div class="content">
@@ -4536,7 +5040,7 @@ Your browser does not support the video tag.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-06 08:25:16 EDT
+Last updated 2018-07-06 14:29:24 EDT
 </div>
 </div>
 </body>
