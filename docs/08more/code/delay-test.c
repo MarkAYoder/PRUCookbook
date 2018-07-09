@@ -1,4 +1,4 @@
-// Control a ws2812 (neo pixel) display, All on or all off
+// Shows how to call an assembly routine with one parameter
 #include <stdint.h>
 #include <pru_cfg.h>
 #include "resource_table_empty.h"
