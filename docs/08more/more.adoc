@@ -1,0 +1,101 @@
+include::../header.adoc[]
+
+== More Performance
+
+So far in all our examples we've been able to meet our timing goals by writing
+our code in the C programming language. The C compiler does a suprisingly
+good job at generating code, most the time.  However there are times
+when very precise timing is needed and the compiler isn't doing it.
+
+At these times you need to write in assembly language.  This chapter
+introduces the PRU assembler and shows how to call assembly code from
+C.
+
+The following are resources used in this chapter.
+
+.Resources
+* http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler, v2.2, User's Guide]
+* http://www.ti.com/lit/ug/spruhv6b/spruhv6b.pdf[PRU Assembly Language Tools User's Guide]
+* http://www.ti.com/lit/ug/spruij2/spruij2.pdf[PRU Assembly Instruction User Guide]
+
+* https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]
+* http://exploringbeaglebone.com/[Exploring BeagleBone by Derek Molloy]
+* https://cdn-shop.adafruit.com/datasheets/WS2812.pdf[WS2812 Data Sheet]
+
+=== Calling Assembly from C
+==== Problem
+You have some C code and you want to call an assembly language routine from
+it.
+
+==== Solution
+You need to do two things, write the assembler file and modify the Makefile
+to include it. For example, let's write our own `my_delay_cycles` routine in
+in assembly.  The intrinsic `__delay_cycles` must be passed a compile time
+constant.  Our new `delay_cycles` can take a runtime delay value.
+
+<<more_delay-test>> is much like our other c code, but one line 9 we declare `my_delay_cycles` and then on line 23 and 25 well call it with an argument
+of 1.
+[[more_delay-test]]
+.test-delay.c
+[source,c,linenums]
+[subs=+quotes]
+----
+include::code/delay-test.c[]
+----
+
+<<more_delay>> is the assembly code.
+[[more_delay]]
+.delay.asm
+[source,c,linenums]
+[subs=+quotes]
+----
+include::code/delay.asm[]
+----
+
+You then need to compile with <<more_makefile>>.
+[[more_makefile]]
+.Makefile
+[source,makefile,linenums]
+[subs=+quotes]
+----
+include::code/Makefile[]
+----
+
+The resulting output is shown in <<more_my_delay_cycles>>.
+
+[[more_my_delay_cycles]]
+.Output of my_delays_cycles()
+image:figures/my_delay_cycles.png[Output of my_delays_cycles()]
+
+Notice the on time is about 35ns and the off time is 30ns.
+
+==== Discission
+There is much to explain here.  Let's start with <<more_delay>>.
+
+.Line-by-line of delays.asm
+[cols="1,9"]
+|===
+|Line |Explanation
+
+|3    |Declare `my_delay_cycles` to be global so the linker can find it.
+|4    |Label the starting point for `my_delay_cycles`.
+|5    |Label for our delay loop.
+|6    |The first argument is passed in register `r14`.  Page 111 of
+http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler, v2.2, User's Guide]
+gives the argument passing convention.  Registers `r14` to `r29` are used
+to pass arguments, if there are more arguments, the argument stack (`r4`)
+is used.  The other register conventions are found on page 108.
+Here we subtract 1 from `r14` and save it back into `r14`.
+|7    |`qbne` is a quick branch if not equal.
+|9    |Once we've delayed enough we drop through the quick branch and 
+hit the jump.  The upper bits of register `r3` has the return address.
+|===
+
+
+
+=== Copyright
+[source,c,linenums]
+.copyright.c
+----
+include::code/copyright.c[copyright.c]
+----
