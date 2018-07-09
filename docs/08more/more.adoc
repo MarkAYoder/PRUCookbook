@@ -186,8 +186,8 @@ include::code/cycle.c[]
 ----
 
 ==== Discission
-The code is mostly the same. We'll save `CYCLE` in `cycle` so we an read
-it using prudebug.
+The code is mostly the same. `cycle` and `stall` end up in registers which
+we can read it using prudebug.
 <<more_cycle_lines>> is the Line-by-line.
 
 [[more_cycle_lines]]
@@ -197,40 +197,74 @@ it using prudebug.
 |Line|Explanation
 
 |4   |Needed to reference `CYCLE` and `STALL`. 
-|12  |The `volatile` keyword is
-used to force the compiler to save the values in DRAM.
-|19  |Enables `CYCLE`.
-|23  |Reset `CYCLE`. It ignores the value assigned to it and always sets it
-to 0.
-|25,26|Reads the `CYCLE` and `STALL` registers.
+|15  |Declaring cycle and stall.  The compiler with optimize these and just
+keep them in registers.  We'll have to look at the cycle.lst file to see where
+they are stored.
+|20  |Enables `CYCLE`.
+|25  |Reset `CYCLE`. It ignores the value assigned to it and always sets it
+to 0.  cycle is on the right hand side to make the compiler give it it's own
+register.
+|27, 28|Reads the `CYCLE` and `STALL` values into registers.
 |===
 
-You can see where `cycle` and `stall` are stored by looking into cycle.map.
-[source,bash]
+You can see where `cycle` and `stall` are stored by looking into 
+<<more_cycle_list0>>.
+[[more_cycle_list0]]
+./tmp/pru0-gen/cycle.lst`
+[source,asm,linenums]
 [subs=+quotes]
 ----
-bone$ *grep 'cycle\|stall' /tmp/pru0-gen/cycle.map*
-1     00000114  cycle                        
-1     00000118  stall 
+include::code/cycle.lst[lines=112,118]
 ----
-Now fire up ((prudebug)) and look at those memory locations.
-[source,bash]
+Here the `LDI` instruction loads the address `0x22000` into `r0`.  This is the
+offset to the `CTRL` registers. 
+ Later we see
+<<more_cycle_list1>>.
+[[more_cycle_list1]]
+./tmp/pru0-gen/cycle.lst`
+[source,asm,linenums]
 [subs=+quotes]
 ----
-bone$ *prudebug*
-PRU0> *dd 0x100*
-dd 0x100
-Absolute addr = 0x0100, offset = 0x0000, Len = 16
-[0x0100] 0x00000001 0x00000000 0x00000000 0x00000000 
-[0x0110] 0x00000000 *0x00000003 0x00000006* 0x00000000 
-[0x0120] 0x00000000 0x00000000 0x00000000 0x00000000 
-[0x0130] 0x00000000 0x00000000 0x00000000 0x00000000 
+include::code/cycle.lst[lines=145,151]
 ----
-So `cycles` is 3 and `stall` is 6. It must be one cycle to clear the GPIO
-and 2 cycles to read the `CYCLE` register and save it to DRAM.
+The first `LDI` takes the contents of `r0` and adds the offset 12 to it and
+copies 4 bytes into `r`.  This points to `CYCLE`, so `r1` has the contents of
+`CYCLE`.
 
-It's interesting there are 6 `stall` cycles. If you switch the order of
-lines 25 and 26 you'll see `cycle` is 9 and `stall` is 2. `cycle` now
+The second `LDI` does the same, but with offset 26, which points to `STALL`,
+thus `STALL` is now  in `r0`.
+
+Now fire up ((prudebug)) and look at those registers. 
+[source,bash]
+[subs=+quotes]
+----
+bone$ *sudo prudebug*
+PRU0> *r*
+r
+r
+Register info for PRU0
+    Control register: 0x00000009
+      Reset PC:0x0000  STOPPED, FREE_RUN, COUNTER_ENABLED, NOT_SLEEPING, PROC_DISABLED
+
+    Program counter: 0x0012
+      Current instruction: HALT
+
+    R00: 0x00000005    R08: 0x00000200    R16: 0x000003c6    R24: 0x00110210
+    R01: 0x00000003    R09: 0x00000000    R17: 0x00000000    R25: 0x00000000
+    R02: 0x000000fc    R10: 0xfff4ea57    R18: 0x000003e6    R26: 0x6e616843
+    R03: 0x0004272c    R11: 0x5fac6373    R19: 0x30203020    R27: 0x206c656e
+    R04: 0xffffffff    R12: 0x59bfeafc    R20: 0x0000000a    R28: 0x00003033
+    R05: 0x00000007    R13: 0xa4c19eaf    R21: 0x00757270    R29: 0x02100000
+    R06: 0xefd30a00    R14: 0x00000005    R22: 0x0000001e    R30: 0xa03f9990
+    R07: 0x00020024    R15: 0x00000003    R23: 0x00000000    R31: 0x00000000
+ 
+----
+So `cycles` is 3 and `stall` is 5. It must be one cycle to clear the GPIO
+and 2 cycles to read the `CYCLE` register and save it to DRAM. It's interesting 
+there are 5 `stall` cycles. 
+
+If you switch the order of
+lines 27 and 28 you'll see `cycle` is 7 and `stall` is 2. `cycle` now
 includes the time needed to read `stall` and `stall` no longer includes
 the time to read `cycle`.
 
