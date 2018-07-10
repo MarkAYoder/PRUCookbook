@@ -268,6 +268,121 @@ lines 27 and 28 you'll see `cycle` is 7 and `stall` is 2. `cycle` now
 includes the time needed to read `stall` and `stall` no longer includes
 the time to read `cycle`.
 
+
+
+=== Xout and Xin - Transfering Between PRUs
+==== Problem
+I need to transfer data between PRUs quickly.
+
+==== Solution
+The `__xout()` and `__xin()` intrinsics are able to transfer up to 30 registers between
+PRU 0 and PRU 1 in one cycle.  <<more_xout>> shows how `xout()` runnin on PRU 0 
+transfers six registers to PRU 1.
+
+[[more_xout]]
+.xout.c
+[source,c,linenums]
+[subs=+quotes]
+----
+include::code/xout.c[]
+----
+
+PRU 1 waits at line 41 until PRU 0 signals it.  <<more_xin>> sends sneds and
+interupt to PRU 0 and waits for it to send the data.
+
+[[more_xin]]
+.xin.c
+[source,c,linenums]
+[subs=+quotes]
+----
+include::code/xin.c[]
+----
+
+Use `prudebug` to see registers R5-R10 are transfered from PRU 0 to PRU 1.
+
+[source,c,linenums]
+[subs=+quotes]
+----
+PRU0> *r*
+Register info for PRU0
+    Control register: 0x00000001
+      Reset PC:0x0000  STOPPED, FREE_RUN, COUNTER_DISABLED, NOT_SLEEPING, PROC_DISABLED
+
+    Program counter: 0x0026
+      Current instruction: HALT
+
+    R00: 0x00000012    *R08: 0xbbbbbbbb*    R16: 0x000003c6    R24: 0x00110210
+    R01: 0x00020000    *R09: 0x87654321*    R17: 0x00000000    R25: 0x00000000
+    R02: 0x000000e4    *R10: 0xcccccccc*    R18: 0x000003e6    R26: 0x6e616843
+    R03: 0x0004272c    R11: 0x5fac6373    R19: 0x30203020    R27: 0x206c656e
+    R04: 0xffffffff    R12: 0x59bfeafc    R20: 0x0000000a    R28: 0x00003033
+    *R05: 0xdeadbeef*    R13: 0xa4c19eaf    R21: 0x00757270    R29: 0x02100000
+    *R06: 0xaaaaaaaa*    R14: 0x00000005    R22: 0x0000001e    R30: 0xa03f9990
+    *R07: 0x12345678*    R15: 0x00000003    R23: 0x00000000    R31: 0x00000000
+
+PRU0> *pru 1*
+pru 1
+Active PRU is PRU1.
+
+PRU1> *r*
+r
+Register info for PRU1
+    Control register: 0x00000001
+      Reset PC:0x0000  STOPPED, FREE_RUN, COUNTER_DISABLED, NOT_SLEEPING, PROC_DISABLED
+
+    Program counter: 0x000b
+      Current instruction: HALT
+
+    R00: 0x00000100    *R08: 0xbbbbbbbb*    R16: 0xe9da228b    R24: 0x28113189
+    R01: 0xe48cdb1f    *R09: 0x87654321*    R17: 0x66621777    R25: 0xddd29ab1
+    R02: 0x000000e4    *R10: 0xcccccccc*    R18: 0x661f83ea    R26: 0xcf1cd4a5
+    R03: 0x0004db97    R11: 0xdec387d5    R19: 0xa85adb78    R27: 0x70af2d02
+    R04: 0xa90e496f    R12: 0xbeac3878    R20: 0x048fff22    R28: 0x7465f5f0
+    *R05: 0xdeadbeef*    R13: 0x5777b488    R21: 0xa32977c7    R29: 0xae96b530
+    *R06: 0xaaaaaaaa*    R14: 0xffa60550    R22: 0x99fb123e    R30: 0x52c42a0d
+    *R07: 0x12345678*    R15: 0xdeb2142d    R23: 0xa353129d    R31: 0x00000000
+
+----
+
+==== Discussion
+<<more_zout_lines>> shows the line-by-line for `xout.c`
+
+[[more_zout_lines]]
+.xout.c Line-by-line
+[cols="1,9"]
+|===
+|Line |Explanation
+
+|3    |A different resouce so PRU 0 can receive a signal from PRU 1.
+|10-19|`dmemBug` holds the data to be sent to PRU1.  Each will be transfered
+to its corresponding register by `xout()`
+|22-23|Define the interupts we're using.
+|28-29|Clear the interrupts.
+|32-37|Initialize dmemBuf with easy to recognize values.
+|41   |Wait for PRU 1 to signal.
+|46   |`__xout()` does a direct transfer to PRU 1. 
+Page 92 of 
+http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler, v2.2, User's Guide]
+shows how to use `xout()`.  14 says to do a direct transfer to PRU 1.  If the
+first argument is 10, 11 or 12, the data is transfered to one of three 
+scratchpad memories that PRU 1 can access later.  5 says to start transfering
+with register `r5` and use as many regsiters as need to transfer all of
+`dmemBuf`.
+|49   |Clear the interupt.
+|===
+
+<<more_xin_lines>> shows the line-by-line for `xin.c`.
+
+[[more_xin_lines]]
+.xout.c Line-by-line[cols="1,9"]
+|===
+|Line |Explanation
+
+|9-16 |Place to put the received data.
+|25   |Signal PRU 0
+|29   |Receive the data.  14 says to get the data directly from PRU 0.  5
+says to start with register `r5`.  `dmemBuf` is where to put the data.
+
 === Copyright
 [source,c,linenums]
 .copyright.c
