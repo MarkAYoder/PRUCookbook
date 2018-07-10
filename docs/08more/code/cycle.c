@@ -1,4 +1,4 @@
-// Control a ws2812 (neo pixel) display, All on or all off
+// Access the CYCLE and STALL registers
 #include <stdint.h>
 #include <pru_cfg.h>
 #include <pru_ctrl.h>
