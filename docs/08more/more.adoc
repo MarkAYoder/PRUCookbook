@@ -379,9 +379,10 @@ with register `r5` and use as many regsiters as need to transfer all of
 |Line |Explanation
 
 |9-16 |Place to put the received data.
-|25   |Signal PRU 0
-|29   |Receive the data.  14 says to get the data directly from PRU 0.  5
+|27   |Signal PRU 0
+|31   |Receive the data.  14 says to get the data directly from PRU 0.  5
 says to start with register `r5`.  `dmemBuf` is where to put the data.
+|===
 
 === Copyright
 [source,c,linenums]

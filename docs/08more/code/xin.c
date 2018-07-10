@@ -15,6 +15,8 @@ typedef struct {
 	uint32_t reg10;
 } bufferData;
 
+bufferData dmemBuf;
+
 /* PRU-to-ARM interrupt */
 #define PRU1_PRU0_INTERRUPT (18)
 #define PRU1_ARM_INTERRUPT (20+16)
