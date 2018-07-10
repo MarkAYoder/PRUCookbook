@@ -400,6 +400,8 @@ https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manua
 
 Bit 0 is the LSB.
 
+(((mapping, positions, pin)))
+
 [[blocks_mapping_bits]]
 .Mapping bit positions to pin names
 |===

@@ -210,28 +210,28 @@ register.
 You can see where `cycle` and `stall` are stored by looking into 
 <<more_cycle_list0>>.
 [[more_cycle_list0]]
-./tmp/pru0-gen/cycle.lst`
+./tmp/pru0-gen/cycle.lst Lines 122..118
 [source,asm,linenums]
 [subs=+quotes]
 ----
-include::code/cycle.lst[lines=112,118]
+include::code/cycle.lst[lines=112..118]
 ----
-Here the `LDI` instruction loads the address `0x22000` into `r0`.  This is the
-offset to the `CTRL` registers. 
- Later we see
-<<more_cycle_list1>>.
+Here the `LDI32` instruction loads the address `0x22000` into `r0`.  
+This is the offset to the `CTRL` registers. 
+ Later in the file we see <<more_cycle_list1>>.
+ 
 [[more_cycle_list1]]
-./tmp/pru0-gen/cycle.lst`
+./tmp/pru0-gen/cycle.lst Lines 145..151
 [source,asm,linenums]
 [subs=+quotes]
 ----
-include::code/cycle.lst[lines=145,151]
+include::code/cycle.lst[lines=145..151]
 ----
-The first `LDI` takes the contents of `r0` and adds the offset 12 to it and
-copies 4 bytes into `r`.  This points to `CYCLE`, so `r1` has the contents of
+The first `LBBO` takes the contents of `r0` and adds the offset 12 to it and
+copies 4 bytes into `r1`.  This points to `CYCLE`, so `r1` has the contents of
 `CYCLE`.
 
-The second `LDI` does the same, but with offset 26, which points to `STALL`,
+The second `LBBO` does the same, but with offset 16, which points to `STALL`,
 thus `STALL` is now  in `r0`.
 
 Now fire up ((prudebug)) and look at those registers. 
@@ -249,8 +249,8 @@ Register info for PRU0
     Program counter: 0x0012
       Current instruction: HALT
 
-    R00: 0x00000005    R08: 0x00000200    R16: 0x000003c6    R24: 0x00110210
-    R01: 0x00000003    R09: 0x00000000    R17: 0x00000000    R25: 0x00000000
+    R00: *0x00000005*    R08: 0x00000200    R16: 0x000003c6    R24: 0x00110210
+    R01: *0x00000003*    R09: 0x00000000    R17: 0x00000000    R25: 0x00000000
     R02: 0x000000fc    R10: 0xfff4ea57    R18: 0x000003e6    R26: 0x6e616843
     R03: 0x0004272c    R11: 0x5fac6373    R19: 0x30203020    R27: 0x206c656e
     R04: 0xffffffff    R12: 0x59bfeafc    R20: 0x0000000a    R28: 0x00003033
@@ -259,9 +259,9 @@ Register info for PRU0
     R07: 0x00020024    R15: 0x00000003    R23: 0x00000000    R31: 0x00000000
  
 ----
-So `cycles` is 3 and `stall` is 5. It must be one cycle to clear the GPIO
-and 2 cycles to read the `CYCLE` register and save it to DRAM. It's interesting 
-there are 5 `stall` cycles. 
+So `cycle` is 3 and `stall` is 5. It must be one cycle to clear the GPIO
+and 2 cycles to read the `CYCLE` register and save it in the register. 
+It's interesting there are 5 `stall` cycles. 
 
 If you switch the order of
 lines 27 and 28 you'll see `cycle` is 7 and `stall` is 2. `cycle` now
