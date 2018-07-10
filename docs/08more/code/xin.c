@@ -1,0 +1,41 @@
+#include <stdint.h>
+#include "resource_table_empty.h"
+
+#define PRU1
+
+volatile register uint32_t __R30;
+volatile register uint32_t __R31;
+
+typedef struct {
+	uint32_t reg5;
+	uint32_t reg6;
+	uint32_t reg7;
+	uint32_t reg8;
+	uint32_t reg9;
+	uint32_t reg10;
+} bufferData;
+
+bufferData dmemBuf;
+
+/* PRU-to-ARM interrupt */
+#define PRU1_PRU0_INTERRUPT (18)
+#define PRU0_ARM_INTERRUPT (19+16)
+#define PRU1_ARM_INTERRUPT (20+16)
+
+void main(void)
+{
+	bufferData buf;
+
+	/* Let PRU0 know that I am awake */
+	__R31 = PRU1_PRU0_INTERRUPT+16;
+
+	/* XFR registers R5-R10 from PRU0 to PRU1 */
+	/* 14 is the device_id that signifies a PRU to PRU transfer */
+	__xin(14, 5, 0, buf);
+
+	/* Store register values back into DRAM */
+	dmemBuf = buf;
+
+	/* Halt the PRU core */
+	__halt();
+}
