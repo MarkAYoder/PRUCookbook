@@ -28,8 +28,8 @@ include::05blocks/blocks.adoc[]
 include::06io/io.adoc[]
 
 <<<
-:imagesdir: ./08more
-include::08more/more.adoc[]
+:imagesdir: ./07more
+include::07more/more.adoc[]
 
 <<<
 [index]

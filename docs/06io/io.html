@@ -516,9 +516,8 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel1">
 <li><a href="#_accessing_more_i_o">1. Accessing more I/O</a>
 <ul class="sectlevel2">
-<li><a href="#_editing_boot_uenv_txt_to_access_the_p8_header_on_the_black">1.1. Editing /boot/uEnv.txt to access the P8 header on the Black</a></li>
+<li><a href="#_editing_boot_uenv_txt_to_access_the_p8_header_on_the_black">1.1. Editing /boot/uEnv.txt to Access the P8 Header on the Black</a></li>
 <li><a href="#_accessing_gpio">1.2. Accessing gpio</a></li>
-<li><a href="#_ecap_pwm">1.3. ECAP/PWM?</a></li>
 </ul>
 </li>
 </ul>
@@ -554,7 +553,7 @@ can be accessed.</p>
 </ul>
 </div>
 <div class="sect2">
-<h3 id="_editing_boot_uenv_txt_to_access_the_p8_header_on_the_black"><a class="link" href="#_editing_boot_uenv_txt_to_access_the_p8_header_on_the_black">1.1. Editing /boot/uEnv.txt to access the P8 header on the Black</a></h3>
+<h3 id="_editing_boot_uenv_txt_to_access_the_p8_header_on_the_black"><a class="link" href="#_editing_boot_uenv_txt_to_access_the_p8_header_on_the_black">1.1. Editing /boot/uEnv.txt to Access the P8 Header on the Black</a></h3>
 <div class="sect3">
 <h4 id="_problem"><a class="link" href="#_problem">Problem</a></h4>
 <div class="paragraph">
@@ -741,11 +740,13 @@ GPIO pins, but it&#8217;s a slower access.</p>
 26
 27
 28
+29
 </pre></td>
   <td class="code"><pre>#!/bin/bash
-#
 export PRUN=0
 export TARGET=gpio1
+echo PRUN=$PRUN
+echo TARGET=$TARGET
 
 # Configure the PRU pins based on which Beagle is running
 machine=$(awk '{print $NF}' /proc/device-tree/model)
@@ -901,16 +902,12 @@ use the <code>__R30</code> interface.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_ecap_pwm"><a class="link" href="#_ecap_pwm">1.3. ECAP/PWM?</a></h3>
-
-</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-18 10:59:11 EDT
+Last updated 2018-07-11 16:11:32 EDT
 </div>
 </div>
 </body>

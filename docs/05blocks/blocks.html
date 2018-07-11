@@ -517,7 +517,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_building_blocks_applications">1. Building Blocks - Applications</a>
 <ul class="sectlevel2">
 <li><a href="#_memory_allocation">1.1. Memory Allocation</a></li>
-<li><a href="#_auto_initialization_of_builtin_led_triggers">1.2. Auto Initialization of Builtin LED Triggers</a></li>
+<li><a href="#_auto_initialization_of_built_in_led_triggers">1.2. Auto Initialization of Built in LED Triggers</a></li>
 <li><a href="#_pwm_generator">1.3. PWM Generator</a></li>
 <li><a href="#_controlling_the_pwm_frequency">1.4. Controlling the PWM Frequency</a></li>
 <li><a href="#_loop_unrolling_for_better_performance">1.5. Loop Unrolling for Better Performance</a></li>
@@ -526,13 +526,12 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_sychronziing_two_prus">1.8. Sychronziing Two PRUs</a></li>
 <li><a href="#_reading_an_input_at_regular_intervals">1.9. Reading an Input at Regular Intervals</a></li>
 <li><a href="#_analog_wave_generator">1.10. Analog Wave Generator</a></li>
-<li><a href="#_ultrasonic_sensor_application">1.11. Ultrasonic Sensor Application</a></li>
-<li><a href="#_ws2812_neopixel_driver">1.12. WS2812 (NeoPixel) driver</a></li>
-<li><a href="#_setting_neopixels_to_different_colors">1.13. Setting NeoPixels to Different Colors</a></li>
-<li><a href="#_controlling_arbitrary_leds">1.14. Controlling Arbitrary LEDs</a></li>
-<li><a href="#_controlling_neopixels_through_a_kernel_driver">1.15. Controlling NeoPixels Through a Kernel Driver</a></li>
-<li><a href="#_compiling_and_inserting_rpmsg_pru">1.16. Compiling and Inserting rpmsg_pru</a></li>
-<li><a href="#_copyright">1.17. Copyright</a></li>
+<li><a href="#_ws2812_neopixel_driver">1.11. WS2812 (NeoPixel) driver</a></li>
+<li><a href="#_setting_neopixels_to_different_colors">1.12. Setting NeoPixels to Different Colors</a></li>
+<li><a href="#_controlling_arbitrary_leds">1.13. Controlling Arbitrary LEDs</a></li>
+<li><a href="#_controlling_neopixels_through_a_kernel_driver">1.14. Controlling NeoPixels Through a Kernel Driver</a></li>
+<li><a href="#_compiling_and_inserting_rpmsg_pru">1.15. Compiling and Inserting rpmsg_pru</a></li>
+<li><a href="#_copyright">1.16. Copyright</a></li>
 </ul>
 </li>
 </ul>
@@ -1048,18 +1047,18 @@ the compiler is putting things.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_auto_initialization_of_builtin_led_triggers"><a class="link" href="#_auto_initialization_of_builtin_led_triggers">1.2. Auto Initialization of Builtin LED Triggers</a></h3>
+<h3 id="_auto_initialization_of_built_in_led_triggers"><a class="link" href="#_auto_initialization_of_built_in_led_triggers">1.2. Auto Initialization of Built in LED Triggers</a></h3>
 <div class="sect3">
 <h4 id="_problem_2"><a class="link" href="#_problem_2">Problem</a></h4>
 <div class="paragraph">
-<p>I see the builtin LEDs blink to their own patterns.  How do I turn this off?
+<p>I see the built in LEDs blink to their own patterns.  How do I turn this off?
 Can this be automated?</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_solution_2"><a class="link" href="#_solution_2">Solution</a></h4>
 <div class="paragraph">
-<p>Each builtin LED has a default action (trigger) when the Bone boots up.
+<p>Each built in LED has a default action (trigger) when the Bone boots up.
 This is controlled by <code>/sys/class/leds</code>.</p>
 </div>
 <div class="listingblock">
@@ -1088,7 +1087,7 @@ heartbeat backlight gpio cpu0 default-on</pre>
 </div>
 <div class="paragraph">
 <p>Notice <code>[mmc0]</code> is in brackets.  This means it&#8217;s the current trigger; it flashes
-when the builtin flash memory is in use.  You can turn this off using:</p>
+when the built in flash memory is in use.  You can turn this off using:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1506,6 +1505,9 @@ gives more details.</p></td>
 </table>
 <div class="paragraph">
 <p>Bit 0 is the LSB.</p>
+</div>
+<div class="paragraph">
+<p></p>
 </div>
 <table id="blocks_mapping_bits" class="tableblock frame-all grid-all spread">
 <caption class="title">Table 4. Mapping bit positions to pin names</caption>
@@ -3831,11 +3833,7 @@ to the PRU.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ultrasonic_sensor_application"><a class="link" href="#_ultrasonic_sensor_application">1.11. Ultrasonic Sensor Application</a></h3>
-
-</div>
-<div class="sect2">
-<h3 id="_ws2812_neopixel_driver"><a class="link" href="#_ws2812_neopixel_driver">1.12. WS2812 (NeoPixel) driver</a></h3>
+<h3 id="_ws2812_neopixel_driver"><a class="link" href="#_ws2812_neopixel_driver">1.11. WS2812 (NeoPixel) driver</a></h3>
 <div class="sect3">
 <h4 id="_problem_11"><a class="link" href="#_problem_11">Problem</a></h4>
 <div class="paragraph">
@@ -4035,7 +4033,7 @@ grab the next value for itself and start over again.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_setting_neopixels_to_different_colors"><a class="link" href="#_setting_neopixels_to_different_colors">1.13. Setting NeoPixels to Different Colors</a></h3>
+<h3 id="_setting_neopixels_to_different_colors"><a class="link" href="#_setting_neopixels_to_different_colors">1.12. Setting NeoPixels to Different Colors</a></h3>
 <div class="sect3">
 <h4 id="_problem_12"><a class="link" href="#_problem_12">Problem</a></h4>
 <div class="paragraph">
@@ -4242,7 +4240,7 @@ be changed.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_controlling_arbitrary_leds"><a class="link" href="#_controlling_arbitrary_leds">1.14. Controlling Arbitrary LEDs</a></h3>
+<h3 id="_controlling_arbitrary_leds"><a class="link" href="#_controlling_arbitrary_leds">1.13. Controlling Arbitrary LEDs</a></h3>
 <div class="sect3">
 <h4 id="_problem_13"><a class="link" href="#_problem_13">Problem</a></h4>
 <div class="paragraph">
@@ -4449,7 +4447,7 @@ Your browser does not support the video tag.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_controlling_neopixels_through_a_kernel_driver"><a class="link" href="#_controlling_neopixels_through_a_kernel_driver">1.15. Controlling NeoPixels Through a Kernel Driver</a></h3>
+<h3 id="_controlling_neopixels_through_a_kernel_driver"><a class="link" href="#_controlling_neopixels_through_a_kernel_driver">1.14. Controlling NeoPixels Through a Kernel Driver</a></h3>
 <div class="sect3">
 <h4 id="_problem_14"><a class="link" href="#_problem_14">Problem</a></h4>
 <div class="paragraph">
@@ -4918,7 +4916,7 @@ the last number, or you numbers will get blurred together.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_compiling_and_inserting_rpmsg_pru"><a class="link" href="#_compiling_and_inserting_rpmsg_pru">1.16. Compiling and Inserting rpmsg_pru</a></h3>
+<h3 id="_compiling_and_inserting_rpmsg_pru"><a class="link" href="#_compiling_and_inserting_rpmsg_pru">1.15. Compiling and Inserting rpmsg_pru</a></h3>
 <div class="sect3">
 <h4 id="_problem_15"><a class="link" href="#_problem_15">Problem</a></h4>
 <div class="paragraph">
@@ -4961,7 +4959,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_copyright"><a class="link" href="#_copyright">1.17. Copyright</a></h3>
+<h3 id="_copyright"><a class="link" href="#_copyright">1.16. Copyright</a></h3>
 <div class="listingblock">
 <div class="title">copyright.c</div>
 <div class="content">
@@ -5040,7 +5038,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-06 14:29:24 EDT
+Last updated 2018-07-11 14:02:36 EDT
 </div>
 </div>
 </body>

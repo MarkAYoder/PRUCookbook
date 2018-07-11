@@ -1,6 +1,6 @@
 include::../header.adoc[]
 
-== Details on compiling and running a file
+== Details on Compiling and Running a File
 
 There are a lot of details in compiling and running PRU code.
 Fortunately those details are captured in a common Makefile that is

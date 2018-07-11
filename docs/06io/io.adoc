@@ -12,7 +12,7 @@ The following are resources used in this chapter.
 * https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf[P9 Header Table]
 * https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]
 
-=== Editing /boot/uEnv.txt to access the P8 header on the Black
+=== Editing /boot/uEnv.txt to Access the P8 Header on the Black
 ==== Problem
 When I try ton configure some pins on the `P8` header of the Black I get an error.
 
@@ -159,4 +159,4 @@ GPIO interface can be used.  If your application needs better timing,
 use the `__R30` interface.
  
 
-=== ECAP/PWM?
+// ToDo === ECAP/PWM?

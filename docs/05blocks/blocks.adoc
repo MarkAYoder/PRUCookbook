@@ -206,13 +206,13 @@ The compiler offers great control over where variables are stored. Just
 be sure if you are hand picking where thing are put not to put them where
 the compiler is putting things.
 
-=== Auto Initialization of Builtin LED Triggers
+=== Auto Initialization of Built in LED Triggers
 ==== Problem
-I see the builtin LEDs blink to their own patterns.  How do I turn this off? 
+I see the built in LEDs blink to their own patterns.  How do I turn this off? 
 Can this be automated?
 
 ==== Solution
-Each builtin LED has a default action (trigger) when the Bone boots up. 
+Each built in LED has a default action (trigger) when the Bone boots up. 
 This is controlled by `/sys/class/leds`.
 [subs=+quotes]
 ----
@@ -235,7 +235,7 @@ kbd-shiftrlock kbd-ctrlllock kbd-ctrlrlock usb-gadget usb-host
 heartbeat backlight gpio cpu0 default-on 
 ----
 Notice `[mmc0]` is in brackets.  This means it's the current trigger; it flashes 
-when the builtin flash memory is in use.  You can turn this off using:
+when the built in flash memory is in use.  You can turn this off using:
 [subs=+quotes]
 ----
 bone$ *echo none | sudo tee trigger*
@@ -982,7 +982,7 @@ space, you can move the table generation to the ARM and just copy the table
 to the PRU.
 
 
-=== Ultrasonic Sensor Application
+// ToDo === Ultrasonic Sensor Application
 
 === WS2812 (NeoPixel) driver
 ==== Problem
