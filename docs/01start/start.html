@@ -590,13 +590,92 @@ This show you a list of dates of the most recent Debian images.</p>
 <div class="paragraph">
 <p>Cloud9</p>
 </div>
+<div class="paragraph">
+<div class="title">The Cloud9 IDE</div>
+<p><span class="image"><img src="figures/c9.png" alt="The Cloud9 IDE"></span></p>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_blinking_an_led"><a class="link" href="#_blinking_an_led">1.4. Blinking an LED</a></h3>
 <div class="paragraph">
-<p>The 'hello, world' of the embedded world is to flash an LED. <a href="#start_hello">[start_hello]</a>
-is some code that blinks</p>
+<p>The 'hello, world' of the embedded world is to flash an LED. <a href="#start_hello">hello.c</a>
+is some code that blinks the <code>USR3</code> LED five times.</p>
+</div>
+<div id="start_hello" class="listingblock">
+<div class="title">hello.c</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+</pre></td>
+  <td class="code"><pre><span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
+
+<span class="preprocessor">#define</span> GPIO1 <span class="hex">0x4804C000</span>
+<span class="preprocessor">#define</span> GPIO_CLEARDATAOUT <span class="hex">0x190</span>
+<span class="preprocessor">#define</span> GPIO_SETDATAOUT <span class="hex">0x194</span>
+<span class="preprocessor">#define</span> USR0 (<span class="integer">1</span>&lt;&lt;<span class="integer">21</span>)
+<span class="preprocessor">#define</span> USR1 (<span class="integer">1</span>&lt;&lt;<span class="integer">22</span>)
+<span class="preprocessor">#define</span> USR2 (<span class="integer">1</span>&lt;&lt;<span class="integer">23</span>)
+<span class="preprocessor">#define</span> USR3 (<span class="integer">1</span>&lt;&lt;<span class="integer">24</span>)
+<span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> <span class="directive">volatile</span> * <span class="directive">const</span> GPIO1_CLEAR = (<span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> <strong>) (GPIO1 + GPIO_CLEARDATAOUT);
+<span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> <span class="directive">volatile</span> * <span class="directive">const</span> GPIO1_SET   = (<span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> *) (GPIO1 + GPIO_SETDATAOUT);
+
+<span class="directive">volatile</span> <span class="directive">register</span> <span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> <em>R30;
+<span class="directive">volatile</span> <span class="directive">register</span> <span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> </em>R31;
+
+<span class="directive">void</span> main(<span class="directive">void</span>) {
+    <span class="predefined-type">int</span> i;
+
+    <span class="comment">/</strong> Clear SYSCFG[STANDBY_INIT] to enable OCP master port */</span>
+    CT_CFG.SYSCFG_bit.STANDBY_INIT = <span class="integer">0</span>;
+
+    <span class="keyword">for</span>(i=<span class="integer">0</span>; i&lt;<span class="integer">5</span>; i++) {
+        *GPIO1_SET = USR3;      <span class="comment">// The the USR3 LED on</span>
+        <em>delay_cycles(<span class="integer">500000000</span>/<span class="integer">5</span>);    <span class="comment">// Wait 1/2 second</span>
+
+        *GPIO1_CLEAR = USR3;
+         </em>delay_cycles(<span class="integer">500000000</span>/<span class="integer">5</span>);
+    }
+    __halt();
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Later chapters will go into details of how this code works.</p>
 </div>
 </div>
 </div>
@@ -604,7 +683,7 @@ is some code that blinks</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-11 16:07:26 EDT
+Last updated 2018-07-11 16:19:28 EDT
 </div>
 </div>
 </body>

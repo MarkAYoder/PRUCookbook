@@ -37,7 +37,20 @@ How do I manage and edit my files?
 ==== Solution
 Cloud9
 
+.The Cloud9 IDE
+image:figures/c9.png[The Cloud9 IDE]
+
 
 === Blinking an LED
 The 'hello, world' of the embedded world is to flash an LED. <<start_hello>> 
-is some code that blinks 
+is some code that blinks the `USR3` LED five times.
+
+[[start_hello]]
+.hello.c
+[source,c,linenums]
+[subs=+quotes]
+----
+include::code/hello.c[]
+----
+
+Later chapters will go into details of how this code works.
