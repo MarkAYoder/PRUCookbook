@@ -3,13 +3,15 @@
 # Copyright (c) 2017 Texas Instruments - Jason Kridner <jdk@ti.com>
 # 
 
-# TARGET must be defined
-# PRUN must be defined
+# TARGET must be defined as the file to be compiled without the .c.
+# PRUN must be defined as the PRU number (0 or 1) to compile for.
 
-# PRU_CGT environment variable must point to the TI PRU compiler directory.
-# PRU_SUPPORT points to pru-software-support-package
+# PRU_CGT environment variable points to the TI PRU compiler directory.
+# PRU_SUPPORT points to pru-software-support-package.
+# GEN_DIR points to where to put the generated files.
 PRU_CGT:=/usr/share/ti/cgt-pru
 PRU_SUPPORT:=/usr/lib/ti/pru-software-support-package
+GEN_DIR:=/tmp/pru$(PRUN)-gen
 
 LINKER_COMMAND_FILE=AM335x_PRU.cmd
 LIBS=--library=$(PRU_SUPPORT)/lib/rpmsg_lib.lib
@@ -19,8 +21,6 @@ HEAP_SIZE=0x100
 
 CFLAGS=-v3 -O2 --printf_support=minimal --display_error_number --endian=little --hardware_mac=on --obj_directory=$(GEN_DIR) --pp_directory=$(GEN_DIR) --asm_directory=$(GEN_DIR) -ppd -ppa --asm_listing --c_src_interlist # --absolute_listing
 LFLAGS=--reread_libs --warn_sections --stack_size=$(STACK_SIZE) --heap_size=$(HEAP_SIZE) -m $(GEN_DIR)/$(TARGET).map
-
-GEN_DIR=/tmp/pru$(PRUN)-gen
 
 # Lookup PRU by address
 ifeq ($(PRUN),0)

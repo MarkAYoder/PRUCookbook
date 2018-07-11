@@ -2,8 +2,10 @@ include::../header.adoc[]
 
 == Details on compiling and running a file
 
-There are a lot details in compiling and running PRU code.
-Here are some details on how it works.
+There are a lot of details in compiling and running PRU code.
+Fortunately those details are captured in a common Makefile that is
+used througout this book.  This chapter shows how to use the Makefile to 
+compile code and also start and stop the PRUs.
 
 The following are resources used in this chapter.
 
@@ -51,7 +53,6 @@ Now you are ready to compile and run.  This is automated for you in the Makefile
 ----
 bone$ *make*
 -    Stopping PRU 0
-[sudo] password for debian: 
 stop
 -	copying firmware file /tmp/pru0-gen/gpio1.out to /lib/firmware/am335x-pru0-fw
 -    Starting PRU 0
@@ -62,15 +63,43 @@ Congratulations, your are now running a PRU.
 
 ==== Discussion
 The `setup.sh` file sets `PRUN` to the number of the PRU you are using and
-`TARGET` to the file you want to compile.
+`TARGET` to the file you want to compile. You can override these on the
+command line.
 
+[subs=+quotes]
 ----
-export PRUN=0
-export TARGET=gpio1
+bone$ *export PRUN=0*
+bone$ *export TARGET=gpio1*
 ----
 
-It also contains instructions to figure out which Beagle you are running
+Notice the `TARGET` doesn't have the `.c` on the end.
+
+You can also specify them what running `make`.
+[subs=+quotes]
+----
+bone$ *make PRUN=0 TARGET=gpio1*
+----
+
+The setup file also contains instructions to figure out which Beagle you are running
 and then configure the pins acordingly.
+
+.setup.sh
+[source,bash,linenums]
+[subs=+quotes]
+----
+include::code/gpio_setup.sh[]
+----
+
+[cols="1,9"]
+|===
+|Line|Explanation
+
+|2-5 |Set which PRU to use and which file to compile. 
+|8   |Figure out which type of Beagle we have.
+|10-22|Based on the type, set the `pins`.
+|24-29|Configure (set the pin mux) for each of the pins.
+|===
+
 
 The Makefile stops the PRU, compiles the file and moves it where it will be loaded,
 and then restarts the PRU.
@@ -111,10 +140,10 @@ The surest way to make sure everything is right is to use our
 standard Makefile.
 
 ==== Discussion
-It's assumed you alrady know how Makefiles work.  If not, there are
-many resources on line that can bring you up to speed.
+It's assumed you already know how Makefiles work.  If not, there are
+many resources online that can bring you up to speed.
 
-Here is the stardard Makefile (`Makefile`) used throughout. 
+Here is the stardard Makefile (`Makefile`) used throughout this book.
 
 .Standard Makefile
 [source,makefile,linenums]
@@ -123,29 +152,23 @@ include::code/Makefile[]
 ----
 
 Here's an highlevel overview of the Makefile
-
+// ToDo:  The long lines in the Makefile make the line numbers be off.
 .Makefile Overview
 [cols="1,9"]
 |===
 |Line |Explanation
 
-|     |You need to define `TARGET` and `PRU` before running the Makefile.
+|6,7  |You need to define `TARGET` and `PRU` before running the Makefile.
 This is done in a `setup.sh`. `TARGET` is the name of the c source file, without
 the `.c`.  `PRUN` is the number of the PRU for which you are compiling.
 In our case it's either 0 or 1.
-|11,12|These find where to find the PRU compiler and the support libraries.
+|12,13|These tell where to find the PRU compiler and the support libraries and 
+where to save the generated files.
 These files are already installed on the standard Beagle images. 
 If they aren't installed you can find them at 
 http://software-dl.ti.com/codegen/esd/cgt_public_sw/PRU/2.1.5/ti_cgt_pru_2.1.5_armlinuxa8hf_busybox_installer.sh[PRU Code Generation Tools - Compiler] and
 http://git.ti.com/pru-software-support-package[PRU Software Support Package].
-|14   |This points to the file that tells the linker where in memory to
-put things.  It will be covered in <<_the_linker_command_file_AM335x_pru.cmd,
-The Linker Command File - AM335x_PRU.cmd>>
-|15,16|Tells where to find the PRU libraries and include files.
-|17,18|This gives the stack and heap sizes. `STACK_SIZE` is the size of section
-`.stack` and `HEAP_SIZE` is the size of the `.bss` section.
-|20,21|Flags for the c compiler and the linker
-|23   |This is where all the generated files are stored. `/tmp` is used since
+|14  |This is where all the generated files are stored. `/tmp` is used since
 these files aren't needed once the PRU is running. Running `make clean` removes
 these files for the given PRUN.  If you look in the directory you'll find: +
 //TODO Make this format like code.
@@ -154,8 +177,14 @@ file.map  gpio1.asm  gpio1.lst  gpio1.obj  gpio1.out  gpio1.pp` +
 `file.map` shows what addresses the symbols are mapped to and `*.lst` 
 is the assembly code output by the compiler.  It might be useful to see
 what your code is being compiled to.
+|16   |This points to the file that tells the linker where in memory to
+put things.  It will be covered in <<detail_linker>>.
+|17,18|Tells where to find the PRU libraries and include files.
+|19,20|This gives the stack and heap sizes. `STACK_SIZE` is the size of section
+`.stack` and `HEAP_SIZE` is the size of the `.bss` section.
+|22,23|Flags for the c compiler and the linker
 |25-31|Here we map the PRU number to its physical address. This is needed later
-when loading for the PRU. These addresses are fixed, no matter which Beagle you
+when loading the PRU. These addresses are fixed, no matter which Beagle you
 are using.
 |33   |This computes the path to the given PRU. If you look in this directory
 you will find `state` and `firmware` (among other things).  `state` tells you
@@ -172,7 +201,8 @@ start the PRU.
 root permission to write to the file.
 |41-43|This does a simular thing for starting the PRU.
 |45-47|The PRU code is installed by simply copying the generated `*.out` file
-to `/lib/firmware/am335x-pru__X__-fw`
+to `/lib/firmware/am335x-pru__X__-fw` where __X__ is either 0 or 1 depending 
+on the PRU being used.
 |49-56|Rules for compiling and linking. Notice the `clpru` command has `-D=PRUN=$(PRUN)`.
 This will define `PRUN` to equal the PRU number in the code being compiled. This
 way the code can have conditional compilation based on which PRU it's being
@@ -202,7 +232,9 @@ Details on each can be found here:
 * http://www.ti.com/lit/ug/spruhv6b/spruhv6b.pdf[PRU Assembly Language Tools]
 
 If fact the are PRU versions of many of the standard code generation tools.
-.code tools[source,bash]
+
+.code tools
+[source,bash]
 [subs=+quotes]
 ----
 bone$ *ls /usr/bin/*pru*
@@ -216,6 +248,7 @@ bone$ *ls /usr/bin/*pru*
 ----
 See the _PRU Assembly Language Tools_ for more details.
 
+[[detail_linker]]
 === The Linker Command File - AM335x_PRU.cmd
 
 ==== Problem
@@ -234,6 +267,7 @@ include::code/AM335x_PRU.cmd[AM335x_PRU.cmd]
 ==== Discussion
 
 The important things to notice in the file are given in the following table.
+
 .AM335x_PRU.cmd important things
 [cols="1,9"]
 |===
@@ -253,7 +287,7 @@ of memory for PRU 0 and another for PRU1, so they both get their own stacks.
 |===
 
 Why is it important to understand this file?  If you are going to store things
-in DMEM, you need to be sure to stare at address 0x0200 since the stack and 
+in DMEM, you need to be sure to start at address 0x0200 since the stack and 
 the heap are in the locations below 0x0200.
 
 === Loading Firmware
@@ -272,10 +306,10 @@ This is all handled in the <<_the_standard_makefile,The Standard Makefile>>.
 
 ==== Discussion
 The PRUs appear in the Linux file space at
-`/sys/devices/platform/ocp/4a326000.pruss-soc-bus/4a300000.pruss`.
+`/sys/devices/platform/ocp/4a32600*.pruss-soc-bus/4a300000.pruss`.
 
 .Finding the PRUs
-`bone$ *cd /sys/devices/platform/ocp/4a326000.pruss-soc-bus/4a300000.pruss*` +
+`bone$ *cd /sys/devices/platform/ocp/4a32600*.pruss-soc-bus/4a300000.pruss*` +
 `bone$ *ls*` + 
 `4a320000.intc  4a338000.pru1  driver_override  of_node  subsystem` +
 `4a334000.pru0  driver         modalias         power    uevent` +
