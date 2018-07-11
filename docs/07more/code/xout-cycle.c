@@ -1,3 +1,4 @@
+// Version of xout.c with code to use CYCLE to count cycle times.
 #include <stdint.h>
 #include <pru_intc.h>
 #include <pru_ctrl.h>

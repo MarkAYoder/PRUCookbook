@@ -4,7 +4,6 @@
 #include "resource_table_pru0.h"
 
 #define PRU0
-
 volatile register uint32_t __R30;
 volatile register uint32_t __R31;
 
