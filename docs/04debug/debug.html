@@ -516,12 +516,10 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel1">
 <li><a href="#_debugging_and_benchmarking">1. Debugging and Benchmarking</a>
 <ul class="sectlevel2">
-<li><a href="#_led_and_switch_for_debugging">1.1. LED and switch for debugging</a></li>
-<li><a href="#_oscilloscope">1.2. Oscilloscope</a></li>
-<li><a href="#_dmesg_hw">1.3. dmesg –Hw</a></li>
-<li><a href="#_prudebug_a_simple_debugger_for_the_pru">1.4. prudebug - A Simple Debugger for the PRU</a></li>
-<li><a href="#_uart">1.5. UART</a></li>
-<li><a href="#_copyright">1.6. Copyright</a></li>
+<li><a href="#_dmesg_hw">1.1. dmesg –Hw</a></li>
+<li><a href="#debug_prudebug">1.2. prudebug - A Simple Debugger for the PRU</a></li>
+<li><a href="#_uart">1.3. UART</a></li>
+<li><a href="#_copyright">1.4. Copyright</a></li>
 </ul>
 </li>
 </ul>
@@ -540,19 +538,32 @@ chaper.</p>
 <h2 id="_debugging_and_benchmarking"><a class="link" href="#_debugging_and_benchmarking">1. Debugging and Benchmarking</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Here&#8217;s where we learn how to debug. On of the challenges is getting debug
-information out without slowing the real-time execution.</p>
+<p>One of the challenges is getting debug
+information out without slowing the real-time execution.   One of the
+simplest ways to do this is to attach an LED to the output pin and watch it
+flash.
+<a href="#debug_LED">LED used for debugging P9_29</a> shows an LED attached to pin P9_29 of the BeagleBone Black.</p>
+</div>
+<div id="debug_LED" class="imageblock">
+<div class="content">
+<img src="figures/LED_bb.png" alt="LED used for debugging P9_29">
+</div>
+<div class="title">Figure 1. LED used for debugging P9_29</div>
+</div>
+<div class="paragraph">
+<p>Make sure you have the LED in the correct way, or it won&#8217;t work.</p>
+</div>
+<div class="paragraph">
+<p>If your output is changing more than a few times a second, the LED will be
+blinking too fast and you&#8217;ll need an oscilloscope or a logic analyzer to
+see what&#8217;s happening.</p>
+</div>
+<div class="paragraph">
+<p>Another useful tool that let&#8217;s you see the contents of the registers and
+RAM is discussed in <a href="#debug_prudebug">prudebug - A Simple Debugger for the PRU</a>.</p>
 </div>
 <div class="sect2">
-<h3 id="_led_and_switch_for_debugging"><a class="link" href="#_led_and_switch_for_debugging">1.1. LED and switch for debugging</a></h3>
-
-</div>
-<div class="sect2">
-<h3 id="_oscilloscope"><a class="link" href="#_oscilloscope">1.2. Oscilloscope</a></h3>
-
-</div>
-<div class="sect2">
-<h3 id="_dmesg_hw"><a class="link" href="#_dmesg_hw">1.3. dmesg –Hw</a></h3>
+<h3 id="_dmesg_hw"><a class="link" href="#_dmesg_hw">1.1. dmesg –Hw</a></h3>
 <div class="sect3">
 <h4 id="_problem"><a class="link" href="#_problem">Problem</a></h4>
 <div class="paragraph">
@@ -563,9 +574,9 @@ when I load my code, but don&#8217;t know what&#8217;s causing it.</p>
 <div class="sect3">
 <h4 id="_solution"><a class="link" href="#_solution">Solution</a></h4>
 <div class="paragraph">
-<p>The command <code>dmesg</code> outputs usefull information when dealing with the kernel.
+<p>The command <code>dmesg</code> outputs useful information when dealing with the kernel.
 Simplying running <code>dmesg -H</code> can tell you a lot.  The <code>-H</code> flag puts the
-dates in the human readable for.  Often I&#8217;ll have a window open running <code>dmesg -Hw</code>;
+dates in the human readable form.  Often I&#8217;ll have a window open running <code>dmesg -Hw</code>;
 the <code>-w</code> tells it to wait for more information.</p>
 </div>
 <div class="paragraph">
@@ -592,7 +603,7 @@ to my code.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_prudebug_a_simple_debugger_for_the_pru"><a class="link" href="#_prudebug_a_simple_debugger_for_the_pru">1.4. prudebug - A Simple Debugger for the PRU</a></h3>
+<h3 id="debug_prudebug"><a class="link" href="#debug_prudebug">1.2. prudebug - A Simple Debugger for the PRU</a></h3>
 <div class="sect3">
 <h4 id="_problem_2"><a class="link" href="#_problem_2">Problem</a></h4>
 <div class="paragraph">
@@ -606,7 +617,7 @@ to my code.</p>
 examine the registers and memory. It can be found on GitHub
 <a href="https://github.com/RRvW/prudebug-rl" class="bare">https://github.com/RRvW/prudebug-rl</a>.  I have a version I updated to use byte
 addressing rather than word addressing.  This makes it easier to work with the
-assembler output. You can find it in my GitHug BeagleBoard repo
+assembler output. You can find it in my GitHub BeagleBoard repo
 <a href="https://github.com/MarkAYoder/BeagleBoard-exercises/tree/master/pru/prudebug" class="bare">https://github.com/MarkAYoder/BeagleBoard-exercises/tree/master/pru/prudebug</a>.</p>
 </div>
 <div class="paragraph">
@@ -666,7 +677,7 @@ Command help
 </div>
 <div class="paragraph">
 <p>Initially you are talking to PRU 0.  You can enter <code>pru 1</code> to talk to PRU 1.
-The commands I find most use are, <code>r</code>, to see the registers.</p>
+The commands I find most useful are, <code>r</code>, to see the registers.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -682,7 +693,7 @@ Register info for PRU0
 </div>
 </div>
 <div class="paragraph">
-<p>Notice the PRU has to be stopped to see the resster contents.</p>
+<p>Notice the PRU has to be stopped to see the register contents.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -708,13 +719,13 @@ Register info for PRU0
 </div>
 <div class="paragraph">
 <p>You can resume using <code>g</code> which starts right where you left off, or use <code>reset</code> to
-resstart back at the beginning.</p>
+restart back at the beginning.</p>
 </div>
 <div class="paragraph">
-<p>The <code>dd</code> command dumps the memory.  Keep in mind the following.
-.Important memory locations</p>
+<p>The <code>dd</code> command dumps the memory.  Keep in mind the following.</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 1. Important memory locations</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 90%;">
@@ -785,13 +796,13 @@ Absolute addr = 0x10000, offset = 0x0000, Len = 16
 </div>
 </div>
 <div class="paragraph">
-<p>You can also use <code>prudebug</code> to set breakpoints and signle step, but I haven&#8217;t
-used that feature much.</p>
+<p>You can also use <code>prudebug</code> to set breakpoints and single step,
+but I haven&#8217;t used that feature much.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_uart"><a class="link" href="#_uart">1.5. UART</a></h3>
+<h3 id="_uart"><a class="link" href="#_uart">1.3. UART</a></h3>
 <div class="sect3">
 <h4 id="_problem_3"><a class="link" href="#_problem_3">Problem</a></h4>
 <div class="paragraph">
@@ -831,9 +842,9 @@ Once an ENTER appears the string is sent back.</p>
 4
 </pre></td>
   <td class="code"><pre># Configure tx
-bone$ config-pin P9_24 pru_uart
+bone$ <strong>config-pin P9_24 pru_uart</strong>
 # Configure rx
-bone$ config-pin P9_26 pru_uart</pre></td>
+bone$ <strong>config-pin P9_26 pru_uart</strong></pre></td>
 </tr></table></code></pre>
 </div>
 </div>
@@ -849,22 +860,43 @@ bone$ config-pin P9_26 pru_uart</pre></td>
   <td class="line-numbers"><pre>1
 2
 3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
 </pre></td>
   <td class="code"><pre>bone$ <strong>export PRUN=0</strong>
 bone$ <strong>export TARGET=uart1</strong>
-bone$ <strong>make</strong></pre></td>
+bone$ <strong>make</strong>
+-    Stopping PRU 0
+[sudo] password for debian:
+stop
+CC  uart1.c
+&quot;uart1.c&quot;, line 87: warning #112-D: statement is unreachable
+&quot;uart1.c&quot;, line 15: warning #552-D: variable &quot;rx&quot; was set but never used
+LD  /tmp/pru0-gen/uart1.obj
+-   copying firmware file /tmp/pru0-gen/uart1.out to /lib/firmware/am335x-pru0-fw
+-    Starting PRU 0
+start</pre></td>
 </tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Now <code>make</code> will compile, load PRU0 and start it.  In a terminal window run</p>
+<p>Now <code>make</code> will compile, load PRU0 and start it.  In a terminal window
+on your host computer run</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
 </pre></td>
-  <td class="code"><pre>bone$ <strong>screen /dev/ttyUSB0 115200</strong></pre></td>
+  <td class="code"><pre>host <strong>screen /dev/ttyUSB0 115200</strong></pre></td>
 </tr></table></code></pre>
 </div>
 </div>
@@ -971,9 +1003,6 @@ characters on the keyboard, the rest of the message will appear.</p>
 86
 87
 88
-89
-90
-91
 </pre></td>
   <td class="code"><pre><span class="comment">// From: http://git.ti.com/pru-software-support-package/pru-software-support-package/trees/master/examples/am335x/PRU_Hardware_UART</span>
 
@@ -994,9 +1023,6 @@ characters on the keyboard, the rest of the message will appear.</p>
 
     <span class="comment">/*  hostBuffer points to the string to be printed */</span>
     <span class="predefined-type">char</span>* hostBuffer;
-
-    <span class="comment">/* TODO: If modifying this to send data through the pins then PinMuxing
-     * needs to be taken care of prior to running this code.  */</span>
 
     <span class="comment">/*** INITIALIZATION ***/</span>
 
@@ -1103,10 +1129,26 @@ debugging information.</p>
   <td class="line-numbers"><pre>1
 2
 3
+4
+5
+6
+7
+8
+9
+10
+11
 </pre></td>
   <td class="code"><pre>bone$ <strong>export PRUN=0</strong>
 bone$ <strong>export TARGET=uart2</strong>
-bone$ <strong>make</strong></pre></td>
+bone$ <strong>make</strong>
+-    Stopping PRU 0
+stop
+CC  uart2.c
+&quot;uart2.c&quot;, line 122: warning #112-D: statement is unreachable
+LD  /tmp/pru0-gen/uart2.obj
+-   copying firmware file /tmp/pru0-gen/uart2.out to /lib/firmware/am335x-pru0-fw
+-    Starting PRU 0
+start</pre></td>
 </tr></table></code></pre>
 </div>
 </div>
@@ -1123,7 +1165,7 @@ but it won&#8217;t echo it as you type.</p>
 </div>
 <div class="paragraph">
 <p><code>uart2.c</code> defines <code>PrintMessageOut()</code> which is passed a string that is
-sent to the UART. It take advantage of the eight character FIFO on the UART.
+sent to the UART. It takes advantage of the eight character FIFO on the UART.
 Be careful using it because it also uses <code>while (!CT_UART.LSR_bit.TEMT);</code> to
 wait for the FIFO to empty, which may cause your code to miss something.</p>
 </div>
@@ -1366,7 +1408,7 @@ wait for the FIFO to empty, which may cause your code to miss something.</p>
         <span class="comment">/* Print out greeting message */</span>
         PrintMessageOut(<span class="string"><span class="delimiter">&quot;</span><span class="content">Hello you are in the PRU UART demo test please enter some characters</span><span class="char">\r</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
 
-        <span class="comment">/* Read in 5 characters from user, then echo them back out */</span>
+        <span class="comment">/* Read in characters from user, then echo them back out */</span>
         <span class="keyword">for</span> (i = <span class="integer">0</span>; i &lt; BUFFER-<span class="integer">1</span> ; i++) {
             rxBuffer[i] = ReadMessageIn();
             <span class="keyword">if</span>(rxBuffer[i] == <span class="char">'\r'</span>) {   <span class="comment">// Quit early if ENTER is hit.</span>
@@ -1394,7 +1436,7 @@ wait for the FIFO to empty, which may cause your code to miss something.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_copyright"><a class="link" href="#_copyright">1.6. Copyright</a></h3>
+<h3 id="_copyright"><a class="link" href="#_copyright">1.4. Copyright</a></h3>
 <div class="listingblock">
 <div class="title">copyright.c</div>
 <div class="content">
@@ -1473,7 +1515,7 @@ wait for the FIFO to empty, which may cause your code to miss something.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-28 16:30:11 EDT
+Last updated 2018-07-11 09:59:49 EDT
 </div>
 </div>
 </body>

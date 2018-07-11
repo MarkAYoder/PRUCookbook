@@ -103,7 +103,7 @@ void main(void)
 		/* Print out greeting message */
 		PrintMessageOut("Hello you are in the PRU UART demo test please enter some characters\r\n");
 	
-		/* Read in 5 characters from user, then echo them back out */
+		/* Read in characters from user, then echo them back out */
 		for (i = 0; i < BUFFER-1 ; i++) {
 			rxBuffer[i] = ReadMessageIn();
 			if(rxBuffer[i] == '\r') {	// Quit early if ENTER is hit.

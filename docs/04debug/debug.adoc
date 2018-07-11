@@ -4,11 +4,25 @@ include::../copyright.adoc[copyright]
 
 == Debugging and Benchmarking
 
-Here's where we learn how to debug. On of the challenges is getting debug
-information out without slowing the real-time execution.
+One of the challenges is getting debug
+information out without slowing the real-time execution.   One of the
+simplest ways to do this is to attach an LED to the output pin and watch it 
+flash.  
+<<debug_LED>> shows an LED attached to pin P9_29 of the BeagleBone Black.
 
-=== LED and switch for debugging
-=== Oscilloscope
+[[debug_LED]]
+.LED used for debugging P9_29
+image::figures/LED_bb.png[LED used for debugging P9_29]
+
+Make sure you have the LED in the correct way, or it won't work.
+
+If your output is changing more than a few times a second, the LED will be 
+blinking too fast and you'll need an oscilloscope or a logic analyzer to
+see what's happening.
+
+Another useful tool that let's you see the contents of the registers and 
+RAM is discussed in <<debug_prudebug>>.
+
 === dmesg –Hw
 
 ==== Problem
@@ -16,9 +30,9 @@ I'm getting an error message (`/sys/devices/platform/ocp/4a326000.pruss-soc-bus/
 when I load my code, but don't know what's causing it.
 
 ==== Solution
-The command `dmesg` outputs usefull information when dealing with the kernel.
+The command `dmesg` outputs useful information when dealing with the kernel.
 Simplying running `dmesg -H` can tell you a lot.  The `-H` flag puts the
-dates in the human readable for.  Often I'll have a window open running `dmesg -Hw`;
+dates in the human readable form.  Often I'll have a window open running `dmesg -Hw`;
 the `-w` tells it to wait for more information.
 
 Here's what `dmesg` said for the example above.
@@ -33,6 +47,7 @@ Here's what `dmesg` said for the example above.
 It quickly told me I needed to add the line `#include "resource_table_empty.h"`
 to my code.
 
+[[debug_prudebug]]
 === prudebug - A Simple Debugger for the PRU
 ==== Problem
 You need to examine registers and memory on the PRUs.
@@ -42,7 +57,7 @@ You need to examine registers and memory on the PRUs.
 examine the registers and memory. It can be found on GitHub 
 <https://github.com/RRvW/prudebug-rl>.  I have a version I updated to use byte
 addressing rather than word addressing.  This makes it easier to work with the
-assembler output. You can find it in my GitHug BeagleBoard repo 
+assembler output. You can find it in my GitHub BeagleBoard repo 
 <https://github.com/MarkAYoder/BeagleBoard-exercises/tree/master/pru/prudebug>.
 
 Just download the files and type `make`.
@@ -97,7 +112,7 @@ Command help
 
 ----
 Initially you are talking to PRU 0.  You can enter `pru 1` to talk to PRU 1.
-The commands I find most use are, `r`, to see the registers.
+The commands I find most useful are, `r`, to see the registers.
 [source,bash]
 [subs=+quotes]
 ----
@@ -111,7 +126,7 @@ Register info for PRU0
 
     Rxx registers not available since PRU is RUNNING.
 ----
-Notice the PRU has to be stopped to see the resster contents.
+Notice the PRU has to be stopped to see the register contents.
 [source,bash]
 [subs=+quotes]
 ----
@@ -136,9 +151,10 @@ Register info for PRU0
 
 ----
 You can resume using `g` which starts right where you left off, or use `reset` to
-resstart back at the beginning.
+restart back at the beginning.
 
 The `dd` command dumps the memory.  Keep in mind the following.
+
 .Important memory locations
 [cols="1,9"]
 |===
@@ -189,8 +205,8 @@ Absolute addr = 0x10000, offset = 0x0000, Len = 16
 [0x10030] 0x2265ebc6 0xa27b32a0 0x340d34dc 0xbfa02d4b
 ----
 
-You can also use `prudebug` to set breakpoints and signle step, but I haven't 
-used that feature much.
+You can also use `prudebug` to set breakpoints and single step, 
+but I haven't used that feature much.
 
 
 === UART
@@ -216,11 +232,12 @@ For either of these you will need to set the pin muxes.
 
 .config-pin
 [source,bash,linenums] 
+[subs=+quotes]
 ----
 # Configure tx
-bone$ config-pin P9_24 pru_uart
+bone$ *config-pin P9_24 pru_uart*
 # Configure rx
-bone$ config-pin P9_26 pru_uart
+bone$ *config-pin P9_26 pru_uart*
 ----
 
 // TODO:  Add code for Blue and Pocket
@@ -235,12 +252,23 @@ Set the following variables so `make` will know what to compile.
 bone$ *export PRUN=0*
 bone$ *export TARGET=uart1*
 bone$ *make*
+-    Stopping PRU 0
+[sudo] password for debian: 
+stop
+CC	uart1.c
+"uart1.c", line 87: warning #112-D: statement is unreachable
+"uart1.c", line 15: warning #552-D: variable "rx" was set but never used
+LD	/tmp/pru0-gen/uart1.obj
+-	copying firmware file /tmp/pru0-gen/uart1.out to /lib/firmware/am335x-pru0-fw
+-    Starting PRU 0
+start
 ----
-Now `make` will compile, load PRU0 and start it.  In a terminal window run
+Now `make` will compile, load PRU0 and start it.  In a terminal window 
+on your host computer run
 [source,bash,linenums] 
 [subs=+quotes]
 ----
-bone$ *screen /dev/ttyUSB0 115200*
+host *screen /dev/ttyUSB0 115200*
 ----
 
 It will initially display the first charters (`H`) and then as you enter
@@ -283,6 +311,14 @@ If you want to try `uart2.c`, run the following:
 bone$ *export PRUN=0*
 bone$ *export TARGET=uart2*
 bone$ *make*
+-    Stopping PRU 0
+stop
+CC	uart2.c
+"uart2.c", line 122: warning #112-D: statement is unreachable
+LD	/tmp/pru0-gen/uart2.obj
+-	copying firmware file /tmp/pru0-gen/uart2.out to /lib/firmware/am335x-pru0-fw
+-    Starting PRU 0
+start
 ----
 
 You will see:
@@ -294,7 +330,7 @@ Type a few characters and hit ENTER.  The PRU will playback what you typed,
 but it won't echo it as you type.
 
 `uart2.c` defines `PrintMessageOut()` which is passed a string that is
-sent to the UART. It take advantage of the eight character FIFO on the UART.
+sent to the UART. It takes advantage of the eight character FIFO on the UART.
 Be careful using it because it also uses `while (!CT_UART.LSR_bit.TEMT);` to
 wait for the FIFO to empty, which may cause your code to miss something.
 

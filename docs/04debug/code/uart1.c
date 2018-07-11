@@ -18,9 +18,6 @@ void main(void)
 	/*  hostBuffer points to the string to be printed */
 	char* hostBuffer;
 	
-	/* TODO: If modifying this to send data through the pins then PinMuxing
-	 * needs to be taken care of prior to running this code.  */
-
 	/*** INITIALIZATION ***/
 
 	/* Set up UART to function at 115200 baud - DLL divisor is 104 at 16x oversample
