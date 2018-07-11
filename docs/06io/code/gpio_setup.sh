@@ -1,5 +1,4 @@
 #!/bin/bash
-#
 export PRUN=0
 export TARGET=gpio1
 echo PRUN=$PRUN
