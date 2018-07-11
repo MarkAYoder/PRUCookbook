@@ -19,7 +19,7 @@ Here we present
 * LEDscape <https://github.com/Yona-Appletree/LEDscape>
 * MachineKit <http://www.machinekit.io/>
 * ArduPilot <http://ardupilot.org/>, <http://ardupilot.org/dev/docs/beaglepilot.html>
-* BeagleScope <https://github.com/ZeekHuge/BeagleScope>
+// * BeagleScope <https://github.com/ZeekHuge/BeagleScope>
 
 The following are resources used in this chapter.
 
@@ -235,11 +235,11 @@ or http://www.adafruit.com/products/1487[Adafruit NeoPixel LED matrix]
 and want to light it up.
 
 ==== Solution
-You can either write your own code (See the Building BLocks chapter for an
+You can either write your own code (See the Building Blocks chapter for an
 example.) Or use a library.
 
 https://github.com/Yona-Appletree/LEDscape[LEDScape] is a library for
-controlling NeoPixles.
+controlling NeoPixels.
 [verse, https://github.com/Yona-Appletree/LEDscape]
 ____
 LEDscape is a library and service for controlling individually addressable LEDs from a Beagle Bone Black or Beagle Bone Green using the onboard PRUs. It currently supports WS281x (WS2811, WS2812, WS2812b), WS2801 and initial support for DMX.
