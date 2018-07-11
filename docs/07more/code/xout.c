@@ -1,3 +1,4 @@
+// From: http://git.ti.com/pru-software-support-package/pru-software-support-package/trees/master/examples/am335x/PRU_Direct_Connect0
 #include <stdint.h>
 #include <pru_intc.h>
 #include "resource_table_pru0.h"

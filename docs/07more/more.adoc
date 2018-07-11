@@ -137,6 +137,7 @@ because each instruction takes a cycle and you have, set R30, jump to
 initilizes `r14` to the passed value.  That's a total of six instructions.
 The extra instruction is the branch at the bottom of the `while` loop.
 
+
 === Returning a Value from Assembly
 ==== Problem
 Your assembly code needs to return a value.
@@ -166,6 +167,7 @@ An additional feature is shown in line 4 of <<more_delay2>>.  The
 `.cdecls "delay-test2.c"` says to include any defines from `delay-test2.c`
 In this example, line 6 of <<more_test2>> #defines TEST and line 12 of 
 <<more_delay2>> reference it.
+
 
 === Using the Built In Counter for Timing
 ==== Problem
