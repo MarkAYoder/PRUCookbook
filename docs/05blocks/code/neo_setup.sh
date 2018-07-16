@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 export PRUN=0
-export TARGET=neo1
+export TARGET=neo4
 echo PRUN=$PRUN
 echo TARGET=$TARGET
 
