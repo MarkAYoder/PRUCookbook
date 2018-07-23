@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.5">
-<title>Details on Compiling and Running a File</title>
+<meta name="generator" content="Asciidoctor 1.5.4">
+<title>Running a Program; Configuring Pins</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -17,6 +17,7 @@ audio:not([controls]){display:none;height:0}
 [hidden],template{display:none}
 script{display:none!important}
 html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
+body{margin:0}
 a{background:transparent}
 a:focus{outline:thin dotted}
 a:active,a:hover{outline:0}
@@ -51,7 +52,7 @@ textarea{overflow:auto;vertical-align:top}
 table{border-collapse:collapse;border-spacing:0}
 *,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
 html,body{font-size:100%}
-body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto}
 a:hover{cursor:pointer}
 img,object,embed{max-width:100%;height:auto}
 object,embed{height:100%}
@@ -63,6 +64,7 @@ img{-ms-interpolation-mode:bicubic}
 .text-center{text-align:center!important}
 .text-justify{text-align:justify!important}
 .hide{display:none}
+body{-webkit-font-smoothing:antialiased}
 img,object,svg{display:inline-block;vertical-align:middle}
 textarea{height:auto;min-height:50px}
 select{width:100%}
@@ -117,16 +119,13 @@ table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:
 table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
 table tr.even,table tr.alt,table tr:nth-of-type(even){background:#f8f8f7}
 table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
+body{tab-size:4}
 h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
 h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
 .clearfix:before,.clearfix:after,.float-group:before,.float-group:after{content:" ";display:table}
 .clearfix:after,.float-group:after{clear:both}
-*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
-*:not(pre)>code.nobreak{word-wrap:normal}
-*:not(pre)>code.nowrap{white-space:nowrap}
+*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
 pre,pre>code{line-height:1.45;color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;text-rendering:optimizeSpeed}
-em em{font-style:normal}
-strong strong{font-weight:400}
 .keyseq{color:rgba(51,51,51,.8)}
 kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
 .keyseq kbd:first-child{margin-left:0}
@@ -514,7 +513,7 @@ table.CodeRay td.code>pre{padding:0}
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_details_on_compiling_and_running_a_file">1. Details on Compiling and Running a File</a>
+<li><a href="#_running_a_program_configuring_pins">1. Running a Program; Configuring Pins</a>
 <ul class="sectlevel2">
 <li><a href="#_getting_code_example_files">1.1. Getting Code Example Files</a></li>
 <li><a href="#_compiling_and_running">1.2. Compiling and Running</a></li>
@@ -523,6 +522,8 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_compiling_with_clpru_and_lnkpru">1.5. Compiling with clpru and lnkpru</a></li>
 <li><a href="#detail_linker">1.6. The Linker Command File - AM335x_PRU.cmd</a></li>
 <li><a href="#_loading_firmware">1.7. Loading Firmware</a></li>
+<li><a href="#details_configure_servos">1.8. Configuring Pins for Controlling Servos</a></li>
+<li><a href="#details_configure_encoders">1.9. Configuring Pins for Controlling Encoders</a></li>
 </ul>
 </li>
 </ul>
@@ -533,7 +534,7 @@ table.CodeRay td.code>pre{padding:0}
 <p><a href="../index.html">Outline</a></p>
 </div>
 <div class="sect1">
-<h2 id="_details_on_compiling_and_running_a_file"><a class="link" href="#_details_on_compiling_and_running_a_file">1. Details on Compiling and Running a File</a></h2>
+<h2 id="_running_a_program_configuring_pins"><a class="link" href="#_running_a_program_configuring_pins">1. Running a Program; Configuring Pins</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>There are a lot of details in compiling and running PRU code.
@@ -1445,12 +1446,220 @@ to look for the code to run on the PRU.</p>
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="details_configure_servos"><a class="link" href="#details_configure_servos">1.8. Configuring Pins for Controlling Servos</a></h3>
+<div class="sect3">
+<h4 id="_problem_8"><a class="link" href="#_problem_8">Problem</a></h4>
+<div class="paragraph">
+<p>You want to configure the pins so the PRU <em>outputs</em> are accessable.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_8"><a class="link" href="#_solution_8">Solution</a></h4>
+<div class="paragraph">
+<p>It depends on which Beagle you are running on.  If you are on the Blue, everything is already configured for you.
+If you are on the Black or Pocket you&#8217;ll need to run the following script.</p>
+</div>
+<div class="listingblock">
+<div class="title">servos_setup.sh</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+</pre></td>
+  <td class="code"><pre>#!/bin/bash
+# Configure the PRU pins based on which Beagle is running
+machine=$(awk '{print $NF}' /proc/device-tree/model)
+echo -n $machine
+if [ $machine = &quot;Black&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;P8_27 P8_28 P8_29 P8_30 P8_39 P8_40 P8_41 P8_42&quot;
+elif [ $machine = &quot;Blue&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;&quot;
+elif [ $machine = &quot;PocketBeagle&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;P2_35 P1_35 P1_02 P1_04&quot;
+else
+    echo &quot; Not Found&quot;
+    pins=&quot;&quot;
+fi
+
+for pin in $pins
+do
+    echo $pin
+    config-pin $pin pruout
+    config-pin -q $pin
+done</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_5"><a class="link" href="#_discussion_5">Discussion</a></h4>
+<div class="paragraph">
+<p>The first part of the code looks in <code>/proc/device-tree/model</code> to see which Beagle is running. Based on that it
+assigns <code>pins</code> a list of pins to configure.  Then the last part of the script loops through each of the pins and configures it.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="details_configure_encoders"><a class="link" href="#details_configure_encoders">1.9. Configuring Pins for Controlling Encoders</a></h3>
+<div class="sect3">
+<h4 id="_problem_9"><a class="link" href="#_problem_9">Problem</a></h4>
+<div class="paragraph">
+<p>You want to configure the pins so the PRU <em>inputs</em> are accessable.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_9"><a class="link" href="#_solution_9">Solution</a></h4>
+<div class="paragraph">
+<p>It depends on which Beagle you are running on.  If you are on the Blue, everything is already configured for you.
+If you are on the Black or Pocket you&#8217;ll need to run the following script.</p>
+</div>
+<div class="listingblock">
+<div class="title">encoder_setup.sh</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+</pre></td>
+  <td class="code"><pre>#!/bin/bash
+# Configure the pins based on which Beagle is running
+machine=$(awk '{print $NF}' /proc/device-tree/model)
+echo -n $machine
+
+# Configure eQEP pins
+if [ $machine = &quot;Black&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;P9_92 P9_27 P8_35 P8_33 P8_12 P8_11 P8_41 P8_42&quot;
+elif [ $machine = &quot;Blue&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;&quot;
+elif [ $machine = &quot;PocketBeagle&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;P1_31 P2_34 P2_10 P2_24 P2_33&quot;
+else
+    echo &quot; Not Found&quot;
+    pins=&quot;&quot;
+fi
+
+for pin in $pins
+do
+    echo $pin
+    config-pin $pin qep
+    config-pin -q $pin
+done
+
+##########################################
+# Configure PRU pins
+if [ $machine = &quot;Black&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;P8_16 P8_15&quot;
+elif [ $machine = &quot;Blue&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;&quot;
+elif [ $machine = &quot;PocketBeagle&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;P2_09 P2_18&quot;
+else
+    echo &quot; Not Found&quot;
+    pins=&quot;&quot;
+fi
+
+for pin in $pins
+do
+    echo $pin
+    config-pin $pin pruin
+    config-pin -q $pin
+done</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_6"><a class="link" href="#_discussion_6">Discussion</a></h4>
+<div class="paragraph">
+<p>This works like the servo setup except some of the pins are configured as
+to the hardware eQEPs and other to the PRU inputs.</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-11 13:56:44 EDT
+Last updated 2018-07-23 10:55:45 EDT
 </div>
 </div>
 </body>

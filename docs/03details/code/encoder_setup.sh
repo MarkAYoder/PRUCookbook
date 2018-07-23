@@ -1,0 +1,1 @@
+../../01case/code/encoder_setup.sh

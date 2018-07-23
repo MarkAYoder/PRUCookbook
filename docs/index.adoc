@@ -9,13 +9,7 @@ compiling on the Beagle
 * link:style.html[Style]
 * link:todo.html[To Do]
 
-. link:01start/start.html[Getting started]
-  ** [ ] Hardware:  BeagleBone family or PocketBeagle
-  ** [ ] Downloading and flashing current image
-  ** [ ] Cloud9 IDE
-  ** [ ] Blinking an LED
-  
-. link:02case/case.html[Case Studies]
+. link:01case/case.html[Case Studies]
   ** [x] Robotics Control Library
   ** [x] BeagleLogic
   ** [x] LEDscape
@@ -23,7 +17,13 @@ compiling on the Beagle
   ** [ ] ArduPilot
 //  ** [ ] BeagleScope
   
-. link:03details/details.html[Details on Compiling and Running a File]
+. link:02start/start.html[Getting started]
+  ** [ ] Hardware:  BeagleBone family or PocketBeagle
+  ** [ ] Downloading and flashing current image
+  ** [ ] Cloud9 IDE
+  ** [ ] Blinking an LED
+  
+. link:03details/details.html[Running a Program; Configuring Pins]
   ** [x] Compiling and Running
   ** [x] Stopping and Starting the PRU
   ** [x] The standard Makefile

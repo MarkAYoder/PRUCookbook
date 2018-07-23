@@ -10,7 +10,7 @@ processor.  Examples are the BeagleBoard and the Raspberry Pi.  Another type
 is the _microcontroller_, of which the https://www.arduino.cc/[Arduion] is 
 popular.  
 
-The SBCs are used because they have an operating system to manage files, I/O, and schedule when things are run all while talking to the Internet.  
+The SBCs are used because they have an operating system to manage files, I/O, and schedule when things are run all while possibly talking to the Internet.  
 Microcontrollers shine when things 
 being interfaced require careful timing and can't afford to have an OS preempt an 
 operation.
@@ -46,35 +46,30 @@ The following are resources used in this chapter.
 
 
 === Robotics Control Library
-The http://strawsondesign.com/docs/roboticscape/[Robotics Control Library] is a package, that is already installed, 
+
+
+The http://strawsondesign.com/docs/roboticscape/[Robotics Control Library] is a package that is already installed, 
 that contains a C library and example/testing programs for the BeagleBone Blue
-and the BeagleBone Black with Robotics Cape. It uses the PRU to extend the real-time hardware of the Bone.
-
-==== Configuring Pins
-===== Problem
-You want to ((configure)) the pins so the PRU input and outputs are accessable.
-
-===== Solution
-It depends on which Beagle you are running on.  If you are on the Blue, everything is already configured for you.
-If you are on the Black or Pocket you'll need to run the following script.
-
-.servos_setup.sh
-[source,bash,linenums]
-----
-include::code/servos_setup.sh[servos_setup.sh]
-----
-
-===== Discussion
-The first part of the code looks in `/proc/device-tree/model` to see which Beagle is running. Based on that it
-assigns `pins` a list of pins to configure.  Then the last part of the script loops through each of the pins and configures it.
-
+and the BeagleBone Black with Robotics Cape. It uses the PRU to extend the real-time hardware of the Bone by adding eight addional servor channels and one addition 
+real-time encoder input.
 
 ==== Controlling Eight Servos
 ===== Problem
 You need to control eight servos, but the Bone doesn't have enough PWMs.  
 
 ===== Solution
-The Robotics Control Library provides eight additional PWM channels via the PRU that can be used out of the box.  Just run:
+The Robotics Control Library provides eight additional PWM channels via the PRU that can be used out of the box. 
+
+[NOTE]
+====
+The I/O pins on the Beagles have a mutliplexer that lets you select what I/O 
+appears on a given pin.  The Blue has the mux already configured to to run these
+examples.  Follow the instructions in 
+<<../03details/details.adocs#details_configure_servos, Configuring Pins for Controlling Servos>> 
+to configure the pins for the Black and the Pocket.
+====
+
+Just run:
 [source,bash]
 [subs=+quotes]
 ----
@@ -150,7 +145,7 @@ I need more than eight PWM channels, or I need less jitter on the off time.
 
 ===== Solution
 This is a more advanced problem and required reprograming the PRUs.  See 
-<<../05blocks/blocks.html#, Building Blocks - Applications>> for an example.
+<<../05blocks/blocks.html#_pwm_generator, PWM Generator>> for an example.
 // ToDo, fill in XXXXX
 
 
@@ -183,14 +178,14 @@ You can also access these hardware encoders on the Black and Pocket using the pi
 |    |E4      |P8_16      |P8_15      |P2.09       |P2.18       
 |===
 
-You will need to first configure the pins using `encoder.sh`.
-
-.encoder.sh
-[source,bash]
-----
-include::code/encoder_setup.sh[encoder.sh]
-----
-The eQEP pins are configured with the top half of the code.
+[NOTE]
+====
+The I/O pins on the Beagles have a mutliplexer that lets you select what I/O 
+appears on a given pin.  The Blue has the mux already configured to to run these
+examples.  Follow the instructions in 
+<<../03details/details.adocs#details_configure_encoders, Configuring Pins for Controlling Encoders>> 
+to configure the pins for the Black and the Pocket.
+====
 
 ==== Reading PRU Encoder
 ===== Problem
@@ -215,9 +210,11 @@ Raw encoder position
          0 |^C
 ----
 
-If you aren't running the Blue you will have to configure the pins as shown above.  The bottom half of the code
-does the PRU configuring.
-
+[NOTE]
+====
+If you aren't running the Blue you will have to configure the pins as shown 
+in the note above.  
+====
 
 === BeagleLogic - a 14-channel Logic Analyzer
 

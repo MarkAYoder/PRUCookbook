@@ -1,6 +1,6 @@
 include::../header.adoc[]
 
-== Details on Compiling and Running a File
+== Running a Program; Configuring Pins
 
 There are a lot of details in compiling and running PRU code.
 Fortunately those details are captured in a common Makefile that is
@@ -335,3 +335,43 @@ to look for the code to run on the PRU.
 `am335x-pru0-fw`
 
 Therefore you copy your `.out` file to `/lib/firmware/am335x-pru0-fw`.
+
+[[details_configure_servos]]
+=== Configuring Pins for Controlling Servos
+==== Problem
+You want to ((configure)) the pins so the PRU _outputs_ are accessable.
+
+==== Solution
+It depends on which Beagle you are running on.  If you are on the Blue, everything is already configured for you.
+If you are on the Black or Pocket you'll need to run the following script.
+
+.servos_setup.sh
+[source,bash,linenums]
+----
+include::code/servos_setup.sh[servos_setup.sh]
+----
+
+==== Discussion
+The first part of the code looks in `/proc/device-tree/model` to see which Beagle is running. Based on that it
+assigns `pins` a list of pins to configure.  Then the last part of the script loops through each of the pins and configures it.
+
+
+[[details_configure_encoders]]
+=== Configuring Pins for Controlling Encoders
+==== Problem
+You want to ((configure)) the pins so the PRU _inputs_ are accessable.
+
+==== Solution
+It depends on which Beagle you are running on.  If you are on the Blue, everything is already configured for you.
+If you are on the Black or Pocket you'll need to run the following script.
+
+.encoder_setup.sh
+[source,bash,linenums]
+----
+include::code/encoder_setup.sh[encoder_setup.sh]
+----
+
+==== Discussion
+This works like the servo setup except some of the pins are configured as 
+to the hardware eQEPs and other to the PRU inputs.
+

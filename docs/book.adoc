@@ -4,12 +4,12 @@ include::header.adoc[]
 :author: Mark A. Yoder
 :email:	Mark.A.Yoder@Rose-Hulman.edu
 
-:imagesdir: ./01start
-include::01start/start.adoc[]
+:imagesdir: ./01case
+include::01case/case.adoc[]
 
 <<<
-:imagesdir: ./02case
-include::02case/case.adoc[]
+:imagesdir: ./02start
+include::02start/start.adoc[]
 
 <<<
 :imagesdir: ./03details
