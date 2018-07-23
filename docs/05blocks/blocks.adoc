@@ -303,6 +303,7 @@ This can be generalized to initialize other things.  The point is, the `.out`
 file contains everything needed to run the executable.
 
 
+[[blocks_pwm]]
 === PWM Generator
 One of the simplest things a PRU can to is generate a simple
 signals starting with a single channel PWM that has a fixed frequency and
