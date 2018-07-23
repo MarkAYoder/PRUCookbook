@@ -52,7 +52,7 @@ Here's the line-by-line
 |7    |`PRU_SRAM` is defined here.  It will be used later to declare variables
 in the `Shared RAM` location of memory.  Section 5.5.2 on page 75 of the
 http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler, v2.2, User's Guide] gives details of the command.  The `PRU_SHAREDMEM` 
-referes to the memory section defined in `AM335x_PRU.cmd` on line 26.  
+refers to the memory section defined in `AM335x_PRU.cmd` on line 26.  
 |8,9  |These are like the previous line except for the DMEM sections.
 |16   |Variables declared outside of `main()` are put on the heap.
 |17   |Adding `PRU_SRAM` has the variable stored in the shared memory.
@@ -117,7 +117,7 @@ We see, `shared_0` had no directives and was places in the heap that is 0x100
 to 0x1ff.  `shared_1` was directed to go to the SHAREDMEM, `shared_2` to 
 the start of the local DRAM (which is also the top of the stack).  `shared_3`
 was placed in the DRAM of PRU 1, `shared_4` was placed in the `.bss` section,
-which is in the ((heap)).  Finallly `shared_5` is a pointer to where the value
+which is in the ((heap)).  Finally `shared_5` is a pointer to where the value
 is stored.
 
 Where are `shared_6` and `shared_7`?  They are declared inside `main()` and are
