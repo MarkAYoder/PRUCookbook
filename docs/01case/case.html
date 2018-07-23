@@ -605,17 +605,32 @@ chapters you will see the details of how they work.</p>
 <div class="sect2">
 <h3 id="_robotics_control_library"><a class="link" href="#_robotics_control_library">1.1. Robotics Control Library</a></h3>
 <div class="paragraph">
-<p>The <a href="http://strawsondesign.com/docs/roboticscape/">Robotics Control Library</a> is a package that is already installed,
-that contains a C library and example/testing programs for the BeagleBone Blue
-and the BeagleBone Black with Robotics Cape. It uses the PRU to extend the real-time hardware of the Bone by added eight addional servor channels and one addition
-real-time encoder input.</p>
+<p>Robotics is an embedded application that often requires both an SBC to control the
+high-level tasks (such as path planning, line following, communicating with the user)
+<em>and</em> a microcontroller to handle the low-level tasks (such as telling motors how fast
+to turn, or how to balance in response to an IMU input).  The
+<a href="https://www.ucsdrobotics.org/edumip">EduMIP</a>
+<a href="https://www.hackster.io/edumip/edumip-13a29c">balancing robot</a> based on the BeagleBone
+Blue demonstrates that by using the PRU, the Blue can handle both the high and low -level
+tasks without an additional microcontroller.</p>
+</div>
+<div class="paragraph">
+<p>The <a href="http://strawsondesign.com/docs/roboticscape/">Robotics Control Library</a> is a
+package that is already installed on the Blue, Black and Pocket,
+that contains a C library and example/testing programs. It uses the PRU to extend the
+real-time hardware of the Bone by adding eight addional servor channels and one
+addition real-time encoder input.</p>
+</div>
+<div class="paragraph">
+<p>The following examples show how easy it is to use the PRU for robotics.</p>
 </div>
 <div class="sect3">
 <h4 id="_controlling_eight_servos"><a class="link" href="#_controlling_eight_servos">Controlling Eight Servos</a></h4>
 <div class="sect4">
 <h5 id="_problem"><a class="link" href="#_problem">Problem</a></h5>
 <div class="paragraph">
-<p>You need to control eight servos, but the Bone doesn&#8217;t have enough PWMs.</p>
+<p>You need to control eight servos, but the Bone doesn&#8217;t have enough PWMs
+and you don&#8217;t want to add hardware.</p>
 </div>
 </div>
 <div class="sect4">
@@ -974,8 +989,19 @@ in the note above.</p>
 <div class="sect3">
 <h4 id="_solution_6"><a class="link" href="#_solution_6">Solution</a></h4>
 <div class="paragraph">
-<p><a href="https://github.com/abhishek-kakkar/BeagleLogic/wiki">BeagleLogic</a> is a 100Msps, 14-channel logic analyzer that runs on the
-Beagle. The quickest solution is to get the <a href="https://github.com/abhishek-kakkar/BeagleLogic/wiki/BeagleLogic-%22no-setup-required%22-setup:-Introducing-System-Image!">no-setup-required image</a>.  It runs on an older image (15-Apr-2016) but should still work.</p>
+<p><a href="https://github.com/abhishek-kakkar/BeagleLogic/wiki">BeagleLogic</a> is a 100Msps,
+14-channel logic analyzer that runs on the Beagle.</p>
+</div>
+<div class="verseblock">
+<pre class="content">BeagleLogic turns your BeagleBone [Black] into a 14-channel, 100Msps Logic Analyzer. Once loaded, it presents itself as a character device node /dev/beaglelogic.
+
+The core of the logic analyzer is the 'beaglelogic' kernel module that reserves memory for and drives the two Programmable Real-Time Units (PRU) via the remoteproc interface wherein the PRU directly writes logic samples to the System Memory (DDR RAM) at the configured sample rate one-shot or continuously without intervention from the ARM core.</pre>
+<div class="attribution">
+&#8212; https://github.com/abhishek-kakkar/BeagleLogic/wiki
+</div>
+</div>
+<div class="paragraph">
+<p>The quickest solution is to get the <a href="https://github.com/abhishek-kakkar/BeagleLogic/wiki/BeagleLogic-%22no-setup-required%22-setup:-Introducing-System-Image!">no-setup-required image</a>.  It runs on an older image (15-Apr-2016) but should still work.</p>
 </div>
 <div class="paragraph">
 <p>If you want to be running a newer image, there are instructions on the site for <a href="https://github.com/abhishek-kakkar/BeagleLogic/wiki/Build-BeagleLogic">building BeagleLogic from scratch</a>.</p>
@@ -1059,7 +1085,7 @@ motors, stepper motors, relays, and other devices related to machine tools.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-23 10:58:53 EDT
+Last updated 2018-07-23 11:45:06 EDT
 </div>
 </div>
 </body>

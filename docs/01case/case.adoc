@@ -46,16 +46,27 @@ The following are resources used in this chapter.
 
 
 === Robotics Control Library
+Robotics is an embedded application that often requires both an SBC to control the 
+high-level tasks (such as path planning, line following, communicating with the user)
+_and_ a microcontroller to handle the low-level tasks (such as telling motors how fast
+to turn, or how to balance in response to an IMU input).  The 
+https://www.ucsdrobotics.org/edumip[EduMIP] 
+https://www.hackster.io/edumip/edumip-13a29c[balancing robot] based on the BeagleBone
+Blue demonstrates that by using the PRU, the Blue can handle both the high and low -level 
+tasks without an additional microcontroller.
 
+The http://strawsondesign.com/docs/roboticscape/[Robotics Control Library] is a 
+package that is already installed on the Blue, Black and Pocket, 
+that contains a C library and example/testing programs. It uses the PRU to extend the 
+real-time hardware of the Bone by adding eight addional servor channels and one 
+addition real-time encoder input.
 
-The http://strawsondesign.com/docs/roboticscape/[Robotics Control Library] is a package that is already installed, 
-that contains a C library and example/testing programs for the BeagleBone Blue
-and the BeagleBone Black with Robotics Cape. It uses the PRU to extend the real-time hardware of the Bone by adding eight addional servor channels and one addition 
-real-time encoder input.
+The following examples show how easy it is to use the PRU for robotics.
 
 ==== Controlling Eight Servos
 ===== Problem
-You need to control eight servos, but the Bone doesn't have enough PWMs.  
+You need to control eight servos, but the Bone doesn't have enough PWMs
+and you don't want to add hardware.  
 
 ===== Solution
 The Robotics Control Library provides eight additional PWM channels via the PRU that can be used out of the box. 
@@ -222,10 +233,21 @@ in the note above.
 I need a 100Msps, 14-channel logic analyzer
 
 ==== Solution
-https://github.com/abhishek-kakkar/BeagleLogic/wiki[BeagleLogic] is a 100Msps, 14-channel logic analyzer that runs on the
-Beagle. The quickest solution is to get the https://github.com/abhishek-kakkar/BeagleLogic/wiki/BeagleLogic-%22no-setup-required%22-setup:-Introducing-System-Image![no-setup-required image].  It runs on an older image (15-Apr-2016) but should still work.
+https://github.com/abhishek-kakkar/BeagleLogic/wiki[BeagleLogic] is a 100Msps, 
+14-channel logic analyzer that runs on the Beagle. 
 
-If you want to be running a newer image, there are instructions on the site for https://github.com/abhishek-kakkar/BeagleLogic/wiki/Build-BeagleLogic[building BeagleLogic from scratch].
+[verse,https://github.com/abhishek-kakkar/BeagleLogic/wiki ]
+____
+BeagleLogic turns your BeagleBone [Black] into a 14-channel, 100Msps Logic Analyzer. Once loaded, it presents itself as a character device node */dev/beaglelogic*.
+
+The core of the logic analyzer is the 'beaglelogic' kernel module that reserves memory for and drives the two Programmable Real-Time Units (PRU) via the remoteproc interface wherein the PRU directly writes logic samples to the System Memory (DDR RAM) at the configured sample rate one-shot or continuously without intervention from the ARM core.
+____
+
+The quickest solution is to get the https://github.com/abhishek-kakkar/BeagleLogic/wiki/BeagleLogic-%22no-setup-required%22-setup:-Introducing-System-Image![no-setup-required image].  It runs on an older image (15-Apr-2016) but should still work.
+
+If you want to be running a newer image, there are instructions on the site for https://github.com/abhishek-kakkar/BeagleLogic/wiki/Build-BeagleLogic[building BeagleLogic from scratch], but they seem a bit dated.  Try these:
+
+. wget https://github.com/abhishek-kakkar/BeagleLogic/archive/release-v1.1.tar.gz
 
 ==== Discussion
 BeagleLogic uses the two PRUs to sample at 100Msps.  Getting a PRU running at 200Hz to sample at 100Msps is a slick trick.
