@@ -12,3 +12,7 @@ sudo cp beaglelogic-pru1 /lib/firmware/am335x-pru1-fw
 
 # Now the kernel driver
 sudo apt install linux-headers-`uname -r`
+
+# If the linux-headers fails to install, try updating your kernel, and then installing
+/opt/scripts/tools/update_kernel.sh
+
