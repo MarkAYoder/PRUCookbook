@@ -1,18 +1,16 @@
 # Instructions for installing BeagleLogic
+# https://beaglelogic.readthedocs.io/en/latest/index.html
 # From: https://github.com/abhishek-kakkar/BeagleLogic/wiki
-wget https://github.com/abhishek-kakkar/BeagleLogic/archive/release-v1.1.tar.gz
-tar xaf release-v1.1.tar.gz
 
-# First PRU
-cd BeagleLogic-release-v1.1/cd BeagleLogic-release-v1.1/
-make
+# beaglelogic is installed on the 4.9 kernel, but not the 4.14, so
+# if you are running 4.14, switch to 4.9
+sudo /opt/scripts/tools/update_kernel.sh --lts-4_9
+sudo reboot
 
-sudo cp beaglelogic-pru0 /lib/firmware/am335x-pru0-fw
-sudo cp beaglelogic-pru1 /lib/firmware/am335x-pru1-fw
-
-# Now the kernel driver
+# Now the kernel driver headers
 sudo apt install linux-headers-`uname -r`
 
-# If the linux-headers fails to install, try updating your kernel, and then installing
-/opt/scripts/tools/update_kernel.sh
+modinfo beaglelogic
+modprobe beaglelogic
 
+# From: https://beaglelogic.readthedocs.io/en/latest/index.html
