@@ -18,6 +18,11 @@ include::../copyright.adoc[copyright]
 
 ==== Problem
 I want to control where my variables are stored in memory.
+[WARNING]
+====
+Include a section on accessing DDR.
+====
+
 
 ==== Solution
 Each PRU has is own 8KB of data memory (Data Mem0 and Mem1) and 12KB of shared memory (Shared RAM) as shown in <<blocks_PRU_block_diagram>>.
