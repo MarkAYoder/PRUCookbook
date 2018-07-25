@@ -578,6 +578,11 @@ uses `opc.py` which is included in the `code` directory.
 include::code/circle.py[]
 ----
 
+=== PocketScroller
+https://www.hackster.io/daniel-kulp/pocketscroller-led-panel-cape-for-pocketbeagle-fe12a6?utm_campaign=new_projects&utm_content=1&utm_medium=email&utm_source=hackster&utm_term=project_name[hackset.io pocketscroller]
+
+https://github.com/FalconChristmas/fpp[Falcon Christmas]
+
 
 === MachineKit
 MachineKit is a platform for machine control applications.  It can control 
