@@ -990,6 +990,7 @@ to the PRU.
 
 // ToDo === Ultrasonic Sensor Application
 
+[[blocks_ws2812]]
 === WS2812 (NeoPixel) driver
 ==== Problem
 ((("displays", "NeoPixel LED strings")))

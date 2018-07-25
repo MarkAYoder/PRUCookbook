@@ -1,6 +1,6 @@
 include::../header.adoc[]
 
-== Accessing more I/O
+== Accessing More I/O
 So far the examples have shown how to access the GPIO pins on the BeagleBone Black's 
 `P9` header and through the `__R30` register.  Below shows how more GPIO pins
 can be accessed.
@@ -11,6 +11,7 @@ The following are resources used in this chapter.
 * https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP8HeaderTable.pdf[P8 Header Table]
 * https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf[P9 Header Table]
 * https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]
+* http://www.ti.com/lit/ug/spruhv6a/spruhv6a.pdf[PRU Assembly Language Tools]
 
 === Editing /boot/uEnv.txt to Access the P8 Header on the Black
 ==== Problem
@@ -158,5 +159,58 @@ For many applications a few nanoseconds of jitter is unimportant and this
 GPIO interface can be used.  If your application needs better timing,
 use the `__R30` interface.
  
+
+[[io_uio]]
+=== Configuring for UIO Instead of RemoteProc
+==== Problem
+You have some legacy PRU code that uses UIO instead of remoteproc and
+you want to switch to UIO.
+
+==== Solution
+Edit `/boot/uEnt.txt` and search for `uio`.  I find
+
+----
+###pru_uio (4.4.x-ti, 4.9.x-ti, 4.14.x-ti & mainline/bone kernel)
+uboot_overlay_pru=/lib/firmware/AM335X-PRU-UIO-00A0.dtbo
+----
+Uncomment the `uboot` line.  Look for other lines with
+`uboot_overlay_pru=` and be sure they are commented out.
+
+Reboot your Bone.
+
+[subs=+quotes]
+----
+bone$ *sudo reboot*
+----
+
+Check that UIO is running.
+
+[subs=+quotes]
+----
+bone$ *lsmod | grep uio*
+uio_pruss              16384  0
+uio_pdrv_genirq        16384  0
+uio                    20480  2 uio_pruss,uio_pdrv_genirq
+----
+You are now ready to run the legacy PRU code.
+
+==== Discussion
+
+// ToDo, is there anything to discuss?
+
+=== Converting pasm Assembly Code to clpru
+==== Problem
+You have some legacy assembly code written in pasm and it won't assemble 
+with clpru.
+
+==== Solution
+Generally there is a simple mapping from pasm to clpru. 
+http://processors.wiki.ti.com/index.php/PRU_Assembly_Instructions#pasm_vs._clpru[pasm vs. clpru]
+notes what needs to be changed. I have a less complete version on my
+https://elinux.org/EBC_Exercise_30_PRU_porting_pasm_to_clpru[eLinux.org site].
+
+==== Discussion
+The clpru assembly can be found in http://www.ti.com/lit/ug/spruhv6a/spruhv6a.pdf[PRU Assembly Language Tools].
+
 
 // ToDo === ECAP/PWM?
