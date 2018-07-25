@@ -549,7 +549,7 @@ operation.</p>
 </div>
 <div class="paragraph">
 <p>But what if you have a projcet that needs the flexibility of an OS and the timing
-of a microcontroller?  This is where the BeagleBoard shines since it has both
+of a microcontroller?  This is where the BeagleBoard excells since it has both
 an ARM procssor running Linux and two <strong>P</strong>rogrammable <strong>R</strong>eal-Time <strong>U</strong>nits (PRUs).</p>
 </div>
 <div class="paragraph">
@@ -989,11 +989,11 @@ in the note above.</p>
 <div class="sect3">
 <h4 id="_solution_6"><a class="link" href="#_solution_6">Solution</a></h4>
 <div class="paragraph">
-<p><a href="https://github.com/abhishek-kakkar/BeagleLogic/wiki">BeagleLogic</a> is a 100Msps,
+<p><a href="https://beaglelogic.readthedocs.io/en/latest/">BeagleLogic</a> is a 100Msps,
 14-channel logic analyzer that runs on the Beagle.</p>
 </div>
 <div class="verseblock">
-<pre class="content">BeagleLogic turns your BeagleBone [Black] into a 14-channel, 100Msps Logic Analyzer. Once loaded, it presents itself as a character device node /dev/beaglelogic.
+<pre class="content">BeagleLogic turns your BeagleBone [Black] into a 14-channel, 100Msps Logic Analyzer. Once loaded, it presents itself as a character device node <strong>/dev/beaglelogic</strong>.
 
 The core of the logic analyzer is the 'beaglelogic' kernel module that reserves memory for and drives the two Programmable Real-Time Units (PRU) via the remoteproc interface wherein the PRU directly writes logic samples to the System Memory (DDR RAM) at the configured sample rate one-shot or continuously without intervention from the ARM core.</pre>
 <div class="attribution">
@@ -1004,11 +1004,111 @@ The core of the logic analyzer is the 'beaglelogic' kernel module that reserves 
 <p>The quickest solution is to get the <a href="https://github.com/abhishek-kakkar/BeagleLogic/wiki/BeagleLogic-%22no-setup-required%22-setup:-Introducing-System-Image!">no-setup-required image</a>.  It runs on an older image (15-Apr-2016) but should still work.</p>
 </div>
 <div class="paragraph">
-<p>If you want to be running a newer image, there are instructions on the site for <a href="https://github.com/abhishek-kakkar/BeagleLogic/wiki/Build-BeagleLogic">building BeagleLogic from scratch</a>.</p>
+<p>If you want to be running a newer image, there are instructions on the site for <a href="https://beaglelogic.readthedocs.io/en/latest/install.html">installing BeagleLogic</a>, but I had to do the additional steps in <a href="#case_installing_beaglelogic">Installing BeagleLogic</a>.</p>
+</div>
+<div id="case_installing_beaglelogic" class="listingblock">
+<div class="title">Installing BeagleLogic</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td>
+  <td class="code"><pre>bone$ <strong>git clone https://github.com/abhishek-kakkar/BeagleLogic</strong>
+bone$ <strong>cd BeagleLogic/kernel</strong>
+bone$ <strong>mv beaglelogic-00A0.dts beaglelogic-00A0.dts.orig</strong>
+bone$ <strong>wget https://gist.githubusercontent.com/abhishek-kakkar/0761ef7b10822cff4b3efd194837f49c/raw/eb2cf6cfb59ff5ccb1710dcd7d4a40cc01cfc050/beaglelogic-00A0.dts</strong>
+bone$ <strong>make overlay</strong>
+bone$ <strong>sudo cp beaglelogic-00A0.dtbo /lib/firmware/</strong>
+bone$ <strong>sudo update-initramfs -u -k `uname -r`</strong>
+bone$ <strong>sudo reboot</strong></pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once the Bone has rebooted, browse to 192.168.7.2:4000 where you&#8217;ll see
+<a href="#case_beaglelogic_capture">BeagleLogic Data Capture</a>.  Here you can easily select the sample
+rate, number of samples, and which pins to sample.
+Then click <strong>Begin Capture</strong> to capture your data, at up to 100 MHz!</p>
+</div>
+<div id="case_beaglelogic_capture" class="paragraph">
+<div class="title">BeagleLogic Data Capture</div>
+<p><span class="image"><img src="figures/beaglelogic_capture.png" alt="BeagleLogic Data Capture"></span></p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_discussion_2"><a class="link" href="#_discussion_2">Discussion</a></h4>
+<div class="paragraph">
+<p>BeagleLogic is a complete system that includes firmware for the PRUs,
+a kernel module and a web interface that create a powerful 100 MHz
+logic analyzer on the Bone with no additional hardware needed.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If you need buffered inputs, consider
+<a href="http://standalone.beaglelogic.net/en/latest/">BeagleLogic Standalone</a>,
+a turnkey Logic Analyzer built on top of BeagleLogic and powered by the Octavo Systems’ OSD3358-SM SiP.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The kernel interface makes it easy to control the PRUs through the
+command line.  For example</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>bone$ <strong>dd if=/dev/beaglelogic of=mydump bs=1M count=1</strong></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>will capture a binary dump from the PRUs. The sample rate and number of
+bits per sample can be controlled through <code>/sys/</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>bone$ <strong>cd /sys/devices/virtual/misc/beaglelogic</strong>
+bone$ <strong>ls</strong>
+buffers      filltestpattern  power       state         uevent
+bufunitsize  lasterror        samplerate  subsystem
+dev          memalloc         sampleunit  triggerflags
+bone$ <strong>cat samplerate</strong>
+1000
+bone$ <strong>cat sampleunit</strong>
+8bit</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can set the sample rate by simply writing to <code>samplerate</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>bone$ <strong>echo 100000000 &gt; samplerate</strong></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you run <code>dmesg -Hw</code> in another window you can see when a capture
+is started and stopped.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>bone$ <strong>dmesg -Hw</strong>
+[Jul25 08:46] misc beaglelogic: capture started with sample rate=100000000 Hz, sampleunit=1, triggerflags=0
+[  +0.086261] misc beaglelogic: capture session ended</pre>
+</div>
+</div>
 <div class="paragraph">
 <p>BeagleLogic uses the two PRUs to sample at 100Msps.  Getting a PRU running at 200Hz to sample at 100Msps is a slick trick.
 <a href="http://theembeddedkitchen.net/beaglelogic-building-a-logic-analyzer-with-the-prus-part-1/449">The Embedded Kitchen</a> has a nice article
@@ -1085,7 +1185,7 @@ motors, stepper motors, relays, and other devices related to machine tools.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-23 11:45:06 EDT
+Last updated 2018-07-25 08:48:02 EDT
 </div>
 </div>
 </body>

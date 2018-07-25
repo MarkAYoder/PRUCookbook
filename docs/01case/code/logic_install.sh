@@ -18,7 +18,7 @@ sudo apt install linux-headers-`uname -r`
 modinfo beaglelogic
 modprobe beaglelogic
 
-# From: https://beaglelogic.readthedocs.io/en/latest/index.html
+# From: https://beaglelogic.readthedocs.io/en/latest
 
 # Here's what works from abhishek
 git clone https://github.com/abhishek-kakkar/BeagleLogic

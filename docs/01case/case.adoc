@@ -16,7 +16,7 @@ being interfaced require careful timing and can't afford to have an OS preempt a
 operation.
 
 But what if you have a projcet that needs the flexibility of an OS and the timing 
-of a microcontroller?  This is where the BeagleBoard shines since it has both 
+of a microcontroller?  This is where the BeagleBoard excells since it has both 
 an ARM procssor running Linux and two **P**rogrammable **R**eal-Time **U**nits (PRUs).
 
 The PRUs have 32-bit cores which run
@@ -233,10 +233,10 @@ in the note above.
 I need a 100Msps, 14-channel logic analyzer
 
 ==== Solution
-https://github.com/abhishek-kakkar/BeagleLogic/wiki[BeagleLogic] is a 100Msps, 
+https://beaglelogic.readthedocs.io/en/latest/[BeagleLogic] is a 100Msps, 
 14-channel logic analyzer that runs on the Beagle. 
 
-[verse,https://github.com/abhishek-kakkar/BeagleLogic/wiki ]
+[verse,https://github.com/abhishek-kakkar/BeagleLogic/wiki]
 ____
 BeagleLogic turns your BeagleBone [Black] into a 14-channel, 100Msps Logic Analyzer. Once loaded, it presents itself as a character device node */dev/beaglelogic*.
 
@@ -245,11 +245,83 @@ ____
 
 The quickest solution is to get the https://github.com/abhishek-kakkar/BeagleLogic/wiki/BeagleLogic-%22no-setup-required%22-setup:-Introducing-System-Image![no-setup-required image].  It runs on an older image (15-Apr-2016) but should still work.
 
-If you want to be running a newer image, there are instructions on the site for https://github.com/abhishek-kakkar/BeagleLogic/wiki/Build-BeagleLogic[building BeagleLogic from scratch], but they seem a bit dated.  Try these:
+If you want to be running a newer image, there are instructions on the site for https://beaglelogic.readthedocs.io/en/latest/install.html[installing BeagleLogic], but I had to do the additional steps in <<case_installing_beaglelogic>>.
 
-. wget https://github.com/abhishek-kakkar/BeagleLogic/archive/release-v1.1.tar.gz
+[[case_installing_beaglelogic]]
+.Installing BeagleLogic
+[source,bash,linenums]
+[subs=+quotes]
+----
+bone$ *git clone https://github.com/abhishek-kakkar/BeagleLogic*
+bone$ *cd BeagleLogic/kernel*
+bone$ *mv beaglelogic-00A0.dts beaglelogic-00A0.dts.orig*
+bone$ *wget https://gist.githubusercontent.com/abhishek-kakkar/0761ef7b10822cff4b3efd194837f49c/raw/eb2cf6cfb59ff5ccb1710dcd7d4a40cc01cfc050/beaglelogic-00A0.dts*
+bone$ *make overlay*
+bone$ *sudo cp beaglelogic-00A0.dtbo /lib/firmware/*
+bone$ *sudo update-initramfs -u -k \`uname -r`*
+bone$ *sudo reboot*
+----
+
+Once the Bone has rebooted, browse to 192.168.7.2:4000 where you'll see
+<<case_beaglelogic_capture>>.  Here you can easily select the sample
+rate, number of samples, and which pins to sample. 
+Then click *Begin Capture* to capture your data, at up to 100 MHz!
+
+[[case_beaglelogic_capture]]
+.BeagleLogic Data Capture
+image:figures/beaglelogic_capture.png[BeagleLogic Data Capture]
+
 
 ==== Discussion
+BeagleLogic is a complete system that includes firmware for the PRUs, 
+a kernel module and a web interface that create a powerful 100 MHz 
+logic analyzer on the Bone with no additional hardware needed.
+
+[TIP]
+====
+If you need buffered inputs, consider
+http://standalone.beaglelogic.net/en/latest/[BeagleLogic Standalone],
+a turnkey Logic Analyzer built on top of BeagleLogic and powered by the Octavo Systems’ OSD3358-SM SiP.
+====
+
+The kernel interface makes it easy to control the PRUs through the
+command line.  For example
+
+[subs=+quotes]
+----
+bone$ *dd if=/dev/beaglelogic of=mydump bs=1M count=1*
+----
+will capture a binary dump from the PRUs. The sample rate and number of 
+bits per sample can be controlled through `/sys/`.
+
+[subs=+quotes]
+----
+bone$ *cd /sys/devices/virtual/misc/beaglelogic*
+bone$ *ls*
+buffers      filltestpattern  power       state         uevent
+bufunitsize  lasterror        samplerate  subsystem
+dev          memalloc         sampleunit  triggerflags
+bone$ *cat samplerate*
+1000
+bone$ *cat sampleunit*
+8bit
+----
+You can set the sample rate by simply writing to `samplerate`.
+[subs=+quotes]
+----
+bone$ *echo 100000000 > samplerate*
+----
+
+If you run `dmesg -Hw` in another window you can see when a capture 
+is started and stopped.
+
+[subs=+quotes]
+----
+bone$ *dmesg -Hw*
+[Jul25 08:46] misc beaglelogic: capture started with sample rate=100000000 Hz, sampleunit=1, triggerflags=0
+[  +0.086261] misc beaglelogic: capture session ended
+----
+
 BeagleLogic uses the two PRUs to sample at 100Msps.  Getting a PRU running at 200Hz to sample at 100Msps is a slick trick.
 http://theembeddedkitchen.net/beaglelogic-building-a-logic-analyzer-with-the-prus-part-1/449[The Embedded Kitchen] has a nice article 
 explaining how the PRUs get this type of performance.   In section 
