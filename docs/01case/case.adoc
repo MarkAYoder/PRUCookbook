@@ -587,12 +587,39 @@ https://github.com/FalconChristmas/fpp[Falcon Christmas]
 === RGB LED Matrix - No Integrated Drivers (Falcon Christmas)
 ==== Problem
 You want to use a RGB LED Matrix display that doesn't have integrated
-drivers.
+drivers such as the 
+https://www.adafruit.com/product/2277[64x32 RGB LED Matrix] by Adafuit
+shown in <<case_adfruit_matrix>>.
 
+[[case_adfruit_matrix]]
 .Adafruit LED Matrix
 image:figures/ledmatrix.jpg[Adafruit LED Matrix]
 
 ==== Solution
+http://falconchristmas.com[Falcon Christmas] makes a software package
+called 
+http://falconchristmas.com/forum/index.php/board,8.0.html[Falcon Player] (FPP) which can drive such displays.
+
+[verse, http://www.falconchristmas.com/wiki/FPP:FAQ#What_is_FPP.3F]
+____
+The Falcon Player (FPP) is a lightweight, optimized, feature-rich sequence player designed to run on low-cost SBC's (Single Board Computers). It was originally created to run on the $35 Raspberry Pi, hence the middle 'P' in the short name. FPP is a software solution that you download and install on hardware which can be purchased from numerous sources around the internet. FPP aims to be controller agnostic, it can talk E1.31, DMX, Pixelnet, and Renard to hardware from multiple hardware vendors, including controller hardware from Falcon Christmas available via COOPs or in the store on FalconChristmas.com.
+____
+
+The Beagle hardware can be either a BeagleBone Black with the 
+https://oshpark.com/shared_projects/7mSHNZcD[Octoscroller Cape], or a 
+pocketbeagle with the 
+https://www.hackster.io/daniel-kulp/pocketscroller-led-panel-cape-for-pocketbeagle-fe12a6[PocketScroller LED Panel Cape]. 
+https://www.diychristmas.org/wiki/index.php?title=Building_an_Octoscroller_Matrix_Display[Building and Octoscroller Matrix Display] 
+gives details for using the BeagleBone Black. 
+
+<<case_pocket>> shows how to attach the PocketBeagle to the P10 LED matrix 
+and where to attach the 5V power.  If you are going to turn on all the LEDs 
+to full white at the same time you will need at least a 4A supply.
+
+[[case_pocket]]
+.Pocket Beagle Driving a P5 RGB LED Matrix via the PocketScroller Cape
+image:figures/pocketscroller.jpg[Pocket Beagle Driving a P5 RGB LED Matrix via the PocketScroller Cape]
+
 
 
 === MachineKit
