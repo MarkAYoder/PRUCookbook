@@ -68,3 +68,9 @@ include::code/copyright.c[copyright.c]
 
 === Callouts
 <1>
+
+=== Verse
+[verse, https://github.com/Yona-Appletree/LEDscape]
+____
+LEDscape
+____

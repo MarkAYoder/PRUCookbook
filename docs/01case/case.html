@@ -1524,7 +1524,7 @@ leds[<span class="integer">0</span>] = (<span class="integer">0</span>, <span cl
 <div class="sect2">
 <h3 id="_pocketscroller"><a class="link" href="#_pocketscroller">1.4. PocketScroller</a></h3>
 <div class="paragraph">
-<p><a href="https://www.hackster.io/daniel-kulp/pocketscroller-led-panel-cape-for-pocketbeagle-fe12a6?utm_campaign=new_projects&amp;utm_content=1&amp;utm_medium=email&amp;utm_source=hackster&amp;utm_term=project_name">hackset.io pocketscroller</a></p>
+<p><a href="https://www.hackster.io/daniel-kulp/pocketscroller-led-panel-cape-for-pocketbeagle-fe12a6">hackset.io pocketscroller</a></p>
 </div>
 <div class="paragraph">
 <p><a href="https://github.com/FalconChristmas/fpp">Falcon Christmas</a></p>
@@ -1571,9 +1571,96 @@ gives details for using the BeagleBone Black.</p>
 and where to attach the 5V power.  If you are going to turn on all the LEDs
 to full white at the same time you will need at least a 4A supply.</p>
 </div>
-<div id="case_pocket" class="paragraph">
-<div class="title">Pocket Beagle Driving a P5 RGB LED Matrix via the PocketScroller Cape</div>
-<p><span class="image"><img src="figures/pocketscroller.jpg" alt="Pocket Beagle Driving a P5 RGB LED Matrix via the PocketScroller Cape"></span></p>
+<div id="case_pocket" class="imageblock">
+<div class="content">
+<img src="figures/pocketscroller.jpg" alt="Pocket Beagle Driving a P5 RGB LED Matrix via the PocketScroller Cape">
+</div>
+<div class="title">Figure 1. Pocket Beagle Driving a P5 RGB LED Matrix via the PocketScroller Cape</div>
+</div>
+<div class="paragraph">
+<p>The FPP software is most easily installed by downloading the
+<a href="http://dankulp.com/bbb/">current FPP image</a>, flashing an SD card and
+booting from it.</p>
+</div>
+<div class="paragraph">
+<p>Assuming the PocketBeagle is attached via the USB cable,
+on your host computer browse to <a href="http://192.168.7.2/" class="bare">http://192.168.7.2/</a> and you will see
+<a href="#case_fpp_program_control">Falcon Play Program Control</a>.</p>
+</div>
+<div id="case_fpp_program_control" class="imageblock">
+<div class="content">
+<img src="figures/fpp_program_control.png" alt="Falcon Play Program Control">
+</div>
+<div class="title">Figure 2. Falcon Play Program Control</div>
+</div>
+<div class="paragraph">
+<p>You can test the display by first setting up the Channel Outputs and then
+going to Display Testing.  <a href="#case_channel_outputs_menu">Selecting Channel Outputs</a> shows where to
+select Channel Outpus and <a href="#case_channel_outputs">Channel Outputs Settings</a> shows which settings to use.</p>
+</div>
+<div id="case_channel_outputs_menu" class="imageblock">
+<div class="content">
+<img src="figures/fpp_channel_outputs_menu.png" alt="Selecting Channel Outputs">
+</div>
+<div class="title">Figure 3. Selecting Channel Outputs</div>
+</div>
+<div id="case_channel_outputs" class="imageblock">
+<div class="content">
+<img src="figures/fpp_channel_outputs.png" alt="Channel Outputs Settings">
+</div>
+<div class="title">Figure 4. Channel Outputs Settings</div>
+</div>
+<div class="paragraph">
+<p>Click on the <strong>LED Panels</strong> tab and then the only changes I made was
+to select the <strong>Single Panel Size</strong> to be
+<strong>64x32</strong> and to check the <strong>Enable LED Panel Output</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Next we need to test the display.  Select <strong>Display Testing</strong> shown in
+<a href="#case_display_testing_menu">Selecting Display Testing</a>.</p>
+</div>
+<div id="case_display_testing_menu" class="imageblock">
+<div class="content">
+<img src="figures/fpp_display_testing_menu.png" alt="Selecting Display Testing">
+</div>
+<div class="title">Figure 5. Selecting Display Testing</div>
+</div>
+<div class="paragraph">
+<p>Set the <strong>End Channel</strong> to <strong>6144</strong>. (6144 is 3*64*32)
+Click <strong>Enable Test Mode</strong> and your matrix should light up.  Try the different
+testing patterns shown in <a href="#case_display_testing">Display Testing Options</a>.</p>
+</div>
+<div id="case_display_testing" class="imageblock">
+<div class="content">
+<img src="figures/fpp_display_testing.png" alt="Display Testing Options">
+</div>
+<div class="title">Figure 6. Display Testing Options</div>
+</div>
+<div class="paragraph">
+<p>Once you are sure your LWD Matrix is working correctly you can program it
+with a sequence.</p>
+</div>
+<div class="verseblock">
+<pre class="content">xLights is a free and open source program that enables you to design, create and play amazing lighting displays through the use of DMX controllers, E1.31 Ethernet controllers and more.
+
+With it you can layout your display visually then assign effects to the various items throughout your sequence. This can be in time to music (with beat-tracking built into xLights) or just however you like.
+xLights runs on Windows, OSX and Linux</pre>
+<div class="attribution">
+&#8212; https://xlights.org/
+</div>
+</div>
+<div class="paragraph">
+<p>xLights can be installed on your host computer (not the Beagle) by
+following instructions at
+<a href="https://code.launchpad.net/~chris-debenham/+archive/ubuntu/xlights" class="bare">https://code.launchpad.net/~chris-debenham/+archive/ubuntu/xlights</a>.</p>
+</div>
+<div class="paragraph">
+<p>Run xLights</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">host$ <strong>xLights</strong></code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -1594,7 +1681,7 @@ motors, stepper motors, relays, and other devices related to machine tools.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-30 13:24:27 EDT
+Last updated 2018-07-30 14:12:41 EDT
 </div>
 </div>
 </body>
