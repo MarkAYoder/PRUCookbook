@@ -32,7 +32,8 @@ Here we present
 
 * Robotics Control Library <http://strawsondesign.com/docs/roboticscape/>
 * BeagleLogic <https://github.com/abhishek-kakkar/BeagleLogic/wiki>
-* LEDscape <https://github.com/Yona-Appletree/LEDscape>
+* NeoPixels - 5050 RGB LEDs with Integrated Drivers (LEDscape) <https://github.com/Yona-Appletree/LEDscape>
+* RGB LED Matrix (Falcon Christmas) <http://falconchristmas.com>
 * MachineKit <http://www.machinekit.io/>
 * ArduPilot <http://ardupilot.org/>, <http://ardupilot.org/dev/docs/beaglepilot.html>
 // * BeagleScope <https://github.com/ZeekHuge/BeagleScope>
@@ -335,7 +336,7 @@ explaining how the PRUs get this type of performance.
 // Todo:  Fill in XXXXX
 
 
-=== LEDscape
+=== NeoPixels - 5050 RGB LEDs with Integrated Drivers (LEDScape)
 ==== Problem
 ((("displays", "NeoPixel LED strings")))
 ((("outputs", "NeoPixel LED strings")))
@@ -582,6 +583,16 @@ include::code/circle.py[]
 https://www.hackster.io/daniel-kulp/pocketscroller-led-panel-cape-for-pocketbeagle-fe12a6?utm_campaign=new_projects&utm_content=1&utm_medium=email&utm_source=hackster&utm_term=project_name[hackset.io pocketscroller]
 
 https://github.com/FalconChristmas/fpp[Falcon Christmas]
+
+=== RGB LED Matrix - No Integrated Drivers (Falcon Christmas)
+==== Problem
+You want to use a RGB LED Matrix display that doesn't have integrated
+drivers.
+
+.Adafruit LED Matrix
+image:figures/ledmatrix.jpg[Adafruit LED Matrix]
+
+==== Solution
 
 
 === MachineKit
