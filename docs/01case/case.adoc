@@ -782,7 +782,45 @@ select *Twinkle 50%*.  You matrix should have a colorful twinkle pattern
 image::figures/xlights_twinkle.jpg[xLights Twinkle test pattern]
 
 ==== A Simple xLights Sequence
+Now that the xLights to FPP link is tested you can generate a sequence to 
+play.  Close the Test window and click on the *Sequencer* tab.  Then drag 
+an effect from the *Effects* box to the time line that below it.  Drop it to 
+the right of the *Matrix* label (<<case_seq_drag>>).  The click 
+*Output To Lights* which is the yellow lightbulb to the right on the top 
+toolbar.  Your matrix should now be displaying your effect.
 
+[[case_seq_drag]]
+.Drag an effect to the time line
+image:figures/xlights_seq_drag.png[Drag an effect to the time line]
+
+The setup requires the host computer to end the annimation data to the Bone. 
+The next section shows how to save the sequence and play it on the Bone 
+standalone.
+
+===== Saving a Sequence and Playing it Standalone
+In xLights save your sequence by hitting Ctrl-S and giving it a name.  I called 
+mine *fire* since I used a fire effect.  Now, switch back to FPP and select 
+the *Content Setup* menu and select *File Manager*.  Click the blue
+*Select Files* button and select your sequence file that ends in *.fseq*
+(<<case_file_manager>>).
+
+[[case_file_manager]]
+.FPP file manager
+image:figures/fpp_file_manager.png[FPP file manager]
+
+Once you sequence is uploded, got to *Content Steup* and select *Playlists*. 
+Enter you playlist name (I used *fire*) and click *Add*.  Then go down to 
+the *New Playlist Entry* section and select *Sequence Only* 
+(<<case_playlist>>), then click *Add*. 
+
+[[case_playlist]]
+.Adding a new playlist to FPP
+image::figures/fpp_playlist.png[Adding a new playlist to FPP]
+
+Be sure to click *Save* under *Playlist Details*. Now return to 
+*Status/Control* and *Status Page* and make sure *FPPD Mode:* is set 
+to *Player (Standalone)*.  You should see your playlist.  Click the *Play* 
+button at the bottom of the page and your sequence will play.
 
 === MachineKit
 MachineKit is a platform for machine control applications.  It can control 
