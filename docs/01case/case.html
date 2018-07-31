@@ -1730,7 +1730,68 @@ matrix to appear.</p>
 <p>All I changed was <strong># Strings</strong>, <strong>Nodes/String</strong>, <strong>Starting Location</strong> and most
 importantly, expand <strong>String Properties</strong> and select at <strong>String Type</strong> of
 <strong>RGB Nodes</strong>.  Above the seeting you should see that <strong>Start Chan</strong> is 1 and
-the <strong>End Chan</strong> is 6144, which is the total number of individual LEDs (3*63*32).</p>
+the <strong>End Chan</strong> is 6144, which is the total number of individual LEDs (3*63*32).
+xLights now knows we are working with a P5 matrix, now on to the sequencer.</p>
+</div>
+<div class="paragraph">
+<p>Now click on the <strong>Sequencer</strong> tab and then click on the <strong>New Sequence</strong> button
+(<a href="#case_seq_new">Starting a new sequence</a>).</p>
+</div>
+<div id="case_seq_new" class="imageblock">
+<div class="content">
+<img src="figures/xlights_seq_new.png" alt="Starting a new sequence">
+</div>
+<div class="title">Figure 12. Starting a new sequence</div>
+</div>
+<div class="paragraph">
+<p>Then click on <strong>Animation</strong>, <strong>20fps (50ms)</strong>, and <strong>Quick Start</strong>. Learning how to
+do sequences is beyond the scope of this cookbook, however I&#8217;ll shown you how
+do simple sequence just to be sure xLights is talking to the Bone.</p>
+</div>
+<div class="paragraph">
+<p>First we ned to setup FPP to take input from xLights.  Do this by going to
+the <strong>Input/Output Setup</strong> menu and selecting <strong>Channel Inputs</strong>.  Then
+enter <strong>12</strong> for <strong>Universe Count</strong> and click <strong>set</strong> and you will see
+<a href="#case_inputs_setup">E1.31 Bridge Mode Universes</a>.</p>
+</div>
+<div id="case_inputs_setup" class="imageblock">
+<div class="content">
+<img src="figures/fpp_inputs_setup.png" alt=".E1.31 Bridge Mode Universes">
+</div>
+<div class="title">Figure 13. E1.31 Bridge Mode Universes</div>
+</div>
+<div class="paragraph">
+<p>Click on the <strong>Save</strong> button above the table.  Then go to the <strong>Status Control</strong>
+menu and select <strong>Status Page</strong>.  Set the <strong>FPPD Mode:</strong> to <strong>Bridge</strong> as shown
+in <a href="#case_mode_bridge">Bridge Mode</a>.</p>
+</div>
+<div id="case_mode_bridge" class="imageblock">
+<div class="content">
+<img src="figures/fpp_mode_bridge.png" alt="Bridge Mode">
+</div>
+<div class="title">Figure 14. Bridge Mode</div>
+</div>
+<div class="paragraph">
+<p>The Bone is now listening for commands from xLights via the E1.31 protocol.
+A quick way to verify everything is t o return to xLights and go to the
+<strong>Tools</strong> menu and select <strong>Test</strong> (<a href="#case_xlights_test">xLights test page</a>).</p>
+</div>
+<div id="case_xlights_test" class="imageblock">
+<div class="content">
+<img src="figures/xlights_test.png" alt="xLights test page">
+</div>
+<div class="title">Figure 15. xLights test page</div>
+</div>
+<div class="paragraph">
+<p>Click the box under <strong>Select channels&#8230;&#8203;</strong>, click <strong>Output to lights</strong> and
+select <strong>Twinkle 50%</strong>.  You matrix should have a colorful twinkle pattern
+(<a href="#case_xlights_twinkle">xLights Twinkle test pattern</a>).</p>
+</div>
+<div id="case_xlights_twinkle" class="imageblock">
+<div class="content">
+<img src="figures/xlights_twinkle.jpg" alt="xLights Twinkle test pattern">
+</div>
+<div class="title">Figure 16. xLights Twinkle test pattern</div>
 </div>
 </div>
 </div>
@@ -1752,7 +1813,7 @@ motors, stepper motors, relays, and other devices related to machine tools.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-31 08:56:06 EDT
+Last updated 2018-07-31 09:47:59 EDT
 </div>
 </div>
 </body>

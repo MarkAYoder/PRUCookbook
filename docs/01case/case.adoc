@@ -732,7 +732,57 @@ image::figures/xlights_layout_details.png[Layout details for P5 matrix]
 All I changed was *# Strings*, *Nodes/String*, *Starting Location* and most 
 importantly, expand *String Properties* and select at *String Type* of 
 *RGB Nodes*.  Above the seeting you should see that *Start Chan* is 1 and 
-the *End Chan* is 6144, which is the total number of individual LEDs (3*63*32).
+the *End Chan* is 6144, which is the total number of individual LEDs (3*63*32). 
+xLights now knows we are working with a P5 matrix, now on to the sequencer. 
+
+Now click on the *Sequencer* tab and then click on the *New Sequence* button
+(<<case_seq_new>>).
+
+[[case_seq_new]]
+.Starting a new sequence
+image::figures/xlights_seq_new.png[Starting a new sequence]
+
+Then click on *Animation*, *20fps (50ms)*, and *Quick Start*. Learning how to 
+do sequences is beyond the scope of this cookbook, however I'll shown you how
+do simple sequence just to be sure xLights is talking to the Bone.
+
+===== Setting Up E1.31 on the Bone
+First we ned to setup FPP to take input from xLights.  Do this by going to 
+the *Input/Output Setup* menu and selecting *Channel Inputs*.  Then 
+enter *12* for *Universe Count* and click *set* and you will see 
+<<case_inputs_setup>>.
+
+[[case_inputs_setup]]
+.E1.31 Bridge Mode Universes
+image::figures/fpp_inputs_setup.png[.E1.31 Bridge Mode Universes]
+
+Click on the *Save* button above the table.  Then go to the *Status Control* 
+menu and select *Status Page*.  Set the *FPPD Mode:* to *Bridge* as shown 
+in <<case_mode_bridge>>.
+
+[[case_mode_bridge]]
+.Bridge Mode
+image::figures/fpp_mode_bridge.png[Bridge Mode]
+
+===== Testing the xLights Connection
+The Bone is now listening for commands from xLights via the E1.31 protocol.
+A quick way to verify everything is t o return to xLights and go to the 
+*Tools* menu and select *Test* (<<case_xlights_test>>).  
+
+[[case_xlights_test]]
+.xLights test page
+image::figures/xlights_test.png[xLights test page]
+
+Click the box under *Select channels...*, click *Output to lights* and 
+select *Twinkle 50%*.  You matrix should have a colorful twinkle pattern
+(<<case_xlights_twinkle>>).
+
+[[case_xlights_twinkle]]
+.xLights Twinkle test pattern
+image::figures/xlights_twinkle.jpg[xLights Twinkle test pattern]
+
+==== A Simple xLights Sequence
+
 
 === MachineKit
 MachineKit is a platform for machine control applications.  It can control 
