@@ -605,6 +605,7 @@ ____
 The Falcon Player (FPP) is a lightweight, optimized, feature-rich sequence player designed to run on low-cost SBC's (Single Board Computers). It was originally created to run on the $35 Raspberry Pi, hence the middle 'P' in the short name. FPP is a software solution that you download and install on hardware which can be purchased from numerous sources around the internet. FPP aims to be controller agnostic, it can talk E1.31, DMX, Pixelnet, and Renard to hardware from multiple hardware vendors, including controller hardware from Falcon Christmas available via COOPs or in the store on FalconChristmas.com.
 ____
 
+===== Hardware
 The Beagle hardware can be either a BeagleBone Black with the 
 https://oshpark.com/shared_projects/7mSHNZcD[Octoscroller Cape], or a 
 pocketbeagle with the 
@@ -612,7 +613,7 @@ https://www.hackster.io/daniel-kulp/pocketscroller-led-panel-cape-for-pocketbeag
 https://www.diychristmas.org/wiki/index.php?title=Building_an_Octoscroller_Matrix_Display[Building and Octoscroller Matrix Display] 
 gives details for using the BeagleBone Black. 
 
-<<case_pocket>> shows how to attach the PocketBeagle to the P10 LED matrix 
+<<case_pocket>> shows how to attach the PocketBeagle to the P5 LED matrix 
 and where to attach the 5V power.  If you are going to turn on all the LEDs 
 to full white at the same time you will need at least a 4A supply.
 
@@ -620,6 +621,7 @@ to full white at the same time you will need at least a 4A supply.
 .Pocket Beagle Driving a P5 RGB LED Matrix via the PocketScroller Cape
 image::figures/pocketscroller.jpg[Pocket Beagle Driving a P5 RGB LED Matrix via the PocketScroller Cape]
 
+===== Software
 The FPP software is most easily installed by downloading the 
 http://dankulp.com/bbb/[current FPP image], flashing an SD card and 
 booting from it. 
@@ -634,7 +636,7 @@ image::figures/fpp_program_control.png[Falcon Play Program Control]
 
 You can test the display by first setting up the Channel Outputs and then 
 going to Display Testing.  <<case_channel_outputs_menu>> shows where to 
-select Channel Outpus and <<case_channel_outputs>> shows which settings to use.
+select Channel Outputs and <<case_channel_outputs>> shows which settings to use.
 
 [[case_channel_outputs_menu]]
 .Selecting Channel Outputs
@@ -663,7 +665,9 @@ testing patterns shown in <<case_display_testing>>.
 .Display Testing Options
 image::figures/fpp_display_testing.png[Display Testing Options]
 
-Once you are sure your LWD Matrix is working correctly you can program it 
+===== xLights - Creating Content for the Display
+
+Once you are sure your LED Matrix is working correctly you can program it 
 with a sequence.  
 [verse, https://xlights.org/]
 ____
@@ -676,7 +680,7 @@ xLights can be installed on your host computer (not the Beagle) by
 following instructions at 
 <https://code.launchpad.net/~chris-debenham/+archive/ubuntu/xlights>.
 
-Run xLights
+Run xLights and you'll see <<case_xlights_setup>>.
 
 [source, bash]
 [subs=+quotes]
@@ -684,6 +688,51 @@ Run xLights
 host$ *xLights*
 ----
 
+[[case_xlights_setup]]
+.xLights Setup
+image::figures/xlights_setup.png[xLights Setup]
+
+We'll walk you through a simple setup to get an animation to display on the 
+RGB Matrix.  xLights can use a protocol called E1.31 to send information to 
+the display.  Setup xLights by clicking on *Add E1.31* and entering the values 
+shown in <<case_xlights_setup_e1_31>>.
+
+[[case_xlights_setup_e1_31]]
+.Setting Up E1.31
+image::figures/xlights_setup_e1_31.png[Setting Up E1.31]
+
+The *IP Address* is the Bone's address as seen from the host computer. 
+Each LED is one channel, so one RGB LED is three channels.  The P5 board 
+has 3*64*32 or 6144 channels.  These are grouped into universes of 512 
+channels each.  This gives 6144/512 = 12 universes. See the 
+https://www.doityourselfchristmas.com/wiki/index.php?title=E1.31_(Streaming-ACN)_Protocol#Configuring_Sequencing_Software_to_use_E1.31_Output[E.13 documentation] 
+for more details.
+
+Your setup should look like <<case_xlights_setup_done>>.  Click the
+*Save Setup* button to save.
+
+[[case_xlights_setup_done]]
+.xLights setup for P5 display
+image::figures/xlights_setup_done.png[xLights setup for P5 display]
+
+Next click on the *Layout* tab.  Click on the *Matrix* button as shown in 
+<<case_xlights_matrix>>, the click on the black area where you want your 
+matrix to appear.
+
+[[case_xlights_matrix]]
+.Setting up the Matrix Layout
+image::figures/xlights_layout.png[Setting up the Matrix Layout]
+
+<<case_xlights_layout_details>> shows the setting to use for the P5 matrix. 
+
+[[case_xlights_layout_details]]
+.Layout details for P5 matrix
+image::figures/xlights_layout_details.png[Layout details for P5 matrix]
+
+All I changed was *# Strings*, *Nodes/String*, *Starting Location* and most 
+importantly, expand *String Properties* and select at *String Type* of 
+*RGB Nodes*.  Above the seeting you should see that *Start Chan* is 1 and 
+the *End Chan* is 6144, which is the total number of individual LEDs (3*63*32).
 
 === MachineKit
 MachineKit is a platform for machine control applications.  It can control 

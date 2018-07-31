@@ -1558,6 +1558,8 @@ called
 &#8212; http://www.falconchristmas.com/wiki/FPP:FAQ#What_is_FPP.3F
 </div>
 </div>
+<div class="sect4">
+<h5 id="_hardware"><a class="link" href="#_hardware">Hardware</a></h5>
 <div class="paragraph">
 <p>The Beagle hardware can be either a BeagleBone Black with the
 <a href="https://oshpark.com/shared_projects/7mSHNZcD">Octoscroller Cape</a>, or a
@@ -1567,7 +1569,7 @@ pocketbeagle with the
 gives details for using the BeagleBone Black.</p>
 </div>
 <div class="paragraph">
-<p><a href="#case_pocket">Pocket Beagle Driving a P5 RGB LED Matrix via the PocketScroller Cape</a> shows how to attach the PocketBeagle to the P10 LED matrix
+<p><a href="#case_pocket">Pocket Beagle Driving a P5 RGB LED Matrix via the PocketScroller Cape</a> shows how to attach the PocketBeagle to the P5 LED matrix
 and where to attach the 5V power.  If you are going to turn on all the LEDs
 to full white at the same time you will need at least a 4A supply.</p>
 </div>
@@ -1577,6 +1579,9 @@ to full white at the same time you will need at least a 4A supply.</p>
 </div>
 <div class="title">Figure 1. Pocket Beagle Driving a P5 RGB LED Matrix via the PocketScroller Cape</div>
 </div>
+</div>
+<div class="sect4">
+<h5 id="_software"><a class="link" href="#_software">Software</a></h5>
 <div class="paragraph">
 <p>The FPP software is most easily installed by downloading the
 <a href="http://dankulp.com/bbb/">current FPP image</a>, flashing an SD card and
@@ -1596,7 +1601,7 @@ on your host computer browse to <a href="http://192.168.7.2/" class="bare">http:
 <div class="paragraph">
 <p>You can test the display by first setting up the Channel Outputs and then
 going to Display Testing.  <a href="#case_channel_outputs_menu">Selecting Channel Outputs</a> shows where to
-select Channel Outpus and <a href="#case_channel_outputs">Channel Outputs Settings</a> shows which settings to use.</p>
+select Channel Outputs and <a href="#case_channel_outputs">Channel Outputs Settings</a> shows which settings to use.</p>
 </div>
 <div id="case_channel_outputs_menu" class="imageblock">
 <div class="content">
@@ -1636,8 +1641,11 @@ testing patterns shown in <a href="#case_display_testing">Display Testing Option
 </div>
 <div class="title">Figure 6. Display Testing Options</div>
 </div>
+</div>
+<div class="sect4">
+<h5 id="_xlights_creating_content_for_the_display"><a class="link" href="#_xlights_creating_content_for_the_display">xLights - Creating Content for the Display</a></h5>
 <div class="paragraph">
-<p>Once you are sure your LWD Matrix is working correctly you can program it
+<p>Once you are sure your LED Matrix is working correctly you can program it
 with a sequence.</p>
 </div>
 <div class="verseblock">
@@ -1655,11 +1663,74 @@ following instructions at
 <a href="https://code.launchpad.net/~chris-debenham/+archive/ubuntu/xlights" class="bare">https://code.launchpad.net/~chris-debenham/+archive/ubuntu/xlights</a>.</p>
 </div>
 <div class="paragraph">
-<p>Run xLights</p>
+<p>Run xLights and you&#8217;ll see <a href="#case_xlights_setup">xLights Setup</a>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="bash">host$ <strong>xLights</strong></code></pre>
+</div>
+</div>
+<div id="case_xlights_setup" class="imageblock">
+<div class="content">
+<img src="figures/xlights_setup.png" alt="xLights Setup">
+</div>
+<div class="title">Figure 7. xLights Setup</div>
+</div>
+<div class="paragraph">
+<p>We&#8217;ll walk you through a simple setup to get an animation to display on the
+RGB Matrix.  xLights can use a protocol called E1.31 to send information to
+the display.  Setup xLights by clicking on <strong>Add E1.31</strong> and entering the values
+shown in <a href="#case_xlights_setup_e1_31">Setting Up E1.31</a>.</p>
+</div>
+<div id="case_xlights_setup_e1_31" class="imageblock">
+<div class="content">
+<img src="figures/xlights_setup_e1_31.png" alt="Setting Up E1.31">
+</div>
+<div class="title">Figure 8. Setting Up E1.31</div>
+</div>
+<div class="paragraph">
+<p>The <strong>IP Address</strong> is the Bone&#8217;s address as seen from the host computer.
+Each LED is one channel, so one RGB LED is three channels.  The P5 board
+has 3*64*32 or 6144 channels.  These are grouped into universes of 512
+channels each.  This gives 6144/512 = 12 universes. See the
+<a href="https://www.doityourselfchristmas.com/wiki/index.php?title=E1.31_(Streaming-ACN)_Protocol#Configuring_Sequencing_Software_to_use_E1.31_Output">E.13 documentation</a>
+for more details.</p>
+</div>
+<div class="paragraph">
+<p>Your setup should look like <a href="#case_xlights_setup_done">xLights setup for P5 display</a>.  Click the
+<strong>Save Setup</strong> button to save.</p>
+</div>
+<div id="case_xlights_setup_done" class="imageblock">
+<div class="content">
+<img src="figures/xlights_setup_done.png" alt="xLights setup for P5 display">
+</div>
+<div class="title">Figure 9. xLights setup for P5 display</div>
+</div>
+<div class="paragraph">
+<p>Next click on the <strong>Layout</strong> tab.  Click on the <strong>Matrix</strong> button as shown in
+<a href="#case_xlights_matrix">Setting up the Matrix Layout</a>, the click on the black area where you want your
+matrix to appear.</p>
+</div>
+<div id="case_xlights_matrix" class="imageblock">
+<div class="content">
+<img src="figures/xlights_layout.png" alt="Setting up the Matrix Layout">
+</div>
+<div class="title">Figure 10. Setting up the Matrix Layout</div>
+</div>
+<div class="paragraph">
+<p><a href="#case_xlights_layout_details">Layout details for P5 matrix</a> shows the setting to use for the P5 matrix.</p>
+</div>
+<div id="case_xlights_layout_details" class="imageblock">
+<div class="content">
+<img src="figures/xlights_layout_details.png" alt="Layout details for P5 matrix">
+</div>
+<div class="title">Figure 11. Layout details for P5 matrix</div>
+</div>
+<div class="paragraph">
+<p>All I changed was <strong># Strings</strong>, <strong>Nodes/String</strong>, <strong>Starting Location</strong> and most
+importantly, expand <strong>String Properties</strong> and select at <strong>String Type</strong> of
+<strong>RGB Nodes</strong>.  Above the seeting you should see that <strong>Start Chan</strong> is 1 and
+the <strong>End Chan</strong> is 6144, which is the total number of individual LEDs (3*63*32).</p>
 </div>
 </div>
 </div>
@@ -1681,7 +1752,7 @@ motors, stepper motors, relays, and other devices related to machine tools.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-30 14:12:41 EDT
+Last updated 2018-07-31 08:56:06 EDT
 </div>
 </div>
 </body>
