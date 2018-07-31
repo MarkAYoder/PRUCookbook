@@ -13,6 +13,7 @@ compiling on the Beagle
   ** [x] Robotics Control Library
   ** [x] BeagleLogic
   ** [x] LEDscape
+  ** [x] Falcon Player
   ** [ ] MachineKit
   ** [ ] ArduPilot
 //  ** [ ] BeagleScope
