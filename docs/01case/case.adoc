@@ -579,10 +579,6 @@ uses `opc.py` which is included in the `code` directory.
 include::code/circle.py[]
 ----
 
-=== PocketScroller
-https://www.hackster.io/daniel-kulp/pocketscroller-led-panel-cape-for-pocketbeagle-fe12a6[hackset.io pocketscroller]
-
-https://github.com/FalconChristmas/fpp[Falcon Christmas]
 
 === RGB LED Matrix - No Integrated Drivers (Falcon Christmas)
 ==== Problem
@@ -781,7 +777,7 @@ select *Twinkle 50%*.  You matrix should have a colorful twinkle pattern
 .xLights Twinkle test pattern
 image::figures/xlights_twinkle.jpg[xLights Twinkle test pattern]
 
-==== A Simple xLights Sequence
+===== A Simple xLights Sequence
 Now that the xLights to FPP link is tested you can generate a sequence to 
 play.  Close the Test window and click on the *Sequencer* tab.  Then drag 
 an effect from the *Effects* box to the time line that below it.  Drop it to 
@@ -821,6 +817,10 @@ Be sure to click *Save* under *Playlist Details*. Now return to
 *Status/Control* and *Status Page* and make sure *FPPD Mode:* is set 
 to *Player (Standalone)*.  You should see your playlist.  Click the *Play* 
 button at the bottom of the page and your sequence will play.
+
+The beauty of the PRU is that the Beagle can play a detailed sequence at 
+20 frames per second and the ARM procossor is only 15% used.  The PRUs 
+are doing all the work.
 
 === MachineKit
 MachineKit is a platform for machine control applications.  It can control 
