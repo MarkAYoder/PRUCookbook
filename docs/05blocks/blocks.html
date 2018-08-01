@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.4">
+<meta name="generator" content="Asciidoctor 1.5.5">
 <title>Building Blocks - Applications</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -17,7 +17,6 @@ audio:not([controls]){display:none;height:0}
 [hidden],template{display:none}
 script{display:none!important}
 html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
-body{margin:0}
 a{background:transparent}
 a:focus{outline:thin dotted}
 a:active,a:hover{outline:0}
@@ -52,7 +51,7 @@ textarea{overflow:auto;vertical-align:top}
 table{border-collapse:collapse;border-spacing:0}
 *,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
 html,body{font-size:100%}
-body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
 a:hover{cursor:pointer}
 img,object,embed{max-width:100%;height:auto}
 object,embed{height:100%}
@@ -64,7 +63,6 @@ img{-ms-interpolation-mode:bicubic}
 .text-center{text-align:center!important}
 .text-justify{text-align:justify!important}
 .hide{display:none}
-body{-webkit-font-smoothing:antialiased}
 img,object,svg{display:inline-block;vertical-align:middle}
 textarea{height:auto;min-height:50px}
 select{width:100%}
@@ -119,13 +117,16 @@ table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:
 table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
 table tr.even,table tr.alt,table tr:nth-of-type(even){background:#f8f8f7}
 table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
-body{tab-size:4}
 h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
 h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
 .clearfix:before,.clearfix:after,.float-group:before,.float-group:after{content:" ";display:table}
 .clearfix:after,.float-group:after{clear:both}
-*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
+*:not(pre)>code.nobreak{word-wrap:normal}
+*:not(pre)>code.nowrap{white-space:nowrap}
 pre,pre>code{line-height:1.45;color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;text-rendering:optimizeSpeed}
+em em{font-style:normal}
+strong strong{font-weight:400}
 .keyseq{color:rgba(51,51,51,.8)}
 kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
 .keyseq kbd:first-child{margin-left:0}
@@ -529,8 +530,9 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_setting_neopixels_to_different_colors">1.12. Setting NeoPixels to Different Colors</a></li>
 <li><a href="#_controlling_arbitrary_leds">1.13. Controlling Arbitrary LEDs</a></li>
 <li><a href="#_controlling_neopixels_through_a_kernel_driver">1.14. Controlling NeoPixels Through a Kernel Driver</a></li>
-<li><a href="#_compiling_and_inserting_rpmsg_pru">1.15. Compiling and Inserting rpmsg_pru</a></li>
-<li><a href="#_copyright">1.16. Copyright</a></li>
+<li><a href="#_rgb_led_matrix_no_integrated_drivers">1.15. RGB LED Matrix - No Integrated Drivers</a></li>
+<li><a href="#_compiling_and_inserting_rpmsg_pru">1.16. Compiling and Inserting rpmsg_pru</a></li>
+<li><a href="#_copyright">1.17. Copyright</a></li>
 </ul>
 </li>
 </ul>
@@ -3942,7 +3944,7 @@ which to turns all pixels white.</p>
 <span class="preprocessor">#define</span> resetCycles     <span class="integer">60000</span>/<span class="integer">5</span> <span class="comment">// Must be at least 50u, use 60u</span>
 <span class="preprocessor">#define</span> out <span class="integer">1</span>       <span class="comment">// Bit number to output one</span>
 
-<span class="comment">// #define ONE</span>
+<span class="preprocessor">#define</span> ONE
 
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t <em>R30;
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t </em>R31;
@@ -4353,7 +4355,7 @@ Your browser does not support the video tag.
 <span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
 
-<span class="preprocessor">#define</span> STR_LEN <span class="integer">16</span>
+<span class="preprocessor">#define</span> STR_LEN <span class="integer">24</span>
 <span class="preprocessor">#define</span> oneCyclesOn     <span class="integer">700</span>/<span class="integer">5</span>   <span class="comment">// Stay on 700ns</span>
 <span class="preprocessor">#define</span> oneCyclesOff    <span class="integer">800</span>/<span class="integer">5</span>
 <span class="preprocessor">#define</span> zeroCyclesOn    <span class="integer">350</span>/<span class="integer">5</span>
@@ -4896,9 +4898,9 @@ code is same as before.</p></td>
 <span class="keyword">from</span> <span class="include">time</span> <span class="keyword">import</span> <span class="include">sleep</span>
 <span class="keyword">import</span> <span class="include">math</span>
 
-len = <span class="integer">16</span>
+len = <span class="integer">24</span>
 amp = <span class="integer">12</span>
-f = <span class="integer">17</span>
+f = <span class="integer">25</span>
 shift = <span class="integer">3</span>
 phase = <span class="integer">0</span>
 
@@ -4929,15 +4931,47 @@ the last number, or you numbers will get blurred together.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_compiling_and_inserting_rpmsg_pru"><a class="link" href="#_compiling_and_inserting_rpmsg_pru">1.15. Compiling and Inserting rpmsg_pru</a></h3>
+<h3 id="_rgb_led_matrix_no_integrated_drivers"><a class="link" href="#_rgb_led_matrix_no_integrated_drivers">1.15. RGB LED Matrix - No Integrated Drivers</a></h3>
 <div class="sect3">
 <h4 id="_problem_15"><a class="link" href="#_problem_15">Problem</a></h4>
+<div class="paragraph">
+<p>You have a RGB LED matrix (&lt;&lt;case_rgb_matrix..) and want to know
+at a low level how the PRU works.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_15"><a class="link" href="#_solution_15">Solution</a></h4>
+<div class="paragraph">
+<p>The best description I&#8217;ve found for the RGB Matrix is from
+<a href="https://www.adafruit.com/">Adafruit</a>.  I&#8217;ve reproduced it here, with
+adjustments for the 64x32 matrix we are using.</p>
+</div>
+<div class="verseblock">
+<pre class="content">There&#8217;s zero documention out there on how these matrices work, and no public datasheets or spec sheets so we are going to try to document how they work.
+
+First thing to notice is that there are 2048 RGB LEDs in a 32x64 matrix. Like pretty much every matrix out there, you can&#8217;t drive all 2048 at once. One reason is that would require a lot of current, another reason is that it would be really expensive to have so many pins. Instead, the matrix is divided into 16 interleaved sections/strips. The first section is the 1<sup>st</sup> 'line' and the 17<sup>th</sup> 'line' (64 x 2 RGB LEDs = 128 RGB LEDs), the second is the 2<sup>nd</sup> and 18<sup>th</sup> line, etc until the last section which is the 16<sup>th</sup> and 32<sup>nd</sup> line. You might be asking, why are the lines paired this way? wouldnt it be nicer to have the first section be the 1<sup>st</sup> and 2<sup>nd</sup> line, then 3<sup>rd</sup> and 4<sup>th</sup>, until the 15<sup>th</sup> and 16<sup>th</sup>? The reason they do it this way is so that the lines are interleaved and look better when refreshed, otherwise we&#8217;d see the stripes more clearly.
+
+So, on the PCB is 24 LED driver chips. These are like 74HC595s but they have 16 outputs and they are constant current. 16 outputs * 24 chips = 384 LEDs that can be controlled at once, and 128 * 3 (R G and B) = 384. So now the design comes together: You have 384 outputs that can control one line at a time, with each of 384 R, G and B LEDs either on or off. The controller (say an FPGA or microcontroller) selects which section to currently draw (using A, B, C and D address pins - 4 bits can have 16 values). Once the address is set, the controller clocks out 384 bits of data (48 bytes) and latches it. Then it increments the address and clocks out another 384 bits, etc until it gets to address #15, then it sets the address back to #0</pre>
+<div class="attribution">
+&#8212; https://cdn-learn.adafruit.com/downloads/pdf/32x16-32x32-rgb-led-matrix.pdf
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_14"><a class="link" href="#_discussion_14">Discussion</a></h4>
+
+</div>
+</div>
+<div class="sect2">
+<h3 id="_compiling_and_inserting_rpmsg_pru"><a class="link" href="#_compiling_and_inserting_rpmsg_pru">1.16. Compiling and Inserting rpmsg_pru</a></h3>
+<div class="sect3">
+<h4 id="_problem_16"><a class="link" href="#_problem_16">Problem</a></h4>
 <div class="paragraph">
 <p>Your Beagle doesn&#8217;t have rpmsg_pru.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_15"><a class="link" href="#_solution_15">Solution</a></h4>
+<h4 id="_solution_16"><a class="link" href="#_solution_16">Solution</a></h4>
 <div class="paragraph">
 <p>Do the following.</p>
 </div>
@@ -4972,7 +5006,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_copyright"><a class="link" href="#_copyright">1.16. Copyright</a></h3>
+<h3 id="_copyright"><a class="link" href="#_copyright">1.17. Copyright</a></h3>
 <div class="listingblock">
 <div class="title">copyright.c</div>
 <div class="content">
@@ -5051,7 +5085,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-25 09:16:08 EDT
+Last updated 2018-08-01 08:57:43 EDT
 </div>
 </div>
 </body>

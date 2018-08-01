@@ -580,6 +580,7 @@ include::code/circle.py[]
 ----
 
 
+[[case_rgb_matrix]]
 === RGB LED Matrix - No Integrated Drivers (Falcon Christmas)
 ==== Problem
 You want to use a RGB LED Matrix display that doesn't have integrated
