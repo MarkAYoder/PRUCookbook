@@ -50,7 +50,7 @@
 #define GPIO_DATAOUT		0x138	// For reading the GPIO registers
 #define P9_11	(0x1<<30)			// Bit position tied to P9_11
 
-#define DELAY 10
+#define DELAY 100
 
 volatile register uint32_t __R30;
 volatile register uint32_t __R31;
@@ -75,12 +75,12 @@ void main(void)
 	        if(row&(0x1<<3)) __R30|=(0x1<<pru_sel3); else __R30&=~(0x1<<pru_sel3);
 	        __delay_cycles(DELAY);
 	        
-    	    for(i=0; i<32; i++) {
+    	    for(i=0; i<64; i++) {
     	      	gpio1[GPIO_SETDATAOUT/4] = (0x1 << r11_pin);
     	    	__delay_cycles(DELAY);
-    	      	gpio1[GPIO_SETDATAOUT/4] = (0x1 << g11_pin);
+    	      	gpio1[GPIO_CLEARDATAOUT/4] = (0x1 << g11_pin);
     	    	__delay_cycles(DELAY);
-    	      	gpio1[GPIO_SETDATAOUT/4] = (0x1 << b11_pin);
+    	      	gpio1[GPIO_CLEARDATAOUT/4] = (0x1 << b11_pin);
     	      	
                 __R30 |=  (0x1<<pru_clock);     // Toggle clock
     	    	__delay_cycles(DELAY);
@@ -91,7 +91,7 @@ void main(void)
     	    	__delay_cycles(DELAY);
     	      	gpio1[GPIO_CLEARDATAOUT/4] = (0x1 << g11_pin);
     	    	__delay_cycles(DELAY);
-    	      	gpio1[GPIO_CLEARDATAOUT/4] = (0x1 << b11_pin);
+    	      	gpio1[GPIO_SETDATAOUT/4] = (0x1 << b11_pin);
     	      	
                 __R30 |=  (0x1<<pru_clock);      // Toggle clock
     	    	__delay_cycles(DELAY);
