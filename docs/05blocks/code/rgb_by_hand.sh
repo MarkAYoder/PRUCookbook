@@ -32,8 +32,8 @@ echo 0 > $OE/value
 echo 0 > $LAT/value
 
 
-while true
-do
+# while true
+# do
     for i in {1..64}
     do
         echo 0 > $R1/value
@@ -60,7 +60,7 @@ do
     done
     
     # DISPLAY_OFF
-    # echo 1 > $OE/value
+    echo 1 > $OE/value
     
     # Pull LAT high
     echo 1 > $LAT/value
@@ -72,4 +72,4 @@ do
     echo 0 > $OE/value
 
     # echo Done
-done
+# done
