@@ -800,7 +800,7 @@ toolbar.  Your matrix should now be displaying your effect.
 .Drag an effect to the time line
 image:figures/xlights_seq_drag.png[Drag an effect to the time line]
 
-The setup requires the host computer to end the annimation data to the Bone. 
+The setup requires the host computer to send the animation data to the Bone. 
 The next section shows how to save the sequence and play it on the Bone 
 standalone.
 
