@@ -1,9 +1,9 @@
 #!/bin/bash
 # Setup for 64x32 RGB Matrix
-# export PRUN=0
-# export TARGET=pwm7
-# echo PRUN=$PRUN
-# echo TARGET=$TARGET
+export PRUN=0
+export TARGET=rgb1
+echo PRUN=$PRUN
+echo TARGET=$TARGET
 
 # Configure the PRU pins based on which Beagle is running
 machine=$(awk '{print $NF}' /proc/device-tree/model)
@@ -26,8 +26,8 @@ fi
 for pin in $prupins
 do
     echo $pin
-    # config-pin $pin pruout
-    config-pin $pin out
+    config-pin $pin pruout
+    # config-pin $pin out
     config-pin -q $pin
 done
 
