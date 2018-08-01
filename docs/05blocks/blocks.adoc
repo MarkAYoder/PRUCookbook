@@ -1248,7 +1248,9 @@ You have a RGB LED matrix (<<case_rgb_matrix..) and want to know
 at a low level how the PRU works.
 
 ==== Solution
-The best description I've found for the RGB Matrix is from 
+Here is the 
+https://cdn-shop.adafruit.com/product-files/2277/MI-T35P5RGBE-AE.pdf[datasheet],
+but the best description I've found for the RGB Matrix is from 
 https://www.adafruit.com/[Adafruit].  I've reproduced it here, with 
 adjustments for the 64x32 matrix we are using.
 
