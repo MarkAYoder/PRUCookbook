@@ -1,7 +1,5 @@
 #!/usr/bin/env python
-
 import Adafruit_BBIO.GPIO as GPIO
-import time
 
 OE="P1_29"
 LAT="P1_36"
