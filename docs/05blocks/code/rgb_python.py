@@ -44,22 +44,22 @@ while True:
         GPIO.output(LD, bank>>3&0x1)
         for i in range(16):
             GPIO.output(R1,  1)     # Top row
-            GPIO.output(B1,  1)
             GPIO.output(G1,  1)
+            GPIO.output(B1,  1)
             
             GPIO.output(R2,  1)     # Bottom row
-            GPIO.output(B2,  0)
             GPIO.output(G2,  0)
+            GPIO.output(B2,  0)
 
             GPIO.output(CLK, 0)     # Toggle clock
             GPIO.output(CLK, 1)
     
             GPIO.output(R1,  0)     # Top row
-            GPIO.output(B1,  0)
             GPIO.output(G1,  0)
+            GPIO.output(B1,  0)
             GPIO.output(R2,  0)     # Bottom row
-            GPIO.output(B2,  0)
             GPIO.output(G2,  1)
+            GPIO.output(B2,  0)
     
             GPIO.output(CLK, 0)     # Toggle clock
             GPIO.output(CLK, 1)
