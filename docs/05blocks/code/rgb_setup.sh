@@ -16,16 +16,24 @@ elif [ $machine = "Blue" ]; then
     pins=""
 elif [ $machine = "PocketBeagle" ]; then
     echo " Found"
-    prupins="P2_32 P1_31 P1_33 P1_29"
-    gpioping=
+    prupins="P2_32 P1_31 P1_33 P1_29 P2_30 P2_34 P1_36"
+    gpiopins="P2_10 P2_06 P2_04 P2_01 P2_08 P2_02"
 else
     echo " Not Found"
     pins=""
 fi
 
-for pin in $pins
+for pin in $prupins
 do
     echo $pin
     # config-pin $pin pruout
+    config-pin $pin out
+    config-pin -q $pin
+done
+
+for pin in $gpiopins
+do
+    echo $pin
+    config-pin $pin out
     config-pin -q $pin
 done

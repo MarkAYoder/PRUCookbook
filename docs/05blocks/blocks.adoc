@@ -1261,7 +1261,40 @@ First thing to notice is that there are 2048 RGB LEDs in a 32x64 matrix. Like pr
 So, on the PCB is 24 LED driver chips. These are like 74HC595s but they have 16 outputs and they are constant current. 16 outputs * 24 chips = 384 LEDs that can be controlled at once, and 128 * 3 (R G and B) = 384. So now the design comes together: You have 384 outputs that can control one line at a time, with each of 384 R, G and B LEDs either on or off. The controller (say an FPGA or microcontroller) selects which section to currently draw (using A, B, C and D address pins - 4 bits can have 16 values). Once the address is set, the controller clocks out 384 bits of data (48 bytes) and latches it. Then it increments the address and clocks out another 384 bits, etc until it gets to address #15, then it sets the address back to #0
 ____
 
+The connector looks like <<blocks_matrix_j1>>.
+
+[[blocks_matrix_j1]]
+.RGB Matrix J1 connector
+image::figures/matrix_j1.jpg[RGB Matrix J1 connector]
+
 ==== Discussion
+
+[[blocks_pocket_scroller_pins]]
+.PocketScroller pin table
+|====
+|J1 Connector Pin|Pocket Headers|gpio port and bit number|Linux gpio number|PRU R30 bit number
+
+|R1 |P2_10|1-20|52 |
+|B1 |P2_06|1-25|57 |
+|R2 |P2_04|1-26|58 |
+|B2 |P2_01|1-18|50 |
+|LA |P2_32|3-16|112|PRU0.2
+|LC |P1_31|3-18|114|PRU0.4
+|CLK|P1_33|3-15|111|PRU0.1 (not used)
+|OE |P1_29|3-21|117|PRU0.7
+|G1 |P2_08|1-28|60 |
+|G2 |P2_02|1-27|59 |
+|LB |P2_30|3-17|113|PRU0.3
+|LD |P2_34|3-19|115|PRU0.5
+|LAT|P1_36|3-14|110|PRU0.0
+|====
+
+The J1 to gpio port and bit number comes from
+<https://github.com/FalconChristmas/fpp/blob/master/src/pru/PocketScrollerV1.hp>.
+
+The gpio port and bit number mapping to Pocket Headers comes from 
+<https://docs.google.com/spreadsheets/d/1FRGvYOyW1RiNSEVprvstfJAVeapnASgDXHtxeDOjgqw/edit#gid=0>.
+
 
 
 

@@ -4956,10 +4956,130 @@ So, on the PCB is 24 LED driver chips. These are like 74HC595s but they have 16 
 &#8212; https://cdn-learn.adafruit.com/downloads/pdf/32x16-32x32-rgb-led-matrix.pdf
 </div>
 </div>
+<div class="paragraph">
+<p>The connector looks like <a href="#blocks_matrix_j1">RGB Matrix J1 connector</a>.</p>
+</div>
+<div id="blocks_matrix_j1" class="imageblock">
+<div class="content">
+<img src="figures/matrix_j1.jpg" alt="RGB Matrix J1 connector">
+</div>
+<div class="title">Figure 1. RGB Matrix J1 connector</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_discussion_14"><a class="link" href="#_discussion_14">Discussion</a></h4>
-
+<table id="blocks_pocket_scroller_pins" class="tableblock frame-all grid-all spread">
+<caption class="title">Table 10. PocketScroller pin table</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">J1 Connector Pin</th>
+<th class="tableblock halign-left valign-top">Pocket Headers</th>
+<th class="tableblock halign-left valign-top">gpio port and bit number</th>
+<th class="tableblock halign-left valign-top">Linux gpio number</th>
+<th class="tableblock halign-left valign-top">PRU R30 bit number</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">R1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P2_10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1-20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">52</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">B1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P2_06</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1-25</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">57</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">R2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P2_04</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1-26</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">58</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">B2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P2_01</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1-18</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">50</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LA</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P2_32</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3-16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">112</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PRU0.2</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LC</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P1_31</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3-18</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">114</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PRU0.4</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CLK</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P1_33</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3-15</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">111</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PRU0.1 (not used)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OE</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P1_29</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3-21</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">117</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PRU0.7</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">G1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P2_08</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1-28</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">G2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P2_02</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1-27</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">59</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P2_30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3-17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">113</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PRU0.3</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LD</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P2_34</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3-19</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">115</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PRU0.5</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LAT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P1_16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3-14</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">110</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PRU0.0</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -5085,7 +5205,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-08-01 08:57:43 EDT
+Last updated 2018-08-01 09:30:11 EDT
 </div>
 </div>
 </body>
