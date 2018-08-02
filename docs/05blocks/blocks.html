@@ -5076,6 +5076,9 @@ highlevel view of how to drive the display.</p>
 73
 74
 75
+76
+77
+78
 </pre></td>
   <td class="code"><pre><span class="comment"><mark>!/usr/bin/env python</span>
 <span class="keyword">import</span> <span class="include">Adafruit_BBIO.GPIO</span> <span class="keyword">as</span> GPIO
@@ -5120,11 +5123,14 @@ GPIO.output(OE,  <span class="integer">0</span>)     <span class="comment"># Ena
 GPIO.output(LAT, <span class="integer">0</span>)     <span class="comment"># Set latch to low</span>
 
 <span class="keyword">while</span> <span class="predefined-constant">True</span>:
-    <span class="keyword">for</span> bank <span class="keyword">in</span> <span class="predefined">range</span>(<span class="integer">16</span>):
+    <span class="keyword">for</span> bank <span class="keyword">in</span> <span class="predefined">range</span>(<span class="integer">64</span>):
         GPIO.output(LA, bank&gt;&gt;<span class="integer">0</span>&amp;<span class="hex">0x1</span>)    <span class="comment"># Select rows</span>
         GPIO.output(LB, bank&gt;&gt;<span class="integer">1</span>&amp;<span class="hex">0x1</span>)
         GPIO.output(LC, bank&gt;&gt;<span class="integer">2</span>&amp;<span class="hex">0x1</span>)
         GPIO.output(LD, bank&gt;&gt;<span class="integer">3</span>&amp;<span class="hex">0x1</span>)
+
+        <span class="comment"># Shift the colors out.  Here we only have four different</span>
+        <span class="comment"># colors to keep things simple.</span>
         <span class="keyword">for</span> i <span class="keyword">in</span> <span class="predefined">range</span>(<span class="integer">16</span>):
             GPIO.output(R1,  <span class="integer">1</span>)     <span class="comment"># Top row, white</span>
             GPIO.output(G1,  <span class="integer">1</span>)
@@ -5230,8 +5236,8 @@ fi
 for pin in $prupins
 do
     echo $pin
-    # config-pin $pin pruout
-    config-pin $pin out
+    config-pin $pin pruout
+    # config-pin $pin out
     config-pin -q $pin
 done
 
@@ -5263,17 +5269,244 @@ the PRU outs.</p>
 <p><span class="image"><img src="figures/rgb_python.jpg" alt="Display running rgb_python.py"></span></p>
 </div>
 <div class="paragraph">
-<p>The connector looks like <a href="#blocks_matrix_j1">RGB Matrix J1 connector</a>.</p>
+<p>So why do only two lines appear at a time?  That&#8217;s how the display works.
+Currently lines 6 and 22 are showing, then a moment later 7 and 23 show, etc.
+The display can only display two lines at a time, so it cycles through all the
+lines.  Unfortunately, python is too slow to make the display appear
+all at once.  Here&#8217;s where the PRU comes in.</p>
 </div>
-<div id="blocks_matrix_j1" class="imageblock">
+<div class="paragraph">
+<p><a href="#blocks_rgb1">PRU code for driving the RGB LED matrix</a> is the PRU code to drive the RGB LED matrix.</p>
+</div>
+<div id="blocks_rgb1" class="listingblock">
+<div class="title">PRU code for driving the RGB LED matrix</div>
 <div class="content">
-<img src="figures/matrix_j1.jpg" alt="RGB Matrix J1 connector">
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+</pre></td>
+  <td class="code"><pre><span class="comment">// This code drives the RGB LED Matrix</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;rgb_pocket.h&quot;</span>
+
+<span class="preprocessor">#define</span> GPIO0   <span class="hex">0x44e07000</span>      <span class="comment">// GPIO Bank 0  See Table 2.2 of TRM</span>
+<span class="preprocessor">#define</span> GPIO1   <span class="hex">0x4804c000</span>      <span class="comment">// GPIO Bank 1</span>
+<span class="preprocessor">#define</span> GPIO2   <span class="hex">0x481ac000</span>      <span class="comment">// GPIO Bank 2</span>
+<span class="preprocessor">#define</span> GPIO3   <span class="hex">0x481ae000</span>      <span class="comment">// GPIO Bank 3</span>
+<span class="preprocessor">#define</span> GPIO_CLEARDATAOUT   <span class="hex">0x190</span>   <span class="comment">// For clearing the GPIO registers</span>
+<span class="preprocessor">#define</span> GPIO_SETDATAOUT     <span class="hex">0x194</span>   <span class="comment">// For setting the GPIO registers</span>
+<span class="preprocessor">#define</span> GPIO_DATAOUT        <span class="hex">0x138</span>   <span class="comment">// For reading the GPIO registers</span>
+
+<span class="preprocessor">#define</span> DELAY <span class="integer">100</span>   <span class="comment">// Number of cycles (5ns each) to wait after a write</span>
+
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t <em>R30;
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t </em>R31;
+
+<span class="directive">void</span> main(<span class="directive">void</span>)
+{
+    <span class="comment">// Set up the pointers to each of the GPIO ports</span>
+    uint32_t *gpio[] = {
+            (uint32_t *) GPIO0,
+            (uint32_t *) GPIO1,
+            (uint32_t *) GPIO2,
+            (uint32_t *) GPIO3
+        };
+
+    uint32_t i, row;
+
+    <span class="keyword">while</span>(<span class="integer">1</span>) {
+        <span class="keyword">for</span>(row=<span class="integer">0</span>; row&lt;<span class="integer">16</span>; row++) {
+            <span class="comment">// Set the row address</span>
+            <span class="comment">// Here we take advantage of the select bits (LA,LB,LC,LD)</span>
+            <span class="comment">// being sequential in the R30 register (bits 2,3,4,5)</span>
+            <span class="comment">// We shift row over so it lines up with the select bits</span>
+            <span class="comment">// Oring (|=) with R30 sets bits to 1 and</span>
+            <span class="comment">// Anding (&amp;=) clears bits to 0, the 0xffc mask makes sure the</span>
+            <span class="comment">// other bits aren't changed.</span>
+            <em>R30 |=  row&lt;&lt;pru_sel0;
+            </em>R30 &amp;= (row&lt;&lt;pru_sel0)|<span class="hex">0xffc3</span>;
+
+            <span class="keyword">for</span>(i=<span class="integer">0</span>; i&lt;<span class="integer">64</span>; i++) {
+                <span class="comment">// Top row white</span>
+                <span class="comment">// Combining these to one write works because they are all in</span>
+                <span class="comment">// the same gpio port</span>
+                gpio[r11_gpio][GPIO_SETDATAOUT/<span class="integer">4</span>] = (<span class="hex">0x1</span>&lt;&lt;r11_pin)
+                        |(<span class="hex">0x1</span>&lt;&lt;g11_pin)|(<span class="hex">0x1</span>&lt;&lt;b11_pin);
+                <em>delay_cycles(DELAY);;
+
+                <span class="comment">// Bottom row red</span>
+                gpio[r11_gpio][GPIO_SETDATAOUT/<span class="integer">4</span>]   = (<span class="hex">0x1</span>&lt;&lt;r12_pin);
+                </em>delay_cycles(DELAY);
+                gpio[r11_gpio][GPIO_CLEARDATAOUT/<span class="integer">4</span>] = (<span class="hex">0x1</span>&lt;&lt;g12_pin)|(<span class="hex">0x1</span>&lt;&lt;b12_pin);
+                <em>delay_cycles(DELAY);
+
+                </em>R30 |=  (<span class="hex">0x1</span>&lt;&lt;pru_clock); <span class="comment">// Toggle clock</span>
+                <em>delay_cycles(DELAY);
+                </em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;pru_clock);
+                <em>delay_cycles(DELAY);
+
+                <span class="comment">// Top row black</span>
+                gpio[r11_gpio][GPIO_CLEARDATAOUT/<span class="integer">4</span>] = (<span class="hex">0x1</span>&lt;&lt;r11_pin)
+                        |(<span class="hex">0x1</span>&lt;&lt;g11_pin)|(<span class="hex">0x1</span>&lt;&lt;b11_pin);
+                </em>delay_cycles(DELAY);
+
+                <span class="comment">// Bottom row green</span>
+                gpio[r11_gpio][GPIO_CLEARDATAOUT/<span class="integer">4</span>] = (<span class="hex">0x1</span>&lt;&lt;r12_pin)|(<span class="hex">0x1</span>&lt;&lt;b12_pin);
+                <em>delay_cycles(DELAY);
+                gpio[r11_gpio][GPIO_SETDATAOUT/<span class="integer">4</span>]   = (<span class="hex">0x1</span>&lt;&lt;g12_pin);
+                </em>delay_cycles(DELAY);
+
+                <em>R30 |=  (<span class="hex">0x1</span>&lt;&lt;pru_clock); <span class="comment">// Toggle clock</span>
+                </em>delay_cycles(DELAY);
+                <em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;pru_clock);
+                </em>delay_cycles(DELAY);
+            }
+            <em>R30 |=  (<span class="hex">0x1</span>&lt;&lt;pru_oe);        <span class="comment">// Disable display</span>
+            </em>delay_cycles(DELAY);
+            <em>R30 |=  (<span class="hex">0x1</span>&lt;&lt;pru_latch);     <span class="comment">// Toggle latch</span>
+            </em>delay_cycles(DELAY);
+            <em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;pru_latch);
+            </em>delay_cycles(DELAY);
+            <em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;pru_oe);        <span class="comment">// Enable display</span>
+            </em>delay_cycles(DELAY);
+        }
+    }
+}</pre></td>
+</tr></table></code></pre>
 </div>
-<div class="title">Figure 18. RGB Matrix J1 connector</div>
+</div>
+<div class="paragraph">
+<p>Don&#8217;t forget the switch with comment on lines 29 and 30 of <strong>rgb_setup.sh</strong>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">    config-pin $pin pruout
+    # config-pin $pin out</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The results are shown in <a href="#blocks_rgb_pru">Display running rgb1.c on PRU 0</a>.</p>
+</div>
+<div id="blocks_rgb_pru" class="imageblock">
+<div class="content">
+<img src="figures/rgb_pru.jpg" alt="Display running rgb1.c on PRU 0">
+</div>
+<div class="title">Figure 18. Display running rgb1.c on PRU 0</div>
+</div>
+<div class="paragraph">
+<p>The PRU is fast enough to quickly write to the display so that it appears
+as if all the LEDs are on at once.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_discussion_14"><a class="link" href="#_discussion_14">Discussion</a></h4>
+<div class="paragraph">
+<p>There are a lot of details needed to make this simple display work.  Let&#8217;s
+go over some of them.</p>
+</div>
+<div class="paragraph">
+<p>First, the connector looks like <a href="#blocks_matrix_j1">RGB Matrix J1 connector</a>.</p>
+</div>
+<div id="blocks_matrix_j1" class="imageblock">
+<div class="content">
+<img src="figures/matrix_j1.jpg" alt="RGB Matrix J1 connector" width="200">
+</div>
+<div class="title">Figure 19. RGB Matrix J1 connector</div>
+</div>
+<div class="paragraph">
+<p>Notice the labels on the connect match the labels in the code.
+<a href="#blocks_pocket_scroller_pins">PocketScroller pin table</a> shows how the pins on the display are
+mapped to the pins on the Pocket Beagle.</p>
+</div>
 <table id="blocks_pocket_scroller_pins" class="tableblock frame-all grid-all spread">
 <caption class="title">Table 10. PocketScroller pin table</caption>
 <colgroup>
@@ -5340,7 +5573,7 @@ the PRU outs.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">P1_33</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">3-15</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">111</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PRU0.1 (not used)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PRU0.1</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">OE</p></td>
@@ -5387,12 +5620,73 @@ the PRU outs.</p>
 </tbody>
 </table>
 <div class="paragraph">
-<p>The J1 to gpio port and bit number comes from
-<a href="https://github.com/FalconChristmas/fpp/blob/master/src/pru/PocketScrollerV1.hp" class="bare">https://github.com/FalconChristmas/fpp/blob/master/src/pru/PocketScrollerV1.hp</a>.</p>
+<p>The J1 mapping to gpio port and bit number comes from
+<a href="https://github.com/FalconChristmas/fpp/blob/master/src/pru/PocketScrollerV1.hp" class="bare">https://github.com/FalconChristmas/fpp/blob/master/src/pru/PocketScrollerV1.hp</a>.
+The gpio port and bit number mapping to Pocket Headers comes from
+<a href="https://docs.google.com/spreadsheets/d/1FRGvYOyW1RiNSEVprvstfJAVeapnASgDXHtxeDOjgqw/edit#gid=0" class="bare">https://docs.google.com/spreadsheets/d/1FRGvYOyW1RiNSEVprvstfJAVeapnASgDXHtxeDOjgqw/edit#gid=0</a>.</p>
 </div>
 <div class="paragraph">
-<p>The gpio port and bit number mapping to Pocket Headers comes from
-<a href="https://docs.google.com/spreadsheets/d/1FRGvYOyW1RiNSEVprvstfJAVeapnASgDXHtxeDOjgqw/edit#gid=0" class="bare">https://docs.google.com/spreadsheets/d/1FRGvYOyW1RiNSEVprvstfJAVeapnASgDXHtxeDOjgqw/edit#gid=0</a>.</p>
+<p><a href="#blocks_rgb_waveforms">Oscilloscope display of CLK, OE, LAT and R1</a> shows four of the signal waveforms driving the RGB
+LED matrix.</p>
+</div>
+<div id="blocks_rgb_waveforms" class="paragraph">
+<div class="title">Oscilloscope display of CLK, OE, LAT and R1</div>
+<p><span class="image"><img src="figures/rgb_waveforms.png" alt=".Oscilloscope display of CLK" width="OE" height="LAT and R1"></span></p>
+</div>
+<div class="paragraph">
+<p>The top waveform is the CLK, the next is OE, followed by LAT and finally R1.
+The OE (output enable) is active low, so most of the time the display is visible.
+The sequence is:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Put data on the R1, G1, B1, R2, G2 and B2 lines</p>
+</li>
+<li>
+<p>Toggle the clock.</p>
+</li>
+<li>
+<p>Repeat the first two steps as one row of data is transfered.  There are
+384 LEDs (2 rows of 32 RGB LEDs times 3 LED per RGB), but we are clocking in
+six bits (R1, G1, etc.) at a time, so 384/6=64 values need to be clocked in.</p>
+</li>
+<li>
+<p>Once all the values are in, disable the display (OE goes high)</p>
+</li>
+<li>
+<p>Then toggle the latch (LAT) to latch the new data.</p>
+</li>
+<li>
+<p>Turn the display back on.</p>
+</li>
+<li>
+<p>Increment the address lines (LA, LB, LC and LD) to point to the next rows.</p>
+</li>
+<li>
+<p>Keep repeating the above to keep the display lit.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Using the PRU we are able to run the clock a about 200 KHz. The optimized
+assembler code used by FPP runs at</p>
+</div>
+<div class="sect4">
+<h5 id="_getting_more_colors"><a class="link" href="#_getting_more_colors">Getting More Colors</a></h5>
+<div class="paragraph">
+<p>The Adafruit description goes on to say:</p>
+</div>
+<div class="verseblock">
+<pre class="content">The only downside of this technique is that despite being very simple and fast, it has no PWM control built in! The controller can only set the LEDs on or off. So what do you do when you want full color? You actually need to draw the entire matrix over and over again at very high speeds to PWM the matrix manually. For that reason, you need to have a very fast controller (50 MHz is a minimum) if you want to do a lot of colors and motion video and have it look good.</pre>
+<div class="attribution">
+&#8212; https://cdn-learn.adafruit.com/downloads/pdf/32x16-32x32-rgb-led-matrix.pdf
+</div>
+</div>
+<div class="paragraph">
+<p>This is what FPP does, so our next step is to do our own PWMing on the LEDs
+to get more colors.</p>
+</div>
 </div>
 </div>
 </div>
@@ -5519,7 +5813,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-08-02 11:12:58 EDT
+Last updated 2018-08-02 13:51:44 EDT
 </div>
 </div>
 </body>

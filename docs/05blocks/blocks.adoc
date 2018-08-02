@@ -1302,16 +1302,55 @@ Your display should look like <<blocks_rgb_python_jpg>>.
 .Display running rgb_python.py
 image:figures/rgb_python.jpg[Display running rgb_python.py]
 
+So why do only two lines appear at a time?  That's how the display works. 
+Currently lines 6 and 22 are showing, then a moment later 7 and 23 show, etc. 
+The display can only display two lines at a time, so it cycles through all the 
+lines.  Unfortunately, python is too slow to make the display appear 
+all at once.  Here's where the PRU comes in.
 
+<<blocks_rgb1>> is the PRU code to drive the RGB LED matrix.
 
+[[blocks_rgb1]]
+.PRU code for driving the RGB LED matrix
+[source,c,linenums]
+[subs=+quotes]
+----
+include::code/rgb1.c[]
+----
 
-The connector looks like <<blocks_matrix_j1>>.
+Don't forget the switch with comment on lines 29 and 30 of *rgb_setup.sh*. 
+[source,bash]
+[subs=+quotes]
+----
+    config-pin $pin pruout
+    # config-pin $pin out
+----
+
+The results are shown in <<blocks_rgb_pru>>.
+
+[[blocks_rgb_pru]]
+.Display running rgb1.c on PRU 0
+image::figures/rgb_pru.jpg[Display running rgb1.c on PRU 0]
+
+The PRU is fast enough to quickly write to the display so that it appears 
+as if all the LEDs are on at once.
+
+==== Discussion
+There are a lot of details needed to make this simple display work.  Let's 
+go over some of them.
+
+First, the connector looks like <<blocks_matrix_j1>>.
 
 [[blocks_matrix_j1]]
 .RGB Matrix J1 connector
-image::figures/matrix_j1.jpg[RGB Matrix J1 connector]
+image::figures/matrix_j1.jpg[RGB Matrix J1 connector, 200]
 
-==== Discussion
+Notice the labels on the connect match the labels in the code.
+<<blocks_pocket_scroller_pins>> shows how the pins on the display are 
+mapped to the pins on the Pocket Beagle.
+
+// ToDo  Make a mapping table for the Black
+// https://github.com/FalconChristmas/fpp/blob/master/src/pru/OctoscrollerV2.hp
 
 [[blocks_pocket_scroller_pins]]
 .PocketScroller pin table
@@ -1324,7 +1363,7 @@ image::figures/matrix_j1.jpg[RGB Matrix J1 connector]
 |B2 |P2_01|1-18|50 |
 |LA |P2_32|3-16|112|PRU0.2
 |LC |P1_31|3-18|114|PRU0.4
-|CLK|P1_33|3-15|111|PRU0.1 (not used)
+|CLK|P1_33|3-15|111|PRU0.1
 |OE |P1_29|3-21|117|PRU0.7
 |G1 |P2_08|1-28|60 |
 |G2 |P2_02|1-27|59 |
@@ -1333,14 +1372,50 @@ image::figures/matrix_j1.jpg[RGB Matrix J1 connector]
 |LAT|P1_36|3-14|110|PRU0.0
 |====
 
-The J1 to gpio port and bit number comes from
+The J1 mapping to gpio port and bit number comes from
 <https://github.com/FalconChristmas/fpp/blob/master/src/pru/PocketScrollerV1.hp>.
-
 The gpio port and bit number mapping to Pocket Headers comes from 
 <https://docs.google.com/spreadsheets/d/1FRGvYOyW1RiNSEVprvstfJAVeapnASgDXHtxeDOjgqw/edit#gid=0>.
 
+<<blocks_rgb_waveforms>> shows four of the signal waveforms driving the RGB 
+LED matrix.
 
+[[blocks_rgb_waveforms]]
+.Oscilloscope display of CLK, OE, LAT and R1
+image:figures/rgb_waveforms.png[.Oscilloscope display of CLK, OE, LAT and R1]
 
+The top waveform is the CLK, the next is OE, followed by LAT and finally R1. 
+The OE (output enable) is active low, so most of the time the display is visible. 
+The sequence is:
+
+* Put data on the R1, G1, B1, R2, G2 and B2 lines
+* Toggle the clock.
+* Repeat the first two steps as one row of data is transfered.  There are 
+384 LEDs (2 rows of 32 RGB LEDs times 3 LED per RGB), but we are clocking in 
+six bits (R1, G1, etc.) at a time, so 384/6=64 values need to be clocked in.
+* Once all the values are in, disable the display (OE goes high)
+* Then toggle the latch (LAT) to latch the new data.
+* Turn the display back on.
+* Increment the address lines (LA, LB, LC and LD) to point to the next rows.
+* Keep repeating the above to keep the display lit.
+
+Using the PRU we are able to run the clock a about 200 KHz. The optimized 
+assembler code used by FPP runs at 
+
+//TODO Find this number
+
+===== Getting More Colors
+The Adafruit description goes on to say:
+
+[verse, https://cdn-learn.adafruit.com/downloads/pdf/32x16-32x32-rgb-led-matrix.pdf]
+____
+The only downside of this technique is that despite being very simple and fast, it has no PWM control built in! The controller can only set the LEDs on or off. So what do you do when you want full color? You actually need to draw the entire matrix over and over again at very high speeds to PWM the matrix manually. For that reason, you need to have a very fast controller (50 MHz is a minimum) if you want to do a lot of colors and motion video and have it look good.
+____
+
+This is what FPP does, so our next step is to do our own PWMing on the LEDs 
+to get more colors.
+
+// TODO Sounds like a fun project.
 
 === Compiling and Inserting rpmsg_pru
 ==== Problem
