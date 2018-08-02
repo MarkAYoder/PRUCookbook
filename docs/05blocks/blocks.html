@@ -5388,7 +5388,7 @@ all at once.  Here&#8217;s where the PRU comes in.</p>
 <span class="preprocessor">#define</span> GPIO_SETDATAOUT     <span class="hex">0x194</span>   <span class="comment">// For setting the GPIO registers</span>
 <span class="preprocessor">#define</span> GPIO_DATAOUT        <span class="hex">0x138</span>   <span class="comment">// For reading the GPIO registers</span>
 
-<span class="preprocessor">#define</span> DELAY <span class="integer">100</span>   <span class="comment">// Number of cycles (5ns each) to wait after a write</span>
+<span class="preprocessor">#define</span> DELAY <span class="integer">10</span>    <span class="comment">// Number of cycles (5ns each) to wait after a write</span>
 
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t <em>R30;
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t </em>R31;
@@ -5673,10 +5673,12 @@ six bits (R1, G1, etc.) at a time, so 384/6=64 values need to be clocked in.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>Using the PRU we are able to run the clock a about 200 KHz.
+<p>Using the PRU we are able to run the clock a about 2.9 MKHz.
 <a href="#blocks_rgb_fpp">FPP waveforms</a> shows the optimized assembler code used by FPP clocks in
-at some 6.3 MHz.  So you can run some 30 times faster if you want to use
-assembly code.</p>
+at some 6.3 MHz.  So the compiler is doing a pretty good job, but you can run
+some two times faster if you want to use assembly code.  In fairness to FPP,
+it&#8217;s having to pull it&#8217;s data out of RAM to display it, so isn&#8217;t not a good
+comparision.</p>
 </div>
 <div id="blocks_rgb_fpp" class="imageblock">
 <div class="content">
@@ -5825,7 +5827,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-08-02 14:26:41 EDT
+Last updated 2018-08-02 14:48:26 EDT
 </div>
 </div>
 </body>

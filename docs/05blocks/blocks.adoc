@@ -1399,10 +1399,12 @@ six bits (R1, G1, etc.) at a time, so 384/6=64 values need to be clocked in.
 * Increment the address lines (LA, LB, LC and LD) to point to the next rows.
 * Keep repeating the above to keep the display lit.
 
-Using the PRU we are able to run the clock a about 200 KHz. 
+Using the PRU we are able to run the clock a about 2.9 MKHz. 
 <<blocks_rgb_fpp>> shows the optimized assembler code used by FPP clocks in 
-at some 6.3 MHz.  So you can run some 30 times faster if you want to use 
-assembly code.
+at some 6.3 MHz.  So the compiler is doing a pretty good job, but you can run 
+some two times faster if you want to use assembly code.  In fairness to FPP, 
+it's having to pull it's data out of RAM to display it, so isn't not a good 
+comparision.
 
 [[blocks_rgb_fpp]]
 .FPP waveforms

@@ -12,7 +12,7 @@
 #define GPIO_SETDATAOUT		0x194	// For setting the GPIO registers
 #define GPIO_DATAOUT		0x138	// For reading the GPIO registers
 
-#define DELAY 100	// Number of cycles (5ns each) to wait after a write
+#define DELAY 10	// Number of cycles (5ns each) to wait after a write
 
 volatile register uint32_t __R30;
 volatile register uint32_t __R31;
