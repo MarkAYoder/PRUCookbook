@@ -29,7 +29,7 @@ Each PRU has is own 8KB of data memory (Data Mem0 and Mem1) and 12KB of shared m
 
 [[blocks_PRU_block_diagram]]
 .PRU Block Diagram
-image:figures/blockDiagram.png[PRU Block diagram]
+image::figures/blockDiagram.png[PRU Block diagram]
 
 Each PRU accesses it's own DRAM starting at location 0x0000_0000. Each PRU
 can also access the other PRU's DRAM starting at 0x0000_2000. Both PRUs 
@@ -462,14 +462,14 @@ You can read more about instrinsics in section 5.11 of the (http://www.ti.com/li
 When you run this code and look at the output you will see something like the following figure.
 
 .Output of pwm1.c with 100,000,000 delays cycles giving a 1s period
-image:figures/pwm1.png[pwm1.c output]
+image::figures/pwm1.png[pwm1.c output]
 
 Notice the on time (`+Width(1)`) is 500ms, just as we predicted.  The off time is 498ms, which is only 2ms off from our prediction.  The standard deviation is 0, or only 380as, which is 380 * 10^-18^!.
 
 You can see how fast the PRU can run by setting both of the `__delay_cycles` to 0. This results in the next figure.
 
 .Output of pwm1.c with 0 delay cycles
-image:figures/pwm2.png[pwm1.c output with 0 delay]
+image::figures/pwm2.png[pwm1.c output with 0 delay]
 
 Notice the period is 15ns which gives us a frequency of about 67MHz. At this high frequency the breadboard that I'm using distorts the waveform so it's no longer a squarewave. The _on_ time is 5.3ns and the _off_ time is 9.8ns.  That means `__R30 |= gpio;` took only one 5ns cycle and `__R30 &= ~gpio;` also only took one cycle, but there is also an extra cycle needed for the loop.  This means the compiler was able to implement the while loop in just three 5ns instructions!  Not bad.
 
@@ -485,7 +485,7 @@ include::code/pwm2.c[]
 
 The output now looks like:
 .Output of pwm2.c corrected delay (`pwm3.png`)
-image:figures/pwm3.png[pwm2.c corrected delay]
+image::figures/pwm3.png[pwm2.c corrected delay]
 
 It's not hard to adjust the two `__delay_cycles` to get the desired frequency and duty cycle.
 
@@ -544,10 +544,11 @@ Here is code that runs on the ARM side to set the on and off time values.
 include::code/pwm-test.c[pwm-test.c]
 ----
 
-A check check on the 'scope shows:
+A quick check on the 'scope shows <<blocks_pwm_arm_control>>.
 
+[[blocks_pwm_arm_control]]
 .pwm4.png PWM with ARM control
-image:figures/pwm4.png[pwm4.png]
+image::figures/pwm4.png[pwm4.png]
 
 From the 'scope you see a 1 cycle on time results in a 450ns wide pulse and
 a 3.06us period is .326KHz  Much
@@ -573,7 +574,7 @@ include::code/pwm5.c[pwm5.c]
 The output of `pwm5.c` is in the figure below.
 
 .pwm5.c Unrolled version of pwm4.c
-image:figures/pwm5 - no loop.png[pwm5.c Unrolled version of pwm4.c]
+image::figures/pwm5 - no loop.png[pwm5.c Unrolled version of pwm4.c]
 
 It's running about 6 times faster than `pwm4.c`.
 
@@ -614,7 +615,7 @@ The figure below is a zoomed in version of the previous figure. Notice the pulse
 it.
 
 .pwm5 Zoomed In 
-image:figures/pwm5 zoomed.png[pwm5 zoomed.png]
+image::figures/pwm5 zoomed.png[pwm5 zoomed.png]
 
 The solution is to declare `Rtmp` (line 35) which holds the value for `__R30`.
 
@@ -632,7 +633,7 @@ The following figure shows the channel are sync'ed. Though the period is slightl
 longer than before.
 
 .pwm6 Synchronized Channels
-image:figures/pwm6 synced.png[pwm6 Synchronized Channels]
+image::figures/pwm6 synced.png[pwm6 Synchronized Channels]
 
 
 === Adding More Channels via PRU 1
@@ -713,13 +714,13 @@ behavior.
 Running the code you will see the next figure.
 
 .pwm7 Two PRUs running
-image:figures/pwm7 two prus running.png[pwm7 Two PRUs running]
+image::figures/pwm7 two prus running.png[pwm7 Two PRUs running]
 
 What's going on there, the first channels look fine, but the PRU 1 channels
 are blurred.  To see what's happening, let's stop the oscilloscope.
 
 .pwm7 Two PRUs stopped
-image:figures/pwm7 two prus stopped.png[pwm7 Two PRUs stopped]
+image::figures/pwm7 two prus stopped.png[pwm7 Two PRUs stopped]
 
 The stopped display shows that the four channels are doing what we wanted, except 
 The PRU 0 channels have a period of 370ns while the PRU 1 channels at 330ns.
@@ -750,7 +751,7 @@ The figure below shows the two PRUs are synchronized, though there is some extra
 overhead in the process so the period is longer.
 
 .pwm8 PRUs sycned
-image:figures/pwm8 prus sycned.png[pwm8 PRUs sycned]
+image::figures/pwm8 prus sycned.png[pwm8 PRUs sycned]
 
 This isn't much different from the previous examples.
 .pwm8.c changes from pwm7.c 
@@ -848,7 +849,7 @@ Suppose you want to generate a sawtooth waveform like the one shown in <<blocks_
 
 [[blocks_sawtooth]]
 .Continuous Sawtooth Waveform
-image:figures/sawtoothsmooth.png[Continuous Sawtooth Waveform]
+image::figures/sawtoothsmooth.png[Continuous Sawtooth Waveform]
 
 You need to sample the waveform and store one cycle. <<blocks_sawtoothsampled>>
 shows a sampled version of the sawtooth. You need to generate `MAXT` samples; 
@@ -856,7 +857,7 @@ here we show 20 samples, which may be enough. In the code `MAXT` is set to 100.
 
 [[blocks_sawtoothsampled]]
 .Sampled Sawtooth Waveform
-image:figures/sawtoothsampled.png[Sampled Sawtooth Waveform]
+image::figures/sawtoothsampled.png[Sampled Sawtooth Waveform]
 
 There's a lot going on here; let's take it line by line.
 
@@ -892,7 +893,7 @@ cycle count.
 
 [[blocks_sawunfiltered]]
 .Unfiltered Sawtooth Waveform
-image:figures/sawunfiltered.png[Unfiltered Sawtooth Waveform]
+image::figures/sawunfiltered.png[Unfiltered Sawtooth Waveform]
 
 It doesn't look like a sawtooth; but if you look at the left side you will 
 see each cycle has a longer and longer on time.  The duty cycle is increasing.
@@ -907,7 +908,7 @@ A simple low-pass filter, built with one resistor and one capacitor will do it.
 
 [[blocks_filterwiring]]
 .Low-Pass Filter Wiring Diagram
-image:figures/filter_bb.png[Low-Pass Filter Wiring Diagram]
+image::figures/filter_bb.png[Low-Pass Filter Wiring Diagram]
 
 [NOTE]
 ====
@@ -919,7 +920,7 @@ has the wrong value.) Probe the circuit between the resistor and the capacitor a
 
 [[blocks_sawscope]]
 .Reconstructed Sawtooth Waveform
-image:figures/sawscope.png[Reconstructed Sawtooth Waveform, width=500]
+image::figures/sawscope.png[Reconstructed Sawtooth Waveform, width=500]
 
 Now that look more like a sawtooth wave.  The top plot is the time-domain
 plot of the output of the low-pass filter. The bottom plot is the FFT of the top 
@@ -935,7 +936,7 @@ resistor.  You'll see something like <<blocks_lowercutoff>>.
 
 [[blocks_lowercutoff]]
 .Reconstructed Sawtooth Waveform with Lower Cutoff Frequency
-image:figures/sawlowercutoff.png[Reconstructed Sawtooth Waveform with Lower Cutoff Frequency]
+image::figures/sawlowercutoff.png[Reconstructed Sawtooth Waveform with Lower Cutoff Frequency]
 
 The high freqencies have been reduced, but the corner of the waveform has 
 been rounded.  You can also adjust the cutoff to a higher frequency and you'll 
@@ -944,7 +945,7 @@ get a sharper corner, but you'll also get more high frequencies. See
 
 [[blocks_highercutoff]]
 .Reconstructed Sawtooth Waveform with Higher Cutoff Frequency
-image:figures/sawhighercutoff.png[Reconstructed Sawtooth Waveform with Higher Cutoff Frequency]
+image::figures/sawhighercutoff.png[Reconstructed Sawtooth Waveform with Higher Cutoff Frequency]
 
 Adjust to taste, though the real solution is to build a higher order filter. 
 Search for _second order filter_ and you'll find some nice circuits.
@@ -958,13 +959,13 @@ You can also get a triangle waveform by setting the `#define`.
 
 [[blocks_triangle]]
 .Reconstructed Triangle Waveform
-image:figures/triangle.png[Reconstructed Triangle Waveform]
+image::figures/triangle.png[Reconstructed Triangle Waveform]
 
 And also the sine wave as shown in <<blocks_sine>>.
 
 [[blocks_sine]]
 .Reconstructed Sinusoid Waveform
-image:figures/sine.png[Reconstructed Sinusoid Waveform]
+image::figures/sine.png[Reconstructed Sinusoid Waveform]
 
 Notice on the bottom plot the harmonics are much more suppressed.
 
@@ -1014,7 +1015,7 @@ Wire the input to `P9_29` and power to 3.3V and ground to ground as shown in
 
 [[blocks_neo_wiring]]
 .NeoPixel Wiring
-image:figures/neo_bb.png[NeoPixel Wiring]
+image::figures/neo_bb.png[NeoPixel Wiring]
 
 Test your wiring with the simple code in <<blocks_neo1>> 
 which to turns all pixels white.
@@ -1032,7 +1033,7 @@ include::code/neo1.c[]
 
 [[blocks_sequence]]
 .NeoPixel bit sequence
-image:figures/neo_sequence.png[NeoPixel bit sequence]
+image::figures/neo_sequence.png[NeoPixel bit sequence]
 
 Where the times are:
 |===
@@ -1054,7 +1055,7 @@ shows the waveform for sending a 0 value.  Note the times are spot on.
 
 [[blocks_zero_scope]]
 .NeoPixel zero timing
-image:figures/neo_scope.png[]
+image::figures/neo_scope.png[]
 
 Each NeoPixel listens for a RGB value. Once a value has arrived all other values
 that follow are passed on to the next NeoPixel which does the same thing.
@@ -1089,7 +1090,7 @@ green, red and blue values.
 
 [[blocks_new_data_seq]]
 .NeoPixel data sequence
-image:figures/neo_data_seq.png[]
+image::figures/neo_data_seq.png[]
 [NOTE]
 ====
 The usual order for colors is RGB (red, green, blue), but the NeoPixels use
@@ -1244,7 +1245,7 @@ the last number, or you numbers will get blurred together.
 
 === RGB LED Matrix - No Integrated Drivers
 ==== Problem
-You have a RGB LED matrix (<<case_rgb_matrix..) and want to know
+You have a RGB LED matrix (<<case_rgb_matrix>>) and want to know
 at a low level how the PRU works.
 
 ==== Solution
@@ -1258,10 +1259,51 @@ adjustments for the 64x32 matrix we are using.
 ____
 There's zero documention out there on how these matrices work, and no public datasheets or spec sheets so we are going to try to document how they work.
 
-First thing to notice is that there are 2048 RGB LEDs in a 32x64 matrix. Like pretty much every matrix out there, you can't drive all 2048 at once. One reason is that would require a lot of current, another reason is that it would be really expensive to have so many pins. Instead, the matrix is divided into 16 interleaved sections/strips. The first section is the 1^st^ 'line' and the 17^th^ 'line' (64 x 2 RGB LEDs = 128 RGB LEDs), the second is the 2^nd^ and 18^th^ line, etc until the last section which is the 16^th^ and 32^nd^ line. You might be asking, why are the lines paired this way? wouldnt it be nicer to have the first section be the 1^st^ and 2^nd^ line, then 3^rd^ and 4^th^, until the 15^th^ and 16^th^? The reason they do it this way is so that the lines are interleaved and look better when refreshed, otherwise we'd see the stripes more clearly.
+First thing to notice is that there are 2048 RGB LEDs in a 64x32 matrix. Like pretty much every matrix out there, you can't drive all 2048 at once. One reason is that would require a lot of current, another reason is that it would be really expensive to have so many pins. Instead, the matrix is divided into 16 interleaved sections/strips. The first section is the 1^st^ 'line' and the 17^th^ 'line' (64 x 2 RGB LEDs = 128 RGB LEDs), the second is the 2^nd^ and 18^th^ line, etc until the last section which is the 16^th^ and 32^nd^ line. You might be asking, why are the lines paired this way? wouldnt it be nicer to have the first section be the 1^st^ and 2^nd^ line, then 3^rd^ and 4^th^, until the 15^th^ and 16^th^? The reason they do it this way is so that the lines are interleaved and look better when refreshed, otherwise we'd see the stripes more clearly.
 
-So, on the PCB is 24 LED driver chips. These are like 74HC595s but they have 16 outputs and they are constant current. 16 outputs * 24 chips = 384 LEDs that can be controlled at once, and 128 * 3 (R G and B) = 384. So now the design comes together: You have 384 outputs that can control one line at a time, with each of 384 R, G and B LEDs either on or off. The controller (say an FPGA or microcontroller) selects which section to currently draw (using A, B, C and D address pins - 4 bits can have 16 values). Once the address is set, the controller clocks out 384 bits of data (48 bytes) and latches it. Then it increments the address and clocks out another 384 bits, etc until it gets to address #15, then it sets the address back to #0
+So, on the PCB is 24 LED driver chips. These are like 74HC595s but they have 16 outputs and they are constant current. 16 outputs * 24 chips = 384 LEDs that can be controlled at once, and 128 * 3 (R G and B) = 384. So now the design comes together: You have 384 outputs that can control one line at a time, with each of 384 R, G and B LEDs either on or off. The controller (say an FPGA or microcontroller) selects which section to currently draw (using LA, LB, LC and LD address pins - 4 bits can have 16 values). Once the address is set, the controller clocks out 384 bits of data (48 bytes) and latches it. Then it increments the address and clocks out another 384 bits, etc until it gets to address #15, then it sets the address back to #0
 ____
+
+That gives a good overview, but there are a few details missing. 
+<<blocks_rgb_python>> is a functioning python program that gives a nice
+highlevel view of how to drive the display. 
+
+[[blocks_rgb_python]]
+.Python code for driving RGB LED matrix
+[source,python,linenums]
+[subs=+quotes]
+----
+include::code/rgb_python.py[]
+----
+
+Be sure to run the <<blocks_rgb_setup>> script before running the python code.
+
+[[blocks_rgb_setup]]
+.rgb_setup.sh
+[source,bash,linenums]
+[subs=+quotes]
+----
+include::code/rgb_setup.sh[]
+----
+
+Make sure line 29 is commented out and line 30 is uncoomented. 
+Later we'll configure for _pruout_, but for now the python code doesn't use 
+the PRU outs.
+[source,bash]
+[subs=+quotes]
+----
+    # config-pin $pin pruout
+    config-pin $pin out
+----
+
+Your display should look like <<blocks_rgb_python_jpg>>.
+
+[[blocks_rgb_python_jpg]]
+.Display running rgb_python.py
+image:figures/rgb_python.jpg[Display running rgb_python.py]
+
+
+
 
 The connector looks like <<blocks_matrix_j1>>.
 

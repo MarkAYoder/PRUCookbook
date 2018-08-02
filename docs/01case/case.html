@@ -519,7 +519,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_robotics_control_library">1.1. Robotics Control Library</a></li>
 <li><a href="#_beaglelogic_a_14_channel_logic_analyzer">1.2. BeagleLogic - a 14-channel Logic Analyzer</a></li>
 <li><a href="#_neopixels_5050_rgb_leds_with_integrated_drivers_ledscape">1.3. NeoPixels - 5050 RGB LEDs with Integrated Drivers (LEDScape)</a></li>
-<li><a href="#_rgb_led_matrix_no_integrated_drivers_falcon_christmas">1.4. RGB LED Matrix - No Integrated Drivers (Falcon Christmas)</a></li>
+<li><a href="#case_rgb_matrix">1.4. RGB LED Matrix - No Integrated Drivers (Falcon Christmas)</a></li>
 <li><a href="#_machinekit">1.5. MachineKit</a></li>
 <li><a href="#_ardupilot">1.6. ArduPilot</a></li>
 </ul>
@@ -1521,7 +1521,7 @@ leds[<span class="integer">0</span>] = (<span class="integer">0</span>, <span cl
 </div>
 </div>
 <div class="sect2">
-<h3 id="_rgb_led_matrix_no_integrated_drivers_falcon_christmas"><a class="link" href="#_rgb_led_matrix_no_integrated_drivers_falcon_christmas">1.4. RGB LED Matrix - No Integrated Drivers (Falcon Christmas)</a></h3>
+<h3 id="case_rgb_matrix"><a class="link" href="#case_rgb_matrix">1.4. RGB LED Matrix - No Integrated Drivers (Falcon Christmas)</a></h3>
 <div class="sect3">
 <h4 id="_problem_8"><a class="link" href="#_problem_8">Problem</a></h4>
 <div class="paragraph">
@@ -1530,9 +1530,11 @@ drivers such as the
 <a href="https://www.adafruit.com/product/2277">64x32 RGB LED Matrix</a> by Adafuit
 shown in <a href="#case_adfruit_matrix">Adafruit LED Matrix</a>.</p>
 </div>
-<div id="case_adfruit_matrix" class="paragraph">
-<div class="title">Adafruit LED Matrix</div>
-<p><span class="image"><img src="figures/ledmatrix.jpg" alt="Adafruit LED Matrix"></span></p>
+<div id="case_adfruit_matrix" class="imageblock">
+<div class="content">
+<img src="figures/ledmatrix.jpg" alt="Adafruit LED Matrix">
+</div>
+<div class="title">Figure 1. Adafruit LED Matrix</div>
 </div>
 </div>
 <div class="sect3">
@@ -1543,7 +1545,8 @@ called
 <a href="http://falconchristmas.com/forum/index.php/board,8.0.html">Falcon Player</a> (FPP) which can drive such displays.</p>
 </div>
 <div class="verseblock">
-<pre class="content">The Falcon Player (FPP) is a lightweight, optimized, feature-rich sequence player designed to run on low-cost SBC&#8217;s (Single Board Computers). It was originally created to run on the $35 Raspberry Pi, hence the middle 'P' in the short name. FPP is a software solution that you download and install on hardware which can be purchased from numerous sources around the internet. FPP aims to be controller agnostic, it can talk E1.31, DMX, Pixelnet, and Renard to hardware from multiple hardware vendors, including controller hardware from Falcon Christmas available via COOPs or in the store on FalconChristmas.com.</pre>
+<pre class="content">The Falcon Player (FPP) is a lightweight, optimized, feature-rich sequence player designed to run on low-cost SBC&#8217;s (Single Board Computers).
+FPP is a software solution that you download and install on hardware which can be purchased from numerous sources around the internet. FPP aims to be controller agnostic, it can talk E1.31, DMX, Pixelnet, and Renard to hardware from multiple hardware vendors, including controller hardware from Falcon Christmas available via COOPs or in the store on FalconChristmas.com.</pre>
 <div class="attribution">
 &#8212; http://www.falconchristmas.com/wiki/FPP:FAQ#What_is_FPP.3F
 </div>
@@ -1555,6 +1558,7 @@ called
 <a href="https://oshpark.com/shared_projects/7mSHNZcD">Octoscroller Cape</a>, or a
 pocketbeagle with the
 <a href="https://www.hackster.io/daniel-kulp/pocketscroller-led-panel-cape-for-pocketbeagle-fe12a6">PocketScroller LED Panel Cape</a>.
+(See <a href="https://www.tindie.com/products/dkulp/pocketscroller-led-panel-cape-for-pocketbeagle/">to purchase</a>.)
 <a href="https://www.diychristmas.org/wiki/index.php?title=Building_an_Octoscroller_Matrix_Display">Building and Octoscroller Matrix Display</a>
 gives details for using the BeagleBone Black.</p>
 </div>
@@ -1567,7 +1571,7 @@ to full white at the same time you will need at least a 4A supply.</p>
 <div class="content">
 <img src="figures/pocketscroller.jpg" alt="Pocket Beagle Driving a P5 RGB LED Matrix via the PocketScroller Cape">
 </div>
-<div class="title">Figure 1. Pocket Beagle Driving a P5 RGB LED Matrix via the PocketScroller Cape</div>
+<div class="title">Figure 2. Pocket Beagle Driving a P5 RGB LED Matrix via the PocketScroller Cape</div>
 </div>
 </div>
 <div class="sect4">
@@ -1576,6 +1580,21 @@ to full white at the same time you will need at least a 4A supply.</p>
 <p>The FPP software is most easily installed by downloading the
 <a href="http://dankulp.com/bbb/">current FPP image</a>, flashing an SD card and
 booting from it.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The really brave can install it on a already running image.  See details at
+<a href="https://github.com/FalconChristmas/fpp/blob/master/SD/FPP_Install.sh" class="bare">https://github.com/FalconChristmas/fpp/blob/master/SD/FPP_Install.sh</a></p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Assuming the PocketBeagle is attached via the USB cable,
@@ -1586,7 +1605,7 @@ on your host computer browse to <a href="http://192.168.7.2/" class="bare">http:
 <div class="content">
 <img src="figures/fpp_program_control.png" alt="Falcon Play Program Control">
 </div>
-<div class="title">Figure 2. Falcon Play Program Control</div>
+<div class="title">Figure 3. Falcon Play Program Control</div>
 </div>
 <div class="paragraph">
 <p>You can test the display by first setting up the Channel Outputs and then
@@ -1597,13 +1616,13 @@ select Channel Outputs and <a href="#case_channel_outputs">Channel Outputs Setti
 <div class="content">
 <img src="figures/fpp_channel_outputs_menu.png" alt="Selecting Channel Outputs">
 </div>
-<div class="title">Figure 3. Selecting Channel Outputs</div>
+<div class="title">Figure 4. Selecting Channel Outputs</div>
 </div>
 <div id="case_channel_outputs" class="imageblock">
 <div class="content">
 <img src="figures/fpp_channel_outputs.png" alt="Channel Outputs Settings">
 </div>
-<div class="title">Figure 4. Channel Outputs Settings</div>
+<div class="title">Figure 5. Channel Outputs Settings</div>
 </div>
 <div class="paragraph">
 <p>Click on the <strong>LED Panels</strong> tab and then the only changes I made was
@@ -1618,7 +1637,7 @@ to select the <strong>Single Panel Size</strong> to be
 <div class="content">
 <img src="figures/fpp_display_testing_menu.png" alt="Selecting Display Testing">
 </div>
-<div class="title">Figure 5. Selecting Display Testing</div>
+<div class="title">Figure 6. Selecting Display Testing</div>
 </div>
 <div class="paragraph">
 <p>Set the <strong>End Channel</strong> to <strong>6144</strong>. (6144 is 3*64*32)
@@ -1629,7 +1648,7 @@ testing patterns shown in <a href="#case_display_testing">Display Testing Option
 <div class="content">
 <img src="figures/fpp_display_testing.png" alt="Display Testing Options">
 </div>
-<div class="title">Figure 6. Display Testing Options</div>
+<div class="title">Figure 7. Display Testing Options</div>
 </div>
 </div>
 <div class="sect4">
@@ -1657,14 +1676,15 @@ following instructions at
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">host$ <strong>xLights</strong></code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">host$ <strong>apt install xlights</strong>
+host$ <strong>xLights</strong></code></pre>
 </div>
 </div>
 <div id="case_xlights_setup" class="imageblock">
 <div class="content">
 <img src="figures/xlights_setup.png" alt="xLights Setup">
 </div>
-<div class="title">Figure 7. xLights Setup</div>
+<div class="title">Figure 8. xLights Setup</div>
 </div>
 <div class="paragraph">
 <p>We&#8217;ll walk you through a simple setup to get an animation to display on the
@@ -1676,7 +1696,7 @@ shown in <a href="#case_xlights_setup_e1_31">Setting Up E1.31</a>.</p>
 <div class="content">
 <img src="figures/xlights_setup_e1_31.png" alt="Setting Up E1.31">
 </div>
-<div class="title">Figure 8. Setting Up E1.31</div>
+<div class="title">Figure 9. Setting Up E1.31</div>
 </div>
 <div class="paragraph">
 <p>The <strong>IP Address</strong> is the Bone&#8217;s address as seen from the host computer.
@@ -1694,7 +1714,7 @@ for more details.</p>
 <div class="content">
 <img src="figures/xlights_setup_done.png" alt="xLights setup for P5 display">
 </div>
-<div class="title">Figure 9. xLights setup for P5 display</div>
+<div class="title">Figure 10. xLights setup for P5 display</div>
 </div>
 <div class="paragraph">
 <p>Next click on the <strong>Layout</strong> tab.  Click on the <strong>Matrix</strong> button as shown in
@@ -1705,7 +1725,7 @@ matrix to appear.</p>
 <div class="content">
 <img src="figures/xlights_layout.png" alt="Setting up the Matrix Layout">
 </div>
-<div class="title">Figure 10. Setting up the Matrix Layout</div>
+<div class="title">Figure 11. Setting up the Matrix Layout</div>
 </div>
 <div class="paragraph">
 <p><a href="#case_xlights_layout_details">Layout details for P5 matrix</a> shows the setting to use for the P5 matrix.</p>
@@ -1714,7 +1734,7 @@ matrix to appear.</p>
 <div class="content">
 <img src="figures/xlights_layout_details.png" alt="Layout details for P5 matrix">
 </div>
-<div class="title">Figure 11. Layout details for P5 matrix</div>
+<div class="title">Figure 12. Layout details for P5 matrix</div>
 </div>
 <div class="paragraph">
 <p>All I changed was <strong># Strings</strong>, <strong>Nodes/String</strong>, <strong>Starting Location</strong> and most
@@ -1731,7 +1751,7 @@ xLights now knows we are working with a P5 matrix, now on to the sequencer.</p>
 <div class="content">
 <img src="figures/xlights_seq_new.png" alt="Starting a new sequence">
 </div>
-<div class="title">Figure 12. Starting a new sequence</div>
+<div class="title">Figure 13. Starting a new sequence</div>
 </div>
 <div class="paragraph">
 <p>Then click on <strong>Animation</strong>, <strong>20fps (50ms)</strong>, and <strong>Quick Start</strong>. Learning how to
@@ -1751,7 +1771,7 @@ enter <strong>12</strong> for <strong>Universe Count</strong> and click <strong>
 <div class="content">
 <img src="figures/fpp_inputs_setup.png" alt=".E1.31 Bridge Mode Universes">
 </div>
-<div class="title">Figure 13. E1.31 Bridge Mode Universes</div>
+<div class="title">Figure 14. E1.31 Bridge Mode Universes</div>
 </div>
 <div class="paragraph">
 <p>Click on the <strong>Save</strong> button above the table.  Then go to the <strong>Status Control</strong>
@@ -1762,7 +1782,7 @@ in <a href="#case_mode_bridge">Bridge Mode</a>.</p>
 <div class="content">
 <img src="figures/fpp_mode_bridge.png" alt="Bridge Mode">
 </div>
-<div class="title">Figure 14. Bridge Mode</div>
+<div class="title">Figure 15. Bridge Mode</div>
 </div>
 </div>
 <div class="sect4">
@@ -1776,7 +1796,7 @@ A quick way to verify everything is t o return to xLights and go to the
 <div class="content">
 <img src="figures/xlights_test.png" alt="xLights test page">
 </div>
-<div class="title">Figure 15. xLights test page</div>
+<div class="title">Figure 16. xLights test page</div>
 </div>
 <div class="paragraph">
 <p>Click the box under <strong>Select channels&#8230;&#8203;</strong>, click <strong>Output to lights</strong> and
@@ -1787,7 +1807,7 @@ select <strong>Twinkle 50%</strong>.  You matrix should have a colorful twinkle 
 <div class="content">
 <img src="figures/xlights_twinkle.jpg" alt="xLights Twinkle test pattern">
 </div>
-<div class="title">Figure 16. xLights Twinkle test pattern</div>
+<div class="title">Figure 17. xLights Twinkle test pattern</div>
 </div>
 </div>
 <div class="sect4">
@@ -1805,7 +1825,7 @@ toolbar.  Your matrix should now be displaying your effect.</p>
 <p><span class="image"><img src="figures/xlights_seq_drag.png" alt="Drag an effect to the time line"></span></p>
 </div>
 <div class="paragraph">
-<p>The setup requires the host computer to end the annimation data to the Bone.
+<p>The setup requires the host computer to send the animation data to the Bone.
 The next section shows how to save the sequence and play it on the Bone
 standalone.</p>
 </div>
@@ -1833,7 +1853,7 @@ the <strong>New Playlist Entry</strong> section and select <strong>Sequence Only
 <div class="content">
 <img src="figures/fpp_playlist.png" alt="Adding a new playlist to FPP">
 </div>
-<div class="title">Figure 17. Adding a new playlist to FPP</div>
+<div class="title">Figure 18. Adding a new playlist to FPP</div>
 </div>
 <div class="paragraph">
 <p>Be sure to click <strong>Save</strong> under <strong>Playlist Details</strong>. Now return to
@@ -1866,7 +1886,7 @@ motors, stepper motors, relays, and other devices related to machine tools.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-31 12:54:53 EDT
+Last updated 2018-08-02 10:19:11 EDT
 </div>
 </div>
 </body>

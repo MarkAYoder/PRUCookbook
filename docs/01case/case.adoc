@@ -590,7 +590,7 @@ shown in <<case_adfruit_matrix>>.
 
 [[case_adfruit_matrix]]
 .Adafruit LED Matrix
-image:figures/ledmatrix.jpg[Adafruit LED Matrix]
+image::figures/ledmatrix.jpg[Adafruit LED Matrix]
 
 ==== Solution
 http://falconchristmas.com[Falcon Christmas] makes a software package

@@ -600,9 +600,11 @@ chaper.</p>
 <div class="paragraph">
 <p>Each PRU has is own 8KB of data memory (Data Mem0 and Mem1) and 12KB of shared memory (Shared RAM) as shown in <a href="#blocks_PRU_block_diagram">PRU Block Diagram</a>.</p>
 </div>
-<div id="blocks_PRU_block_diagram" class="paragraph">
-<div class="title">PRU Block Diagram</div>
-<p><span class="image"><img src="figures/blockDiagram.png" alt="PRU Block diagram"></span></p>
+<div id="blocks_PRU_block_diagram" class="imageblock">
+<div class="content">
+<img src="figures/blockDiagram.png" alt="PRU Block diagram">
+</div>
+<div class="title">Figure 1. PRU Block Diagram</div>
 </div>
 <div class="paragraph">
 <p>Each PRU accesses it&#8217;s own DRAM starting at location 0x0000_0000. Each PRU
@@ -1781,9 +1783,11 @@ gives more details.</p></td>
 <div class="paragraph">
 <p>When you run this code and look at the output you will see something like the following figure.</p>
 </div>
-<div class="paragraph">
-<div class="title">Output of pwm1.c with 100,000,000 delays cycles giving a 1s period</div>
-<p><span class="image"><img src="figures/pwm1.png" alt="pwm1.c output"></span></p>
+<div class="imageblock">
+<div class="content">
+<img src="figures/pwm1.png" alt="pwm1.c output">
+</div>
+<div class="title">Figure 2. Output of pwm1.c with 100,000,000 delays cycles giving a 1s period</div>
 </div>
 <div class="paragraph">
 <p>Notice the on time (<code>+Width(1)</code>) is 500ms, just as we predicted.  The off time is 498ms, which is only 2ms off from our prediction.  The standard deviation is 0, or only 380as, which is 380 * 10<sup>-18</sup>!.</p>
@@ -1791,9 +1795,11 @@ gives more details.</p></td>
 <div class="paragraph">
 <p>You can see how fast the PRU can run by setting both of the <code>__delay_cycles</code> to 0. This results in the next figure.</p>
 </div>
-<div class="paragraph">
-<div class="title">Output of pwm1.c with 0 delay cycles</div>
-<p><span class="image"><img src="figures/pwm2.png" alt="pwm1.c output with 0 delay"></span></p>
+<div class="imageblock">
+<div class="content">
+<img src="figures/pwm2.png" alt="pwm1.c output with 0 delay">
+</div>
+<div class="title">Figure 3. Output of pwm1.c with 0 delay cycles</div>
 </div>
 <div class="paragraph">
 <p>Notice the period is 15ns which gives us a frequency of about 67MHz. At this high frequency the breadboard that I&#8217;m using distorts the waveform so it&#8217;s no longer a squarewave. The <em>on</em> time is 5.3ns and the <em>off</em> time is 9.8ns.  That means <code><em>R30 |= gpio;</code> took only one 5ns cycle and <code></em>R30 &amp;= ~gpio;</code> also only took one cycle, but there is also an extra cycle needed for the loop.  This means the compiler was able to implement the while loop in just three 5ns instructions!  Not bad.</p>
@@ -1862,7 +1868,7 @@ gives more details.</p></td>
 <div class="paragraph">
 <p>The output now looks like:
 .Output of pwm2.c corrected delay (<code>pwm3.png</code>)
-<span class="image"><img src="figures/pwm3.png" alt="pwm2.c corrected delay"></span></p>
+image::figures/pwm3.png[pwm2.c corrected delay]</p>
 </div>
 <div class="paragraph">
 <p>It&#8217;s not hard to adjust the two <code>__delay_cycles</code> to get the desired frequency and duty cycle.</p>
@@ -2332,11 +2338,13 @@ the PWM on and off times.  Here&#8217;s the whole code:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>A check check on the 'scope shows:</p>
+<p>A quick check on the 'scope shows <a href="#blocks_pwm_arm_control">pwm4.png PWM with ARM control</a>.</p>
 </div>
-<div class="paragraph">
-<div class="title">pwm4.png PWM with ARM control</div>
-<p><span class="image"><img src="figures/pwm4.png" alt="pwm4.png"></span></p>
+<div id="blocks_pwm_arm_control" class="imageblock">
+<div class="content">
+<img src="figures/pwm4.png" alt="pwm4.png">
+</div>
+<div class="title">Figure 4. pwm4.png PWM with ARM control</div>
 </div>
 <div class="paragraph">
 <p>From the 'scope you see a 1 cycle on time results in a 450ns wide pulse and
@@ -2482,7 +2490,7 @@ version.</p>
 </div>
 <div class="paragraph">
 <div class="title">pwm5.c Unrolled version of pwm4.c</div>
-<p><span class="image"><img src="figures/pwm5 - no loop.png" alt="pwm5.c Unrolled version of pwm4.c"></span></p>
+<p>image::figures/pwm5 - no loop.png[pwm5.c Unrolled version of pwm4.c]</p>
 </div>
 <div class="paragraph">
 <p>It&#8217;s running about 6 times faster than <code>pwm4.c</code>.</p>
@@ -2570,7 +2578,7 @@ it.</p>
 </div>
 <div class="paragraph">
 <div class="title">pwm5 Zoomed In</div>
-<p><span class="image"><img src="figures/pwm5 zoomed.png" alt="pwm5 zoomed.png"></span></p>
+<p>image::figures/pwm5 zoomed.png[pwm5 zoomed.png]</p>
 </div>
 <div class="paragraph">
 <p>The solution is to declare <code>Rtmp</code> (line 35) which holds the value for <code>__R30</code>.</p>
@@ -2708,7 +2716,7 @@ longer than before.</p>
 </div>
 <div class="paragraph">
 <div class="title">pwm6 Synchronized Channels</div>
-<p><span class="image"><img src="figures/pwm6 synced.png" alt="pwm6 Synchronized Channels"></span></p>
+<p>image::figures/pwm6 synced.png[pwm6 Synchronized Channels]</p>
 </div>
 </div>
 </div>
@@ -2957,7 +2965,7 @@ behavior.</p>
 </div>
 <div class="paragraph">
 <div class="title">pwm7 Two PRUs running</div>
-<p><span class="image"><img src="figures/pwm7 two prus running.png" alt="pwm7 Two PRUs running"></span></p>
+<p>image::figures/pwm7 two prus running.png[pwm7 Two PRUs running]</p>
 </div>
 <div class="paragraph">
 <p>What&#8217;s going on there, the first channels look fine, but the PRU 1 channels
@@ -2965,7 +2973,7 @@ are blurred.  To see what&#8217;s happening, let&#8217;s stop the oscilloscope.<
 </div>
 <div class="paragraph">
 <div class="title">pwm7 Two PRUs stopped</div>
-<p><span class="image"><img src="figures/pwm7 two prus stopped.png" alt="pwm7 Two PRUs stopped"></span></p>
+<p>image::figures/pwm7 two prus stopped.png[pwm7 Two PRUs stopped]</p>
 </div>
 <div class="paragraph">
 <p>The stopped display shows that the four channels are doing what we wanted, except
@@ -3185,7 +3193,7 @@ overhead in the process so the period is longer.</p>
 </div>
 <div class="paragraph">
 <div class="title">pwm8 PRUs sycned</div>
-<p><span class="image"><img src="figures/pwm8 prus sycned.png" alt="pwm8 PRUs sycned"></span></p>
+<p>image::figures/pwm8 prus sycned.png[pwm8 PRUs sycned]</p>
 </div>
 <div class="paragraph">
 <p>This isn&#8217;t much different from the previous examples.
@@ -3587,18 +3595,22 @@ signal.</p>
 <div class="paragraph">
 <p>Suppose you want to generate a sawtooth waveform like the one shown in <a href="#blocks_sawtooth">Continuous Sawtooth Waveform</a>.</p>
 </div>
-<div id="blocks_sawtooth" class="paragraph">
-<div class="title">Continuous Sawtooth Waveform</div>
-<p><span class="image"><img src="figures/sawtoothsmooth.png" alt="Continuous Sawtooth Waveform"></span></p>
+<div id="blocks_sawtooth" class="imageblock">
+<div class="content">
+<img src="figures/sawtoothsmooth.png" alt="Continuous Sawtooth Waveform">
+</div>
+<div class="title">Figure 5. Continuous Sawtooth Waveform</div>
 </div>
 <div class="paragraph">
 <p>You need to sample the waveform and store one cycle. <a href="#blocks_sawtoothsampled">Sampled Sawtooth Waveform</a>
 shows a sampled version of the sawtooth. You need to generate <code>MAXT</code> samples;
 here we show 20 samples, which may be enough. In the code <code>MAXT</code> is set to 100.</p>
 </div>
-<div id="blocks_sawtoothsampled" class="paragraph">
-<div class="title">Sampled Sawtooth Waveform</div>
-<p><span class="image"><img src="figures/sawtoothsampled.png" alt="Sampled Sawtooth Waveform"></span></p>
+<div id="blocks_sawtoothsampled" class="imageblock">
+<div class="content">
+<img src="figures/sawtoothsampled.png" alt="Sampled Sawtooth Waveform">
+</div>
+<div class="title">Figure 6. Sampled Sawtooth Waveform</div>
 </div>
 <div class="paragraph">
 <p>There&#8217;s a lot going on here; let&#8217;s take it line by line.</p>
@@ -3681,9 +3693,11 @@ cycle count.</p></td>
 <div class="paragraph">
 <p><a href="#blocks_sawunfiltered">Unfiltered Sawtooth Waveform</a> shows the output of the code.</p>
 </div>
-<div id="blocks_sawunfiltered" class="paragraph">
-<div class="title">Unfiltered Sawtooth Waveform</div>
-<p><span class="image"><img src="figures/sawunfiltered.png" alt="Unfiltered Sawtooth Waveform"></span></p>
+<div id="blocks_sawunfiltered" class="imageblock">
+<div class="content">
+<img src="figures/sawunfiltered.png" alt="Unfiltered Sawtooth Waveform">
+</div>
+<div class="title">Figure 7. Unfiltered Sawtooth Waveform</div>
 </div>
 <div class="paragraph">
 <p>It doesn&#8217;t look like a sawtooth; but if you look at the left side you will
@@ -3698,9 +3712,11 @@ which is what you want for the start of the sawtooth.</p>
 <p>A simple low-pass filter, built with one resistor and one capacitor will do it.
 <a href="#blocks_filter">[blocks_filter]</a> shows how to wire it up.</p>
 </div>
-<div id="blocks_filterwiring" class="paragraph">
-<div class="title">Low-Pass Filter Wiring Diagram</div>
-<p><span class="image"><img src="figures/filter_bb.png" alt="Low-Pass Filter Wiring Diagram"></span></p>
+<div id="blocks_filterwiring" class="imageblock">
+<div class="content">
+<img src="figures/filter_bb.png" alt="Low-Pass Filter Wiring Diagram">
+</div>
+<div class="title">Figure 8. Low-Pass Filter Wiring Diagram</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -3720,9 +3736,11 @@ has the wrong value.) Probe the circuit between the resistor and the capacitor a
 <div class="paragraph">
 <p><a href="#blocks_sawscope">Reconstructed Sawtooth Waveform</a> shows the results for filtered the SAWTOOTH.</p>
 </div>
-<div id="blocks_sawscope" class="paragraph">
-<div class="title">Reconstructed Sawtooth Waveform</div>
-<p><span class="image"><img src="figures/sawscope.png" alt="Reconstructed Sawtooth Waveform" width="500"></span></p>
+<div id="blocks_sawscope" class="imageblock">
+<div class="content">
+<img src="figures/sawscope.png" alt="Reconstructed Sawtooth Waveform" width="500">
+</div>
+<div class="title">Figure 9. Reconstructed Sawtooth Waveform</div>
 </div>
 <div class="paragraph">
 <p>Now that look more like a sawtooth wave.  The top plot is the time-domain
@@ -3737,9 +3755,11 @@ but there is a high freqnecy superimposed on it.  We are only using a simple
 first-order filter.  You could lower the cutoff freqnecy by adjusting the
 resistor.  You&#8217;ll see something like <a href="#blocks_lowercutoff">Reconstructed Sawtooth Waveform with Lower Cutoff Frequency</a>.</p>
 </div>
-<div id="blocks_lowercutoff" class="paragraph">
-<div class="title">Reconstructed Sawtooth Waveform with Lower Cutoff Frequency</div>
-<p><span class="image"><img src="figures/sawlowercutoff.png" alt="Reconstructed Sawtooth Waveform with Lower Cutoff Frequency"></span></p>
+<div id="blocks_lowercutoff" class="imageblock">
+<div class="content">
+<img src="figures/sawlowercutoff.png" alt="Reconstructed Sawtooth Waveform with Lower Cutoff Frequency">
+</div>
+<div class="title">Figure 10. Reconstructed Sawtooth Waveform with Lower Cutoff Frequency</div>
 </div>
 <div class="paragraph">
 <p>The high freqencies have been reduced, but the corner of the waveform has
@@ -3747,9 +3767,11 @@ been rounded.  You can also adjust the cutoff to a higher frequency and you&#821
 get a sharper corner, but you&#8217;ll also get more high frequencies. See
 <a href="#blocks_highercutoff">Reconstructed Sawtooth Waveform with Higher Cutoff Frequency</a></p>
 </div>
-<div id="blocks_highercutoff" class="paragraph">
-<div class="title">Reconstructed Sawtooth Waveform with Higher Cutoff Frequency</div>
-<p><span class="image"><img src="figures/sawhighercutoff.png" alt="Reconstructed Sawtooth Waveform with Higher Cutoff Frequency"></span></p>
+<div id="blocks_highercutoff" class="imageblock">
+<div class="content">
+<img src="figures/sawhighercutoff.png" alt="Reconstructed Sawtooth Waveform with Higher Cutoff Frequency">
+</div>
+<div class="title">Figure 11. Reconstructed Sawtooth Waveform with Higher Cutoff Frequency</div>
 </div>
 <div class="paragraph">
 <p>Adjust to taste, though the real solution is to build a higher order filter.
@@ -3764,16 +3786,20 @@ as small as 20.</p>
 <p>You can also get a triangle waveform by setting the <code>#define</code>.
 <a href="#blocks_triangle">Reconstructed Triangle Waveform</a> shows the output signal.</p>
 </div>
-<div id="blocks_triangle" class="paragraph">
-<div class="title">Reconstructed Triangle Waveform</div>
-<p><span class="image"><img src="figures/triangle.png" alt="Reconstructed Triangle Waveform"></span></p>
+<div id="blocks_triangle" class="imageblock">
+<div class="content">
+<img src="figures/triangle.png" alt="Reconstructed Triangle Waveform">
+</div>
+<div class="title">Figure 12. Reconstructed Triangle Waveform</div>
 </div>
 <div class="paragraph">
 <p>And also the sine wave as shown in <a href="#blocks_sine">Reconstructed Sinusoid Waveform</a>.</p>
 </div>
-<div id="blocks_sine" class="paragraph">
-<div class="title">Reconstructed Sinusoid Waveform</div>
-<p><span class="image"><img src="figures/sine.png" alt="Reconstructed Sinusoid Waveform"></span></p>
+<div id="blocks_sine" class="imageblock">
+<div class="content">
+<img src="figures/sine.png" alt="Reconstructed Sinusoid Waveform">
+</div>
+<div class="title">Figure 13. Reconstructed Sinusoid Waveform</div>
 </div>
 <div class="paragraph">
 <p>Notice on the bottom plot the harmonics are much more suppressed.</p>
@@ -3875,9 +3901,11 @@ sensesitive, which make the PRU a perfect candidate for driving it.</p>
 <p>Wire the input to <code>P9_29</code> and power to 3.3V and ground to ground as shown in
 <a href="#blocks_neo_wiring">NeoPixel Wiring</a>.</p>
 </div>
-<div id="blocks_neo_wiring" class="paragraph">
-<div class="title">NeoPixel Wiring</div>
-<p><span class="image"><img src="figures/neo_bb.png" alt="NeoPixel Wiring"></span></p>
+<div id="blocks_neo_wiring" class="imageblock">
+<div class="content">
+<img src="figures/neo_bb.png" alt="NeoPixel Wiring">
+</div>
+<div class="title">Figure 14. NeoPixel Wiring</div>
 </div>
 <div class="paragraph">
 <p>Test your wiring with the simple code in <a href="#blocks_neo1">neo1.c - Code to turn all NeoPixels&#8217;s white</a>
@@ -3983,9 +4011,11 @@ which to turns all pixels white.</p>
 <div class="paragraph">
 <p><a href="#blocks_sequence">NeoPixel bit sequence</a> (taken from  <a href="https://cdn-shop.adafruit.com/datasheets/WS2812.pdf">WS2812 Data Sheet</a>) shows the following waveforms are used to send a bit of data.</p>
 </div>
-<div id="blocks_sequence" class="paragraph">
-<div class="title">NeoPixel bit sequence</div>
-<p><span class="image"><img src="figures/neo_sequence.png" alt="NeoPixel bit sequence"></span></p>
+<div id="blocks_sequence" class="imageblock">
+<div class="content">
+<img src="figures/neo_sequence.png" alt="NeoPixel bit sequence">
+</div>
+<div class="title">Figure 15. NeoPixel bit sequence</div>
 </div>
 <div class="paragraph">
 <p>Where the times are:</p>
@@ -4032,9 +4062,11 @@ the desired time and then to 0 and keeps repeating it for the entire
 string length.  <a href="#blocks_zero_scope">NeoPixel zero timing</a>
 shows the waveform for sending a 0 value.  Note the times are spot on.</p>
 </div>
-<div id="blocks_zero_scope" class="paragraph">
-<div class="title">NeoPixel zero timing</div>
-<p><span class="image"><img src="figures/neo_scope.png" alt="neo scope"></span></p>
+<div id="blocks_zero_scope" class="imageblock">
+<div class="content">
+<img src="figures/neo_scope.png" alt="neo scope">
+</div>
+<div class="title">Figure 16. NeoPixel zero timing</div>
 </div>
 <div class="paragraph">
 <p>Each NeoPixel listens for a RGB value. Once a value has arrived all other values
@@ -4169,9 +4201,11 @@ grab the next value for itself and start over again.</p>
 <p><a href="#blocks_new_data_seq">NeoPixel data sequence</a> shows the sequence of bits used to control the
 green, red and blue values.</p>
 </div>
-<div id="blocks_new_data_seq" class="paragraph">
-<div class="title">NeoPixel data sequence</div>
-<p><span class="image"><img src="figures/neo_data_seq.png" alt="neo data seq"></span></p>
+<div id="blocks_new_data_seq" class="imageblock">
+<div class="content">
+<img src="figures/neo_data_seq.png" alt="neo data seq">
+</div>
+<div class="title">Figure 17. NeoPixel data sequence</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -4935,26 +4969,298 @@ the last number, or you numbers will get blurred together.</p>
 <div class="sect3">
 <h4 id="_problem_15"><a class="link" href="#_problem_15">Problem</a></h4>
 <div class="paragraph">
-<p>You have a RGB LED matrix (&lt;&lt;case_rgb_matrix..) and want to know
+<p>You have a RGB LED matrix (<a href="#case_rgb_matrix">[case_rgb_matrix]</a>) and want to know
 at a low level how the PRU works.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_solution_15"><a class="link" href="#_solution_15">Solution</a></h4>
 <div class="paragraph">
-<p>The best description I&#8217;ve found for the RGB Matrix is from
+<p>Here is the
+<a href="https://cdn-shop.adafruit.com/product-files/2277/MI-T35P5RGBE-AE.pdf">datasheet</a>,
+but the best description I&#8217;ve found for the RGB Matrix is from
 <a href="https://www.adafruit.com/">Adafruit</a>.  I&#8217;ve reproduced it here, with
 adjustments for the 64x32 matrix we are using.</p>
 </div>
 <div class="verseblock">
 <pre class="content">There&#8217;s zero documention out there on how these matrices work, and no public datasheets or spec sheets so we are going to try to document how they work.
 
-First thing to notice is that there are 2048 RGB LEDs in a 32x64 matrix. Like pretty much every matrix out there, you can&#8217;t drive all 2048 at once. One reason is that would require a lot of current, another reason is that it would be really expensive to have so many pins. Instead, the matrix is divided into 16 interleaved sections/strips. The first section is the 1<sup>st</sup> 'line' and the 17<sup>th</sup> 'line' (64 x 2 RGB LEDs = 128 RGB LEDs), the second is the 2<sup>nd</sup> and 18<sup>th</sup> line, etc until the last section which is the 16<sup>th</sup> and 32<sup>nd</sup> line. You might be asking, why are the lines paired this way? wouldnt it be nicer to have the first section be the 1<sup>st</sup> and 2<sup>nd</sup> line, then 3<sup>rd</sup> and 4<sup>th</sup>, until the 15<sup>th</sup> and 16<sup>th</sup>? The reason they do it this way is so that the lines are interleaved and look better when refreshed, otherwise we&#8217;d see the stripes more clearly.
+First thing to notice is that there are 2048 RGB LEDs in a 64x32 matrix. Like pretty much every matrix out there, you can&#8217;t drive all 2048 at once. One reason is that would require a lot of current, another reason is that it would be really expensive to have so many pins. Instead, the matrix is divided into 16 interleaved sections/strips. The first section is the 1<sup>st</sup> 'line' and the 17<sup>th</sup> 'line' (64 x 2 RGB LEDs = 128 RGB LEDs), the second is the 2<sup>nd</sup> and 18<sup>th</sup> line, etc until the last section which is the 16<sup>th</sup> and 32<sup>nd</sup> line. You might be asking, why are the lines paired this way? wouldnt it be nicer to have the first section be the 1<sup>st</sup> and 2<sup>nd</sup> line, then 3<sup>rd</sup> and 4<sup>th</sup>, until the 15<sup>th</sup> and 16<sup>th</sup>? The reason they do it this way is so that the lines are interleaved and look better when refreshed, otherwise we&#8217;d see the stripes more clearly.
 
-So, on the PCB is 24 LED driver chips. These are like 74HC595s but they have 16 outputs and they are constant current. 16 outputs * 24 chips = 384 LEDs that can be controlled at once, and 128 * 3 (R G and B) = 384. So now the design comes together: You have 384 outputs that can control one line at a time, with each of 384 R, G and B LEDs either on or off. The controller (say an FPGA or microcontroller) selects which section to currently draw (using A, B, C and D address pins - 4 bits can have 16 values). Once the address is set, the controller clocks out 384 bits of data (48 bytes) and latches it. Then it increments the address and clocks out another 384 bits, etc until it gets to address #15, then it sets the address back to #0</pre>
+So, on the PCB is 24 LED driver chips. These are like 74HC595s but they have 16 outputs and they are constant current. 16 outputs * 24 chips = 384 LEDs that can be controlled at once, and 128 * 3 (R G and B) = 384. So now the design comes together: You have 384 outputs that can control one line at a time, with each of 384 R, G and B LEDs either on or off. The controller (say an FPGA or microcontroller) selects which section to currently draw (using LA, LB, LC and LD address pins - 4 bits can have 16 values). Once the address is set, the controller clocks out 384 bits of data (48 bytes) and latches it. Then it increments the address and clocks out another 384 bits, etc until it gets to address #15, then it sets the address back to #0</pre>
 <div class="attribution">
 &#8212; https://cdn-learn.adafruit.com/downloads/pdf/32x16-32x32-rgb-led-matrix.pdf
 </div>
+</div>
+<div class="paragraph">
+<p>That gives a good overview, but there are a few details missing.
+<a href="#blocks_rgb_python">Python code for driving RGB LED matrix</a> is a functioning python program that gives a nice
+highlevel view of how to drive the display.</p>
+</div>
+<div id="blocks_rgb_python" class="listingblock">
+<div class="title">Python code for driving RGB LED matrix</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="python"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+</pre></td>
+  <td class="code"><pre><span class="comment"><mark>!/usr/bin/env python</span>
+<span class="keyword">import</span> <span class="include">Adafruit_BBIO.GPIO</span> <span class="keyword">as</span> GPIO
+
+<span class="comment"></mark> Define which functions are connect to which pins</span>
+OE=<span class="string"><span class="delimiter">&quot;</span><span class="content">P1_29</span><span class="delimiter">&quot;</span></span>      <span class="comment"># Output Enable, active low</span>
+LAT=<span class="string"><span class="delimiter">&quot;</span><span class="content">P1_36</span><span class="delimiter">&quot;</span></span>     <span class="comment"># Latch, toggle after clocking in a row of pixels</span>
+CLK=<span class="string"><span class="delimiter">&quot;</span><span class="content">P1_33</span><span class="delimiter">&quot;</span></span>     <span class="comment"># Clock, toggle after each pixel</span>
+
+<span class="comment"># Input data pins</span>
+R1=<span class="string"><span class="delimiter">&quot;</span><span class="content">P2_10</span><span class="delimiter">&quot;</span></span>  <span class="comment"># R1, G1, B1 are for the top rows (1-16) of pixels</span>
+G1=<span class="string"><span class="delimiter">&quot;</span><span class="content">P2_8</span><span class="delimiter">&quot;</span></span>
+B1=<span class="string"><span class="delimiter">&quot;</span><span class="content">P2_6</span><span class="delimiter">&quot;</span></span>
+
+R2=<span class="string"><span class="delimiter">&quot;</span><span class="content">P2_4</span><span class="delimiter">&quot;</span></span>   <span class="comment"># R2, G2, B2 are for the bottom rows (17-32) of pixels</span>
+G2=<span class="string"><span class="delimiter">&quot;</span><span class="content">P2_2</span><span class="delimiter">&quot;</span></span>
+B2=<span class="string"><span class="delimiter">&quot;</span><span class="content">P2_1</span><span class="delimiter">&quot;</span></span>
+
+LA=<span class="string"><span class="delimiter">&quot;</span><span class="content">P2_32</span><span class="delimiter">&quot;</span></span>  <span class="comment"># Address lines for which row (1-16 or 17-32) to update</span>
+LB=<span class="string"><span class="delimiter">&quot;</span><span class="content">P2_30</span><span class="delimiter">&quot;</span></span>
+LC=<span class="string"><span class="delimiter">&quot;</span><span class="content">P1_31</span><span class="delimiter">&quot;</span></span>
+LD=<span class="string"><span class="delimiter">&quot;</span><span class="content">P2_34</span><span class="delimiter">&quot;</span></span>
+
+<span class="comment"># Set everything as output ports</span>
+GPIO.setup(OE,  GPIO.OUT)
+GPIO.setup(LAT, GPIO.OUT)
+GPIO.setup(CLK, GPIO.OUT)
+
+GPIO.setup(R1, GPIO.OUT)
+GPIO.setup(G1, GPIO.OUT)
+GPIO.setup(B1, GPIO.OUT)
+GPIO.setup(R2, GPIO.OUT)
+GPIO.setup(G2, GPIO.OUT)
+GPIO.setup(B2, GPIO.OUT)
+
+GPIO.setup(LA, GPIO.OUT)
+GPIO.setup(LB, GPIO.OUT)
+GPIO.setup(LC, GPIO.OUT)
+GPIO.setup(LD, GPIO.OUT)
+
+GPIO.output(OE,  <span class="integer">0</span>)     <span class="comment"># Enable the display</span>
+GPIO.output(LAT, <span class="integer">0</span>)     <span class="comment"># Set latch to low</span>
+
+<span class="keyword">while</span> <span class="predefined-constant">True</span>:
+    <span class="keyword">for</span> bank <span class="keyword">in</span> <span class="predefined">range</span>(<span class="integer">16</span>):
+        GPIO.output(LA, bank&gt;&gt;<span class="integer">0</span>&amp;<span class="hex">0x1</span>)    <span class="comment"># Select rows</span>
+        GPIO.output(LB, bank&gt;&gt;<span class="integer">1</span>&amp;<span class="hex">0x1</span>)
+        GPIO.output(LC, bank&gt;&gt;<span class="integer">2</span>&amp;<span class="hex">0x1</span>)
+        GPIO.output(LD, bank&gt;&gt;<span class="integer">3</span>&amp;<span class="hex">0x1</span>)
+        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="predefined">range</span>(<span class="integer">16</span>):
+            GPIO.output(R1,  <span class="integer">1</span>)     <span class="comment"># Top row, white</span>
+            GPIO.output(G1,  <span class="integer">1</span>)
+            GPIO.output(B1,  <span class="integer">1</span>)
+
+            GPIO.output(R2,  <span class="integer">1</span>)     <span class="comment"># Bottom row, red</span>
+            GPIO.output(G2,  <span class="integer">0</span>)
+            GPIO.output(B2,  <span class="integer">0</span>)
+
+            GPIO.output(CLK, <span class="integer">0</span>)     <span class="comment"># Toggle clock</span>
+            GPIO.output(CLK, <span class="integer">1</span>)
+
+            GPIO.output(R1,  <span class="integer">0</span>)     <span class="comment"># Top row, black</span>
+            GPIO.output(G1,  <span class="integer">0</span>)
+            GPIO.output(B1,  <span class="integer">0</span>)
+
+            GPIO.output(R2,  <span class="integer">0</span>)     <span class="comment"># Bottom row, green</span>
+            GPIO.output(G2,  <span class="integer">1</span>)
+            GPIO.output(B2,  <span class="integer">0</span>)
+
+            GPIO.output(CLK, <span class="integer">0</span>)     <span class="comment"># Toggle clock</span>
+            GPIO.output(CLK, <span class="integer">1</span>)
+
+        GPIO.output(OE,  <span class="integer">1</span>)     <span class="comment"># Disable display while updating</span>
+        GPIO.output(LAT, <span class="integer">1</span>)     <span class="comment"># Toggle latch</span>
+        GPIO.output(LAT, <span class="integer">0</span>)
+        GPIO.output(OE,  <span class="integer">0</span>)     <span class="comment"># Enable display</span></pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Be sure to run the <a href="#blocks_rgb_setup">rgb_setup.sh</a> script before running the python code.</p>
+</div>
+<div id="blocks_rgb_setup" class="listingblock">
+<div class="title">rgb_setup.sh</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+</pre></td>
+  <td class="code"><pre>#!/bin/bash
+# Setup for 64x32 RGB Matrix
+export PRUN=0
+export TARGET=rgb1
+echo PRUN=$PRUN
+echo TARGET=$TARGET
+
+# Configure the PRU pins based on which Beagle is running
+machine=$(awk '{print $NF}' /proc/device-tree/model)
+echo -n $machine
+if [ $machine = &quot;Black&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;&quot;
+elif [ $machine = &quot;Blue&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;&quot;
+elif [ $machine = &quot;PocketBeagle&quot; ]; then
+    echo &quot; Found&quot;
+    prupins=&quot;P2_32 P1_31 P1_33 P1_29 P2_30 P2_34 P1_36&quot;
+    gpiopins=&quot;P2_10 P2_06 P2_04 P2_01 P2_08 P2_02&quot;
+else
+    echo &quot; Not Found&quot;
+    pins=&quot;&quot;
+fi
+
+for pin in $prupins
+do
+    echo $pin
+    # config-pin $pin pruout
+    config-pin $pin out
+    config-pin -q $pin
+done
+
+for pin in $gpiopins
+do
+    echo $pin
+    config-pin $pin out
+    config-pin -q $pin
+done</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Make sure line 29 is commented out and line 30 is uncoomented.
+Later we&#8217;ll configure for <em>pruout</em>, but for now the python code doesn&#8217;t use
+the PRU outs.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">    # config-pin $pin pruout
+    config-pin $pin out</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Your display should look like <a href="#blocks_rgb_python_jpg">Display running rgb_python.py</a>.</p>
+</div>
+<div id="blocks_rgb_python_jpg" class="paragraph">
+<div class="title">Display running rgb_python.py</div>
+<p><span class="image"><img src="figures/rgb_python.jpg" alt="Display running rgb_python.py"></span></p>
 </div>
 <div class="paragraph">
 <p>The connector looks like <a href="#blocks_matrix_j1">RGB Matrix J1 connector</a>.</p>
@@ -4963,7 +5269,7 @@ So, on the PCB is 24 LED driver chips. These are like 74HC595s but they have 16 
 <div class="content">
 <img src="figures/matrix_j1.jpg" alt="RGB Matrix J1 connector">
 </div>
-<div class="title">Figure 1. RGB Matrix J1 connector</div>
+<div class="title">Figure 18. RGB Matrix J1 connector</div>
 </div>
 </div>
 <div class="sect3">
@@ -5073,13 +5379,21 @@ So, on the PCB is 24 LED driver chips. These are like 74HC595s but they have 16 
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">LAT</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">P1_16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P1_36</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">3-14</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">110</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRU0.0</p></td>
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p>The J1 to gpio port and bit number comes from
+<a href="https://github.com/FalconChristmas/fpp/blob/master/src/pru/PocketScrollerV1.hp" class="bare">https://github.com/FalconChristmas/fpp/blob/master/src/pru/PocketScrollerV1.hp</a>.</p>
+</div>
+<div class="paragraph">
+<p>The gpio port and bit number mapping to Pocket Headers comes from
+<a href="https://docs.google.com/spreadsheets/d/1FRGvYOyW1RiNSEVprvstfJAVeapnASgDXHtxeDOjgqw/edit#gid=0" class="bare">https://docs.google.com/spreadsheets/d/1FRGvYOyW1RiNSEVprvstfJAVeapnASgDXHtxeDOjgqw/edit#gid=0</a>.</p>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -5205,7 +5519,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-08-01 09:30:11 EDT
+Last updated 2018-08-02 11:12:58 EDT
 </div>
 </div>
 </body>
