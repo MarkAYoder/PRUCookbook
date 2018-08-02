@@ -51,7 +51,7 @@
 #define GPIO_SETDATAOUT		0x194	// For setting the GPIO registers
 #define GPIO_DATAOUT		0x138	// For reading the GPIO registers
 
-#define DELAY 100
+#define DELAY 100	// Number of cycles (5ns each) to wait after a write
 
 volatile register uint32_t __R30;
 volatile register uint32_t __R31;
@@ -63,6 +63,7 @@ void main(void)
 	uint32_t *gpio1 = (uint32_t *)GPIO1;
 	uint32_t *gpio2 = (uint32_t *)GPIO2;
 	uint32_t *gpio3 = (uint32_t *)GPIO3;
+	uint32_t *gpio[] = {gpio0, gpio1, gpio2, gpio3};
 	
 	uint32_t i, row;
 
@@ -80,13 +81,15 @@ void main(void)
 
     	    for(i=0; i<64; i++) {
     	    	// Top row white
-    	      	gpio1[GPIO_SETDATAOUT/4] = (0x1<<r11_pin)|(0x1<<g11_pin)|(0x1<<b11_pin);
+    	    	// Combining these to one write works because they are all in 
+    	    	// the same gpio port
+    	      	gpio[r11_gpio][GPIO_SETDATAOUT/4] = (0x1<<r11_pin)|(0x1<<g11_pin)|(0x1<<b11_pin);
     	    	__delay_cycles(DELAY);;
     	      	
     	      	// Bottom row red
-    	      	gpio1[GPIO_SETDATAOUT/4]   = (0x1<<r12_pin);
+    	      	gpio[r11_gpio][GPIO_SETDATAOUT/4]   = (0x1<<r12_pin);
     	    	__delay_cycles(DELAY);
-    	      	gpio1[GPIO_CLEARDATAOUT/4] = (0x1<<g12_pin)|(0x1<<b12_pin);
+    	      	gpio[r11_gpio][GPIO_CLEARDATAOUT/4] = (0x1<<g12_pin)|(0x1<<b12_pin);
     	    	__delay_cycles(DELAY);
     	      	
                 __R30 |=  (0x1<<pru_clock);	// Toggle clock
@@ -95,13 +98,13 @@ void main(void)
     	    	__delay_cycles(DELAY);
     	    	
     	    	// Top row black
-    	    	gpio1[GPIO_CLEARDATAOUT/4] = (0x1<<r11_pin)|(0x1<<g11_pin)|(0x1<<b11_pin);
+    	    	gpio[r11_gpio][GPIO_CLEARDATAOUT/4] = (0x1<<r11_pin)|(0x1<<g11_pin)|(0x1<<b11_pin);
     	    	__delay_cycles(DELAY);
     	      	
     	      	// Bottom row green
-    	    	gpio1[GPIO_CLEARDATAOUT/4] = (0x1<<r12_pin)|(0x1<<b12_pin);
+    	    	gpio[r11_gpio][GPIO_CLEARDATAOUT/4] = (0x1<<r12_pin)|(0x1<<b12_pin);
     	    	__delay_cycles(DELAY);
-    	      	gpio1[GPIO_SETDATAOUT/4]   = (0x1<<g12_pin);
+    	      	gpio[r11_gpio][GPIO_SETDATAOUT/4]   = (0x1<<g12_pin);
     	    	__delay_cycles(DELAY);
     	      	
                 __R30 |=  (0x1<<pru_clock);	// Toggle clock
