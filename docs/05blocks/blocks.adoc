@@ -1300,7 +1300,7 @@ Your display should look like <<blocks_rgb_python_jpg>>.
 
 [[blocks_rgb_python_jpg]]
 .Display running rgb_python.py
-image:figures/rgb_python.jpg[Display running rgb_python.py]
+image::figures/rgb_python.jpg[Display running rgb_python.py]
 
 So why do only two lines appear at a time?  That's how the display works. 
 Currently lines 6 and 22 are showing, then a moment later 7 and 23 show, etc. 
@@ -1382,7 +1382,7 @@ LED matrix.
 
 [[blocks_rgb_waveforms]]
 .Oscilloscope display of CLK, OE, LAT and R1
-image:figures/rgb_waveforms.png[.Oscilloscope display of CLK, OE, LAT and R1]
+image::figures/rgb_waveforms.png[.Oscilloscope display of CLK, OE, LAT and R1]
 
 The top waveform is the CLK, the next is OE, followed by LAT and finally R1. 
 The OE (output enable) is active low, so most of the time the display is visible. 
@@ -1406,7 +1406,7 @@ assembly code.
 
 [[blocks_rgb_fpp]]
 .FPP waveforms
-image:figures/rgb_fpp.png[FPP waveforms]
+image::figures/rgb_fpp.png[FPP waveforms]
 
 ===== Getting More Colors
 The Adafruit description goes on to say:
