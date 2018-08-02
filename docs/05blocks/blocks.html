@@ -5669,8 +5669,14 @@ six bits (R1, G1, etc.) at a time, so 384/6=64 values need to be clocked in.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>Using the PRU we are able to run the clock a about 200 KHz. The optimized
-assembler code used by FPP runs at</p>
+<p>Using the PRU we are able to run the clock a about 200 KHz.
+<a href="#blocks_rgb_fpp">FPP waveforms</a> shows the optimized assembler code used by FPP clocks in
+at some 6.3 MHz.  So you can run some 30 times faster if you want to use
+assembly code.</p>
+</div>
+<div id="blocks_rgb_fpp" class="paragraph">
+<div class="title">FPP waveforms</div>
+<p><span class="image"><img src="figures/rgb_fpp.png" alt="FPP waveforms"></span></p>
 </div>
 <div class="sect4">
 <h5 id="_getting_more_colors"><a class="link" href="#_getting_more_colors">Getting More Colors</a></h5>
@@ -5813,7 +5819,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-08-02 13:51:44 EDT
+Last updated 2018-08-02 14:06:34 EDT
 </div>
 </div>
 </body>

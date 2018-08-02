@@ -1399,10 +1399,14 @@ six bits (R1, G1, etc.) at a time, so 384/6=64 values need to be clocked in.
 * Increment the address lines (LA, LB, LC and LD) to point to the next rows.
 * Keep repeating the above to keep the display lit.
 
-Using the PRU we are able to run the clock a about 200 KHz. The optimized 
-assembler code used by FPP runs at 
+Using the PRU we are able to run the clock a about 200 KHz. 
+<<blocks_rgb_fpp>> shows the optimized assembler code used by FPP clocks in 
+at some 6.3 MHz.  So you can run some 30 times faster if you want to use 
+assembly code.
 
-//TODO Find this number
+[[blocks_rgb_fpp]]
+.FPP waveforms
+image:figures/rgb_fpp.png[FPP waveforms]
 
 ===== Getting More Colors
 The Adafruit description goes on to say:
