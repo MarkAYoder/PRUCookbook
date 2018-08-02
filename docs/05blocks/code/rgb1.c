@@ -65,19 +65,22 @@ void main(void)
 	uint32_t *gpio3 = (uint32_t *)GPIO3;
 	
 	uint32_t i, row;
-	
+
 	while(1) {
 	    for(row=0; row<16; row++) {
-	        if(row&(0x1<<0)) __R30|=(0x1<<pru_sel0); else __R30&=~(0x1<<pru_sel0);
-	        __delay_cycles(DELAY);
-	        if(row&(0x1<<1)) __R30|=(0x1<<pru_sel1); else __R30&=~(0x1<<pru_sel1);
-	        __delay_cycles(DELAY);
-	        if(row&(0x1<<2)) __R30|=(0x1<<pru_sel2); else __R30&=~(0x1<<pru_sel2);
-	        __delay_cycles(DELAY);
-	        if(row&(0x1<<3)) __R30|=(0x1<<pru_sel3); else __R30&=~(0x1<<pru_sel3);
+	    	// Set the row address
+			// Here we take advantage of the select bits (LA,LB,LC,LD)
+			// being sequential in the R30 register (bits 2,3,4,5)
+			// We shift row over so it lines up with the select bits
+			// Oring (|=) with R30 sets bits to 1 and
+			// Anding (&=) clears bits to 0, the 0xffc mask makes sure the
+			// other bits aren't changed.
+	        __R30 |=  row<<pru_sel0;
+	        __R30 &= (row<<pru_sel0)|0xffc3;
 	        __delay_cycles(DELAY);
 	        
     	    for(i=0; i<64; i++) {
+    	    	// Top row white
     	      	gpio1[GPIO_SETDATAOUT/4] = (0x1 << r11_pin);
     	    	__delay_cycles(DELAY);
     	      	gpio1[GPIO_SETDATAOUT/4] = (0x1 << g11_pin);
@@ -85,6 +88,7 @@ void main(void)
     	      	gpio1[GPIO_SETDATAOUT/4] = (0x1 << b11_pin);
     	    	__delay_cycles(DELAY);
     	      	
+    	      	// Bottom row red
     	      	gpio1[GPIO_SETDATAOUT/4]   = (0x1 << r12_pin);
     	    	__delay_cycles(DELAY);
     	      	gpio1[GPIO_CLEARDATAOUT/4] = (0x1 << g12_pin);
@@ -92,11 +96,12 @@ void main(void)
     	      	gpio1[GPIO_CLEARDATAOUT/4] = (0x1 << b12_pin);
     	    	__delay_cycles(DELAY);
     	      	
-                __R30 |=  (0x1<<pru_clock);     // Toggle clock
+                __R30 |=  (0x1<<pru_clock);	// Toggle clock
     	    	__delay_cycles(DELAY);
         		__R30 &= ~(0x1<<pru_clock);
     	    	__delay_cycles(DELAY);
     	    	
+    	    	// Top row black
     	    	gpio1[GPIO_CLEARDATAOUT/4] = (0x1 << r11_pin);
     	    	__delay_cycles(DELAY);
     	      	gpio1[GPIO_CLEARDATAOUT/4] = (0x1 << g11_pin);
@@ -104,6 +109,7 @@ void main(void)
     	      	gpio1[GPIO_CLEARDATAOUT/4] = (0x1 << b11_pin);
     	    	__delay_cycles(DELAY);
     	      	
+    	      	// Bottom row green
     	    	gpio1[GPIO_CLEARDATAOUT/4] = (0x1 << r12_pin);
     	    	__delay_cycles(DELAY);
     	      	gpio1[GPIO_SETDATAOUT/4]   = (0x1 << g12_pin);
@@ -111,7 +117,7 @@ void main(void)
     	      	gpio1[GPIO_CLEARDATAOUT/4] = (0x1 << b12_pin);
     	    	__delay_cycles(DELAY);
     	      	
-                __R30 |=  (0x1<<pru_clock);      // Toggle clock
+                __R30 |=  (0x1<<pru_clock);	// Toggle clock
     	    	__delay_cycles(DELAY);
         		__R30 &= ~(0x1<<pru_clock);
     	    	__delay_cycles(DELAY);
