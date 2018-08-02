@@ -77,23 +77,16 @@ void main(void)
 			// other bits aren't changed.
 	        __R30 |=  row<<pru_sel0;
 	        __R30 &= (row<<pru_sel0)|0xffc3;
-	        __delay_cycles(DELAY);
-	        
+
     	    for(i=0; i<64; i++) {
     	    	// Top row white
-    	      	gpio1[GPIO_SETDATAOUT/4] = (0x1 << r11_pin);
-    	    	__delay_cycles(DELAY);
-    	      	gpio1[GPIO_SETDATAOUT/4] = (0x1 << g11_pin);
-    	    	__delay_cycles(DELAY);
-    	      	gpio1[GPIO_SETDATAOUT/4] = (0x1 << b11_pin);
-    	    	__delay_cycles(DELAY);
+    	      	gpio1[GPIO_SETDATAOUT/4] = (0x1<<r11_pin)|(0x1<<g11_pin)|(0x1<<b11_pin);
+    	    	__delay_cycles(DELAY);;
     	      	
     	      	// Bottom row red
-    	      	gpio1[GPIO_SETDATAOUT/4]   = (0x1 << r12_pin);
+    	      	gpio1[GPIO_SETDATAOUT/4]   = (0x1<<r12_pin);
     	    	__delay_cycles(DELAY);
-    	      	gpio1[GPIO_CLEARDATAOUT/4] = (0x1 << g12_pin);
-    	    	__delay_cycles(DELAY);
-    	      	gpio1[GPIO_CLEARDATAOUT/4] = (0x1 << b12_pin);
+    	      	gpio1[GPIO_CLEARDATAOUT/4] = (0x1<<g12_pin)|(0x1<<b12_pin);
     	    	__delay_cycles(DELAY);
     	      	
                 __R30 |=  (0x1<<pru_clock);	// Toggle clock
@@ -102,19 +95,13 @@ void main(void)
     	    	__delay_cycles(DELAY);
     	    	
     	    	// Top row black
-    	    	gpio1[GPIO_CLEARDATAOUT/4] = (0x1 << r11_pin);
-    	    	__delay_cycles(DELAY);
-    	      	gpio1[GPIO_CLEARDATAOUT/4] = (0x1 << g11_pin);
-    	    	__delay_cycles(DELAY);
-    	      	gpio1[GPIO_CLEARDATAOUT/4] = (0x1 << b11_pin);
+    	    	gpio1[GPIO_CLEARDATAOUT/4] = (0x1<<r11_pin)|(0x1<<g11_pin)|(0x1<<b11_pin);
     	    	__delay_cycles(DELAY);
     	      	
     	      	// Bottom row green
-    	    	gpio1[GPIO_CLEARDATAOUT/4] = (0x1 << r12_pin);
+    	    	gpio1[GPIO_CLEARDATAOUT/4] = (0x1<<r12_pin)|(0x1<<b12_pin);
     	    	__delay_cycles(DELAY);
-    	      	gpio1[GPIO_SETDATAOUT/4]   = (0x1 << g12_pin);
-    	    	__delay_cycles(DELAY);
-    	      	gpio1[GPIO_CLEARDATAOUT/4] = (0x1 << b12_pin);
+    	      	gpio1[GPIO_SETDATAOUT/4]   = (0x1<<g12_pin);
     	    	__delay_cycles(DELAY);
     	      	
                 __R30 |=  (0x1<<pru_clock);	// Toggle clock
@@ -123,11 +110,11 @@ void main(void)
     	    	__delay_cycles(DELAY);
     	    }
     	    __R30 |=  (0x1<<pru_oe);        // Disable display
-    	    	__delay_cycles(DELAY);
+    	   	__delay_cycles(DELAY);
     	    __R30 |=  (0x1<<pru_latch);     // Toggle latch
-    	    	__delay_cycles(DELAY);
+    	   	__delay_cycles(DELAY);
     	    __R30 &= ~(0x1<<pru_latch);
-    	    	__delay_cycles(DELAY);
+    	   	__delay_cycles(DELAY);
     	    __R30 &= ~(0x1<<pru_oe);        // Enable display
     	    __delay_cycles(DELAY);
 	    }
