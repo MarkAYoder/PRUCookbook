@@ -4,7 +4,6 @@
 #include "resource_table_empty.h"
 #include "rgb_pocket.h"
 
-// This is mine
 #define GPIO0	0x44e07000		// GPIO Bank 0  See Table 2.2 of TRM
 #define GPIO1	0x4804c000		// GPIO Bank 1
 #define GPIO2	0x481ac000		// GPIO Bank 2
@@ -22,10 +21,10 @@ void main(void)
 {
 	// Set up the pointers to each of the GPIO ports 
 	uint32_t *gpio[] = {
-			(uint32_t *)GPIO0, 
-			(uint32_t *)GPIO1, 
-			(uint32_t *)GPIO2, 
-			(uint32_t *)GPIO3
+			(uint32_t *) GPIO0, 
+			(uint32_t *) GPIO1, 
+			(uint32_t *) GPIO2, 
+			(uint32_t *) GPIO3
 		};
 	
 	uint32_t i, row;
