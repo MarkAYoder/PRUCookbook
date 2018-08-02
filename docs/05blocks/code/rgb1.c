@@ -21,26 +21,14 @@
 #define b12_gpio 1
 #define b12_pin 18
 
-// Control pins are all in GPIO3
-#define gpio_latch 14
-#define gpio_oe    21
-#define gpio_clock 15
-
-#define gpio_sel0 16	// must be sequential with sel1 and sel2
-#define gpio_sel1 17
-#define gpio_sel2 18
-#define gpio_sel3 19
-#define gpio_sel4 20
-
-#define pru_latch  0	// These are the bit positions on R30
+#define pru_latch  0	// These are the bit positions in R30
 #define pru_oe     7
 #define pru_clock  1
 
 #define pru_sel0   2	// These are called LA, LB, LC and LD in the python code
-#define pru_sel1   3
+#define pru_sel1   3	// Also bit positions
 #define pru_sel2   4
 #define pru_sel3   5
-#define pru_sel4   6
 
 // This is mine
 #define GPIO0	0x44e07000		// GPIO Bank 0  See Table 2.2 of TRM
@@ -59,11 +47,12 @@ volatile register uint32_t __R31;
 void main(void)
 {
 	// Set up the pointers to each of the GPIO ports 
-	uint32_t *gpio0 = (uint32_t *)GPIO0;
-	uint32_t *gpio1 = (uint32_t *)GPIO1;
-	uint32_t *gpio2 = (uint32_t *)GPIO2;
-	uint32_t *gpio3 = (uint32_t *)GPIO3;
-	uint32_t *gpio[] = {gpio0, gpio1, gpio2, gpio3};
+	uint32_t *gpio[] = {
+			(uint32_t *)GPIO0, 
+			(uint32_t *)GPIO1, 
+			(uint32_t *)GPIO2, 
+			(uint32_t *)GPIO3
+		};
 	
 	uint32_t i, row;
 
@@ -83,7 +72,8 @@ void main(void)
     	    	// Top row white
     	    	// Combining these to one write works because they are all in 
     	    	// the same gpio port
-    	      	gpio[r11_gpio][GPIO_SETDATAOUT/4] = (0x1<<r11_pin)|(0x1<<g11_pin)|(0x1<<b11_pin);
+    	      	gpio[r11_gpio][GPIO_SETDATAOUT/4] = (0x1<<r11_pin)
+    	      			|(0x1<<g11_pin)|(0x1<<b11_pin);
     	    	__delay_cycles(DELAY);;
     	      	
     	      	// Bottom row red
@@ -98,7 +88,8 @@ void main(void)
     	    	__delay_cycles(DELAY);
     	    	
     	    	// Top row black
-    	    	gpio[r11_gpio][GPIO_CLEARDATAOUT/4] = (0x1<<r11_pin)|(0x1<<g11_pin)|(0x1<<b11_pin);
+    	    	gpio[r11_gpio][GPIO_CLEARDATAOUT/4] = (0x1<<r11_pin)
+    	    			|(0x1<<g11_pin)|(0x1<<b11_pin);
     	    	__delay_cycles(DELAY);
     	      	
     	      	// Bottom row green

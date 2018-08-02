@@ -41,11 +41,14 @@ GPIO.output(OE,  0)     # Enable the display
 GPIO.output(LAT, 0)     # Set latch to low
 
 while True:
-    for bank in range(16):
+    for bank in range(64):
         GPIO.output(LA, bank>>0&0x1)    # Select rows
         GPIO.output(LB, bank>>1&0x1)
         GPIO.output(LC, bank>>2&0x1)
         GPIO.output(LD, bank>>3&0x1)
+        
+        # Shift the colors out.  Here we only have four different 
+        # colors to keep things simple.
         for i in range(16):
             GPIO.output(R1,  1)     # Top row, white
             GPIO.output(G1,  1)
