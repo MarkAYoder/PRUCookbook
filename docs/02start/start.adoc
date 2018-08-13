@@ -1,8 +1,10 @@
 include::../header.adoc[]
 
 == Getting Started
-This is mostly filler just to get a place to put things.
-
+We assume you have some experience with the Beagle and are here to learn about 
+the PRU.  This chapter discusses what Beagles are out there, how to load the 
+latest software image on your beagle, how to run the Cloud9 IDE and how to 
+blink an LED.
 
 === Selecting a Beagle
 
@@ -10,10 +12,84 @@ This is mostly filler just to get a place to put things.
 Which Beagle should you use?
 
 ==== Solution
-There are many to choose from.  Try the PocketBeagle, it's the newest.
+<http://beagleboard.org/boards> lists the many Beagles from which to choose.  
+Here we'll 
+give examples for the venerable http://beagleboard.org/black[BeagleBone Black], 
+the robotics http://beagleboard.org/blue[BeagleBone Blue] and 
+tiny http://beagleboard.org/pocket[PockeBeagle].  All the examples should also 
+run on the other Beagles too.
 
 ==== Discussion
-The Blue is a good choice if you are doing robotics.
+==== BeagleBone Black
+If you aren't sure which Beagle to use, it's hard to go wrong with the
+http://beagleboard.org/black[BeagleBone Black].  It's the most popular member of the open hardware Beagle family.
+
+[[start_black]]
+.BeagleBone Black
+image:figures/product_detail_black_sm.jpg[BeableBone Black]
+// TODO:  Remove magnifying glass.
+
+The Black has:
+
+* AM335x 1GHz ARM® Cortex-A8 processor
+* 512MB DDR3 RAM
+* 4GB 8-bit eMMC on-board flash storage
+* 3D graphics accelerator
+* NEON floating-point accelerator
+* 2x PRU 32-bit microcontrollers
+* USB client for power & communications
+* USB host
+* Ethernet
+* HDMI
+* 2x 46 pin headers
+
+See <http://beagleboard.org/black> for more details.
+
+==== BeagleBone Blue
+
+The http://beagleboard.org/blue[Blue] is a good choice if you are doing robotics.
+
+[[start_blue]]
+.BeagleBone Blue
+image::figures/beagle-blue.png[BeagleBone Blue]
+
+The Blue has everyting the Black has except the Ethernet and HDMI.  It also has
+
+* Wireless: 802.11bgn, Bluetooth 4.1 and BLE
+* Battery support: 2-cell LiPo with balancing, LED state-of-charge monitor
+* Charger input: 9-18V
+* Motor control: 8 6V servo out, 4 bidirectional DC motor out, 4 quadrature encoder in
+* Sensors: 9 axis IMU (accels, gyros, magnetometer), barometer, thermometer
+* User interface: 11 user programmable LEDs, 2 user programmable buttons
+
+In addition you can mount the Blue on the 
+https://www.renaissancerobotics.com/eduMIP.html[EduMIP kit] as shown in
+<<start_edumip>> to get a balancing robot.
+
+[[start_edumip]]
+.BeagleBone Blue EduMIP Kit
+image::figures/edumip.png[BeagleBone Blue EduMIP Kit]
+
+<https://www.hackster.io/53815/controlling-edumip-with-ni-labview-2005f8> 
+shows how to assemble the robot and control it from 
+http://www.ni.com/en-us/shop/labview.html[LabVIEW].
+
+===== PocketBeagle
+The http://beagleboard.org/pocket[PocketBeagle] is the newest member of the 
+Beagle family.  It is an ultra-tiny-yet-complete Beagle that is software 
+compatible with the other Beagles.
+
+[[start_pocket]]
+.PocketBeagle
+image::figures/PocketBeagle-size-compare-small.jpg[PocketBeagle]
+
+The Pocket is based on the same processor and the Black and Blue and has:
+
+* 8 analog inputs
+* 44 digital I/Os and 
+* numerous digital interface peripherals
+
+See <http://beagleboard.org/pocket> for more details.
 
 
 === Installing the Latest OS on Your Bone
@@ -24,11 +100,39 @@ You want to find the lastest version of Debian that is available for your Bone.
 ==== Solution
 On your host computer open a browser and go to
 http://rcn-ee.net/deb/testing/](http://rcn-ee.net/deb/testing/
-This show you a list of dates of the most recent Debian images.
+This shows you a list of dates of the most recent Debian images.
 
 .Latest Debian images
-image:figures/debianImages.png[Latest Debian images]
+image:figures/debianImages1.png[Latest Debian images]
 
+Scroll to the bottom of the list for that latest image as shown in
+<<start_images>>.
+
+[[start_images]]
+.Latest Debian images bottom view
+image:figures/debianImages2.png[Latest Debian images]
+
+Click on the most recent one and you'll see many choices as shown in 
+<<start_choices>>.
+
+[[start_choices]]
+.Debian Images from which to choose
+image::figures/debianImages3.png[Debian image choice]
+
+I suggest using the *stretch-iot* image.  *buster* is still a few months 
+from release at the time of this writing and isn't ready yet.  
+The other *stretech* images include 
+x-window packages which we don't need.  The *stretch-console* is a minimal 
+image which doesn't include things we do need.
+
+Click on *stretch-iot* and you'll see <<start_strtech>>.
+
+[[start_strtech]]
+.stretch-iot choices
+image::figures/debianImages4.png[stretch-iot choices]
+
+Download *bone-debian-9.5-iot-armhf-2018-08-12-4gb.img.xz*.  It contains all the 
+packages we'll need.
 
 === Cloud9 IDE
 ==== Problem
