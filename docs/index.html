@@ -533,12 +533,6 @@ compiling on the Beagle</p>
 <ul>
 <li>
 <p><a href="notes.html">Notes</a></p>
-</li>
-<li>
-<p><a href="style.html">Style</a></p>
-</li>
-<li>
-<p><a href="todo.html">To Do</a></p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -571,16 +565,22 @@ compiling on the Beagle</p>
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
-<p>&#10063; Hardware:  BeagleBone family or PocketBeagle</p>
+<p>&#10003; Selecting a Beagle</p>
 </li>
 <li>
-<p>&#10063; Downloading and flashing current image</p>
+<p>&#10003; Installing the Latest OS on Your Bone</p>
 </li>
 <li>
-<p>&#10063; Cloud9 IDE</p>
+<p>&#10003; Flashing a Micro SD Card</p>
 </li>
 <li>
-<p>&#10063; Blinking an LED</p>
+<p>&#10003; Cloud9 IDE</p>
+</li>
+<li>
+<p>&#10003; Getting Example Code</p>
+</li>
+<li>
+<p>&#10003; Blinking an LED</p>
 </li>
 </ul>
 </div>
@@ -590,13 +590,16 @@ compiling on the Beagle</p>
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
+<p>&#10003; Getting Code Example Files</p>
+</li>
+<li>
 <p>&#10003; Compiling and Running</p>
 </li>
 <li>
 <p>&#10003; Stopping and Starting the PRU</p>
 </li>
 <li>
-<p>&#10003; The standard Makefile</p>
+<p>&#10003; The Standard Makefile</p>
 </li>
 <li>
 <p>&#10003; Compiling with clpru and lnkpru</p>
@@ -605,7 +608,13 @@ compiling on the Beagle</p>
 <p>&#10003; The Linker Command File - AM335x_PRU.cmd</p>
 </li>
 <li>
-<p>&#10003; Loading firmware</p>
+<p>&#10003; Loading Firmware</p>
+</li>
+<li>
+<p>&#10003; Configuring Pins for Controlling Servos</p>
+</li>
+<li>
+<p>&#10003; Configuring Pins for Controlling Encoders</p>
 </li>
 </ul>
 </div>
@@ -619,7 +628,7 @@ compiling on the Beagle</p>
 <p>&#10003; dmesg –Hw</p>
 </li>
 <li>
-<p>&#10003; prudebug</p>
+<p>&#10003; prudebug - A Simple Debugger for the PRU</p>
 </li>
 <li>
 <p>&#10003; UART</p>
@@ -632,13 +641,52 @@ compiling on the Beagle</p>
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
-<p>&#10003; PWM generator</p>
+<p>&#10003; Memory Allocation</p>
+</li>
+<li>
+<p>&#10003; Auto Initialization of Built in LED Triggers</p>
+</li>
+<li>
+<p>&#10003; PWM Generator</p>
+</li>
+<li>
+<p>&#10003; Controlling the PWM Frequency</p>
+</li>
+<li>
+<p>&#10003; Loop Unrolling for Better Performance</p>
+</li>
+<li>
+<p>&#10003; Making All the Pulses Start at the Same Time</p>
+</li>
+<li>
+<p>&#10003; Adding More Channels via PRU 1</p>
+</li>
+<li>
+<p>&#10003; Sychronziing Two PRUs</p>
+</li>
+<li>
+<p>&#10003; Reading an Input at Regular Intervals</p>
 </li>
 <li>
 <p>&#10003; Analog Wave Generator</p>
 </li>
 <li>
-<p>&#10003; neoPixel driver</p>
+<p>&#10003; WS2812 (NeoPixel) driver</p>
+</li>
+<li>
+<p>&#10003; Setting NeoPixels to Different Colors</p>
+</li>
+<li>
+<p>&#10003; Controlling Arbitrary LEDs</p>
+</li>
+<li>
+<p>&#10003; Controlling NeoPixels Through a Kernel Driver</p>
+</li>
+<li>
+<p>&#10003; RGB LED Matrix - No Integrated Drivers</p>
+</li>
+<li>
+<p>&#10003; Compiling and Inserting rpmsg_pru</p>
 </li>
 </ul>
 </div>
@@ -649,8 +697,7 @@ compiling on the Beagle</p>
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
-<p>&#10003; /boot/uEnv.txt to access [P8 I/O]
-<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnote_3" title="View footnote.">3</a>]</sup></p>
+<p>&#10003; /boot/uEnv.txt to access P8 I/O</p>
 </li>
 <li>
 <p>&#10003; Accessing gpio</p>
@@ -663,21 +710,16 @@ compiling on the Beagle</p>
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
-<p>&#10003; Assembly Language Programming</p>
-</li>
-</ul>
-</div>
+<p>&#10003; Calling Assembly from C</p>
 </li>
 <li>
-<p>Alternate Tools
-<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnote_4" title="View footnote.">4</a>]</sup></p>
-<div class="ulist checklist">
-<ul class="checklist">
-<li>
-<p>&#10063; Barebones with Starterware</p>
+<p>&#10003; Returning a Value from Assembly</p>
 </li>
 <li>
-<p>&#10063; Other Kernel Versions</p>
+<p>&#10003; Using the Built In Counter for Timing</p>
+</li>
+<li>
+<p>&#10003; Xout and Xin - Transfering Between PRUs</p>
 </li>
 </ul>
 </div>
@@ -701,16 +743,10 @@ compiling on the Beagle</p>
 <div class="footnote" id="_footnote_2">
 <a href="#_footnoteref_2">2</a>. The split with talking to the ARM is a little confusing to me as I don&#8217;t know what the 'more' is.
 </div>
-<div class="footnote" id="_footnote_3">
-<a href="#_footnoteref_3">3</a>. What is the P8 issue?
-</div>
-<div class="footnote" id="_footnote_4">
-<a href="#_footnoteref_4">4</a>. You might make this just about <strong>alternate</strong> tools rather than necessarily older. You could provide relatively minimal pointers for anything beyond what is needed understand how the Case Studies work. Things like the gcc port could go here.
-</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-31 10:55:23 EDT
+Last updated 2018-08-13 13:12:58 EDT
 </div>
 </div>
 </body>

@@ -6,8 +6,6 @@ A cookbook for programming the PRUs in C using remoteproc and
 compiling on the Beagle
 
 * link:notes.html[Notes]
-* link:style.html[Style]
-* link:todo.html[To Do]
 
 . link:01case/case.html[Case Studies]
   ** [x] Robotics Control Library
@@ -19,45 +17,65 @@ compiling on the Beagle
 //  ** [ ] BeagleScope
   
 . link:02start/start.html[Getting started]
-  ** [ ] Hardware:  BeagleBone family or PocketBeagle
-  ** [ ] Downloading and flashing current image
-  ** [ ] Cloud9 IDE
-  ** [ ] Blinking an LED
+  ** [x] Selecting a Beagle
+  ** [x] Installing the Latest OS on Your Bone
+  ** [x] Flashing a Micro SD Card
+  ** [x] Cloud9 IDE
+  ** [x] Getting Example Code
+  ** [x] Blinking an LED
   
 . link:03details/details.html[Running a Program; Configuring Pins]
+  ** [x] Getting Code Example Files
   ** [x] Compiling and Running
   ** [x] Stopping and Starting the PRU
-  ** [x] The standard Makefile
+  ** [x] The Standard Makefile
   ** [x] Compiling with clpru and lnkpru
   ** [x] The Linker Command File - AM335x_PRU.cmd
-  ** [x] Loading firmware
+  ** [x] Loading Firmware
+  ** [x] Configuring Pins for Controlling Servos
+  ** [x] Configuring Pins for Controlling Encoders
   
 . link:04debug/debug.html[Debugging and Benchmarking]
 footnote:[Roadmap-wise, I'd want to consider how to plug RPMsg into a printf function to aide debug. I'm sure you've seen that with CCS in the past.]
   ** [x] dmesg –Hw
-  ** [x] prudebug
+  ** [x] prudebug - A Simple Debugger for the PRU
   ** [x] UART
   
 . link:05blocks/blocks.html[Building Blocks – Applications]
-  ** [x] PWM generator
-//  ** [ ] Encoder
+  ** [x] Memory Allocation
+  ** [x] Auto Initialization of Built in LED Triggers
+  ** [x] PWM Generator
+  ** [x] Controlling the PWM Frequency
+  ** [x] Loop Unrolling for Better Performance
+  ** [x] Making All the Pulses Start at the Same Time
+  ** [x] Adding More Channels via PRU 1
+  ** [x] Sychronziing Two PRUs
+  ** [x] Reading an Input at Regular Intervals
   ** [x] Analog Wave Generator
-  ** [x] neoPixel driver
+  ** [x] WS2812 (NeoPixel) driver
+  ** [x] Setting NeoPixels to Different Colors
+  ** [x] Controlling Arbitrary LEDs
+  ** [x] Controlling NeoPixels Through a Kernel Driver
+  ** [x] RGB LED Matrix - No Integrated Drivers
+  ** [x] Compiling and Inserting rpmsg_pru
+//  ** [ ] Encoder
 //  ** [ ] Ultrasonic Sensor Application
   
 . link:06io/io.html[Accessing More I/O]
 footnote:[The split with talking to the ARM is a little confusing to me as I don't know what the 'more' is.]
-  ** [x] /boot/uEnv.txt to access [P8 I/O]
-footnote:[What is the P8 issue?]
+  ** [x] /boot/uEnv.txt to access P8 I/O
   ** [x] Accessing gpio
 //  ** [ ] ECAP/PWM?
 
 . link:07more/more.html[More Performance]
-  ** [x] Assembly Language Programming
+  ** [x] Calling Assembly from C
+  ** [x] Returning a Value from Assembly
+  ** [x] Using the Built In Counter for Timing
+  ** [x] Xout and Xin - Transfering Between PRUs
 
-. Alternate Tools
-footnote:[You might make this just about *alternate* tools rather than necessarily older. You could provide relatively minimal pointers for anything beyond what is needed understand how the Case Studies work. Things like the gcc port could go here.]
-  ** [ ] Barebones with Starterware
-  ** [ ] Other Kernel Versions
+// . Alternate Tools
+// footnote:[You might make this just about *alternate* tools rather than necessarily older. You could provide relatively minimal pointers for anything beyond what is needed understand how the Case Studies work. Things like the gcc port could go here.]
+//   ** [ ] Barebones with Starterware
+//   ** [ ] Other Kernel Versions
 
 [common]: # "Some kind of intro to these building blocks is needed. Look at the TI examples for a good list."

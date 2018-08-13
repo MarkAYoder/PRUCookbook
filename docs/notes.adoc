@@ -3,3 +3,20 @@
 Here are things that might come in handy some time.
 
 http://blog.machinekit.io/2013/06/beagle-bone-pru-links.html[MachineKit PRU Links]
+
+== To Do
+
+Here are notes of things to do.
+
+* [x] Figure out the keyword for assembly language highlighting
+* [x] Line numbers on code
+* [x] How to collapse comment block at start of code
+* [x] How do to sub and super scripts.
+* [x] How do do page and secton numbers
+
+Switching to asciidoc
+
+* [x] Bold in code
+* [x] bone$ *command*
+* [x] Syntax highlighting
+* [x] Tables:  column width
