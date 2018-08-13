@@ -13,6 +13,7 @@ Here are notes of things to do.
 * [x] How to collapse comment block at start of code
 * [x] How do to sub and super scripts.
 * [x] How do do page and secton numbers
+* [ ] [source,bash][subs=+quotes] doesn't working in pdf
 
 Switching to asciidoc
 

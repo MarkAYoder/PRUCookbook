@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.4">
+<meta name="generator" content="Asciidoctor 1.5.5">
 <title>Running a Program; Configuring Pins</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -17,7 +17,6 @@ audio:not([controls]){display:none;height:0}
 [hidden],template{display:none}
 script{display:none!important}
 html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
-body{margin:0}
 a{background:transparent}
 a:focus{outline:thin dotted}
 a:active,a:hover{outline:0}
@@ -52,7 +51,7 @@ textarea{overflow:auto;vertical-align:top}
 table{border-collapse:collapse;border-spacing:0}
 *,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
 html,body{font-size:100%}
-body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
 a:hover{cursor:pointer}
 img,object,embed{max-width:100%;height:auto}
 object,embed{height:100%}
@@ -64,7 +63,6 @@ img{-ms-interpolation-mode:bicubic}
 .text-center{text-align:center!important}
 .text-justify{text-align:justify!important}
 .hide{display:none}
-body{-webkit-font-smoothing:antialiased}
 img,object,svg{display:inline-block;vertical-align:middle}
 textarea{height:auto;min-height:50px}
 select{width:100%}
@@ -119,13 +117,16 @@ table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:
 table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
 table tr.even,table tr.alt,table tr:nth-of-type(even){background:#f8f8f7}
 table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
-body{tab-size:4}
 h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
 h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
 .clearfix:before,.clearfix:after,.float-group:before,.float-group:after{content:" ";display:table}
 .clearfix:after,.float-group:after{clear:both}
-*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
+*:not(pre)>code.nobreak{word-wrap:normal}
+*:not(pre)>code.nowrap{white-space:nowrap}
 pre,pre>code{line-height:1.45;color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;text-rendering:optimizeSpeed}
+em em{font-style:normal}
+strong strong{font-weight:400}
 .keyseq{color:rgba(51,51,51,.8)}
 kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
 .keyseq kbd:first-child{margin-left:0}
@@ -515,7 +516,7 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel1">
 <li><a href="#_running_a_program_configuring_pins">1. Running a Program; Configuring Pins</a>
 <ul class="sectlevel2">
-<li><a href="#_getting_code_example_files">1.1. Getting Code Example Files</a></li>
+<li><a href="#_getting_example_code">1.1. Getting Example Code</a></li>
 <li><a href="#_compiling_and_running">1.2. Compiling and Running</a></li>
 <li><a href="#_stopping_and_starting_the_pru">1.3. Stopping and Starting the PRU</a></li>
 <li><a href="#details_makefile">1.4. The Standard Makefile</a></li>
@@ -566,7 +567,7 @@ compile code and also start and stop the PRUs.</p>
 </ul>
 </div>
 <div class="sect2">
-<h3 id="_getting_code_example_files"><a class="link" href="#_getting_code_example_files">1.1. Getting Code Example Files</a></h3>
+<h3 id="_getting_example_code"><a class="link" href="#_getting_example_code">1.1. Getting Example Code</a></h3>
 <div class="sect3">
 <h4 id="_problem"><a class="link" href="#_problem">Problem</a></h4>
 <div class="paragraph">
@@ -781,7 +782,11 @@ and then restarts the PRU.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>make stop</strong>
-bone$ <strong>make start</strong></code></pre>
+-    Stopping PRU 0
+stop
+bone$ <strong>make start</strong>
+-    Starting PRU 0
+start</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1418,28 +1423,34 @@ the heap are in the locations below 0x0200.</p>
 <p>The PRUs appear in the Linux file space at
 <code>/sys/devices/platform/ocp/4a32600*.pruss-soc-bus/4a300000.pruss</code>.</p>
 </div>
-<div class="paragraph">
+<div class="listingblock">
 <div class="title">Finding the PRUs</div>
-<p><code>bone$ <strong>cd /sys/devices/platform/ocp/4a326000.pruss-soc-bus/4a300000.pruss</strong></code><br>
-<code>bone$ <strong>ls</strong></code><br>
-<code>4a320000.intc  4a338000.pru1  driver_override  of_node  subsystem</code><br>
-<code>4a334000.pru0  driver         modalias         power    uevent</code><br></p>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>cd /sys/devices/platform/ocp/4a326000.pruss-soc-bus/4a300000.pruss</strong>
+bone$ <strong>ls</strong>
+4a320000.intc  4a338000.<strong>pru1</strong>  driver_override  of_node  subsystem
+4a334000.<strong>pru0</strong>  driver         modalias         power    uevent</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>Here we see PRU 0 and PRU 1 in the path.  Let&#8217;s follow PRU 0.</p>
 </div>
-<div class="paragraph">
-<p><code>bone$ <strong>cd 4a334000.pru0/remoteproc/remoteproc1</strong></code><br>
-<code>bone$ <strong>ls</strong></code><br>
-<code>device  firmware  power  state  subsystem  uevent</code><br></p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>cd 4a334000.pru0/remoteproc/remoteproc1</strong>
+bone$ <strong>ls</strong>
+device  firmware  power  state  subsystem  uevent</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>Here we see the files that control PRU 0.  <code>firmware</code> tells where in <code>/lib/firmware</code>
 to look for the code to run on the PRU.</p>
 </div>
-<div class="paragraph">
-<p><code>bone$ <strong>cat firmware</strong></code><br>
-<code>am335x-pru0-fw</code></p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>cat firmware</strong>
+am335x-pru0-fw</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>Therefore you copy your <code>.out</code> file to <code>/lib/firmware/am335x-pru0-fw</code>.</p>
@@ -1659,7 +1670,7 @@ to the hardware eQEPs and other to the PRU inputs.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-23 10:55:45 EDT
+Last updated 2018-08-13 13:26:49 EDT
 </div>
 </div>
 </body>

@@ -194,7 +194,7 @@ uio                    20480  2 uio_pruss,uio_pdrv_genirq
 ----
 You are now ready to run the legacy PRU code.
 
-==== Discussion
+// ==== Discussion
 
 // ToDo, is there anything to discuss?
 

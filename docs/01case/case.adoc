@@ -7,7 +7,7 @@ Make:'s https://makezine.com/comparison/boards/[Makers' Guide to Boards] shows
 many of the options that are available and groups them into different types.  
 _Single board computers_ (SBCs) generally run Linux on some sort of https://www.arm.com/[ARM]
 processor.  Examples are the BeagleBoard and the Raspberry Pi.  Another type
-is the _microcontroller_, of which the https://www.arduino.cc/[Arduion] is 
+is the _microcontroller_, of which the https://www.arduino.cc/[Arduino] is 
 popular.  
 
 The SBCs are used because they have an operating system to manage files, I/O, and schedule when things are run all while possibly talking to the Internet.  
@@ -18,13 +18,12 @@ operation.
 But what if you have a projcet that needs the flexibility of an OS and the timing 
 of a microcontroller?  This is where the BeagleBoard excells since it has both 
 an ARM procssor running Linux and two **P**rogrammable **R**eal-Time **U**nits (PRUs).
-
 The PRUs have 32-bit cores which run
 independently of the ARM processor, therefore they can
 be programmed to respond quickly to inputs and produce very precisely timed 
 outputs. 
 
-There are many projects that use the PRU (<http://processors.wiki.ti.com/index.php/PRU_Projects>) to do things that can't be 
+There are many projects that use the PRU (http://processors.wiki.ti.com/index.php/PRU_Projects) to do things that can't be 
 done with just a SBC or just a microcontroller. Here we present some case studies that give a high-level view of using the PRUs.  In later
 chapters you will see the details of how they work.
 
@@ -34,8 +33,8 @@ Here we present
 * BeagleLogic <https://github.com/abhishek-kakkar/BeagleLogic/wiki>
 * NeoPixels - 5050 RGB LEDs with Integrated Drivers (LEDscape) <https://github.com/Yona-Appletree/LEDscape>
 * RGB LED Matrix (Falcon Christmas) <http://falconchristmas.com>
-* MachineKit <http://www.machinekit.io/>
-* ArduPilot <http://ardupilot.org/>, <http://ardupilot.org/dev/docs/beaglepilot.html>
+// * MachineKit <http://www.machinekit.io/>
+// * ArduPilot <http://ardupilot.org/>, <http://ardupilot.org/dev/docs/beaglepilot.html>
 // * BeagleScope <https://github.com/ZeekHuge/BeagleScope>
 
 The following are resources used in this chapter.

@@ -1,9 +1,7 @@
-include::header.adoc[]
-
 = PRU Cookbook
-:author: Mark A. Yoder
-:email:	Mark.A.Yoder@Rose-Hulman.edu
+Mark A. Yoder <Mark.A.Yoder@Rose-Hulman.edu>
 
+<<<
 :imagesdir: ./01case
 include::01case/case.adoc[]
 

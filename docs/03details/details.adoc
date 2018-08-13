@@ -16,7 +16,7 @@ The following are resources used in this chapter.
 * http://www.ti.com/lit/ug/spruhv6b/spruhv6b.pdf[PRU Assembly Language Tools]
 * https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]
 
-=== Getting Code Example Files
+=== Getting Example Code
 ==== Problem
 I want to get the files used in this book.
 
@@ -121,7 +121,11 @@ It's easy.
 [subs=+quotes]
 ----
 bone$ *make stop*
+-    Stopping PRU 0
+stop
 bone$ *make start*
+-    Starting PRU 0
+start
 ----
 See <<../04debug/debug.html#_dmesg_hw,dmesg -Hw>> to see how to tell if the PRU
 is stopped.
@@ -317,22 +321,34 @@ The PRUs appear in the Linux file space at
 `/sys/devices/platform/ocp/4a32600*.pruss-soc-bus/4a300000.pruss`.
 
 .Finding the PRUs
-`bone$ *cd /sys/devices/platform/ocp/4a326000.pruss-soc-bus/4a300000.pruss*` +
-`bone$ *ls*` + 
-`4a320000.intc  4a338000.pru1  driver_override  of_node  subsystem` +
-`4a334000.pru0  driver         modalias         power    uevent` +
+[source,bash]
+[subs=+quotes]
+----
+bone$ *cd /sys/devices/platform/ocp/4a326000.pruss-soc-bus/4a300000.pruss*
+bone$ *ls*
+4a320000.intc  4a338000.*pru1*  driver_override  of_node  subsystem
+4a334000.*pru0*  driver         modalias         power    uevent
+----
 
 Here we see PRU 0 and PRU 1 in the path.  Let's follow PRU 0.
 
-`bone$ *cd 4a334000.pru0/remoteproc/remoteproc1*` +
-`bone$ *ls*` +
-`device  firmware  power  state  subsystem  uevent` +
+[source,bash]
+[subs=+quotes]
+----
+bone$ *cd 4a334000.pru0/remoteproc/remoteproc1*
+bone$ *ls*
+device  firmware  power  state  subsystem  uevent
+----
 
 Here we see the files that control PRU 0.  `firmware` tells where in `/lib/firmware`
 to look for the code to run on the PRU.
 
-`bone$ *cat firmware*` +
-`am335x-pru0-fw`
+[source,bash]
+[subs=+quotes]
+----
+bone$ *cat firmware*
+am335x-pru0-fw
+----
 
 Therefore you copy your `.out` file to `/lib/firmware/am335x-pru0-fw`.
 
