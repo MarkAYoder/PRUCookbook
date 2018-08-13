@@ -518,8 +518,10 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_selecting_a_beagle">1.1. Selecting a Beagle</a></li>
 <li><a href="#_installing_the_latest_os_on_your_bone">1.2. Installing the Latest OS on Your Bone</a></li>
-<li><a href="#_cloud9_ide">1.3. Cloud9 IDE</a></li>
-<li><a href="#_blinking_an_led">1.4. Blinking an LED</a></li>
+<li><a href="#_flashing_a_micro_sd_card">1.3. Flashing a Micro SD Card</a></li>
+<li><a href="#_cloud9_ide">1.4. Cloud9 IDE</a></li>
+<li><a href="#_getting_example_code">1.5. Getting Example Code</a></li>
+<li><a href="#_blinking_an_led">1.6. Blinking an LED</a></li>
 </ul>
 </li>
 </ul>
@@ -537,6 +539,11 @@ table.CodeRay td.code>pre{padding:0}
 the PRU.  This chapter discusses what Beagles are out there, how to load the
 latest software image on your beagle, how to run the Cloud9 IDE and how to
 blink an LED.</p>
+</div>
+<div class="paragraph">
+<p>If you already have your Beagle and know your way around it, you can find the
+code (and the whole book) on the PRU Cookbook github site:
+<a href="https://github.com/MarkAYoder/PRUCookbook/tree/master/docs" class="bare">https://github.com/MarkAYoder/PRUCookbook/tree/master/docs</a>.</p>
 </div>
 <div class="sect2">
 <h3 id="_selecting_a_beagle"><a class="link" href="#_selecting_a_beagle">1.1. Selecting a Beagle</a></h3>
@@ -715,7 +722,7 @@ compatible with the other Beagles.</p>
 <div class="paragraph">
 <p>On your host computer open a browser and go to
 <a href="http://rcn-ee.net/deb/testing/" class="bare">http://rcn-ee.net/deb/testing/</a>](<a href="http://rcn-ee.net/deb/testing/" class="bare">http://rcn-ee.net/deb/testing/</a>
-This show you a list of dates of the most recent Debian images.</p>
+This shows you a list of dates of the most recent Debian images.</p>
 </div>
 <div class="paragraph">
 <div class="title">Latest Debian images</div>
@@ -741,9 +748,10 @@ This show you a list of dates of the most recent Debian images.</p>
 </div>
 <div class="paragraph">
 <p>I suggest using the <strong>stretch-iot</strong> image.  <strong>buster</strong> is still a few months
-from release at the time of this writting.  The other <strong>stretech</strong> images include
+from release at the time of this writing and isn&#8217;t ready yet.
+The other <strong>stretech</strong> images include
 x-window packages which we don&#8217;t need.  The <strong>stretch-console</strong> is a minimal
-image which doesn&#8217;t linclude things we do need.</p>
+image which doesn&#8217;t include things we do need.</p>
 </div>
 <div class="paragraph">
 <p>Click on <strong>stretch-iot</strong> and you&#8217;ll see <a href="#start_strtech">stretch-iot choices</a>.</p>
@@ -761,29 +769,90 @@ packages we&#8217;ll need.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_cloud9_ide"><a class="link" href="#_cloud9_ide">1.3. Cloud9 IDE</a></h3>
+<h3 id="_flashing_a_micro_sd_card"><a class="link" href="#_flashing_a_micro_sd_card">1.3. Flashing a Micro SD Card</a></h3>
 <div class="sect3">
 <h4 id="_problem_3"><a class="link" href="#_problem_3">Problem</a></h4>
 <div class="paragraph">
-<p>How do I manage and edit my files?</p>
+<p>I&#8217;ve downloaded the image and need to flash my micro SD card.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_solution_3"><a class="link" href="#_solution_3">Solution</a></h4>
 <div class="paragraph">
-<p>Cloud9</p>
+<p>Get a micro SD card that has at least 4GB and preferibly 8GB.</p>
 </div>
 <div class="paragraph">
-<div class="title">The Cloud9 IDE</div>
-<p><span class="image"><img src="figures/c9.png" alt="The Cloud9 IDE"></span></p>
+<p>There are many ways to flash the card, but the best seems to be Etcher by
+<em>resin.io</em>.  Go to <a href="https://etcher.io/" class="bare">https://etcher.io/</a> and download the version for your host
+computer.  Fire up Etcher, select the image you just downloaded (no need to
+uncompress it, Etcher does it for you), select the SD card and hit the <strong>Flash</strong>
+button and wait for it to finish.</p>
+</div>
+<div id="start_etcher" class="imageblock">
+<div class="content">
+<img src="figures/etcher.png" alt="Ether">
+</div>
+<div class="title">Figure 6. Etcher</div>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_blinking_an_led"><a class="link" href="#_blinking_an_led">1.4. Blinking an LED</a></h3>
+<h3 id="_cloud9_ide"><a class="link" href="#_cloud9_ide">1.4. Cloud9 IDE</a></h3>
+<div class="sect3">
+<h4 id="_problem_4"><a class="link" href="#_problem_4">Problem</a></h4>
+<div class="paragraph">
+<p>How do I manage and edit my files?</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_4"><a class="link" href="#_solution_4">Solution</a></h4>
+<div class="paragraph">
+<p>The image you downloaded includes <a href="https://aws.amazon.com/cloud9/">Cloud9</a>
+a web-based intergrated development environment (IDE) as shown in
+<a href="#start_c9">Cloud9 IDE</a>.</p>
+</div>
+<div id="start_c9" class="paragraph">
+<div class="title">Cloud9 IDE</div>
+<p><span class="image"><img src="figures/c9.png" alt="The Cloud9 IDE"></span></p>
+</div>
+<div class="paragraph">
+<p>Just point the browswer on your host computer to <a href="http://192.168.7.2:3000" class="bare">http://192.168.7.2:3000</a>
+and start exploring.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_getting_example_code"><a class="link" href="#_getting_example_code">1.5. Getting Example Code</a></h3>
+<div class="sect3">
+<h4 id="_problem_5"><a class="link" href="#_problem_5">Problem</a></h4>
+<div class="paragraph">
+<p>You are ready to start playing with the examples and need to find the code.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_5"><a class="link" href="#_solution_5">Solution</a></h4>
+<div class="paragraph">
+<p>You can find the code (and the whole book) on the PRU Cookbook github site:
+<a href="https://github.com/MarkAYoder/PRUCookbook/tree/master/docs" class="bare">https://github.com/MarkAYoder/PRUCookbook/tree/master/docs</a>.  Just clone
+it and then look in the <strong>docs</strong> directory.  Each chapter has its own
+directory and within that directory is a <strong>code</strong> directory that has all of the
+code.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_blinking_an_led"><a class="link" href="#_blinking_an_led">1.6. Blinking an LED</a></h3>
+<div class="sect3">
+<h4 id="_problem_6"><a class="link" href="#_problem_6">Problem</a></h4>
+<div class="paragraph">
+<p>You want to make sure everything is set up by blinking an LED.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_6"><a class="link" href="#_solution_6">Solution</a></h4>
 <div class="paragraph">
 <p>The 'hello, world' of the embedded world is to flash an LED. <a href="#start_hello">hello.c</a>
-is some code that blinks the <code>USR3</code> LED five times.</p>
+is some code that blinks the <code>USR3</code> LED five times using the PRU.</p>
 </div>
 <div id="start_hello" class="listingblock">
 <div class="title">hello.c</div>
@@ -858,7 +927,34 @@ is some code that blinks the <code>USR3</code> LED five times.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Later chapters will go into details of how this code works.</p>
+<p>Later chapters will go into details of how this code works, but if you want
+to run it right now do the following.</p>
+</div>
+<div id="start_running_code" class="listingblock">
+<div class="title">Running Code</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>git clone https://github.com/MarkAYoder/PRUCookbook.git</strong>
+bone$ <strong>cd PRUCookbook/docs/02start/code</strong>
+bone$ <strong>source setup.sh</strong>
+PRUN=0
+TARGET=hello
+bone$ <strong>make</strong>
+-    Stopping PRU 0
+[sudo] password for debian:
+stop
+CC  hello.c
+LD  /tmp/pru0-gen/hello.obj
+-   copying firmware file /tmp/pru0-gen/hello.out to /lib/firmware/am335x-pru0-fw
+-    Starting PRU 0
+start</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Look quickly and you will see the <code>USR3</code> LED blinking.</p>
+</div>
+<div class="paragraph">
+<p>Later sections give more details on how all this works.</p>
+</div>
 </div>
 </div>
 </div>
@@ -866,7 +962,7 @@ is some code that blinks the <code>USR3</code> LED five times.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-08-13 10:33:50 EDT
+Last updated 2018-08-13 12:19:18 EDT
 </div>
 </div>
 </body>

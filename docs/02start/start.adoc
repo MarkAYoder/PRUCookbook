@@ -6,6 +6,10 @@ the PRU.  This chapter discusses what Beagles are out there, how to load the
 latest software image on your beagle, how to run the Cloud9 IDE and how to 
 blink an LED.
 
+If you already have your Beagle and know your way around it, you can find the
+code (and the whole book) on the PRU Cookbook github site: 
+<https://github.com/MarkAYoder/PRUCookbook/tree/master/docs>. 
+
 === Selecting a Beagle
 
 ==== Problem
@@ -134,20 +138,59 @@ image::figures/debianImages4.png[stretch-iot choices]
 Download *bone-debian-9.5-iot-armhf-2018-08-12-4gb.img.xz*.  It contains all the 
 packages we'll need.
 
+=== Flashing a Micro SD Card
+==== Problem
+I've downloaded the image and need to flash my micro SD card.
+
+==== Solution
+Get a micro SD card that has at least 4GB and preferibly 8GB.  
+
+There are many ways to flash the card, but the best seems to be Etcher by
+_resin.io_.  Go to <https://etcher.io/> and download the version for your host 
+computer.  Fire up Etcher, select the image you just downloaded (no need to 
+uncompress it, Etcher does it for you), select the SD card and hit the *Flash* 
+button and wait for it to finish.
+
+[[start_etcher]]
+.Etcher
+image::figures/etcher.png[Ether]
+
+
 === Cloud9 IDE
 ==== Problem
 How do I manage and edit my files?
 
 ==== Solution
-Cloud9
+The image you downloaded includes https://aws.amazon.com/cloud9/[Cloud9] 
+a web-based intergrated development environment (IDE) as shown in 
+<<start_c9>>.
 
-.The Cloud9 IDE
+[[start_c9]]
+.Cloud9 IDE
 image:figures/c9.png[The Cloud9 IDE]
+
+Just point the browswer on your host computer to <http://192.168.7.2:3000> 
+and start exploring.
+
+=== Getting Example Code
+==== Problem
+You are ready to start playing with the examples and need to find the code.
+
+==== Solution
+You can find the code (and the whole book) on the PRU Cookbook github site: 
+<https://github.com/MarkAYoder/PRUCookbook/tree/master/docs>.  Just clone 
+it and then look in the *docs* directory.  Each chapter has its own
+directory and within that directory is a *code* directory that has all of the 
+code.
 
 
 === Blinking an LED
+==== Problem
+You want to make sure everything is set up by blinking an LED.
+
+==== Solution
 The 'hello, world' of the embedded world is to flash an LED. <<start_hello>> 
-is some code that blinks the `USR3` LED five times.
+is some code that blinks the `USR3` LED five times using the PRU.
 
 [[start_hello]]
 .hello.c
@@ -157,4 +200,30 @@ is some code that blinks the `USR3` LED five times.
 include::code/hello.c[]
 ----
 
-Later chapters will go into details of how this code works.
+Later chapters will go into details of how this code works, but if you want 
+to run it right now do the following.
+
+[[start_running_code]]
+.Running Code
+[source,bash]
+[subs=+quotes]
+----
+bone$ *git clone https://github.com/MarkAYoder/PRUCookbook.git*
+bone$ *cd PRUCookbook/docs/02start/code*
+bone$ *source setup.sh*
+PRUN=0
+TARGET=hello
+bone$ *make*
+-    Stopping PRU 0
+[sudo] password for debian: 
+stop
+CC	hello.c
+LD	/tmp/pru0-gen/hello.obj
+-	copying firmware file /tmp/pru0-gen/hello.out to /lib/firmware/am335x-pru0-fw
+-    Starting PRU 0
+start
+----
+
+Look quickly and you will see the `USR3` LED blinking.  
+
+Later sections give more details on how all this works.
