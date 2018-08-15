@@ -10,7 +10,8 @@ processor.  Examples are the BeagleBoard and the Raspberry Pi.  Another type
 is the _microcontroller_, of which the https://www.arduino.cc/[Arduino] is 
 popular.  
 
-The SBCs are used because they have an operating system to manage files, I/O, and schedule when things are run all while possibly talking to the Internet.  
+The SBCs are used because they have an operating system to manage files, I/O, 
+and schedule when things are run, all while possibly talking to the Internet.  
 Microcontrollers shine when things 
 being interfaced require careful timing and can't afford to have an OS preempt an 
 operation.
@@ -50,22 +51,28 @@ Robotics is an embedded application that often requires both an SBC to control t
 high-level tasks (such as path planning, line following, communicating with the user)
 _and_ a microcontroller to handle the low-level tasks (such as telling motors how fast
 to turn, or how to balance in response to an IMU input).  The 
-https://www.ucsdrobotics.org/edumip[EduMIP] 
-https://www.hackster.io/edumip/edumip-13a29c[balancing robot] based on the BeagleBone
-Blue demonstrates that by using the PRU, the Blue can handle both the high and low -level 
-tasks without an additional microcontroller.
+https://www.ucsdrobotics.org/edumip[EduMIP] balancing 
+https://www.hackster.io/edumip/edumip-13a29c[robot] 
+demonstrates that by using the PRU, the Blue can handle both the high 
+and low -level tasks without an additional microcontroller. The EduMIP is shown 
+in <<case_blue>>.
+
+[[case_blue]]
+.Blue balancing
+image:figures/blue.png[Blue balancing]
 
 The http://strawsondesign.com/docs/roboticscape/[Robotics Control Library] is a 
 package that is already installed on the Blue, Black and Pocket, 
 that contains a C library and example/testing programs. It uses the PRU to extend the 
-real-time hardware of the Bone by adding eight addional servor channels and one 
+real-time hardware of the Bone by adding eight addional servo channels and one 
 addition real-time encoder input.
 
 The following examples show how easy it is to use the PRU for robotics.
 
 ==== Controlling Eight Servos
 ===== Problem
-You need to control eight servos, but the Bone doesn't have enough PWMs
+You need to control eight servos, but the Bone doesn't have enough pulse width 
+modulation (PWM) channels
 and you don't want to add hardware.  
 
 ===== Solution
@@ -131,6 +138,7 @@ The BeagleBone Blue sends these eight outputs to it's servo channels.  The Black
 You can find these details in the 
 https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP8HeaderTable.pdf[P8 Header Table], 
 https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf[P9 Header Table] and then https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#673_PRUICSS_Pin_Access[Pocket Beagle System Reference Manual].
+(Here is a more usable version of the https://docs.google.com/spreadsheets/d/1FRGvYOyW1RiNSEVprvstfJAVeapnASgDXHtxeDOjgqw/edit?usp=sharing[table].)
 
 Be default the PRUs are already loaded with the code needed to run the
 servos.  All you have to do is run the command.
@@ -156,7 +164,7 @@ I need more than eight PWM channels, or I need less jitter on the off time.
 
 ===== Solution
 This is a more advanced problem and required reprograming the PRUs.  See 
-<<../05blocks/blocks.html#_pwm_generator, PWM Generator>> for an example.
+<<../05blocks/blocks.html#blocks_pwm, PWM Generator>> for an example.
 // ToDo, fill in XXXXX
 
 
@@ -176,8 +184,10 @@ Raw encoder positions
       E1   |      E2   |      E3   | 
          0 |         0 |         0 |^C
 ----
-You can also access these hardware encoders on the Black and Pocket using the pins shown below.
+You can also access these hardware encoders on the Black and Pocket using the 
+pins shown in <<case_pin_mapping>>.
 
+[[case_pin_mapping]]
 .eQEP to pin mapping
 |===
 |eQEP|Blue pin|Black pin A|Black pin B|Pocket pin A|Pocket pin B
@@ -269,7 +279,7 @@ Then click *Begin Capture* to capture your data, at up to 100 MHz!
 
 [[case_beaglelogic_capture]]
 .BeagleLogic Data Capture
-image:figures/beaglelogic_capture.png[BeagleLogic Data Capture]
+image::figures/beaglelogic_capture.png[BeagleLogic Data Capture]
 
 
 ==== Discussion
@@ -281,7 +291,7 @@ logic analyzer on the Bone with no additional hardware needed.
 ====
 If you need buffered inputs, consider
 http://standalone.beaglelogic.net/en/latest/[BeagleLogic Standalone],
-a turnkey Logic Analyzer built on top of BeagleLogic and powered by the Octavo Systems’ OSD3358-SM SiP.
+a turnkey Logic Analyzer built on top of BeagleLogic.
 ====
 
 The kernel interface makes it easy to control the PRUs through the
@@ -330,7 +340,7 @@ http://theembeddedkitchen.net/beaglelogic-building-a-logic-analyzer-with-the-pru
 explaining how the PRUs get this type of performance.   
 
 // In section 
-// <<../05blocks/blocks.html#, Building Blocks>> we'll give an overview of the technique.
+// <<../05blocks/blocks.html#blocks_ws2812, Building Blocks>> we'll give an overview of the technique.
 
 // Todo:  Fill in XXXXX
 

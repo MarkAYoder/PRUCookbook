@@ -544,7 +544,8 @@ is the <em>microcontroller</em>, of which the <a href="https://www.arduino.cc/">
 popular.</p>
 </div>
 <div class="paragraph">
-<p>The SBCs are used because they have an operating system to manage files, I/O, and schedule when things are run all while possibly talking to the Internet.
+<p>The SBCs are used because they have an operating system to manage files, I/O,
+and schedule when things are run, all while possibly talking to the Internet.
 Microcontrollers shine when things
 being interfaced require careful timing and can&#8217;t afford to have an OS preempt an
 operation.</p>
@@ -580,12 +581,6 @@ chapters you will see the details of how they work.</p>
 <li>
 <p>RGB LED Matrix (Falcon Christmas) <a href="http://falconchristmas.com" class="bare">http://falconchristmas.com</a></p>
 </li>
-<li>
-<p>MachineKit <a href="http://www.machinekit.io/" class="bare">http://www.machinekit.io/</a></p>
-</li>
-<li>
-<p>ArduPilot <a href="http://ardupilot.org/" class="bare">http://ardupilot.org/</a>, <a href="http://ardupilot.org/dev/docs/beaglepilot.html" class="bare">http://ardupilot.org/dev/docs/beaglepilot.html</a></p>
-</li>
 </ul>
 </div>
 <div class="paragraph">
@@ -612,16 +607,21 @@ chapters you will see the details of how they work.</p>
 high-level tasks (such as path planning, line following, communicating with the user)
 <em>and</em> a microcontroller to handle the low-level tasks (such as telling motors how fast
 to turn, or how to balance in response to an IMU input).  The
-<a href="https://www.ucsdrobotics.org/edumip">EduMIP</a>
-<a href="https://www.hackster.io/edumip/edumip-13a29c">balancing robot</a> based on the BeagleBone
-Blue demonstrates that by using the PRU, the Blue can handle both the high and low -level
-tasks without an additional microcontroller.</p>
+<a href="https://www.ucsdrobotics.org/edumip">EduMIP</a> balancing
+<a href="https://www.hackster.io/edumip/edumip-13a29c">robot</a>
+demonstrates that by using the PRU, the Blue can handle both the high
+and low -level tasks without an additional microcontroller. The EduMIP is shown
+in <a href="#case_blue">Blue balancing</a>.</p>
+</div>
+<div id="case_blue" class="paragraph">
+<div class="title">Blue balancing</div>
+<p><span class="image"><img src="figures/blue.png" alt="Blue balancing"></span></p>
 </div>
 <div class="paragraph">
 <p>The <a href="http://strawsondesign.com/docs/roboticscape/">Robotics Control Library</a> is a
 package that is already installed on the Blue, Black and Pocket,
 that contains a C library and example/testing programs. It uses the PRU to extend the
-real-time hardware of the Bone by adding eight addional servor channels and one
+real-time hardware of the Bone by adding eight addional servo channels and one
 addition real-time encoder input.</p>
 </div>
 <div class="paragraph">
@@ -632,7 +632,8 @@ addition real-time encoder input.</p>
 <div class="sect4">
 <h5 id="_problem"><a class="link" href="#_problem">Problem</a></h5>
 <div class="paragraph">
-<p>You need to control eight servos, but the Bone doesn&#8217;t have enough PWMs
+<p>You need to control eight servos, but the Bone doesn&#8217;t have enough pulse width
+modulation (PWM) channels
 and you don&#8217;t want to add hardware.</p>
 </div>
 </div>
@@ -767,7 +768,8 @@ sample use to center servo channel 1:
 <div class="paragraph">
 <p>You can find these details in the
 <a href="https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP8HeaderTable.pdf">P8 Header Table</a>,
-<a href="https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf">P9 Header Table</a> and then <a href="https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#673_PRUICSS_Pin_Access">Pocket Beagle System Reference Manual</a>.</p>
+<a href="https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf">P9 Header Table</a> and then <a href="https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#673_PRUICSS_Pin_Access">Pocket Beagle System Reference Manual</a>.
+(Here is a more usable version of the <a href="https://docs.google.com/spreadsheets/d/1FRGvYOyW1RiNSEVprvstfJAVeapnASgDXHtxeDOjgqw/edit?usp=sharing">table</a>.)</p>
 </div>
 <div class="paragraph">
 <p>Be default the PRUs are already loaded with the code needed to run the
@@ -809,7 +811,7 @@ sets the width to an absolute time.  Use whichever works for you.</p>
 <h5 id="_solution_3"><a class="link" href="#_solution_3">Solution</a></h5>
 <div class="paragraph">
 <p>This is a more advanced problem and required reprograming the PRUs.  See
-<a href="../05blocks/blocks.html#_pwm_generator">PWM Generator</a> for an example.</p>
+<a href="../05blocks/blocks.html#blocks_pwm">PWM Generator</a> for an example.</p>
 </div>
 </div>
 </div>
@@ -837,9 +839,10 @@ Raw encoder positions
 </div>
 </div>
 <div class="paragraph">
-<p>You can also access these hardware encoders on the Black and Pocket using the pins shown below.</p>
+<p>You can also access these hardware encoders on the Black and Pocket using the
+pins shown in <a href="#case_pin_mapping">eQEP to pin mapping</a>.</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table id="case_pin_mapping" class="tableblock frame-all grid-all spread">
 <caption class="title">Table 2. eQEP to pin mapping</caption>
 <colgroup>
 <col style="width: 16.6666%;">
@@ -1039,9 +1042,11 @@ bone$ <strong>sudo reboot</strong></pre></td>
 rate, number of samples, and which pins to sample.
 Then click <strong>Begin Capture</strong> to capture your data, at up to 100 MHz!</p>
 </div>
-<div id="case_beaglelogic_capture" class="paragraph">
-<div class="title">BeagleLogic Data Capture</div>
-<p><span class="image"><img src="figures/beaglelogic_capture.png" alt="BeagleLogic Data Capture"></span></p>
+<div id="case_beaglelogic_capture" class="imageblock">
+<div class="content">
+<img src="figures/beaglelogic_capture.png" alt="BeagleLogic Data Capture">
+</div>
+<div class="title">Figure 1. BeagleLogic Data Capture</div>
 </div>
 </div>
 <div class="sect3">
@@ -1532,7 +1537,7 @@ shown in <a href="#case_adfruit_matrix">Adafruit LED Matrix</a>.</p>
 <div class="content">
 <img src="figures/ledmatrix.jpg" alt="Adafruit LED Matrix">
 </div>
-<div class="title">Figure 1. Adafruit LED Matrix</div>
+<div class="title">Figure 2. Adafruit LED Matrix</div>
 </div>
 </div>
 <div class="sect3">
@@ -1569,7 +1574,7 @@ to full white at the same time you will need at least a 4A supply.</p>
 <div class="content">
 <img src="figures/pocketscroller.jpg" alt="Pocket Beagle Driving a P5 RGB LED Matrix via the PocketScroller Cape">
 </div>
-<div class="title">Figure 2. Pocket Beagle Driving a P5 RGB LED Matrix via the PocketScroller Cape</div>
+<div class="title">Figure 3. Pocket Beagle Driving a P5 RGB LED Matrix via the PocketScroller Cape</div>
 </div>
 </div>
 <div class="sect4">
@@ -1603,7 +1608,7 @@ on your host computer browse to <a href="http://192.168.7.2/" class="bare">http:
 <div class="content">
 <img src="figures/fpp_program_control.png" alt="Falcon Play Program Control">
 </div>
-<div class="title">Figure 3. Falcon Play Program Control</div>
+<div class="title">Figure 4. Falcon Play Program Control</div>
 </div>
 <div class="paragraph">
 <p>You can test the display by first setting up the Channel Outputs and then
@@ -1614,13 +1619,13 @@ select Channel Outputs and <a href="#case_channel_outputs">Channel Outputs Setti
 <div class="content">
 <img src="figures/fpp_channel_outputs_menu.png" alt="Selecting Channel Outputs">
 </div>
-<div class="title">Figure 4. Selecting Channel Outputs</div>
+<div class="title">Figure 5. Selecting Channel Outputs</div>
 </div>
 <div id="case_channel_outputs" class="imageblock">
 <div class="content">
 <img src="figures/fpp_channel_outputs.png" alt="Channel Outputs Settings">
 </div>
-<div class="title">Figure 5. Channel Outputs Settings</div>
+<div class="title">Figure 6. Channel Outputs Settings</div>
 </div>
 <div class="paragraph">
 <p>Click on the <strong>LED Panels</strong> tab and then the only changes I made was
@@ -1635,7 +1640,7 @@ to select the <strong>Single Panel Size</strong> to be
 <div class="content">
 <img src="figures/fpp_display_testing_menu.png" alt="Selecting Display Testing">
 </div>
-<div class="title">Figure 6. Selecting Display Testing</div>
+<div class="title">Figure 7. Selecting Display Testing</div>
 </div>
 <div class="paragraph">
 <p>Set the <strong>End Channel</strong> to <strong>6144</strong>. (6144 is 3*64*32)
@@ -1646,7 +1651,7 @@ testing patterns shown in <a href="#case_display_testing">Display Testing Option
 <div class="content">
 <img src="figures/fpp_display_testing.png" alt="Display Testing Options">
 </div>
-<div class="title">Figure 7. Display Testing Options</div>
+<div class="title">Figure 8. Display Testing Options</div>
 </div>
 </div>
 <div class="sect4">
@@ -1682,7 +1687,7 @@ host$ <strong>xLights</strong></code></pre>
 <div class="content">
 <img src="figures/xlights_setup.png" alt="xLights Setup">
 </div>
-<div class="title">Figure 8. xLights Setup</div>
+<div class="title">Figure 9. xLights Setup</div>
 </div>
 <div class="paragraph">
 <p>We&#8217;ll walk you through a simple setup to get an animation to display on the
@@ -1694,7 +1699,7 @@ shown in <a href="#case_xlights_setup_e1_31">Setting Up E1.31</a>.</p>
 <div class="content">
 <img src="figures/xlights_setup_e1_31.png" alt="Setting Up E1.31">
 </div>
-<div class="title">Figure 9. Setting Up E1.31</div>
+<div class="title">Figure 10. Setting Up E1.31</div>
 </div>
 <div class="paragraph">
 <p>The <strong>IP Address</strong> is the Bone&#8217;s address as seen from the host computer.
@@ -1712,7 +1717,7 @@ for more details.</p>
 <div class="content">
 <img src="figures/xlights_setup_done.png" alt="xLights setup for P5 display">
 </div>
-<div class="title">Figure 10. xLights setup for P5 display</div>
+<div class="title">Figure 11. xLights setup for P5 display</div>
 </div>
 <div class="paragraph">
 <p>Next click on the <strong>Layout</strong> tab.  Click on the <strong>Matrix</strong> button as shown in
@@ -1723,7 +1728,7 @@ matrix to appear.</p>
 <div class="content">
 <img src="figures/xlights_layout.png" alt="Setting up the Matrix Layout">
 </div>
-<div class="title">Figure 11. Setting up the Matrix Layout</div>
+<div class="title">Figure 12. Setting up the Matrix Layout</div>
 </div>
 <div class="paragraph">
 <p><a href="#case_xlights_layout_details">Layout details for P5 matrix</a> shows the setting to use for the P5 matrix.</p>
@@ -1732,7 +1737,7 @@ matrix to appear.</p>
 <div class="content">
 <img src="figures/xlights_layout_details.png" alt="Layout details for P5 matrix">
 </div>
-<div class="title">Figure 12. Layout details for P5 matrix</div>
+<div class="title">Figure 13. Layout details for P5 matrix</div>
 </div>
 <div class="paragraph">
 <p>All I changed was <strong># Strings</strong>, <strong>Nodes/String</strong>, <strong>Starting Location</strong> and most
@@ -1749,7 +1754,7 @@ xLights now knows we are working with a P5 matrix, now on to the sequencer.</p>
 <div class="content">
 <img src="figures/xlights_seq_new.png" alt="Starting a new sequence">
 </div>
-<div class="title">Figure 13. Starting a new sequence</div>
+<div class="title">Figure 14. Starting a new sequence</div>
 </div>
 <div class="paragraph">
 <p>Then click on <strong>Animation</strong>, <strong>20fps (50ms)</strong>, and <strong>Quick Start</strong>. Learning how to
@@ -1769,7 +1774,7 @@ enter <strong>12</strong> for <strong>Universe Count</strong> and click <strong>
 <div class="content">
 <img src="figures/fpp_inputs_setup.png" alt=".E1.31 Bridge Mode Universes">
 </div>
-<div class="title">Figure 14. E1.31 Bridge Mode Universes</div>
+<div class="title">Figure 15. E1.31 Bridge Mode Universes</div>
 </div>
 <div class="paragraph">
 <p>Click on the <strong>Save</strong> button above the table.  Then go to the <strong>Status Control</strong>
@@ -1780,7 +1785,7 @@ in <a href="#case_mode_bridge">Bridge Mode</a>.</p>
 <div class="content">
 <img src="figures/fpp_mode_bridge.png" alt="Bridge Mode">
 </div>
-<div class="title">Figure 15. Bridge Mode</div>
+<div class="title">Figure 16. Bridge Mode</div>
 </div>
 </div>
 <div class="sect4">
@@ -1794,7 +1799,7 @@ A quick way to verify everything is t o return to xLights and go to the
 <div class="content">
 <img src="figures/xlights_test.png" alt="xLights test page">
 </div>
-<div class="title">Figure 16. xLights test page</div>
+<div class="title">Figure 17. xLights test page</div>
 </div>
 <div class="paragraph">
 <p>Click the box under <strong>Select channels&#8230;&#8203;</strong>, click <strong>Output to lights</strong> and
@@ -1805,7 +1810,7 @@ select <strong>Twinkle 50%</strong>.  You matrix should have a colorful twinkle 
 <div class="content">
 <img src="figures/xlights_twinkle.jpg" alt="xLights Twinkle test pattern">
 </div>
-<div class="title">Figure 17. xLights Twinkle test pattern</div>
+<div class="title">Figure 18. xLights Twinkle test pattern</div>
 </div>
 </div>
 <div class="sect4">
@@ -1851,7 +1856,7 @@ the <strong>New Playlist Entry</strong> section and select <strong>Sequence Only
 <div class="content">
 <img src="figures/fpp_playlist.png" alt="Adding a new playlist to FPP">
 </div>
-<div class="title">Figure 18. Adding a new playlist to FPP</div>
+<div class="title">Figure 19. Adding a new playlist to FPP</div>
 </div>
 <div class="paragraph">
 <p>Be sure to click <strong>Save</strong> under <strong>Playlist Details</strong>. Now return to
@@ -1884,7 +1889,7 @@ motors, stepper motors, relays, and other devices related to machine tools.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-08-13 13:51:45 EDT
+Last updated 2018-08-15 11:28:32 EDT
 </div>
 </div>
 </body>
