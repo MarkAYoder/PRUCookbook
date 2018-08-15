@@ -1765,7 +1765,7 @@ do simple sequence just to be sure xLights is talking to the Bone.</p>
 <div class="sect4">
 <h5 id="_setting_up_e1_31_on_the_bone"><a class="link" href="#_setting_up_e1_31_on_the_bone">Setting Up E1.31 on the Bone</a></h5>
 <div class="paragraph">
-<p>First we ned to setup FPP to take input from xLights.  Do this by going to
+<p>First we need to setup FPP to take input from xLights.  Do this by going to
 the <strong>Input/Output Setup</strong> menu and selecting <strong>Channel Inputs</strong>.  Then
 enter <strong>12</strong> for <strong>Universe Count</strong> and click <strong>set</strong> and you will see
 <a href="#case_inputs_setup">E1.31 Bridge Mode Universes</a>.</p>
@@ -1818,14 +1818,14 @@ select <strong>Twinkle 50%</strong>.  You matrix should have a colorful twinkle 
 <div class="paragraph">
 <p>Now that the xLights to FPP link is tested you can generate a sequence to
 play.  Close the Test window and click on the <strong>Sequencer</strong> tab.  Then drag
-an effect from the <strong>Effects</strong> box to the time line that below it.  Drop it to
-the right of the <strong>Matrix</strong> label (<a href="#case_seq_drag">Drag an effect to the time line</a>).  The click
+an effect from the <strong>Effects</strong> box to the timeline that below it.  Drop it to
+the right of the <strong>Matrix</strong> label (<a href="#case_seq_drag">Drag an effect to the timeline</a>).  The click
 <strong>Output To Lights</strong> which is the yellow lightbulb to the right on the top
 toolbar.  Your matrix should now be displaying your effect.</p>
 </div>
 <div id="case_seq_drag" class="paragraph">
-<div class="title">Drag an effect to the time line</div>
-<p><span class="image"><img src="figures/xlights_seq_drag.png" alt="Drag an effect to the time line"></span></p>
+<div class="title">Drag an effect to the timeline</div>
+<p><span class="image"><img src="figures/xlights_seq_drag.png" alt="Drag an effect to the timeline"></span></p>
 </div>
 <div class="paragraph">
 <p>The setup requires the host computer to send the animation data to the Bone.
@@ -1847,7 +1847,7 @@ the <strong>Content Setup</strong> menu and select <strong>File Manager</strong>
 <p><span class="image"><img src="figures/fpp_file_manager.png" alt="FPP file manager"></span></p>
 </div>
 <div class="paragraph">
-<p>Once you sequence is uploded, got to <strong>Content Steup</strong> and select <strong>Playlists</strong>.
+<p>Once your sequence is uploaded, got to <strong>Content Steup</strong> and select <strong>Playlists</strong>.
 Enter you playlist name (I used <strong>fire</strong>) and click <strong>Add</strong>.  Then go down to
 the <strong>New Playlist Entry</strong> section and select <strong>Sequence Only</strong>
 (<a href="#case_playlist">Adding a new playlist to FPP</a>), then click <strong>Add</strong>.</p>
@@ -1875,21 +1875,44 @@ are doing all the work.</p>
 <div class="sect2">
 <h3 id="_machinekit"><a class="link" href="#_machinekit">1.5. MachineKit</a></h3>
 <div class="paragraph">
-<p>MachineKit is a platform for machine control applications.  It can control
+<p><a href="http://www.machinekit.io/">MachineKit</a> is a platform for machine control
+applications.  It can control
 machine tools, robots, or other automated devices. It can control servo
 motors, stepper motors, relays, and other devices related to machine tools.</p>
+</div>
+<div class="verseblock">
+<pre class="content">Machinekit is portable across a wide range of hardware platforms and real-time environments, and delivers excellent performance at low cost. It is based on the HAL component architecture, an intuitive and easy to use circuit model that includes over 150 building blocks for digital logic, motion, control loops, signal processing, and hardware drivers. Machinekit supports local and networked UI options, including ubiquitous platforms like phones or tablets.</pre>
+<div class="attribution">
+&#8212; http://www.machinekit.io/about/
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_ardupilot"><a class="link" href="#_ardupilot">1.6. ArduPilot</a></h3>
+<div class="paragraph">
+<p><a href="http://ardupilot.org/">ArduPilot</a> is a open source autopilot system supporting multi-copters, traditional helicopters, fixed wing aircraft and rovers.
+ArduPilot runs on a many
+<a href="http://ardupilot.org/copter/docs/common-autopilots.html">heardware platforms</a>
+including the
+<a href="http://ardupilot.org/dev/docs/building-for-beaglebone-black-on-linux.html#building-for-beaglebone-black-on-linux">BeagleBone Black</a> and the
+<a href="http://ardupilot.org/copter/docs/common-beagle-bone-blue.html">BeagleBone Blue</a>.</p>
+</div>
+<div class="verseblock">
+<pre class="content">Ardupilot is the most advanced, full-featured and reliable open source autopilot software available. It has been developed over 5+ years by a team of diverse professional engineers and computer scientists. It is the only autopilot software capable of controlling any vehicle system imaginable, from conventional airplanes, multirotors, and helicopters, to boats and even submarines. And now being expanded to feature support for new emerging vehicle types such as quad-planes and compound helicopters.
+Installed in over 1,000,000 vehicles world-wide, and with its advanced data-logging, analysis and simulation tools, Ardupilot is the most tested and proven autopilot software. The open-source code base means that it is rapidly evolving, always at the cutting edge of technology development. With many peripheral suppliers creating interfaces, users benefit from a broad ecosystem of sensors, companion computers and communication systems. Finally, since the source code is open, it can be audited to ensure compliance with security and secrecy requirements.
 
+The software suite is installed in aircraft from many OEM UAV companies, such as 3DR, jDrones, PrecisionHawk, AgEagle and Kespry. It is also used for testing and development by several large institutions and corporations such as NASA, Intel and Insitu/Boeing, as well as countless colleges and universities around the world.</pre>
+<div class="attribution">
+&#8212; http://www.machinekit.io/about/
+</div>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-08-15 12:44:40 EDT
+Last updated 2018-08-15 15:05:29 EDT
 </div>
 </div>
 </body>

@@ -8,7 +8,7 @@ blink an LED.
 
 If you already have your Beagle and know your way around it, you can find the
 code (and the whole book) on the PRU Cookbook github site: 
-<https://github.com/MarkAYoder/PRUCookbook/tree/master/docs>. 
+<https://github.com/MarkAYoder/PRUCookbook>. 
 
 === Selecting a Beagle
 
@@ -24,7 +24,7 @@ tiny http://beagleboard.org/pocket[PockeBeagle].  All the examples should also
 run on the other Beagles too.
 
 ==== Discussion
-==== BeagleBone Black
+===== BeagleBone Black
 If you aren't sure which Beagle to use, it's hard to go wrong with the
 http://beagleboard.org/black[BeagleBone Black].  It's the most popular member of the open hardware Beagle family.
 
@@ -49,7 +49,7 @@ The Black has:
 
 See <http://beagleboard.org/black> for more details.
 
-==== BeagleBone Blue
+===== BeagleBone Blue
 
 The http://beagleboard.org/blue[Blue] is a good choice if you are doing robotics.
 
@@ -57,7 +57,8 @@ The http://beagleboard.org/blue[Blue] is a good choice if you are doing robotics
 .BeagleBone Blue
 image::figures/beagle-blue.png[BeagleBone Blue]
 
-The Blue has everyting the Black has except the Ethernet and HDMI.  It also has
+The Blue has everything the Black has except it has no Ethernet or HDMI.  
+But it also has:
 
 * Wireless: 802.11bgn, Bluetooth 4.1 and BLE
 * Battery support: 2-cell LiPo with balancing, LED state-of-charge monitor
@@ -87,7 +88,7 @@ compatible with the other Beagles.
 .PocketBeagle
 image::figures/PocketBeagle-size-compare-small.jpg[PocketBeagle]
 
-The Pocket is based on the same processor and the Black and Blue and has:
+The Pocket is based on the same processor as the Black and Blue and has:
 
 * 8 analog inputs
 * 44 digital I/Os and 
@@ -103,13 +104,13 @@ You want to find the lastest version of Debian that is available for your Bone.
 
 ==== Solution
 On your host computer open a browser and go to
-http://rcn-ee.net/deb/testing/](http://rcn-ee.net/deb/testing/
-This shows you a list of dates of the most recent Debian images.
+http://rcn-ee.net/deb/testing.
+This shows you a list of the dates of the most recent Debian images.
 
 .Latest Debian images
 image:figures/debianImages1.png[Latest Debian images]
 
-Scroll to the bottom of the list for that latest image as shown in
+Scroll to the bottom of the list for the most recent image as shown in
 <<start_images>>.
 
 [[start_images]]
@@ -127,7 +128,7 @@ I suggest using the *stretch-iot* image.  *buster* is still a few months
 from release at the time of this writing and isn't ready yet.  
 The other *stretech* images include 
 x-window packages which we don't need.  The *stretch-console* is a minimal 
-image which doesn't include things we do need.
+image which doesn't include things we _do_ need.
 
 Click on *stretch-iot* and you'll see <<start_strtech>>.
 
@@ -155,13 +156,14 @@ button and wait for it to finish.
 .Etcher
 image::figures/etcher.png[Ether]
 
+Once the SD is flashed, insert it in the Beagle and power it up.
 
 === Cloud9 IDE
 ==== Problem
 How do I manage and edit my files?
 
 ==== Solution
-The image you downloaded includes https://aws.amazon.com/cloud9/[Cloud9] 
+The image you downloaded includes https://aws.amazon.com/cloud9/[Cloud9],
 a web-based intergrated development environment (IDE) as shown in 
 <<start_c9>>.
 
@@ -179,10 +181,33 @@ You are ready to start playing with the examples and need to find the code.
 ==== Solution
 You can find the code (and the whole book) on the PRU Cookbook github site: 
 <https://github.com/MarkAYoder/PRUCookbook/tree/master/docs>.  Just clone 
-it and then look in the *docs* directory.  Each chapter has its own
+it on your Beagle and then look in the *docs* directory.  
+
+[source,bash,linenums]
+[subs=+quotes]
+----
+bone$ *git clone https://github.com/MarkAYoder/PRUCookbook.git*
+bone$ *cd PRUCookbook/docs/*
+bone$ *ls -F*
+01case/     05blocks/  book.html       header.adoc  notes.adoc
+02start/    06io/      book.pdf        index.adoc   notes.html
+03details/  07more/    copyright.adoc  index.html   style.adoc
+04debug/    book.adoc  hack.sh*        Makefile     style.html
+----
+
+Each chapter has its own
 directory and within that directory is a *code* directory that has all of the 
 code.
 
+[source,bash,linenums]
+[subs=+quotes]
+----
+bone$ *cd 02start/code/*
+bone$ *ls*
+AM335x_PRU.cmd  hello.c  Makefile  resource_table_empty.h  setup.sh
+----
+
+Go and explore.
 
 === Blinking an LED
 ==== Problem
@@ -191,6 +216,8 @@ You want to make sure everything is set up by blinking an LED.
 ==== Solution
 The 'hello, world' of the embedded world is to flash an LED. <<start_hello>> 
 is some code that blinks the `USR3` LED five times using the PRU.
+
+// TODO The *'s and _'s in the code are messing with the formatting.
 
 [[start_hello]]
 .hello.c
