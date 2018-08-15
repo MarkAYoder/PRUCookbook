@@ -22,7 +22,7 @@ I want to get the files used in this book.
 
 ==== Solution
 It's all on a GitHub repository.
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 bone$ *git clone https://github.com/MarkAYoder/PRUCookbook.git*
@@ -34,7 +34,7 @@ I want to compile and run an example.
 
 ==== Solution
 Change to the directory of the code you want to run.
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 bone$ *cd PRUCookbook/doc/06io/code*
@@ -43,7 +43,7 @@ AM335x_PRU.cmd  gpio1.c  gpio_setup.sh  Makefile  resource_table_empty.h
 ----
 
 Source the setup file.
-[source,bash]
+[source,
 [subs=+quotes]
 ----
 bone$ *source gpio_setup.sh*
@@ -55,7 +55,7 @@ P9_11 Mode: gpio Direction: out Value: 0
 ----
 
 Now you are ready to compile and run.  This is automated for you in the Makefile
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 bone$ *make*
@@ -92,7 +92,7 @@ The setup file also contains instructions to figure out which Beagle you are run
 and then configure the pins acordingly.
 
 .setup.sh
-[source,bash,linenums]
+[source,linenums]
 [subs=+quotes]
 ----
 include::code/gpio_setup.sh[]
@@ -118,7 +118,7 @@ I want to stop and start the PRU.
 
 ==== Solution
 It's easy.
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 bone$ *make stop*
@@ -133,7 +133,7 @@ is stopped.
 
 This assumes `PRUN` is set to the number of the PRU you are using.
 If you want to control the other PRU use:
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 bone$ *make PRUN=1 stop*
@@ -236,7 +236,7 @@ You need details on the c compiler, linker and other tools for the PRU.
 ==== Solution
 The PRU compiler and linker are already installed on the standard images.
 They are called `clpru` and `lnkpru`.
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 bone$ *which clpru*
@@ -250,7 +250,7 @@ Details on each can be found here:
 If fact there are PRU versions of many of the standard code generation tools.
 
 .code tools
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 bone$ *ls /usr/bin/*pru*
@@ -325,7 +325,7 @@ The PRUs appear in the Linux file space at
 `/sys/devices/platform/ocp/4a32600*.pruss-soc-bus/4a300000.pruss`.
 
 .Finding the PRUs
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 bone$ *cd /sys/devices/platform/ocp/4a326000.pruss-soc-bus/4a300000.pruss*
@@ -336,7 +336,7 @@ bone$ *ls*
 
 Here we see PRU 0 and PRU 1 in the path.  Let's follow PRU 0.
 
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 bone$ *cd 4a334000.pru0/remoteproc/remoteproc1*
@@ -347,7 +347,7 @@ device  firmware  power  state  subsystem  uevent
 Here we see the files that control PRU 0.  `firmware` tells where in `/lib/firmware`
 to look for the code to run on the PRU.
 
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 bone$ *cat firmware*
@@ -366,7 +366,7 @@ It depends on which Beagle you are running on.  If you are on the Blue, everythi
 If you are on the Black or Pocket you'll need to run the following script.
 
 .servos_setup.sh
-[source,bash,linenums]
+[source,linenums]
 ----
 include::code/servos_setup.sh[servos_setup.sh]
 ----
@@ -386,7 +386,7 @@ It depends on which Beagle you are running on.  If you are on the Blue, everythi
 If you are on the Black or Pocket you'll need to run the following script.
 
 .encoder_setup.sh
-[source,bash,linenums]
+[source,linenums]
 ----
 include::code/encoder_setup.sh[encoder_setup.sh]
 ----
