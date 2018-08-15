@@ -1,3 +1,6 @@
+:toc:
+:toclevels: 2
+
 = PRU Cookbook
 Mark A. Yoder <Mark.A.Yoder@Rose-Hulman.edu>
 

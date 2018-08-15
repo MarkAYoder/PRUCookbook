@@ -1,11 +1,7 @@
 /* 
  *
  *  pwm tester
- *  (c) Copyright 2016
- *  Mark A. Yoder, 20-July-2016
- *	The channels 0-11 are on PRU1 and channels 12-17 are on PRU0
- *	The period and duty cycle values are stored in each PRU's Data memory
- *	The enable bits are stored in the shared memory
+ *	The on cycle and off cycles are stored in each PRU's Data memory
  *
  */
 

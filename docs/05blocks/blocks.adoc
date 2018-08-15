@@ -559,7 +559,7 @@ But we can do better.
 
 === Loop Unrolling for Better Performance
 ==== Problem
-The ARM controlled code runs too slowly.
+The ARM controlled PRU code runs too slowly.
 
 ==== Solution
 Simple loops unrolling can greatly improve the speed.  `pwm5.c` is our unrolled
