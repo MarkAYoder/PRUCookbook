@@ -67,7 +67,7 @@ line 74 of `AM335x_PRU.cmd`.
 |28-31|All the previous examples direct the compiler to an area in memory
 and the compilers figures out what to put where.  With these lines we 
 specify the exact location.  Here are start with the PRU_DRAM starting address and add 0x200 to it to avoid
-the ((STACK)) and the ((HEAP)).  The advantage of this technique is you can
+the ((stack)) and the ((heap)).  The advantage of this technique is you can
 easily share these variables between the ARM and the two PRUs.
 |36,37|Variable declared inside `main()` go on the stack.
 |===
