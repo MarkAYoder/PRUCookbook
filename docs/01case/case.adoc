@@ -360,7 +360,7 @@ and want to light it up.
 
 ==== Solution
 You can either write your own code 
-(See <<../05blocks/blocks.adoc#_ws2812_neopixel_driver, WS2812 Driver>>), or
+(See <<../05blocks/blocks.adoc#blocks_ws2812, WS2812 Driver>>), or
 use https://github.com/Yona-Appletree/LEDscape[LEDscape] which
 is a library for controlling NeoPixels using http://openpixelcontrol.org/[Open 
 Pixel Control].
@@ -377,7 +377,7 @@ LEDscape was originally written by Trammell Hudson (http://trmm.net/Category:LED
 This version of the library was forked from his original WS2811 work. Various improvements have been made in the attempt to make an accessible and powerful LED driver based on the BBB. Many thanks to Trammell for his excellent work in scaffolding the BBB and PRUs for driving LEDs.
 ____
 
-LEDscape can drive 48 strings of LEDs are arbitary length with no addional
+LEDscape can drive 48 strings of LEDs that are arbitary length with no addional
 hardware!  Here's how to install it.
 
 [NOTE]
@@ -615,7 +615,7 @@ ____
 ===== Hardware
 The Beagle hardware can be either a BeagleBone Black with the 
 https://oshpark.com/shared_projects/7mSHNZcD[Octoscroller Cape], or a 
-pocketbeagle with the 
+PocketBeagle with the 
 https://www.hackster.io/daniel-kulp/pocketscroller-led-panel-cape-for-pocketbeagle-fe12a6[PocketScroller LED Panel Cape]. 
 (See https://www.tindie.com/products/dkulp/pocketscroller-led-panel-cape-for-pocketbeagle/[to purchase].)
 https://www.diychristmas.org/wiki/index.php?title=Building_an_Octoscroller_Matrix_Display[Building and Octoscroller Matrix Display] 
@@ -650,7 +650,7 @@ on your host computer browse to <http://192.168.7.2/> and you will see
 image::figures/fpp_program_control.png[Falcon Play Program Control]
 
 You can test the display by first setting up the Channel Outputs and then 
-going to Display Testing.  <<case_channel_outputs_menu>> shows where to 
+going to *Display Testing*.  <<case_channel_outputs_menu>> shows where to 
 select Channel Outputs and <<case_channel_outputs>> shows which settings to use.
 
 [[case_channel_outputs_menu]]
@@ -732,7 +732,7 @@ Your setup should look like <<case_xlights_setup_done>>.  Click the
 image::figures/xlights_setup_done.png[xLights setup for P5 display]
 
 Next click on the *Layout* tab.  Click on the *Matrix* button as shown in 
-<<case_xlights_matrix>>, the click on the black area where you want your 
+<<case_xlights_matrix>>, then click on the black area where you want your 
 matrix to appear.
 
 [[case_xlights_matrix]]
