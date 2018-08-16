@@ -1114,7 +1114,9 @@ GRB (green, red, blue).
 ====
 
 <<blocks_neo2_line>> is the line-by-line for `neo2.c`.
+
 [[blocks_neo2_line]]
+.Line-by-line for neo2.c
 [cols="1,9"]
 |====
 |Line |Explanation
@@ -1123,7 +1125,7 @@ GRB (green, red, blue).
 bits is the same as <<blocks_new_data_seq>>, GRB. 
 |25   |Loop for each color to output.
 |26   |Loop for each bit in an GRB color.
-|27   |Get the j^th^ color and mask off all but the j^th^ bit.  `(0x1<<i)` takes
+|27   |Get the j^th^ color and mask off all but the i^th^ bit.  `(0x1<<i)` takes
 the value `0x1` and shifts it left `i` bits.  When anded (&) with `color[j]` 
 it will zero out all but the i^th^ bit.  If the result of the operation is
 1, the `if` is done, otherwise the `else` is done.
@@ -1168,11 +1170,11 @@ Here's the highlights.
 |===
 |Line|Explanation
 
-|31,32|Initiallize the array of colors.
+|31, 32|Initiallize the array of colors.
 |37-40|Update the array.
 |43-57|Send the array to the LEDs.
 |58-60|Send a reset.
-|62,63|Wait a bit.
+|62, 63|Wait a bit.
 |===
 
 === Controlling NeoPixels Through a Kernel Driver
@@ -1230,19 +1232,19 @@ There's a lot here.  I'll just hit some of the highlights in <<blocks_neo4_lines
 is already installed.  This connects this PRU to the driver.
 |31   |The `CHAN_PORT` tells it to use port 30.  That's why we use
 `/dev/rpmsg_pru30`
-|39-45|Same as the previous NeoPixel examples.
-|49   |`payload[]` is the buffer that receives the data from the ARM.
-|50   |`color[]` is the state to be sent to the LEDs.
-|63-66|`color[]` is initialized.
-|68-82|Where are a number of details needed to set up the channel between 
+|39   |`payload[]` is the buffer that receives the data from the ARM.
+|41-47|Same as the previous NeoPixel examples.
+|51   |`color[]` is the state to be sent to the LEDs.
+|65-67|`color[]` is initialized.
+|69-84|Here are a number of details needed to set up the channel between 
 the PRU and the ARM.
-|85   |Here we wait until the ARM sends us some numbers.
-|89   |Receive all the data from the ARM, store it in `payload[]`.
-|93-101|The data sent is:  index red green blue.  Pull off the index.  If it's 
+|87   |Here we wait until the ARM sends us some numbers.
+|91   |Receive all the data from the ARM, store it in `payload[]`.
+|95-103|The data sent is:  index red green blue.  Pull off the index.  If it's 
 in the right range, pull off the red, green and blue values.
-|103  |The NeoPixels want the data in GRB order.  Shift and or everything 
+|105  |The NeoPixels want the data in GRB order.  Shift and OR everything 
 together.
-|106-130|If the `index` = 1, send the contents of `color` to the LEDs.  This
+|108-131|If the `index` = -1, send the contents of `color` to the LEDs.  This
 code is same as before.
 |====
 
@@ -1261,7 +1263,8 @@ the last number, or you numbers will get blurred together.
 
 === RGB LED Matrix - No Integrated Drivers
 ==== Problem
-You have a RGB LED matrix (<<case_rgb_matrix>>) and want to know
+You have a RGB LED matrix 
+(<<../01case/case.html#case_rgb_matrix, 1.4. RGB LED Matrix - No Integrated Drivers>>) and want to know
 at a low level how the PRU works.
 
 ==== Solution

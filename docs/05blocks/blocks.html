@@ -3690,7 +3690,7 @@ which to turns all pixels white.</p>
 42
 43
 </pre></td>
-  <td class="code"><pre><span class="comment">// Control a ws2812 (neo pixel) display, All on or all off</span>
+  <td class="code"><pre><span class="comment">// Control a ws2812 (NeoPixel) display, All on or all off</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
@@ -3954,9 +3954,10 @@ GRB (green, red, blue).</p>
 </table>
 </div>
 <div class="paragraph">
-<p><a href="#blocks_neo2_line">[blocks_neo2_line]</a> is the line-by-line for <code>neo2.c</code>.</p>
+<p><a href="#blocks_neo2_line">Line-by-line for neo2.c</a> is the line-by-line for <code>neo2.c</code>.</p>
 </div>
 <table id="blocks_neo2_line" class="tableblock frame-all grid-all spread">
+<caption class="title">Table 10. Line-by-line for neo2.c</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 90%;">
@@ -3983,7 +3984,7 @@ bits is the same as <a href="#blocks_new_data_seq">NeoPixel data sequence</a>, G
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">27</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Get the j<sup>th</sup> color and mask off all but the j<sup>th</sup> bit.  <code>(0x1&lt;&lt;i)</code> takes
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get the j<sup>th</sup> color and mask off all but the i<sup>th</sup> bit.  <code>(0x1&lt;&lt;i)</code> takes
 the value <code>0x1</code> and shifts it left <code>i</code> bits.  When anded (&amp;) with <code>color[j]</code>
 it will zero out all but the i<sup>th</sup> bit.  If the result of the operation is
 1, the <code>if</code> is done, otherwise the <code>else</code> is done.</p></td>
@@ -4203,7 +4204,7 @@ Your browser does not support the video tag.
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">31,32</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">31, 32</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Initiallize the array of colors.</p></td>
 </tr>
 <tr>
@@ -4219,7 +4220,7 @@ Your browser does not support the video tag.
 <td class="tableblock halign-left valign-top"><p class="tableblock">Send a reset.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">62,63</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">62, 63</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Wait a bit.</p></td>
 </tr>
 </tbody>
@@ -4555,7 +4556,7 @@ LEDs.  You 0<sup>th</sup> LED should now be lit.</p>
 <p>There&#8217;s a lot here.  I&#8217;ll just hit some of the highlights in <a href="#blocks_neo4_lines">Line-by-line for neo4.c</a>.</p>
 </div>
 <table id="blocks_neo4_lines" class="tableblock frame-all grid-all spread">
-<caption class="title">Table 10. Line-by-line for neo4.c</caption>
+<caption class="title">Table 11. Line-by-line for neo4.c</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 90%;">
@@ -4578,47 +4579,47 @@ is already installed.  This connects this PRU to the driver.</p></td>
 <code>/dev/rpmsg_pru30</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">39-45</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Same as the previous NeoPixel examples.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">49</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">39</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>payload[]</code> is the buffer that receives the data from the ARM.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">50</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">41-47</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Same as the previous NeoPixel examples.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">51</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>color[]</code> is the state to be sent to the LEDs.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">63-66</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">65-67</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>color[]</code> is initialized.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">68-82</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Where are a number of details needed to set up the channel between
+<td class="tableblock halign-left valign-top"><p class="tableblock">69-84</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Here are a number of details needed to set up the channel between
 the PRU and the ARM.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">85</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">87</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Here we wait until the ARM sends us some numbers.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">89</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">91</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Receive all the data from the ARM, store it in <code>payload[]</code>.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">93-101</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">95-103</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The data sent is:  index red green blue.  Pull off the index.  If it&#8217;s
 in the right range, pull off the red, green and blue values.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">103</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The NeoPixels want the data in GRB order.  Shift and or everything
+<td class="tableblock halign-left valign-top"><p class="tableblock">105</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The NeoPixels want the data in GRB order.  Shift and OR everything
 together.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">106-130</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If the <code>index</code> = 1, send the contents of <code>color</code> to the LEDs.  This
+<td class="tableblock halign-left valign-top"><p class="tableblock">108-131</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If the <code>index</code> = -1, send the contents of <code>color</code> to the LEDs.  This
 code is same as before.</p></td>
 </tr>
 </tbody>
@@ -4700,7 +4701,8 @@ the last number, or you numbers will get blurred together.</p>
 <div class="sect3">
 <h4 id="_problem_15"><a class="link" href="#_problem_15">Problem</a></h4>
 <div class="paragraph">
-<p>You have a RGB LED matrix (<a href="#case_rgb_matrix">[case_rgb_matrix]</a>) and want to know
+<p>You have a RGB LED matrix
+(<a href="../01case/case.html#case_rgb_matrix">1.4. RGB LED Matrix - No Integrated Drivers</a>) and want to know
 at a low level how the PRU works.</p>
 </div>
 </div>
@@ -5199,7 +5201,7 @@ go over some of them.</p>
 mapped to the pins on the Pocket Beagle.</p>
 </div>
 <table id="blocks_pocket_scroller_pins" class="tableblock frame-all grid-all spread">
-<caption class="title">Table 11. PocketScroller pin table</caption>
+<caption class="title">Table 12. PocketScroller pin table</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -5516,7 +5518,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-08-16 14:33:51 EDT
+Last updated 2018-08-16 15:04:32 EDT
 </div>
 </div>
 </body>

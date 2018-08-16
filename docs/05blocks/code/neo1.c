@@ -1,4 +1,4 @@
-// Control a ws2812 (neo pixel) display, All on or all off
+// Control a ws2812 (NeoPixel) display, All on or all off
 #include <stdint.h>
 #include <pru_cfg.h>
 #include "resource_table_empty.h"
