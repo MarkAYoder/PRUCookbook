@@ -4718,7 +4718,7 @@ adjustments for the 64x32 matrix we are using.</p>
 <div class="verseblock">
 <pre class="content">There&#8217;s zero documention out there on how these matrices work, and no public datasheets or spec sheets so we are going to try to document how they work.
 
-First thing to notice is that there are 2048 RGB LEDs in a 64x32 matrix. Like pretty much every matrix out there, you can&#8217;t drive all 2048 at once. One reason is that would require a lot of current, another reason is that it would be really expensive to have so many pins. Instead, the matrix is divided into 16 interleaved sections/strips. The first section is the 1<sup>st</sup> 'line' and the 17<sup>th</sup> 'line' (64 x 2 RGB LEDs = 128 RGB LEDs), the second is the 2<sup>nd</sup> and 18<sup>th</sup> line, etc until the last section which is the 16<sup>th</sup> and 32<sup>nd</sup> line. You might be asking, why are the lines paired this way? wouldnt it be nicer to have the first section be the 1<sup>st</sup> and 2<sup>nd</sup> line, then 3<sup>rd</sup> and 4<sup>th</sup>, until the 15<sup>th</sup> and 16<sup>th</sup>? The reason they do it this way is so that the lines are interleaved and look better when refreshed, otherwise we&#8217;d see the stripes more clearly.
+First thing to notice is that there are 2048 RGB LEDs in a 64x32 matrix. Like pretty much every matrix out there, you can&#8217;t drive all 2048 at once. One reason is that would require a lot of current, another reason is that it would be really expensive to have so many pins. Instead, the matrix is divided into 16 interleaved sections/strips. The first section is the 1<sup>st</sup> 'line' and the 17<sup>th</sup> 'line' (64 x 2 RGB LEDs = 128 RGB LEDs), the second is the 2<sup>nd</sup> and 18<sup>th</sup> line, etc until the last section which is the 16<sup>th</sup> and 32<sup>nd</sup> line. You might be asking, why are the lines paired this way? wouldn&#8217;t it be nicer to have the first section be the 1<sup>st</sup> and 2<sup>nd</sup> line, then 3<sup>rd</sup> and 4<sup>th</sup>, until the 15<sup>th</sup> and 16<sup>th</sup>? The reason they do it this way is so that the lines are interleaved and look better when refreshed, otherwise we&#8217;d see the stripes more clearly.
 
 So, on the PCB is 24 LED driver chips. These are like 74HC595s but they have 16 outputs and they are constant current. 16 outputs * 24 chips = 384 LEDs that can be controlled at once, and 128 * 3 (R G and B) = 384. So now the design comes together: You have 384 outputs that can control one line at a time, with each of 384 R, G and B LEDs either on or off. The controller (say an FPGA or microcontroller) selects which section to currently draw (using LA, LB, LC and LD address pins - 4 bits can have 16 values). Once the address is set, the controller clocks out 384 bits of data (48 bytes) and latches it. Then it increments the address and clocks out another 384 bits, etc until it gets to address #15, then it sets the address back to #0</pre>
 <div class="attribution">
@@ -4728,7 +4728,7 @@ So, on the PCB is 24 LED driver chips. These are like 74HC595s but they have 16 
 <div class="paragraph">
 <p>That gives a good overview, but there are a few details missing.
 <a href="#blocks_rgb_python">Python code for driving RGB LED matrix</a> is a functioning python program that gives a nice
-highlevel view of how to drive the display.</p>
+high-level view of how to drive the display.</p>
 </div>
 <div id="blocks_rgb_python" class="listingblock">
 <div class="title">Python code for driving RGB LED matrix</div>
@@ -4900,7 +4900,48 @@ GPIO.output(LAT, <span class="integer">0</span>)     <span class="comment"># Set
 <div id="blocks_rgb_setup" class="listingblock">
 <div class="title">rgb_setup.sh</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="linenums">#!/bin/bash
+<pre class="CodeRay highlight"><code data-lang="sh"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+</pre></td>
+  <td class="code"><pre>#!/bin/bash
 # Setup for 64x32 RGB Matrix
 export PRUN=0
 export TARGET=rgb1
@@ -4938,7 +4979,8 @@ do
     echo $pin
     config-pin $pin out
     config-pin -q $pin
-done</code></pre>
+done</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -5518,7 +5560,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-08-16 15:04:32 EDT
+Last updated 2018-08-16 15:11:53 EDT
 </div>
 </div>
 </body>

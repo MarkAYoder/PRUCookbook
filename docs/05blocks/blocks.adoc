@@ -1278,14 +1278,14 @@ adjustments for the 64x32 matrix we are using.
 ____
 There's zero documention out there on how these matrices work, and no public datasheets or spec sheets so we are going to try to document how they work.
 
-First thing to notice is that there are 2048 RGB LEDs in a 64x32 matrix. Like pretty much every matrix out there, you can't drive all 2048 at once. One reason is that would require a lot of current, another reason is that it would be really expensive to have so many pins. Instead, the matrix is divided into 16 interleaved sections/strips. The first section is the 1^st^ 'line' and the 17^th^ 'line' (64 x 2 RGB LEDs = 128 RGB LEDs), the second is the 2^nd^ and 18^th^ line, etc until the last section which is the 16^th^ and 32^nd^ line. You might be asking, why are the lines paired this way? wouldnt it be nicer to have the first section be the 1^st^ and 2^nd^ line, then 3^rd^ and 4^th^, until the 15^th^ and 16^th^? The reason they do it this way is so that the lines are interleaved and look better when refreshed, otherwise we'd see the stripes more clearly.
+First thing to notice is that there are 2048 RGB LEDs in a 64x32 matrix. Like pretty much every matrix out there, you can't drive all 2048 at once. One reason is that would require a lot of current, another reason is that it would be really expensive to have so many pins. Instead, the matrix is divided into 16 interleaved sections/strips. The first section is the 1^st^ 'line' and the 17^th^ 'line' (64 x 2 RGB LEDs = 128 RGB LEDs), the second is the 2^nd^ and 18^th^ line, etc until the last section which is the 16^th^ and 32^nd^ line. You might be asking, why are the lines paired this way? wouldn't it be nicer to have the first section be the 1^st^ and 2^nd^ line, then 3^rd^ and 4^th^, until the 15^th^ and 16^th^? The reason they do it this way is so that the lines are interleaved and look better when refreshed, otherwise we'd see the stripes more clearly.
 
 So, on the PCB is 24 LED driver chips. These are like 74HC595s but they have 16 outputs and they are constant current. 16 outputs * 24 chips = 384 LEDs that can be controlled at once, and 128 * 3 (R G and B) = 384. So now the design comes together: You have 384 outputs that can control one line at a time, with each of 384 R, G and B LEDs either on or off. The controller (say an FPGA or microcontroller) selects which section to currently draw (using LA, LB, LC and LD address pins - 4 bits can have 16 values). Once the address is set, the controller clocks out 384 bits of data (48 bytes) and latches it. Then it increments the address and clocks out another 384 bits, etc until it gets to address #15, then it sets the address back to #0
 ____
 
 That gives a good overview, but there are a few details missing. 
 <<blocks_rgb_python>> is a functioning python program that gives a nice
-highlevel view of how to drive the display. 
+high-level view of how to drive the display. 
 
 [[blocks_rgb_python]]
 .Python code for driving RGB LED matrix
@@ -1299,7 +1299,7 @@ Be sure to run the <<blocks_rgb_setup>> script before running the python code.
 
 [[blocks_rgb_setup]]
 .rgb_setup.sh
-[source,linenums]
+[source,python,linenums]
 [subs=+quotes]
 ----
 include::code/rgb_setup.sh[]
