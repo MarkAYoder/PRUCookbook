@@ -518,7 +518,7 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_calling_assembly_from_c">1.1. Calling Assembly from C</a></li>
 <li><a href="#_returning_a_value_from_assembly">1.2. Returning a Value from Assembly</a></li>
-<li><a href="#_using_the_built_in_counter_for_timing">1.3. Using the Built In Counter for Timing</a></li>
+<li><a href="#_using_the_built_in_counter_for_timing">1.3. Using the Built-In Counter for Timing</a></li>
 <li><a href="#_xout_and_xin_transfering_between_prus">1.4. Xout and Xin - Transfering Between PRUs</a></li>
 <li><a href="#_copyright">1.5. Copyright</a></li>
 </ul>
@@ -542,7 +542,7 @@ when very precise timing is needed and the compiler isn&#8217;t doing it.</p>
 <div class="paragraph">
 <p>At these times you need to write in assembly language.  This chapter
 introduces the PRU assembler and shows how to call assembly code from
-C.</p>
+C. Detailing on how to program in assembly are beyond the scope of this text.</p>
 </div>
 <div class="paragraph">
 <p>The following are resources used in this chapter.</p>
@@ -573,13 +573,13 @@ it.</p>
 <div class="sect3">
 <h4 id="_solution"><a class="link" href="#_solution">Solution</a></h4>
 <div class="paragraph">
-<p>You need to do two things, write the assembler file and modify the Makefile
+<p>You need to do two things, write the assembler file and modify the <code>Makefile</code>
 to include it. For example, let&#8217;s write our own <code>my_delay_cycles</code> routine in
 in assembly.  The intrinsic <code>__delay_cycles</code> must be passed a compile time
 constant.  Our new <code>delay_cycles</code> can take a runtime delay value.</p>
 </div>
 <div class="paragraph">
-<p><a href="#more_delay-test">test-delay.c</a> is much like our other c code, but one line 9 we declare <code>my_delay_cycles</code> and then on line 23 and 25 well call it with an argument
+<p><a href="#more_delay-test">test-delay.c</a> is much like our other c code, but on line 9 we declare <code>my_delay_cycles</code> and then on line 23 and 25 well call it with an argument
 of 1.</p>
 </div>
 <div id="more_delay-test" class="listingblock">
@@ -815,11 +815,11 @@ clean:
 </div>
 </div>
 <div class="paragraph">
-<p>The resulting output is shown in <a href="#more_my_delay_cycles">Output of my_delays_cycles()</a>.</p>
+<p>The resulting output is shown in <a href="#more_my_delay_cycles">Output of my_delay_cycles()</a>.</p>
 </div>
 <div id="more_my_delay_cycles" class="paragraph">
-<div class="title">Output of my_delays_cycles()</div>
-<p><span class="image"><img src="figures/my_delay_cycles.png" alt="Output of my_delays_cycles()"></span></p>
+<div class="title">Output of my_delay_cycles()</div>
+<p><span class="image"><img src="figures/my_delay_cycles.png" alt="Output of my_delay_cycles()"></span></p>
 </div>
 <div class="paragraph">
 <p>Notice the on time is about 35ns and the off time is 30ns.</p>
@@ -862,7 +862,7 @@ clean:
 gives the argument passing convention.  Registers <code>r14</code> to <code>r29</code> are used
 to pass arguments, if there are more arguments, the argument stack (<code>r4</code>)
 is used.  The other register conventions are found on page 108.
-Here we subtract 1 from <code>r14</code> and save it back into <code>r14</code>.</p></td>
+</p><p class="tableblock">Here we subtract 1 from <code>r14</code> and save it back into <code>r14</code>.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
@@ -877,10 +877,10 @@ therefore we return to the c code.</p></td>
 </tbody>
 </table>
 <div class="paragraph">
-<p>The Makefile (<a href="#more_makefile">Makefile</a>) has just a couple of additions.  First
+<p>The <code><a href="#more_makefile">Makefile</a></code> has just a couple of additions.  First
 <code>TARGETasm</code> is the name of the assembler file.  Generally this is set
-outside with Makefile with <code>export TARGETasm=delay</code>.  Line 49 has the
-bold part added of the assmbler output is also linked in.</p>
+outside with <code>Makefil`e with `export TARGETasm=delay</code>.  Line 53 has the
+bold part shown below, added so the assmbler output is also linked in.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -888,7 +888,7 @@ bold part added of the assmbler output is also linked in.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Finally lines 58-61 are added to assemble the <code>TARGETasm</code> file.</p>
+<p>Finally lines 63-66 are added to assemble the <code>TARGETasm</code> file.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -919,9 +919,9 @@ start</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><a href="#more_my_delay_cycles">Output of my_delays_cycles()</a> shows the on time is 35ns and the off time is 30ns.
+<p><a href="#more_my_delay_cycles">Output of my_delay_cycles()</a> shows the <em>on</em> time is 35ns and the off time is 30ns.
 With 5ns/cycle this give 7 cycles on and 6 off. These times make sense
-because each instruction takes a cycle and you have, set R30, jump to
+because each instruction takes a cycle and you have, set <code>R30</code>, jump to
 <code>my_delay_cycles</code>, sub, qbne, jmp. Plus the instruction (not seen) that
 initilizes <code>r14</code> to the passed value.  That&#8217;s a total of six instructions.
 The extra instruction is the branch at the bottom of the <code>while</code> loop.</p>
@@ -1060,13 +1060,13 @@ delay:
 <div class="paragraph">
 <p>An additional feature is shown in line 4 of <a href="#more_delay2">delay2.asm</a>.  The
 <code>.cdecls "delay-test2.c"</code> says to include any defines from <code>delay-test2.c</code>
-In this example, line 6 of <a href="#more_test2">test-delay2.c</a> #defines TEST and line 12 of
+In this example, line 6 of <a href="#more_test2">test-delay2.c</a> <code>#defines</code> TEST and line 12 of
 <a href="#more_delay2">delay2.asm</a> reference it.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_using_the_built_in_counter_for_timing"><a class="link" href="#_using_the_built_in_counter_for_timing">1.3. Using the Built In Counter for Timing</a></h3>
+<h3 id="_using_the_built_in_counter_for_timing"><a class="link" href="#_using_the_built_in_counter_for_timing">1.3. Using the Built-In Counter for Timing</a></h3>
 <div class="sect3">
 <h4 id="_problem_3"><a class="link" href="#_problem_3">Problem</a></h4>
 <div class="paragraph">
@@ -1155,8 +1155,9 @@ many times the PRU stalled fetching an instruction.
 <div class="sect3">
 <h4 id="_discission_2"><a class="link" href="#_discission_2">Discission</a></h4>
 <div class="paragraph">
-<p>The code is mostly the same. <code>cycle</code> and <code>stall</code> end up in registers which
-we can read it using prudebug.
+<p>The code is mostly the same as other examples.
+<code>cycle</code> and <code>stall</code> end up in registers which
+we can read using prudebug.
 <a href="#more_cycle_lines">Line-by-line for cycle.c</a> is the Line-by-line.</p>
 </div>
 <table id="more_cycle_lines" class="tableblock frame-all grid-all spread">
@@ -1178,8 +1179,8 @@ we can read it using prudebug.
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">15</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Declaring cycle and stall.  The compiler with optimize these and just
-keep them in registers.  We&#8217;ll have to look at the cycle.lst file to see where
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declaring <code>cycle</code> and <code>stall</code>.  The compiler will optimize these and just
+keep them in registers.  We&#8217;ll have to look at the <code>cycle.lst</code> file to see where
 they are stored.</p></td>
 </tr>
 <tr>
@@ -1189,7 +1190,7 @@ they are stored.</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">25</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Reset <code>CYCLE</code>. It ignores the value assigned to it and always sets it
-to 0.  cycle is on the right hand side to make the compiler give it it&#8217;s own
+to 0.  <code>cycle</code> is on the right hand side to make the compiler give it it&#8217;s own
 register.</p></td>
 </tr>
 <tr>
@@ -1310,7 +1311,7 @@ the time to read <code>cycle</code>.</p>
 <div class="sect3">
 <h4 id="_solution_4"><a class="link" href="#_solution_4">Solution</a></h4>
 <div class="paragraph">
-<p>The <code><em>xout()</code> and <code></em>xin()</code> intrinsics are able to transfer up to 30 registers between
+<p>The <code>__xout()</code> and <code>__xin()</code> intrinsics are able to transfer up to 30 registers between
 PRU 0 and PRU 1 quickly.  <a href="#more_xout">xout.c</a> shows how <code>xout()</code> running on PRU 0
 transfers six registers to PRU 1.</p>
 </div>
@@ -1429,7 +1430,7 @@ bufferData dmemBuf;
 </div>
 </div>
 <div class="paragraph">
-<p>PRU 1 waits at line 41 until PRU 0 signals it.  <a href="#more_xin">xin.c</a> sends sends an
+<p>PRU 1 waits at line 42 until PRU 0 signals it.  <a href="#more_xin">xin.c</a> sends sends an
 interupt to PRU 0 and waits for it to send the data.</p>
 </div>
 <div id="more_xin" class="listingblock">
@@ -1621,28 +1622,28 @@ Register info <span class="keyword">for</span> PRU1
 <td class="tableblock halign-left valign-top"><p class="tableblock">A different resource so PRU 0 can receive a signal from PRU 1.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10-19</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dmemBuf</code> holds the data to be sent to PRU1.  Each will be transfered
+<td class="tableblock halign-left valign-top"><p class="tableblock">11-20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dmemBuf</code> holds the data to be sent to PRU 1.  Each will be transfered
 to its corresponding register by <code>xout()</code>.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">22-23</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">23-24</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Define the interupts we&#8217;re using.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">28-29</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">29-30</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Clear the interrupts.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">32-37</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">33-38</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Initialize dmemBuf with easy to recognize values.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">41</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">42</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Wait for PRU 1 to signal.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">46</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">47</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>__xout()</code> does a direct transfer to PRU 1.
 Page 92 of
 <a href="http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf">PRU Optimizing C/C++ Compiler, v2.2, User&#8217;s Guide</a>
@@ -1651,14 +1652,14 @@ transfer to PRU 1.  If the
 first argument is 10, 11 or 12, the data is transfered to one of three
 scratchpad memories that PRU 1 can access later.
 </p><p class="tableblock">The second argument, 5, says to start transfering
-with register <code>r5</code> and use as many regsiters as need to transfer all of
+with register <code>r5</code> and use as many regsiters as needed to transfer all of
 <code>dmemBuf</code>.
 </p><p class="tableblock">The third argument, 0, says to not use remapping. (See the User&#8217;s Guide for
 details.)
 </p><p class="tableblock">The final argument is the data to be transfered.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">49</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">50</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Clear the interupt so it can go again.</p></td>
 </tr>
 </tbody>
@@ -1680,15 +1681,15 @@ details.)
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9-16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10-17</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Place to put the received data.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">27</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">28</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Signal PRU 0</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">31</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">32</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Receive the data. The arguments are the same as <code>xout()</code>,
 14 says to get the data directly from PRU 0.
 5 says to start with register <code>r5</code>.
@@ -1696,6 +1697,10 @@ details.)
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p>If you really need speed, considering using <code>__xout()</code> and
+<code>__xin()</code> in assembly.</p>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1779,7 +1784,7 @@ details.)
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-11 13:45:44 EDT
+Last updated 2018-08-16 16:44:54 EDT
 </div>
 </div>
 </body>
