@@ -88,7 +88,7 @@ to configure the pins for the Black and the Pocket.
 ====
 
 Just run:
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 bone$ *sudo rc_test_servos -f 10 -p 1.5*
@@ -97,7 +97,7 @@ bone$ *sudo rc_test_servos -f 10 -p 1.5*
 The `-f 10` says to use a frequency of 10 Hz and the `-p 1.5` says to set the position to `1.5`.  The range of positions is
 `-1.5` to `1.5`.   Run `rc_test_servos -h` to see all the options.
 
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 bone$ *rc_test_servos -h*
@@ -175,7 +175,7 @@ I want to use four encoders to measure four motors, but I only see hardware for 
 ===== Solution
 The forth encoder can be implemented on the PRU. If you run `rc_test_encoders_eqep` on the Blue, you will see the output of 
 encoders E1-E3 which are connected to the eEQP hardware.
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 bone$ *rc_test_encoders_eqep* 
@@ -220,7 +220,7 @@ This command
 needs root permission, so the `sudo` is needed.  
 ====
 Here's what you will see
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 bone$ *sudo rc_test_encoders_pru*
@@ -259,7 +259,7 @@ If you want to be running a newer image, there are instructions on the site for 
 
 [[case_installing_beaglelogic]]
 .Installing BeagleLogic
-[source,bash,linenums]
+[source,linenums]
 [subs=+quotes]
 ----
 bone$ *git clone https://github.com/abhishek-kakkar/BeagleLogic*
@@ -271,6 +271,8 @@ bone$ *sudo cp beaglelogic-00A0.dtbo /lib/firmware/*
 bone$ *sudo update-initramfs -u -k \`uname -r`*
 bone$ *sudo reboot*
 ----
+
+// TODO <strong> is showing up here
 
 Once the Bone has rebooted, browse to 192.168.7.2:4000 where you'll see
 <<case_beaglelogic_capture>>.  Here you can easily select the sample
@@ -388,7 +390,7 @@ LEDscape uses UIO, an older method for talking to the PRU.  See
 
 First install LEDscape and openpixelcontrol.
 
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 bone$ *git clone https://github.com/Yona-Appletree/LEDscape.git*
@@ -396,7 +398,7 @@ bone$ *git clone https://github.com/zestyping/openpixelcontrol*
 ----
 Next find which channels are on which pins
 
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 bone$ *node LEDscape/pru/pinmap.js*
@@ -437,7 +439,7 @@ The following is a hack, but it makes it work.
 ====
 We need to edit `ledsacpe.c` and `opc-server.c` to make them work.
 
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 bone$ *cd LEDscape*
@@ -484,7 +486,7 @@ And also lines 176-184
 
 Now configure P9_22 and run `make`.
 
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 bone$ *config-pin P9_22 out*
@@ -494,7 +496,7 @@ bone$ *make*
 ----
 Now run `sudo opc-server`.
 
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 bone$ *sudo ./opc-server*
@@ -552,7 +554,7 @@ of the ARM CPU.
 Let's write a configuration file that fits our LEDs string. Copy the default
 configuration and edit it.
 
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 bone$ *cp configs/ws281x-config.json my-config.json*
@@ -561,14 +563,14 @@ Now edit it to match <<case_config>>.
 
 [[case_config]]
 .my-config.json
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 include::code/my-config.json[]
 ----
 
 Run this with:
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 bone$ *sudo ./opc-server --config my-config.json*
@@ -697,7 +699,7 @@ following instructions at
 
 Run xLights and you'll see <<case_xlights_setup>>.
 
-[source, bash]
+[source]
 [subs=+quotes]
 ----
 host$ *apt install xlights*

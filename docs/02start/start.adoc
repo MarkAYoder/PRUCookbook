@@ -183,7 +183,7 @@ You can find the code (and the whole book) on the PRU Cookbook github site:
 <https://github.com/MarkAYoder/PRUCookbook/tree/master/docs>.  Just clone 
 it on your Beagle and then look in the *docs* directory.  
 
-[source,bash,linenums]
+[source,linenums]
 [subs=+quotes]
 ----
 bone$ *git clone https://github.com/MarkAYoder/PRUCookbook.git*
@@ -199,7 +199,7 @@ Each chapter has its own
 directory and within that directory is a *code* directory that has all of the 
 code.
 
-[source,bash,linenums]
+[source,linenums]
 [subs=+quotes]
 ----
 bone$ *cd 02start/code/*
@@ -232,7 +232,7 @@ to run it right now do the following.
 
 [[start_running_code]]
 .Running Code
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 bone$ *git clone https://github.com/MarkAYoder/PRUCookbook.git*

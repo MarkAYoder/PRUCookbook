@@ -665,7 +665,7 @@ to configure the pins for the Black and the Pocket.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>sudo rc_test_servos -f 10 -p 1.5</strong></code></pre>
+<pre class="CodeRay highlight"><code>bone$ <strong>sudo rc_test_servos -f 10 -p 1.5</strong></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -674,7 +674,7 @@ to configure the pins for the Black and the Pocket.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>rc_test_servos -h</strong>
+<pre class="CodeRay highlight"><code>bone$ <strong>rc_test_servos -h</strong>
 
  Options
  -c {channel}   Specify one channel from 1-8.
@@ -831,7 +831,7 @@ encoders E1-E3 which are connected to the eEQP hardware.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>rc_test_encoders_eqep</strong>
+<pre class="CodeRay highlight"><code>bone$ <strong>rc_test_encoders_eqep</strong>
 
 Raw encoder positions
       E1   |      E2   |      E3   |
@@ -958,7 +958,7 @@ needs root permission, so the <code>sudo</code> is needed.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>sudo rc_test_encoders_pru</strong>
+<pre class="CodeRay highlight"><code>bone$ <strong>sudo rc_test_encoders_pru</strong>
 [sudo] password for debian:
 
 Raw encoder position
@@ -1015,25 +1015,14 @@ The core of the logic analyzer is the 'beaglelogic' kernel module that reserves 
 <div id="case_installing_beaglelogic" class="listingblock">
 <div class="title">Installing BeagleLogic</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
-  <td class="line-numbers"><pre>1
-2
-3
-4
-5
-6
-7
-8
-</pre></td>
-  <td class="code"><pre>bone$ <strong>git clone https://github.com/abhishek-kakkar/BeagleLogic</strong>
+<pre class="CodeRay highlight"><code data-lang="linenums">bone$ <strong>git clone https://github.com/abhishek-kakkar/BeagleLogic</strong>
 bone$ <strong>cd BeagleLogic/kernel</strong>
 bone$ <strong>mv beaglelogic-00A0.dts beaglelogic-00A0.dts.orig</strong>
 bone$ <strong>wget https://gist.githubusercontent.com/abhishek-kakkar/0761ef7b10822cff4b3efd194837f49c/raw/eb2cf6cfb59ff5ccb1710dcd7d4a40cc01cfc050/beaglelogic-00A0.dts</strong>
 bone$ <strong>make overlay</strong>
 bone$ <strong>sudo cp beaglelogic-00A0.dtbo /lib/firmware/</strong>
 bone$ <strong>sudo update-initramfs -u -k `uname -r`</strong>
-bone$ <strong>sudo reboot</strong></pre></td>
-</tr></table></code></pre>
+bone$ <strong>sudo reboot</strong></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1191,7 +1180,7 @@ hardware!  Here&#8217;s how to install it.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>git clone https://github.com/Yona-Appletree/LEDscape.git</strong>
+<pre class="CodeRay highlight"><code>bone$ <strong>git clone https://github.com/Yona-Appletree/LEDscape.git</strong>
 bone$ <strong>git clone https://github.com/zestyping/openpixelcontrol</strong></code></pre>
 </div>
 </div>
@@ -1200,7 +1189,7 @@ bone$ <strong>git clone https://github.com/zestyping/openpixelcontrol</strong></
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>node LEDscape/pru/pinmap.js</strong>
+<pre class="CodeRay highlight"><code>bone$ <strong>node LEDscape/pru/pinmap.js</strong>
 Using mapping: Original LEDscape from original-ledscape
                        Internal Channel Index
  Row  Pin#           P9            Pin#  |  Pin#           P8            Pin# Row
@@ -1253,7 +1242,7 @@ which maps to P9_22. Wire your LED string to P9_22.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>cd LEDscape</strong></code></pre>
+<pre class="CodeRay highlight"><code>bone$ <strong>cd LEDscape</strong></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1308,7 +1297,7 @@ which maps to P9_22. Wire your LED string to P9_22.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>config-pin P9_22 out</strong>
+<pre class="CodeRay highlight"><code>bone$ <strong>config-pin P9_22 out</strong>
 bone$ <strong>config-pin -q P9_22</strong>
 P9_22 Mode: gpio Direction: out Value: 0
 bone$ <strong>make</strong></code></pre>
@@ -1319,7 +1308,7 @@ bone$ <strong>make</strong></code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>sudo ./opc-server</strong>
+<pre class="CodeRay highlight"><code>bone$ <strong>sudo ./opc-server</strong>
 [main] Starting server on ports (tcp=7890, udp=7890) for 176 pixels on 48 strips
 [main] Demo Mode Enabled
 Allocating buffers for 8448 pixels (202752 bytes)
@@ -1334,22 +1323,22 @@ String PRU1 with pru/bin/ws281x-original-ledscape-pru1.bin... OK
 [tcp] Starting TCP server on 7890
 [demo] Starting Demo: fade
 {
-    &quot;outputMode&quot;: &quot;ws281x&quot;,
-    &quot;outputMapping&quot;: &quot;original-ledscape&quot;,
-    &quot;demoMode&quot;: &quot;fade&quot;,
-    &quot;ledsPerStrip&quot;: 176,
-    &quot;usedStripCount&quot;: 48,
-    &quot;colorChannelOrder&quot;: &quot;BRG&quot;,
-    &quot;opcTcpPort&quot;: 7890,
-    &quot;opcUdpPort&quot;: 7890,
-    &quot;enableInterpolation&quot;: true,
-    &quot;enableDithering&quot;: true,
-    &quot;enableLookupTable&quot;: true,
-    &quot;lumCurvePower&quot;: 2.0000,
-    &quot;whitePoint&quot;: {
-        &quot;red&quot;: 0.9000,
-        &quot;green&quot;: 1.0000,
-        &quot;blue&quot;: 1.0000
+    "outputMode": "ws281x",
+    "outputMapping": "original-ledscape",
+    "demoMode": "fade",
+    "ledsPerStrip": 176,
+    "usedStripCount": 48,
+    "colorChannelOrder": "BRG",
+    "opcTcpPort": 7890,
+    "opcUdpPort": 7890,
+    "enableInterpolation": true,
+    "enableDithering": true,
+    "enableLookupTable": true,
+    "lumCurvePower": 2.0000,
+    "whitePoint": {
+        "red": 0.9000,
+        "green": 1.0000,
+        "blue": 1.0000
     }
 }
 [render] fps_info={frame_avg_usec: 1924, possible_fps: 519.75, actual_fps: 0.10, sample_frames: 1}</code></pre>
@@ -1382,7 +1371,7 @@ configuration and edit it.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>cp configs/ws281x-config.json my-config.json</strong></code></pre>
+<pre class="CodeRay highlight"><code>bone$ <strong>cp configs/ws281x-config.json my-config.json</strong></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1391,23 +1380,23 @@ configuration and edit it.</p>
 <div id="case_config" class="listingblock">
 <div class="title">my-config.json</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">{
-    &quot;outputMode&quot;: &quot;ws281x&quot;,
-    &quot;outputMapping&quot;: &quot;original-ledscape&quot;,
-    &quot;demoMode&quot;: &quot;fade&quot;,
-    &quot;ledsPerStrip&quot;: 16,
-    &quot;usedStripCount&quot;: 1,
-    &quot;colorChannelOrder&quot;: &quot;BRG&quot;,
-    &quot;opcTcpPort&quot;: 7890,
-    &quot;opcUdpPort&quot;: 7890,
-    &quot;enableInterpolation&quot;: false,
-    &quot;enableDithering&quot;: false,
-    &quot;enableLookupTable&quot;: true,
-    &quot;lumCurvePower&quot;: 2.0000,
-    &quot;whitePoint&quot;: {
-        &quot;red&quot;: 0.9000,
-        &quot;green&quot;: 1.0000,
-        &quot;blue&quot;: 1.0000
+<pre class="CodeRay highlight"><code>{
+    "outputMode": "ws281x",
+    "outputMapping": "original-ledscape",
+    "demoMode": "fade",
+    "ledsPerStrip": 16,
+    "usedStripCount": 1,
+    "colorChannelOrder": "BRG",
+    "opcTcpPort": 7890,
+    "opcUdpPort": 7890,
+    "enableInterpolation": false,
+    "enableDithering": false,
+    "enableLookupTable": true,
+    "lumCurvePower": 2.0000,
+    "whitePoint": {
+        "red": 0.9000,
+        "green": 1.0000,
+        "blue": 1.0000
     }
 }</code></pre>
 </div>
@@ -1417,7 +1406,7 @@ configuration and edit it.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>sudo ./opc-server --config my-config.json</strong></code></pre>
+<pre class="CodeRay highlight"><code>bone$ <strong>sudo ./opc-server --config my-config.json</strong></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1892,7 +1881,7 @@ motors, stepper motors, relays, and other devices related to machine tools.</p>
 <div class="paragraph">
 <p><a href="http://ardupilot.org/">ArduPilot</a> is a open source autopilot system supporting multi-copters, traditional helicopters, fixed wing aircraft and rovers.
 ArduPilot runs on a many
-<a href="http://ardupilot.org/copter/docs/common-autopilots.html">heardware platforms</a>
+<a href="http://ardupilot.org/copter/docs/common-autopilots.html">hardware platforms</a>
 including the
 <a href="http://ardupilot.org/dev/docs/building-for-beaglebone-black-on-linux.html#building-for-beaglebone-black-on-linux">BeagleBone Black</a> and the
 <a href="http://ardupilot.org/copter/docs/common-beagle-bone-blue.html">BeagleBone Blue</a>.</p>
@@ -1912,7 +1901,7 @@ The software suite is installed in aircraft from many OEM UAV companies, such as
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-08-15 15:05:29 EDT
+Last updated 2018-08-16 08:37:51 EDT
 </div>
 </div>
 </body>

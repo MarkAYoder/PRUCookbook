@@ -516,10 +516,11 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel1">
 <li><a href="#_debugging_and_benchmarking">1. Debugging and Benchmarking</a>
 <ul class="sectlevel2">
-<li><a href="#_dmesg_hw">1.1. dmesg –Hw</a></li>
-<li><a href="#debug_prudebug">1.2. prudebug - A Simple Debugger for the PRU</a></li>
-<li><a href="#_uart">1.3. UART</a></li>
-<li><a href="#_copyright">1.4. Copyright</a></li>
+<li><a href="#_debugging_via_an_led">1.1. Debugging via an LED</a></li>
+<li><a href="#_dmesg_hw">1.2. dmesg –Hw</a></li>
+<li><a href="#debug_prudebug">1.3. prudebug - A Simple Debugger for the PRU</a></li>
+<li><a href="#_uart">1.4. UART</a></li>
+<li><a href="#_copyright">1.5. Copyright</a></li>
 </ul>
 </li>
 </ul>
@@ -539,7 +540,27 @@ chaper.</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>One of the challenges is getting debug
-information out without slowing the real-time execution.   One of the
+information out of the PRUs since they don&#8217;t have a traditional <code>printf()</code>.
+In this chapter four different methods are presented that I&#8217;ve found useful in
+debugging.  The first is simply attaching an LED.  The second is using
+<code>dmesg</code> to watch the kernel messages.  <code>prudebug</code>, a simple debugger that
+allows you to inspect registers and memory of the PRUs, is then presented.
+Finally, using one of the UARTS to send debugging information out a serial port
+is shown.</p>
+</div>
+<div class="sect2">
+<h3 id="_debugging_via_an_led"><a class="link" href="#_debugging_via_an_led">1.1. Debugging via an LED</a></h3>
+<div class="sect3">
+<h4 id="_problem"><a class="link" href="#_problem">Problem</a></h4>
+<div class="paragraph">
+<p>I need a simple way to see if my program is running without slowing the
+real-time execution.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution"><a class="link" href="#_solution">Solution</a></h4>
+<div class="paragraph">
+<p>One of the
 simplest ways to do this is to attach an LED to the output pin and watch it
 flash.
 <a href="#debug_LED">LED used for debugging P9_29</a> shows an LED attached to pin P9_29 of the BeagleBone Black.</p>
@@ -553,6 +574,9 @@ flash.
 <div class="paragraph">
 <p>Make sure you have the LED in the correct way, or it won&#8217;t work.</p>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_discussion"><a class="link" href="#_discussion">Discussion</a></h4>
 <div class="paragraph">
 <p>If your output is changing more than a few times a second, the LED will be
 blinking too fast and you&#8217;ll need an oscilloscope or a logic analyzer to
@@ -562,17 +586,19 @@ see what&#8217;s happening.</p>
 <p>Another useful tool that let&#8217;s you see the contents of the registers and
 RAM is discussed in <a href="#debug_prudebug">prudebug - A Simple Debugger for the PRU</a>.</p>
 </div>
+</div>
+</div>
 <div class="sect2">
-<h3 id="_dmesg_hw"><a class="link" href="#_dmesg_hw">1.1. dmesg –Hw</a></h3>
+<h3 id="_dmesg_hw"><a class="link" href="#_dmesg_hw">1.2. dmesg –Hw</a></h3>
 <div class="sect3">
-<h4 id="_problem"><a class="link" href="#_problem">Problem</a></h4>
+<h4 id="_problem_2"><a class="link" href="#_problem_2">Problem</a></h4>
 <div class="paragraph">
 <p>I&#8217;m getting an error message (<code>/sys/devices/platform/ocp/4a326000.pruss-soc-bus/4a300000.pruss/4a334000.pru0/remoteproc/remoteproc1/state: Invalid argument</code>)
 when I load my code, but don&#8217;t know what&#8217;s causing it.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution"><a class="link" href="#_solution">Solution</a></h4>
+<h4 id="_solution_2"><a class="link" href="#_solution_2">Solution</a></h4>
 <div class="paragraph">
 <p>The command <code>dmesg</code> outputs useful information when dealing with the kernel.
 Simplying running <code>dmesg -H</code> can tell you a lot.  The <code>-H</code> flag puts the
@@ -585,15 +611,9 @@ the <code>-w</code> tells it to wait for more information.</p>
 <div class="listingblock">
 <div class="title">dmesg -Hw</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
-  <td class="line-numbers"><pre>1
-2
-3
-</pre></td>
-  <td class="code"><pre>[  +0.000018] remoteproc remoteproc1: header-less resource table
+<pre class="CodeRay highlight"><code data-lang="linenums">[  +0.000018] remoteproc remoteproc1: header-less resource table
 [  +0.011879] remoteproc remoteproc1: Failed to find resource table
-[  +0.008770] remoteproc remoteproc1: Boot failed: -22</pre></td>
-</tr></table></code></pre>
+[  +0.008770] remoteproc remoteproc1: Boot failed: -22</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -603,15 +623,15 @@ to my code.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="debug_prudebug"><a class="link" href="#debug_prudebug">1.2. prudebug - A Simple Debugger for the PRU</a></h3>
+<h3 id="debug_prudebug"><a class="link" href="#debug_prudebug">1.3. prudebug - A Simple Debugger for the PRU</a></h3>
 <div class="sect3">
-<h4 id="_problem_2"><a class="link" href="#_problem_2">Problem</a></h4>
+<h4 id="_problem_3"><a class="link" href="#_problem_3">Problem</a></h4>
 <div class="paragraph">
 <p>You need to examine registers and memory on the PRUs.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_2"><a class="link" href="#_solution_2">Solution</a></h4>
+<h4 id="_solution_3"><a class="link" href="#_solution_3">Solution</a></h4>
 <div class="paragraph">
 <p><code>prudebug</code> is a simple debugger for the PRUs that lets you start and stop the PRUs and
 examine the registers and memory. It can be found on GitHub
@@ -625,13 +645,13 @@ assembler output. You can find it in my GitHub BeagleBoard repo
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion"><a class="link" href="#_discussion">Discussion</a></h4>
+<h4 id="_discussion_2"><a class="link" href="#_discussion_2">Discussion</a></h4>
 <div class="paragraph">
 <p>Once <code>prudebug</code> is installed is rather easy to use.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>sudo prudebug</strong>
+<pre class="CodeRay highlight"><code>bone$ <strong>sudo prudebug</strong>
 PRU Debugger v0.25
 (C) Copyright 2011, 2013 by Arctica Technologies.  All rights reserved.
 Written by Steven Anderson
@@ -681,7 +701,7 @@ The commands I find most useful are, <code>r</code>, to see the registers.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">PRU0&gt; <strong>r</strong>
+<pre class="CodeRay highlight"><code>PRU0&gt; <strong>r</strong>
 Register info for PRU0
     Control register: 0x00008003
       Reset PC:0x0000  RUNNING, FREE_RUN, COUNTER_DISABLED, NOT_SLEEPING, PROC_ENABLED
@@ -697,7 +717,7 @@ Register info for PRU0
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">PRU0&gt; <strong>h</strong>
+<pre class="CodeRay highlight"><code>PRU0&gt; <strong>h</strong>
 PRU0 Halted.
 PRU0&gt; <strong>r</strong>
 Register info for PRU0
@@ -744,7 +764,7 @@ where the stack is.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0x00100</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Start of the help for PRU 0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Start of the heap for PRU 0.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0x00200</p></td>
@@ -762,31 +782,50 @@ the size of the stack and the heap.</p></td>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">PRU0&gt; <strong>dd</strong>
+<pre class="CodeRay highlight"><code>PRU0&gt; <strong>dd</strong>
 dd
 Absolute addr = 0x0000, offset = 0x0000, Len = 16
 [0x0000] 0x00000000 0x00000000 0x00000000 0x00000000
 [0x0010] 0x00000000 0x00000000 0x00000000 0x00000000
 [0x0020] 0x00000000 0x00000000 0x00000000 0x00000000
-[0x0030] 0x00000000 0x00000000 0x00000000 0x00000000
-
-PRU0&gt; <strong>dd 0x100</strong>
+[0x0030] 0x00000000 0x00000000 0x00000000 0x00000000</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The stack grows from higher memory to lower memory, so you often won&#8217;t see
+much around address <code>0x0000</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>PRU0&gt; <strong>dd 0x100</strong>
 dd 0x100
 Absolute addr = 0x0100, offset = 0x0000, Len = 16
 [0x0100] 0x00000001 0x00000002 0x00000003 0x00000004
 [0x0110] 0x00000004 0x00000003 0x00000002 0x00000001
 [0x0120] 0x00000001 0x00000000 0x00000000 0x00000000
-[0x0130] 0x00000000 0x00000200 0x862e5c18 0xfeb21aca
-
-PRU0&gt; <strong>dd 0x200</strong>
+[0x0130] 0x00000000 0x00000200 0x862e5c18 0xfeb21aca</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here we see some values on the heap.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>PRU0&gt; <strong>dd 0x200</strong>
 dd 0x200
 Absolute addr = 0x0200, offset = 0x0000, Len = 16
 [0x0200] 0x00000001 0x00000004 0x00000002 0x00000003
 [0x0210] 0x00000003 0x00000011 0x00000004 0x00000010
 [0x0220] 0x0a4fe833 0xb222ebda 0xe5575236 0xc50cbefd
-[0x0230] 0xb037c0d7 0xf48bbe23 0x88c460f0 0x011550d4
-
-PRU0&gt; <strong>dd 0x10000</strong>
+[0x0230] 0xb037c0d7 0xf48bbe23 0x88c460f0 0x011550d4</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Data written explicity to <code>0x0200</code> of the DRAM.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>PRU0&gt; <strong>dd 0x10000</strong>
 dd 0x10000
 Absolute addr = 0x10000, offset = 0x0000, Len = 16
 [0x10000] 0x8ca9d976 0xebcb119e 0x3aebce31 0x68c44d8b
@@ -796,21 +835,28 @@ Absolute addr = 0x10000, offset = 0x0000, Len = 16
 </div>
 </div>
 <div class="paragraph">
+<p>Here&#8217;s the shared memory.</p>
+</div>
+<div class="paragraph">
 <p>You can also use <code>prudebug</code> to set breakpoints and single step,
 but I haven&#8217;t used that feature much.</p>
+</div>
+<div class="paragraph">
+<p><a href="../05blocks/blocks.html#_memory_allocation">Memory Allocation</a> gives examples
+of how you can control where your vaiables are stored in memory.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_uart"><a class="link" href="#_uart">1.3. UART</a></h3>
+<h3 id="_uart"><a class="link" href="#_uart">1.4. UART</a></h3>
 <div class="sect3">
-<h4 id="_problem_3"><a class="link" href="#_problem_3">Problem</a></h4>
+<h4 id="_problem_4"><a class="link" href="#_problem_4">Problem</a></h4>
 <div class="paragraph">
 <p>I&#8217;d like to use something like <code>printf()</code> to debug my code.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_3"><a class="link" href="#_solution_3">Solution</a></h4>
+<h4 id="_solution_4"><a class="link" href="#_solution_4">Solution</a></h4>
 <div class="paragraph">
 <p>One simple, yet effective approach to 'printing' from the PRU is
 an idea taken from the Adruino playbook;
@@ -819,7 +865,7 @@ own UART that can send characters to a serial port.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_2"><a class="link" href="#_discussion_2">Discussion</a></h4>
+<h4 id="_discussion_3"><a class="link" href="#_discussion_3">Discussion</a></h4>
 <div class="paragraph">
 <p>Two examples of using the UART are presented here.  The first (<code>uart1.c</code>) Sends
 a character out the serial port then waits for a character to come in.  Once
@@ -835,17 +881,10 @@ Once an ENTER appears the string is sent back.</p>
 <div class="listingblock">
 <div class="title">config-pin</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
-  <td class="line-numbers"><pre>1
-2
-3
-4
-</pre></td>
-  <td class="code"><pre># Configure tx
+<pre class="CodeRay highlight"><code data-lang="linenums"># Configure tx
 bone$ <strong>config-pin P9_24 pru_uart</strong>
 # Configure rx
-bone$ <strong>config-pin P9_26 pru_uart</strong></pre></td>
-</tr></table></code></pre>
+bone$ <strong>config-pin P9_26 pru_uart</strong></code></pre>
 </div>
 </div>
 <div class="sect4">
@@ -856,22 +895,7 @@ bone$ <strong>config-pin P9_26 pru_uart</strong></pre></td>
 <div class="listingblock">
 <div class="title">make</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
-  <td class="line-numbers"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-</pre></td>
-  <td class="code"><pre>bone$ <strong>export PRUN=0</strong>
+<pre class="CodeRay highlight"><code data-lang="linenums">bone$ <strong>export PRUN=0</strong>
 bone$ <strong>export TARGET=uart1</strong>
 bone$ <strong>make</strong>
 -    Stopping PRU 0
@@ -883,8 +907,7 @@ CC  uart1.c
 LD  /tmp/pru0-gen/uart1.obj
 -   copying firmware file /tmp/pru0-gen/uart1.out to /lib/firmware/am335x-pru0-fw
 -    Starting PRU 0
-start</pre></td>
-</tr></table></code></pre>
+start</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -893,11 +916,7 @@ on your host computer run</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
-  <td class="line-numbers"><pre>1
-</pre></td>
-  <td class="code"><pre>host <strong>screen /dev/ttyUSB0 115200</strong></pre></td>
-</tr></table></code></pre>
+<pre class="CodeRay highlight"><code data-lang="linenums">host <strong>screen /dev/ttyUSB0 115200</strong></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1125,20 +1144,7 @@ debugging information.</p>
 <div class="listingblock">
 <div class="title">make</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
-  <td class="line-numbers"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-</pre></td>
-  <td class="code"><pre>bone$ <strong>export PRUN=0</strong>
+<pre class="CodeRay highlight"><code data-lang="linenums">bone$ <strong>export PRUN=0</strong>
 bone$ <strong>export TARGET=uart2</strong>
 bone$ <strong>make</strong>
 -    Stopping PRU 0
@@ -1148,8 +1154,7 @@ CC  uart2.c
 LD  /tmp/pru0-gen/uart2.obj
 -   copying firmware file /tmp/pru0-gen/uart2.out to /lib/firmware/am335x-pru0-fw
 -    Starting PRU 0
-start</pre></td>
-</tr></table></code></pre>
+start</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1436,7 +1441,7 @@ wait for the FIFO to empty, which may cause your code to miss something.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_copyright"><a class="link" href="#_copyright">1.4. Copyright</a></h3>
+<h3 id="_copyright"><a class="link" href="#_copyright">1.5. Copyright</a></h3>
 <div class="listingblock">
 <div class="title">copyright.c</div>
 <div class="content">
@@ -1515,7 +1520,7 @@ wait for the FIFO to empty, which may cause your code to miss something.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-11 09:59:49 EDT
+Last updated 2018-08-16 09:13:05 EDT
 </div>
 </div>
 </body>

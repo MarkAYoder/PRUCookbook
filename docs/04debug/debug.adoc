@@ -5,7 +5,21 @@ include::../copyright.adoc[copyright]
 == Debugging and Benchmarking
 
 One of the challenges is getting debug
-information out without slowing the real-time execution.   One of the
+information out of the PRUs since they don't have a traditional `printf()`.
+In this chapter four different methods are presented that I've found useful in 
+debugging.  The first is simply attaching an LED.  The second is using 
+`dmesg` to watch the kernel messages.  `prudebug`, a simple debugger that 
+allows you to inspect registers and memory of the PRUs, is then presented. 
+Finally, using one of the UARTS to send debugging information out a serial port 
+is shown. 
+
+=== Debugging via an LED
+==== Problem
+I need a simple way to see if my program is running without slowing the 
+real-time execution.
+
+==== Solution
+One of the
 simplest ways to do this is to attach an LED to the output pin and watch it 
 flash.  
 <<debug_LED>> shows an LED attached to pin P9_29 of the BeagleBone Black.
@@ -15,6 +29,8 @@ flash.
 image::figures/LED_bb.png[LED used for debugging P9_29]
 
 Make sure you have the LED in the correct way, or it won't work.
+
+==== Discussion
 
 If your output is changing more than a few times a second, the LED will be 
 blinking too fast and you'll need an oscilloscope or a logic analyzer to
@@ -38,7 +54,7 @@ the `-w` tells it to wait for more information.
 Here's what `dmesg` said for the example above.
 
 .dmesg -Hw
-[source,bash,linenums] 
+[source,linenums] 
 ----
 [  +0.000018] remoteproc remoteproc1: header-less resource table
 [  +0.011879] remoteproc remoteproc1: Failed to find resource table
@@ -65,7 +81,7 @@ Just download the files and type `make`.
 ==== Discussion
 Once `prudebug` is installed is rather easy to use.
 
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 bone$ *sudo prudebug*
@@ -113,7 +129,7 @@ Command help
 ----
 Initially you are talking to PRU 0.  You can enter `pru 1` to talk to PRU 1.
 The commands I find most useful are, `r`, to see the registers.
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 PRU0> *r*
@@ -127,7 +143,7 @@ Register info for PRU0
     Rxx registers not available since PRU is RUNNING.
 ----
 Notice the PRU has to be stopped to see the register contents.
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 PRU0> *h*
@@ -160,16 +176,16 @@ The `dd` command dumps the memory.  Keep in mind the following.
 |===
 |Address|Contents
 
-|0x00000|Start of the stack for PRU 0.  The file ((AM335x_PRU.cmd)) specifies 
+|0x00000|Start of the ((stack)) for PRU 0.  The file ((AM335x_PRU.cmd)) specifies 
 where the stack is.
-|0x00100|Start of the help for PRU 0.
+|0x00100|Start of the ((heap)) for PRU 0.
 |0x00200|Start of DRAM that your programs can use.  The ((Makefile)) specifies
 the size of the ((stack)) and the ((heap)).
 |0x10000|Start of the memory shared between the PRUs.
 |===
 
 Using `dd` with no address prints the next section of memory.
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 PRU0> *dd*
@@ -179,7 +195,13 @@ Absolute addr = 0x0000, offset = 0x0000, Len = 16
 [0x0010] 0x00000000 0x00000000 0x00000000 0x00000000 
 [0x0020] 0x00000000 0x00000000 0x00000000 0x00000000 
 [0x0030] 0x00000000 0x00000000 0x00000000 0x00000000 
+----
+The stack grows from higher memory to lower memory, so you often won't see 
+much around address `0x0000`.
 
+[source]
+[subs=+quotes]
+----
 PRU0> *dd 0x100*
 dd 0x100
 Absolute addr = 0x0100, offset = 0x0000, Len = 16
@@ -187,15 +209,24 @@ Absolute addr = 0x0100, offset = 0x0000, Len = 16
 [0x0110] 0x00000004 0x00000003 0x00000002 0x00000001 
 [0x0120] 0x00000001 0x00000000 0x00000000 0x00000000 
 [0x0130] 0x00000000 0x00000200 0x862e5c18 0xfeb21aca 
+----
+Here we see some values on the heap.
 
+[source]
+[subs=+quotes]
+----
 PRU0> *dd 0x200*
 dd 0x200
 Absolute addr = 0x0200, offset = 0x0000, Len = 16
 [0x0200] 0x00000001 0x00000004 0x00000002 0x00000003 
 [0x0210] 0x00000003 0x00000011 0x00000004 0x00000010 
 [0x0220] 0x0a4fe833 0xb222ebda 0xe5575236 0xc50cbefd 
-[0x0230] 0xb037c0d7 0xf48bbe23 0x88c460f0 0x011550d4 
-
+[0x0230] 0xb037c0d7 0xf48bbe23 0x88c460f0 0x011550d4
+----
+Data written explicity to `0x0200` of the DRAM.
+[source]
+[subs=+quotes]
+----
 PRU0> *dd 0x10000*
 dd 0x10000
 Absolute addr = 0x10000, offset = 0x0000, Len = 16
@@ -204,13 +235,16 @@ Absolute addr = 0x10000, offset = 0x0000, Len = 16
 [0x10020] 0x5ad81b4f 0x4a55071a 0x48576eb7 0x1004786b 
 [0x10030] 0x2265ebc6 0xa27b32a0 0x340d34dc 0xbfa02d4b
 ----
+Here's the shared memory.
 
 You can also use `prudebug` to set breakpoints and single step, 
 but I haven't used that feature much.
 
+<<../05blocks/blocks.html#_memory_allocation, Memory Allocation>> gives examples 
+of how you can control where your vaiables are stored in memory.
+
 
 === UART
-
 ==== Problem
 I'd like to use something like `printf()` to debug my code.
 
@@ -221,7 +255,7 @@ use the UART (serial port) to output debug information.  The PRU has it's
 own UART that can send characters to a serial port.
 
 ==== Discussion
-Two examples of using the UART are presented here.  The first (`uart1.c`) Sends
+Two examples of using the UART are presented here.  The first (`uart1.c`) sends
 a character out the serial port then waits for a character to come in.  Once
 the new character arrives another character is output.
 
@@ -231,7 +265,7 @@ Once an ENTER appears the string is sent back.
 For either of these you will need to set the pin muxes.
 
 .config-pin
-[source,bash,linenums] 
+[source,linenums] 
 [subs=+quotes]
 ----
 # Configure tx
@@ -246,7 +280,7 @@ bone$ *config-pin P9_26 pru_uart*
 Set the following variables so `make` will know what to compile.
 
 .make
-[source,bash,linenums] 
+[source,linenums] 
 [subs=+quotes]
 ----
 bone$ *export PRUN=0*
@@ -265,7 +299,7 @@ start
 ----
 Now `make` will compile, load PRU0 and start it.  In a terminal window 
 on your host computer run
-[source,bash,linenums] 
+[source,linenums] 
 [subs=+quotes]
 ----
 host *screen /dev/ttyUSB0 115200*
@@ -305,7 +339,7 @@ debugging information.
 If you want to try `uart2.c`, run the following:
 
 .make
-[source,bash,linenums]
+[source,linenums]
 [subs=+quotes]
 ----
 bone$ *export PRUN=0*
