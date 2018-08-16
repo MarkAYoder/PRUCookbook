@@ -2,7 +2,7 @@ include::../header.adoc[]
 
 == Accessing More I/O
 So far the examples have shown how to access the GPIO pins on the BeagleBone Black's 
-`P9` header and through the `__R30` register.  Below shows how more GPIO pins
+`P9` header and through the `pass:[__]R30` register.  Below shows how more GPIO pins
 can be accessed.
 
 The following are resources used in this chapter.
@@ -15,7 +15,7 @@ The following are resources used in this chapter.
 
 === Editing /boot/uEnv.txt to Access the P8 Header on the Black
 ==== Problem
-When I try ton configure some pins on the `P8` header of the Black I get an error.
+When I try to configure some pins on the `P8` header of the Black I get an error.
 
 .config-pin
 [source,bash]
@@ -29,11 +29,12 @@ Pin has no cape: P8_27
 
 ==== Solution
 On the images for the BeagleBone Black, the HDMI display driver is enabled by
-default.  The driver uses many of the `P8` pins.  If you are not using
+default and uses many of the `P8` pins.  If you are not using
 HDMI video (or the HDI audio, or even the eMMC) you can disable it by editing
-`/boot/uEnt.txt`
+`/boot/uEnv.txt`
 
 Open `/boot/uEnv.txt` and scroll down aways until you see:
+
 ./boot/uEnv.txt
 [source,bash]
 ----
@@ -54,23 +55,24 @@ Save the file and reboot.  You now have access to the `P8` pins.
 === Accessing gpio
 
 ==== Problem
-I've used up all the GPIO in `__R30`, where can I get more?
+I've used up all the GPIO in `pass:[__]R30`, where can I get more?
 
 ==== Solution
 So far we have focused on using PRU 0.  
-<<../05blocks/blocks.html#_pwm1_c,Table 3>> shows 
+<<../05blocks/blocks.html#blocks_mapping_bits,Mapping bit positions to pin names
+PRU>> shows 
 // TODO Put a tag on Table 3
 that PRU 0 can access ten GPIO pins on the BeagleBone Black.  If you use
 PRU 1 you can get to an additional 14 pins (if they aren't in use for other things.)
 
 What if you need even more GPIO pins? You can access _any_ GPIO pin by going
-through the **o**ne **c**hip **p**eripheral ()CP) port.
+through the **o**ne **c**hip **p**eripheral (OCP) port.
 
 .PRU Integration
 image:figures/pruIntegration.png[PRU Integration]
 
 The figure above shows we've been using the _Enhanced GPIO_ interface when using
-`__R30`, but it also shows you can use the OCP.  You get access to many more
+`pass:[__]R30`, but it also shows you can use the OCP.  You get access to many more
 GPIO pins, but it's a slower access.
 
 .gpio1.c
@@ -93,7 +95,7 @@ Set your exports and make.
 [subs=+quotes]
 ----
 bone$ *export PRUN=0*
-bone$ *export TARGET=pwm1*
+bone$ *export TARGET=gpio1*
 bone$ *make*
 -    Stopping PRU 0
 stop
@@ -126,7 +128,7 @@ then change some bit, then write it out again, three steps.  Here we can do the 
 |13   |This shifts `0x1` to the 30^th^ bit position, which is the one corresponding
 to `P9_11`.
 |20   |Here we initialize `gpio0` to point to the start of GPIO port 0's control
-registeres.
+registers.
 |23   |`gpio0[GPIO_SETDATAOUT/4]` refers to the `SETDATAOUT` register of port 0.
 The `/4` is since `gpio0[]` expects a _word_ index and `GPIO_SETDATAOUT` is
 a _byte_ index. Writing to this register turns on the bits where 1's are written,
@@ -136,13 +138,13 @@ but leaves alone the bits where 0's are.
 |===
 
 ===== How fast can it go?
-This approach to GPIO goes through the slower OCP interface.  If you set `__delay_cycls(0)` you can see how fast it is.
+This approach to GPIO goes through the slower OCP interface.  If you set `pass:[__]delay_cycles(0)` you can see how fast it is.
 
-.gpio1.c with __delay_cycles(0)
-image:figures/gpio0delay.png[gpio1.c with __delay_cycles(0)]
+.gpio1.c with pass:[__]delay_cycles(0)
+image:figures/gpio0delay.png[gpio1.c with pass:[__]delay_cycles(0)]
 
 The period is 80ns which is 12.MHz.  That's about one forth the speed of the
-`__R30` method, but still not bad.
+`pass:[__]R30` method, but still not bad.
 
 If you are using an oscilloscope, look closely and you'll see the following.
 
@@ -157,7 +159,7 @@ jitter to the output.
 
 For many applications a few nanoseconds of jitter is unimportant and this
 GPIO interface can be used.  If your application needs better timing,
-use the `__R30` interface.
+use the `pass:[__]R30` interface.
  
 
 [[io_uio]]
