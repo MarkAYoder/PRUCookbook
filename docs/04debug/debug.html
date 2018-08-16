@@ -863,16 +863,52 @@ an idea taken from the Adruino playbook;
 use the UART (serial port) to output debug information.  The PRU has it&#8217;s
 own UART that can send characters to a serial port.</p>
 </div>
+<div class="paragraph">
+<p>You&#8217;ll need a 3.3V FTDI cable to go between your Beagle and the USB port
+on your host computer as shown in <a href="#debug_ftdi">FDTI cable</a>.
+You can get such a cable from places such as
+<a href="https://www.sparkfun.com/products/9717">Sparkfun</a> or
+<a href="https://www.adafruit.com/product/70">Adafruit</a>.</p>
+</div>
+<div id="debug_ftdi" class="imageblock">
+<div class="content">
+<img src="figures/FTDIcable.jpg" alt="FDTI cable">
+</div>
+<div class="title">Figure 2. FDTI cable</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_discussion_3"><a class="link" href="#_discussion_3">Discussion</a></h4>
 <div class="paragraph">
-<p>Two examples of using the UART are presented here.  The first (<code>uart1.c</code>) Sends
+<p>The Beagle side of the FTDI cable has a small triangle on it as shown in
+<a href="#debug_ftdi_connector">FTDI connector</a>.</p>
+</div>
+<div id="debug_ftdi_connector" class="imageblock">
+<div class="content">
+<img src="figures/FTDIconnector.jpg" alt="FTDI connector">
+</div>
+<div class="title">Figure 3. FTDI connector</div>
+</div>
+<div class="paragraph">
+<p>The connector attaches to the Black on the FTDI pins, shown in <a href="#debug_ftdi_pins">FTDI pins for the FTDI connector</a>,
+with the triangle connecting near pin <strong>P9_20</strong> which is the right side of
+the connector as viewed in the figure.</p>
+</div>
+<div id="debug_ftdi_pins" class="imageblock">
+<div class="content">
+<img src="figures/FTDIPins.png" alt="FTDI pins for the FTDI connector">
+</div>
+<div class="title">Figure 4. FTDI pins for the FTDI connector</div>
+</div>
+<div class="paragraph">
+<p>Two examples of using the UART are presented here.  The first
+(<a href="#debug_uart1">uart1.c</a>) sends
 a character out the serial port then waits for a character to come in.  Once
 the new character arrives another character is output.</p>
 </div>
 <div class="paragraph">
-<p>The second example (<code>uart2.c</code>) prints out a string and then waits for characters to arrive.
+<p>The second example (<a href="#debug_uart2">uart2.c</a>) prints out a string and then
+waits for characters to arrive.
 Once an ENTER appears the string is sent back.</p>
 </div>
 <div class="paragraph">
@@ -930,7 +966,7 @@ characters on the keyboard, the rest of the message will appear.</p>
 <div class="paragraph">
 <p>Here&#8217;s the code (<code>uart1.c</code>) that does it.</p>
 </div>
-<div class="listingblock">
+<div id="debug_uart1" class="listingblock">
 <div class="title">uart1.c</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
@@ -1175,9 +1211,9 @@ Be careful using it because it also uses <code>while (!CT_UART.LSR_bit.TEMT);</c
 wait for the FIFO to empty, which may cause your code to miss something.</p>
 </div>
 <div class="paragraph">
-<p>Here&#8217;s the code (<code>uart2.c</code>) that does it.</p>
+<p>Here&#8217;s the code (<a href="#debug_uart2">uart2.c</a>) that does it.</p>
 </div>
-<div class="listingblock">
+<div id="debug_uart2" class="listingblock">
 <div class="title">uart2.c</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
@@ -1437,6 +1473,10 @@ wait for the FIFO to empty, which may cause your code to miss something.</p>
 </tr></table></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>More complex examples can be built using the principles shown in these
+examples.</p>
+</div>
 </div>
 </div>
 </div>
@@ -1520,7 +1560,7 @@ wait for the FIFO to empty, which may cause your code to miss something.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-08-16 09:13:05 EDT
+Last updated 2018-08-16 12:38:44 EDT
 </div>
 </div>
 </body>

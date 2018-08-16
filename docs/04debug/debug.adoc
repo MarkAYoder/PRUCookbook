@@ -254,12 +254,39 @@ an idea taken from the Adruino playbook;
 use the UART (serial port) to output debug information.  The PRU has it's
 own UART that can send characters to a serial port.
 
+You'll need a 3.3V FTDI cable to go between your Beagle and the USB port 
+on your host computer as shown in <<debug_ftdi>>.  
+You can get such a cable from places such as 
+https://www.sparkfun.com/products/9717[Sparkfun] or 
+https://www.adafruit.com/product/70[Adafruit].  
+
+[[debug_ftdi]]
+.FDTI cable
+image::figures/FTDIcable.jpg[FDTI cable]
+
 ==== Discussion
-Two examples of using the UART are presented here.  The first (`uart1.c`) sends
+The Beagle side of the FTDI cable has a small triangle on it as shown in 
+<<debug_ftdi_connector>>.  
+
+[[debug_ftdi_connector]]
+.FTDI connector
+image::figures/FTDIconnector.jpg[FTDI connector]
+
+The connector attaches to the Black on the FTDI pins, shown in <<debug_ftdi_pins>>,
+with the triangle connecting near pin *P9_20* which is the right side of 
+the connector as viewed in the figure.
+
+[[debug_ftdi_pins]]
+.FTDI pins for the FTDI connector
+image::figures/FTDIPins.png[FTDI pins for the FTDI connector]
+
+Two examples of using the UART are presented here.  The first 
+(<<debug_uart1>>) sends
 a character out the serial port then waits for a character to come in.  Once
 the new character arrives another character is output.
 
-The second example (`uart2.c`) prints out a string and then waits for characters to arrive.
+The second example (<<debug_uart2>>) prints out a string and then 
+waits for characters to arrive.
 Once an ENTER appears the string is sent back.
 
 For either of these you will need to set the pin muxes.
@@ -313,6 +340,7 @@ image:figures/uart1.png[uart1.c output]
 
 Here's the code (`uart1.c`) that does it.
 
+[[debug_uart1]]
 .uart1.c
 [source,c,linenums]
 ----
@@ -368,13 +396,17 @@ sent to the UART. It takes advantage of the eight character FIFO on the UART.
 Be careful using it because it also uses `while (!CT_UART.LSR_bit.TEMT);` to
 wait for the FIFO to empty, which may cause your code to miss something.
 
-Here's the code (`uart2.c`) that does it.
+<<debug_uart2>> is the code that does it.
 
+[[debug_uart2]]
 .uart2.c
 [source,c,linenums]
 ----
 include::code/uart2.c[uart2.c]
 ----
+
+More complex examples can be built using the principles shown in these
+examples.
 
 === Copyright
 [source,c,linenums]
