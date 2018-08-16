@@ -37,6 +37,7 @@ compiling on the Beagle
   
 . link:04debug/debug.html[Debugging and Benchmarking]
 footnote:[Roadmap-wise, I'd want to consider how to plug RPMsg into a printf function to aide debug. I'm sure you've seen that with CCS in the past.]
+  ** [x] Debugging via an LED
   ** [x] dmesg –Hw
   ** [x] prudebug - A Simple Debugger for the PRU
   ** [x] UART

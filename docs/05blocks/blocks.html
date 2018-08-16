@@ -517,7 +517,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_building_blocks_applications">1. Building Blocks - Applications</a>
 <ul class="sectlevel2">
 <li><a href="#_memory_allocation">1.1. Memory Allocation</a></li>
-<li><a href="#_auto_initialization_of_built_in_led_triggers">1.2. Auto Initialization of Built in LED Triggers</a></li>
+<li><a href="#_auto_initialization_of_built_in_led_triggers">1.2. Auto Initialization of built-in LED Triggers</a></li>
 <li><a href="#blocks_pwm">1.3. PWM Generator</a></li>
 <li><a href="#_controlling_the_pwm_frequency">1.4. Controlling the PWM Frequency</a></li>
 <li><a href="#_loop_unrolling_for_better_performance">1.5. Loop Unrolling for Better Performance</a></li>
@@ -579,20 +579,6 @@ chaper.</p>
 <h4 id="_problem"><a class="link" href="#_problem">Problem</a></h4>
 <div class="paragraph">
 <p>I want to control where my variables are stored in memory.</p>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Warning</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Include a section on accessing DDR.</p>
-</div>
-</td>
-</tr>
-</table>
 </div>
 </div>
 <div class="sect3">
@@ -769,43 +755,43 @@ PRU_DMEM1 <span class="directive">volatile</span> uint32_t shared_3;
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>PRU_SRAM</code> is defined here.  It will be used later to declare variables
 in the <code>Shared RAM</code> location of memory.  Section 5.5.2 on page 75 of the
 <a href="http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf">PRU Optimizing C/C++ Compiler, v2.2, User&#8217;s Guide</a> gives details of the command.  The <code>PRU_SHAREDMEM</code>
 refers to the memory section defined in <code>AM335x_PRU.cmd</code> on line 26.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8,9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9, 10</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">These are like the previous line except for the DMEM sections.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Variables declared outside of <code>main()</code> are put on the heap.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">18</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Adding <code>PRU_SRAM</code> has the variable stored in the shared memory.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">18,19</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19, 20</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">These are stored in the PRU&#8217;s local RAM.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">20,21</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">21, 22</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">These lines are for storing in the <code>.bss</code> section as declared on
 line 74 of <code>AM335x_PRU.cmd</code>.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">28-31</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">29-32</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">All the previous examples direct the compiler to an area in memory
 and the compilers figures out what to put where.  With these lines we
 specify the exact location.  Here are start with the PRU_DRAM starting address and add 0x200 to it to avoid
-the STACK and the HEAP.  The advantage of this technique is you can
+the stack and the heap.  The advantage of this technique is you can
 easily share these variables between the ARM and the two PRUs.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">36,37</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">37, 38</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Variable declared inside <code>main()</code> go on the stack.</p></td>
 </tr>
 </tbody>
@@ -818,7 +804,7 @@ easily share these variables between the ARM and the two PRUs.</p></td>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>Using the technique of line 28-31 you can put variables anywhere,
+<p>Using the technique of line 29-32 you can put variables anywhere,
 even where the compiler has put them.
 Be careful, it&#8217;s easy to overwrite what the compiler has done</p>
 </div>
@@ -831,27 +817,7 @@ Be careful, it&#8217;s easy to overwrite what the compiler has done</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
-  <td class="line-numbers"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-</pre></td>
-  <td class="code"><pre>bone$ <strong>source shared_setup.sh</strong>
+<pre class="CodeRay highlight"><code data-lang="linenums">bone$ <strong>source shared_setup.sh</strong>
 PRUN=0
 TARGET=shared
 Black Found
@@ -868,8 +834,7 @@ bone$ <strong>make</strong>
 stop
 -   copying firmware file /tmp/pru0-gen/shared.out to /lib/firmware/am335x-pru0-fw
 -    Starting PRU 0
-start</pre></td>
-</tr></table></code></pre>
+start</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -877,18 +842,7 @@ start</pre></td>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
-  <td class="line-numbers"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-</pre></td>
-  <td class="code"><pre>bone $ <strong>grep shared /tmp/pru0-gen/shared.map</strong>
+<pre class="CodeRay highlight"><code data-lang="linenums">bone $ <strong>grep shared /tmp/pru0-gen/shared.map</strong>
 OUTPUT FILE NAME:   &lt;/tmp/pru0-gen/shared.out&gt;
 ....
 1     00000000  shared_2
@@ -896,8 +850,7 @@ OUTPUT FILE NAME:   &lt;/tmp/pru0-gen/shared.out&gt;
 1     0000011c  shared_0
 1     00000120  shared_5
 1     00002000  shared_3
-2     00010000  shared_1</pre></td>
-</tr></table></code></pre>
+2     00010000  shared_1</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -915,35 +868,13 @@ compile time allocations.  We have to look in the memory itself to see what
 happen at run time.</p>
 </div>
 <div class="paragraph">
-<p>Let&#8217;s fire up <code>prudebug</code> (<a href="#prudebug - A Simple Debugger for the PRU">[prudebug - A Simple Debugger for the PRU]</a>) to see
-where things are.</p>
+<p>Let&#8217;s fire up <code>prudebug</code>
+(<a href="../04debug/debug.html#debug_prudebug">prudebug - A Simple Debugger for the PRU</a>)
+to see where things are.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
-  <td class="line-numbers"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-</pre></td>
-  <td class="code"><pre>bone$ <strong>sudo ./prudebug</strong>
+<pre class="CodeRay highlight"><code data-lang="linenums">bone$ <strong>sudo ./prudebug</strong>
 PRU Debugger v0.25
 (C) Copyright 2011, 2013 by Arctica Technologies.  All rights reserved.
 Written by Steven Anderson
@@ -963,8 +894,7 @@ Absolute addr = 0x0000, offset = 0x0000, Len = 16
 [0x0000] 0x0000feed 0x00000000 0x00000000 0x00000000
 [0x0010] 0x00000000 0x00000000 0x00000000 0x00000000
 [0x0020] 0x00000000 0x00000000 0x00000000 0x00000000
-[0x0030] 0x00000000 0x00000000 0x00000000 0x00000000</pre></td>
-</tr></table></code></pre>
+[0x0030] 0x00000000 0x00000000 0x00000000 0x00000000</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -972,21 +902,12 @@ Absolute addr = 0x0000, offset = 0x0000, Len = 16
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
-  <td class="line-numbers"><pre>1
-2
-3
-4
-5
-6
-</pre></td>
-  <td class="code"><pre>PRU0&gt; <strong>dd 0x100</strong>
+<pre class="CodeRay highlight"><code data-lang="linenums">PRU0&gt; <strong>dd 0x100</strong>
 Absolute addr = 0x0100, offset = 0x0000, Len = 16
 [0x0100] 0x00000000 0x00000001 0x00000000 0x00000000
 [0x0110] 0x00000000 0x00000000 0x0000beed 0x0000feef
 [0x0120] 0x00000200 0x3ec71de3 0x1a013e1a 0xbf2a01a0
-[0x0130] 0x111110b0 0x3f811111 0x55555555 0xbfc55555</pre></td>
-</tr></table></code></pre>
+[0x0130] 0x111110b0 0x3f811111 0x55555555 0xbfc55555</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -995,21 +916,12 @@ Absolute addr = 0x0100, offset = 0x0000, Len = 16
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
-  <td class="line-numbers"><pre>1
-2
-3
-4
-5
-6
-</pre></td>
-  <td class="code"><pre>PRU0&gt; dd <strong>0xc0</strong>
+<pre class="CodeRay highlight"><code data-lang="linenums">PRU0&gt; dd <strong>0xc0</strong>
 Absolute addr = 0x00c0, offset = 0x0000, Len = 16
 [0x00c0] 0x00000000 0x00000000 0x00000000 0x00000000
 [0x00d0] 0x00000000 0x00000000 0x00000000 0x00000000
 [0x00e0] 0x00000000 0x00000000 0x00000000 0x00000000
-[0x00f0] 0x00000000 0x00000000 0x00004321 0x00009876</pre></td>
-</tr></table></code></pre>
+[0x00f0] 0x00000000 0x00000000 0x00004321 0x00009876</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1017,21 +929,12 @@ Absolute addr = 0x00c0, offset = 0x0000, Len = 16
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
-  <td class="line-numbers"><pre>1
-2
-3
-4
-5
-6
-</pre></td>
-  <td class="code"><pre>PRU0&gt; dd <strong>0x2000</strong>
+<pre class="CodeRay highlight"><code data-lang="linenums">PRU0&gt; dd <strong>0x2000</strong>
 Absolute addr = 0x2000, offset = 0x0000, Len = 16
 [0x2000] 0x0000deed 0x00000001 0x00000000 0x557fcfb5
 [0x2010] 0xce97bd0f 0x6afb2c8f 0xc7f35df4 0x5afb6dcb
 [0x2020] 0x8dec3da3 0xe39a6756 0x642cb8b8 0xcb6952c0
-[0x2030] 0x2f22ebda 0x548d97c5 0x9241786f 0x72dfeb86</pre></td>
-</tr></table></code></pre>
+[0x2030] 0x2f22ebda 0x548d97c5 0x9241786f 0x72dfeb86</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1039,43 +942,34 @@ Absolute addr = 0x2000, offset = 0x0000, Len = 16
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
-  <td class="line-numbers"><pre>1
-2
-3
-4
-5
-6
-</pre></td>
-  <td class="code"><pre>PRU0&gt; <strong>dd 0x10000</strong>
+<pre class="CodeRay highlight"><code data-lang="linenums">PRU0&gt; <strong>dd 0x10000</strong>
 Absolute addr = 0x10000, offset = 0x0000, Len = 16
 [0x10000] 0xdeadbeef 0x0000feed 0x00000000 0x68c44f8b
 [0x10010] 0xc372ba7e 0x2ffa993b 0x11c66da5 0xfbf6c5d7
 [0x10020] 0x5ada3fcf 0x4a5d0712 0x48576fb7 0x1004796b
-[0x10030] 0x2267ebc6 0xa2793aa1 0x100d34dc 0x9ca06d4a</pre></td>
-</tr></table></code></pre>
+[0x10030] 0x2267ebc6 0xa2793aa1 0x100d34dc 0x9ca06d4a</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>The compiler offers great control over where variables are stored. Just
-be sure if you are hand picking where thing are put not to put them where
-the compiler is putting things.</p>
+be sure if you are hand picking where things are put, not to put them in places
+used by the compiler.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_auto_initialization_of_built_in_led_triggers"><a class="link" href="#_auto_initialization_of_built_in_led_triggers">1.2. Auto Initialization of Built in LED Triggers</a></h3>
+<h3 id="_auto_initialization_of_built_in_led_triggers"><a class="link" href="#_auto_initialization_of_built_in_led_triggers">1.2. Auto Initialization of built-in LED Triggers</a></h3>
 <div class="sect3">
 <h4 id="_problem_2"><a class="link" href="#_problem_2">Problem</a></h4>
 <div class="paragraph">
-<p>I see the built in LEDs blink to their own patterns.  How do I turn this off?
+<p>I see the built-in LEDs blink to their own patterns.  How do I turn this off?
 Can this be automated?</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_solution_2"><a class="link" href="#_solution_2">Solution</a></h4>
 <div class="paragraph">
-<p>Each built in LED has a default action (trigger) when the Bone boots up.
+<p>Each built-in LED has a default action (trigger) when the Bone boots up.
 This is controlled by <code>/sys/class/leds</code>.</p>
 </div>
 <div class="listingblock">
@@ -1104,7 +998,7 @@ heartbeat backlight gpio cpu0 default-on</pre>
 </div>
 <div class="paragraph">
 <p>Notice <code>[mmc0]</code> is in brackets.  This means it&#8217;s the current trigger; it flashes
-when the built in flash memory is in use.  You can turn this off using:</p>
+when the built-in flash memory is in use.  You can turn this off using:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1167,32 +1061,21 @@ unused.</p>
 <div class="sect3">
 <h4 id="_discussion_2"><a class="link" href="#_discussion_2">Discussion</a></h4>
 <div class="paragraph">
-<p>The above code stores this array in the <code>.out</code> file that created, but that&#8217;s not
+<p>The above code stores this array in the <code>.out</code> file thats created, but that&#8217;s not
 enough. You need to run <a href="#blocks_write_init_pins">write_init_pins.sh</a> on the <code>.out</code> file to make
 the code work.</p>
 </div>
 <div id="blocks_write_init_pins" class="listingblock">
 <div class="title">write_init_pins.sh</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
-  <td class="line-numbers"><pre>1
-2
-3
-4
-5
-6
-7
-8
-</pre></td>
-  <td class="code"><pre>#!/bin/bash
+<pre class="CodeRay highlight"><code data-lang="linenums">#!/bin/bash
 init_pins=$(readelf -x .init_pins $1 | grep 0x000 | cut -d' ' -f4-7 | xxd -r -p | tr '\0' '\n' | paste - -)
 while read -a line; do
     if [ ${#line[@]} == 2 ]; then
         echo writing \&quot;${line[1]}\&quot; to \&quot;${line[0]}\&quot;
         echo ${line[1]} &gt; ${line[0]}
     fi
-done &lt;&lt;&lt; &quot;$init_pins&quot;</pre></td>
-</tr></table></code></pre>
+done &lt;&lt;&lt; &quot;$init_pins&quot;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1200,23 +1083,13 @@ done &lt;&lt;&lt; &quot;$init_pins&quot;</pre></td>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
-  <td class="line-numbers"><pre>1
-2
-3
-4
-5
-6
-7
-</pre></td>
-  <td class="code"><pre>bone$ <strong>readelf -x .init_pins /tmp/pru0-gen/shared.out</strong>
+<pre class="CodeRay highlight"><code data-lang="linenums">bone$ <strong>readelf -x .init_pins /tmp/pru0-gen/shared.out</strong>
 
 Hex dump of section '.init_pins':
   0x000000c0 2f737973 2f636c61 73732f6c 6564732f /sys/class/leds/
   0x000000d0 62656167 6c65626f 6e653a67 7265656e beaglebone:green
   0x000000e0 3a757372 332f7472 69676765 72006e6f :usr3/trigger.no
-  0x000000f0 6e650000 0000                       ne....</pre></td>
-</tr></table></code></pre>
+  0x000000f0 6e650000 0000                       ne....</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1250,9 +1123,9 @@ the frequency and duty cycle on the fly.</p>
 for details on making it work.</p>
 </div>
 <div class="paragraph">
-<p>Here&#8217;s the code.</p>
+<p><a href="#blocks_pwm1">pwm1.c</a> shows the code.</p>
 </div>
-<div class="listingblock">
+<div id="blocks_pwm1" class="listingblock">
 <div class="title">pwm1.c</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
@@ -1312,7 +1185,7 @@ for details on making it work.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>config-pin P9_31 pruout</strong></code></pre>
+<pre class="CodeRay highlight"><code>bone$ <strong>config-pin P9_31 pruout</strong></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1320,15 +1193,15 @@ for details on making it work.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>config-pin P1_36 pruout</strong></code></pre>
+<pre class="CodeRay highlight"><code>bone$ <strong>config-pin P1_36 pruout</strong></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Then, tell Makefile which PRU you are compiling for and what your target file is</p>
+<p>Then, tell <code>Makefile</code> which PRU you are compiling for and what your target file is</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>export PRUN=0</strong>
+<pre class="CodeRay highlight"><code>bone$ <strong>export PRUN=0</strong>
 bone$ <strong>export TARGET=pwm1</strong></code></pre>
 </div>
 </div>
@@ -1337,25 +1210,14 @@ bone$ <strong>export TARGET=pwm1</strong></code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
-  <td class="line-numbers"><pre>1
-2
-3
-4
-5
-6
-7
-8
-</pre></td>
-  <td class="code"><pre>bone$ <strong>make</strong>
+<pre class="CodeRay highlight"><code data-lang="linenums">bone$ <strong>make</strong>
 -    Stopping PRU 0
 stop
 CC  pwm1.c
 LD  /tmp/pru0-gen/pwm1.obj
 -   copying firmware file /tmp/pru0-gen/pwm1.out to /lib/firmware/am335x-pru0-fw
 -    Starting PRU 0
-start</pre></td>
-</tr></table></code></pre>
+start</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1370,9 +1232,9 @@ start</pre></td>
 <div class="sect4">
 <h5 id="_pwm1_c"><a class="link" href="#_pwm1_c">pwm1.c</a></h5>
 <div class="paragraph">
-<p>Here&#8217;s a line-by-line expanation of the c code.</p>
+<p><a href="#blocks_pwm1_line_by_line">Line-by-line of pwm1.c</a> is a line-by-line expanation of the c code.</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table id="blocks_pwm1_line_by_line" class="tableblock frame-all grid-all spread">
 <caption class="title">Table 2. Line-by-line of pwm1.c</caption>
 <colgroup>
 <col style="width: 10%;">
@@ -1391,7 +1253,7 @@ start</pre></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Include for the PRU.  The compiler know where to find this since the Makefile says to look for includes in <code>/usr/lib/ti/pru-software-support-package</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Include for the PRU.  The compiler knows where to find this since the <code>Makefile</code> says to look for includes in <code>/usr/lib/ti/pru-software-support-package</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
@@ -1502,9 +1364,9 @@ start</pre></td>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5-6</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><em>R30</code> and <code></em>R31</code> are two variables that refer to the PRU output (<code><em>R30</code>) and input (<code></em>R31</code>) registers.
-When you write something to <code><em>R30</code> it will show up on the corresponding output pins.
-When you read from <code></em>R31</code> you read the data on the input pins.
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>__R30</code> and <code>__R31</code> are two variables that refer to the PRU output (<code>__R30</code>) and input (<code>__R31</code>) registers.
+When you write something to <code>__R30</code> it will show up on the corresponding output pins.
+When you read from <code>__R31</code> you read the data on the input pins.
 NOTE: Both names begin with two underscore&#8217;s. Section 5.7.2 of the
 <a href="http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf">PRU Optimizing C/C++ Compiler, v2.2, User&#8217;s Guide</a>
 gives more details.</p></td>
@@ -1737,7 +1599,8 @@ gives more details.</p></td>
 </tbody>
 </table>
 <div class="paragraph">
-<p>Since we are running on PRU 0 we&#8217;re using <code>0x0001</code>, that is bit 0, we&#8217;ll be toggling <code>P9_31</code>.</p>
+<p>Since we are running on PRU 0, and we&#8217;re using <code>0x0001</code>, that is bit 0,
+we&#8217;ll be toggling <code>P9_31</code>.</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
 <caption class="title">Table 5. Line-by-line (continued again)</caption>
@@ -1754,7 +1617,7 @@ gives more details.</p></td>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">18</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Here is where the action is.  This line reads <code><em>R30</code> and then ORs it with <code>gpio</code>, setting the bits where there is a 1 in <code>gpio</code> and leaving the bits where there is a 0.  Thus we are setting the bit we selected. Finally the new value is written back to <code></em>R30</code>.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Here is where the action is.  This line reads <code>__R30</code> and then ORs it with <code>gpio</code>, setting the bits where there is a 1 in <code>gpio</code> and leaving the bits where there is a 0.  Thus we are setting the bit we selected. Finally the new value is written back to <code>__R30</code>.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">19</p></td>
@@ -1802,7 +1665,7 @@ gives more details.</p></td>
 <div class="title">Figure 3. Output of pwm1.c with 0 delay cycles</div>
 </div>
 <div class="paragraph">
-<p>Notice the period is 15ns which gives us a frequency of about 67MHz. At this high frequency the breadboard that I&#8217;m using distorts the waveform so it&#8217;s no longer a squarewave. The <em>on</em> time is 5.3ns and the <em>off</em> time is 9.8ns.  That means <code><em>R30 |= gpio;</code> took only one 5ns cycle and <code></em>R30 &amp;= ~gpio;</code> also only took one cycle, but there is also an extra cycle needed for the loop.  This means the compiler was able to implement the while loop in just three 5ns instructions!  Not bad.</p>
+<p>Notice the period is 15ns which gives us a frequency of about 67MHz. At this high frequency the breadboard that I&#8217;m using distorts the waveform so it&#8217;s no longer a squarewave. The <em>on</em> time is 5.3ns and the <em>off</em> time is 9.8ns.  That means <code>__R30 |= gpio</code> took only one 5ns cycle and <code>__R30 &amp;= ~gpio</code> also only took one cycle, but there is also an extra cycle needed for the loop.  This means the compiler was able to implement the <code>while</code> loop in just three 5ns instructions!  Not bad.</p>
 </div>
 <div class="paragraph">
 <p>We want a square wave, so we need to add a delay to correct for the delay of looping back.</p>
@@ -1866,9 +1729,13 @@ gives more details.</p></td>
 </div>
 </div>
 <div class="paragraph">
-<p>The output now looks like:
-.Output of pwm2.c corrected delay (<code>pwm3.png</code>)
-image::figures/pwm3.png[pwm2.c corrected delay]</p>
+<p>The output now looks like:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="figures/pwm3.png" alt="pwm2.c corrected delay">
+</div>
+<div class="title">Figure 4. Output of pwm2.c corrected delay</div>
 </div>
 <div class="paragraph">
 <p>It&#8217;s not hard to adjust the two <code>__delay_cycles</code> to get the desired frequency and duty cycle.</p>
@@ -1901,14 +1768,14 @@ image::figures/pwm3.png[pwm2.c corrected delay]</p>
 <td class="content">
 <div class="paragraph">
 <p>See page
-184 of the <a href="https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf">AM335x Technical Reference Manual</a>).</p>
+184 of the <a href="https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf">AM335x Technical Reference Manual</a>.</p>
 </div>
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>We take the previous PRU and add the lines</p>
+<p>We take the previous PRU code and add the lines</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1948,8 +1815,8 @@ points to may change, so don&#8217;t make any assumptions while optimizing.</p>
   <td class="line-numbers"><pre>1
 2
 </pre></td>
-  <td class="code"><pre>        pru0_dram[ch] = on[ch];     <span class="comment">// Copy to DRAM0 so the ARM can change it</span>
-        pru0_dram[ch+MAXCH] = off[ch];  <span class="comment">// Copy oafter the on array</span></pre></td>
+  <td class="code"><pre>    pru0_dram[ch] = on[ch];         <span class="comment">// Copy to DRAM0 so the ARM can change it</span>
+    pru0_dram[ch+MAXCH] = off[ch];  <span class="comment">// Copy after the on array</span></pre></td>
 </tr></table></code></pre>
 </div>
 </div>
@@ -1962,16 +1829,16 @@ points to may change, so don&#8217;t make any assumptions while optimizing.</p>
   <td class="line-numbers"><pre>1
 2
 </pre></td>
-  <td class="code"><pre>                onCount[ch] = pru0_dram[<span class="integer">2</span>*ch];      <span class="comment">// Read from DRAM0</span>
-                offCount[ch]= pru0_dram[<span class="integer">2</span>*ch+<span class="integer">1</span>];</pre></td>
+  <td class="code"><pre>    onCount[ch] = pru0_dram[<span class="integer">2</span>*ch];      <span class="comment">// Read from DRAM0</span>
+    offCount[ch]= pru0_dram[<span class="integer">2</span>*ch+<span class="integer">1</span>];</pre></td>
 </tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>to read from the DRAM when reseting the counters.  Now, while the PRU is running, the ARM can write values into the DRAM and change
-the PWM on and off times.  Here&#8217;s the whole code:</p>
+the PWM on and off times.  <a href="#blocks_pwm4">pwm4.c</a> is the whole code.</p>
 </div>
-<div class="listingblock">
+<div id="blocks_pwm4" class="listingblock">
 <div class="title">pwm4.c</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
@@ -2159,65 +2026,11 @@ the PWM on and off times.  Here&#8217;s the whole code:</p>
 71
 72
 73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
 </pre></td>
   <td class="code"><pre><span class="comment">/*
  *
  *  pwm tester
- *  (c) Copyright 2016
- *  Mark A. Yoder, 20-July-2016
- *  The channels 0-11 are on PRU1 and channels 12-17 are on PRU0
- *  The period and duty cycle values are stored in each PRU's Data memory
- *  The enable bits are stored in the shared memory
+ *  The on cycle and off cycles are stored in each PRU's Data memory
  *
  */</span>
 
@@ -2276,56 +2089,10 @@ the PWM on and off times.  Here&#8217;s the whole code:</p>
     pru1DRAM_32int_ptr =     pru + PRU1_DRAM/<span class="integer">4</span> + <span class="hex">0x200</span>/<span class="integer">4</span>;   <span class="comment">// Points to 0x200 of PRU1 memory</span>
     prusharedMem_32int_ptr = pru + PRU_SHAREDMEM/<span class="integer">4</span>; <span class="comment">// Points to start of shared memory</span>
 
-    <span class="comment">// int i;</span>
-    <span class="comment">// for(i=0; i&lt;SERVO_CHANNELS; i++) {</span>
-    <span class="comment">//  start_pwm_us(i, 1000, 5*(i+1));</span>
-    <span class="comment">// }</span>
-
-    <span class="comment">// int period=1000;</span>
-    <span class="comment">// start_pwm_us(0, 1*period, 10);</span>
-    <span class="comment">// start_pwm_us(1, 2*period, 10);</span>
-    <span class="comment">// start_pwm_us(2, 4*period, 10);</span>
-    <span class="comment">// start_pwm_us(3, 8*period, 10);</span>
-    <span class="comment">// start_pwm_us(4, 1*period, 10);</span>
-    <span class="comment">// start_pwm_us(5, 2*period, 10);</span>
-    <span class="comment">// start_pwm_us(6, 4*period, 10);</span>
-    <span class="comment">// start_pwm_us(7, 8*period, 10);</span>
-    <span class="comment">// start_pwm_us(8, 1*period, 10);</span>
-    <span class="comment">// start_pwm_us(9, 2*period, 10);</span>
-    <span class="comment">// start_pwm_us(10, 4*period, 10);</span>
-    <span class="comment">// start_pwm_us(11, 8*period, 10);</span>
-
     <span class="predefined-type">int</span> i;
     <span class="keyword">for</span>(i=<span class="integer">0</span>; i&lt;MAXCH; i++) {
         start_pwm_count(i, i+<span class="integer">1</span>, <span class="integer">20</span>-(i+<span class="integer">1</span>));
     }
-
-    <span class="comment">// start_pwm_count(0, 1, 1);</span>
-    <span class="comment">// start_pwm_count(1, 2, 2);</span>
-    <span class="comment">// start_pwm_count(2, 10, 30);</span>
-    <span class="comment">// start_pwm_count(3, 30, 10);</span>
-    <span class="comment">// start_pwm_count(4, 1, 1);</span>
-    <span class="comment">// start_pwm_count(5, 10, 10);</span>
-    <span class="comment">// start_pwm_count(6, 20, 30);</span>
-    <span class="comment">// start_pwm_count(7, 30, 20);</span>
-    <span class="comment">// start_pwm_count(8, 1, 3);</span>
-    <span class="comment">// start_pwm_count(9, 2, 2);</span>
-    <span class="comment">// start_pwm_count(10, 3, 1);</span>
-    <span class="comment">// start_pwm_count(11, 1, 7);</span>
-
-    <span class="comment">// start_pwm_count(12, 1, 15);</span>
-    <span class="comment">// start_pwm_count(13, 2, 15);</span>
-    <span class="comment">// start_pwm_count(14, 3, 15);</span>
-    <span class="comment">// start_pwm_count(15, 4, 15);</span>
-    <span class="comment">// start_pwm_count(16, 5, 15);</span>
-    <span class="comment">// start_pwm_count(17, 6, 15);</span>
-
-    <span class="comment">// for(i=0; i&lt;24; i++) {</span>
-    <span class="comment">//  int mask = 1 &lt;&lt; (i%12);</span>
-    <span class="comment">//  printf(&quot;Mask: %x\n&quot;, mask);</span>
-    <span class="comment">//  pwm_enable(mask);</span>
-    <span class="comment">//  usleep(500000);</span>
-    <span class="comment">// }</span>
 
     <span class="keyword">if</span>(munmap(pru, PRU_LEN)) {
         printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">munmap failed</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
@@ -2338,18 +2105,18 @@ the PWM on and off times.  Here&#8217;s the whole code:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>A quick check on the 'scope shows <a href="#blocks_pwm_arm_control">pwm4.png PWM with ARM control</a>.</p>
+<p>A quick check on the 'scope shows <a href="#blocks_pwm_arm_control">Four Channel PWM with ARM control</a>.</p>
 </div>
 <div id="blocks_pwm_arm_control" class="imageblock">
 <div class="content">
 <img src="figures/pwm4.png" alt="pwm4.png">
 </div>
-<div class="title">Figure 4. pwm4.png PWM with ARM control</div>
+<div class="title">Figure 5. Four Channel PWM with ARM control</div>
 </div>
 <div class="paragraph">
-<p>From the 'scope you see a 1 cycle on time results in a 450ns wide pulse and
+<p>From the 'scope you see a 1 cycle <em>on</em> time results in a 450ns wide pulse and
 a 3.06us period is .326KHz  Much
-slower than the 10ns pusle we saw before.  But it may be more than fast enough
+slower than the 10ns pulse we saw before.  But it may be more than fast enough
 for manny applicaions.  For example, most servos run at 50Hz.</p>
 </div>
 <div class="paragraph">
@@ -2368,7 +2135,7 @@ for manny applicaions.  For example, most servos run at 50Hz.</p>
 <div class="sect3">
 <h4 id="_solution_5"><a class="link" href="#_solution_5">Solution</a></h4>
 <div class="paragraph">
-<p>Simple loops unrolling can greatly improve the speed.  <code>pwm5.c</code> is our unrolled
+<p>Simple loop unrolling can greatly improve the speed.  <code>pwm5.c</code> is our unrolled
 version.</p>
 </div>
 <div class="listingblock">
@@ -2488,9 +2255,11 @@ version.</p>
 <div class="paragraph">
 <p>The output of <code>pwm5.c</code> is in the figure below.</p>
 </div>
-<div class="paragraph">
-<div class="title">pwm5.c Unrolled version of pwm4.c</div>
-<p>image::figures/pwm5 - no loop.png[pwm5.c Unrolled version of pwm4.c]</p>
+<div class="imageblock">
+<div class="content">
+<img src="figures/pwm5_no_loop.png" alt="pwm5.c Unrolled version of pwm4.c">
+</div>
+<div class="title">Figure 6. pwm5.c Unrolled version of pwm4.c</div>
 </div>
 <div class="paragraph">
 <p>It&#8217;s running about 6 times faster than <code>pwm4.c</code>.</p>
@@ -2573,12 +2342,14 @@ they don&#8217;t all start at the same time.</p>
 <div class="sect3">
 <h4 id="_solution_6"><a class="link" href="#_solution_6">Solution</a></h4>
 <div class="paragraph">
-<p>The figure below is a zoomed in version of the previous figure. Notice the pulse in each channel starts about 15ns later than the channel above
+<p><a href="#blocks_zoomed">pwm5 Zoomed In</a> is a zoomed in version of the previous figure. Notice the pulse in each channel starts about 15ns later than the channel above
 it.</p>
 </div>
-<div class="paragraph">
-<div class="title">pwm5 Zoomed In</div>
-<p>image::figures/pwm5 zoomed.png[pwm5 zoomed.png]</p>
+<div id="blocks_zoomed" class="imageblock">
+<div class="content">
+<img src="figures/pwm5_zoomed.png" alt="pwm5 zoomed.png">
+</div>
+<div class="title">Figure 7. pwm5 Zoomed In</div>
 </div>
 <div class="paragraph">
 <p>The solution is to declare <code>Rtmp</code> (line 35) which holds the value for <code>__R30</code>.</p>
@@ -2714,9 +2485,11 @@ each channel has updated, <code>Rtmp</code> is copied to <code>__R30</code> (lin
 <p>The following figure shows the channel are sync&#8217;ed. Though the period is slightly
 longer than before.</p>
 </div>
-<div class="paragraph">
-<div class="title">pwm6 Synchronized Channels</div>
-<p>image::figures/pwm6 synced.png[pwm6 Synchronized Channels]</p>
+<div class="imageblock">
+<div class="content">
+<img src="figures/pwm6_synced.png" alt="pwm6 Synchronized Channels">
+</div>
+<div class="title">Figure 8. pwm6 Synchronized Channels</div>
 </div>
 </div>
 </div>
@@ -2732,7 +2505,7 @@ longer than before.</p>
 <h4 id="_solution_7"><a class="link" href="#_solution_7">Solution</a></h4>
 <div class="paragraph">
 <p>PRU 0 can output up to eight output pins (see
-&lt;&lt;#bit_positions,Mapping bit position to pin names&gt;&gt;). The code presented so far
+<a href="#blocks_mapping_bits">Mapping bit positions to pin names</a>). The code presented so far
 can be easily extended to use the eight output pins.</p>
 </div>
 <div class="paragraph">
@@ -2867,10 +2640,10 @@ will make the period half as long.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Be sure to run <code>pwm7_setup.sh</code> to get the coffect pins configured.
-.pwm7_setup.sh</p>
+<p>Be sure to run <code>pwm7_setup.sh</code> to get the coffect pins configured.</p>
 </div>
 <div class="listingblock">
+<div class="title">pwm7_setup.sh</div>
 <div class="content">
 <pre>#!/bin/bash
 #
@@ -2912,7 +2685,7 @@ done</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>make PRUN=0; make PRUN=1</strong>
+<pre class="CodeRay highlight"><code>bone$ <strong>make PRUN=0; make PRUN=1</strong>
 -    Stopping PRU 0
 stop
 CC  pwm7.c
@@ -2952,7 +2725,7 @@ is where the big change is.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>The Makefile sets <code>PRUN</code> to be the number of the PRU we are compiling for.  If
+<p>The <code>Makefile</code> sets <code>PRUN</code> to be the number of the PRU we are compiling for.  If
 we are compiling for PRU 0, <code>on[ch+PRUN*MAXCH]</code> becomes <code>on[ch+0*2]</code> which is
 <code>on[ch]</code> which is what we had before.  But now if we are on PRU 1 it becomes
 <code>on[ch+1*2]</code> which is <code>on[ch+2]</code>.  That means we are picking up the second
@@ -2963,17 +2736,21 @@ behavior.</p>
 <div class="paragraph">
 <p>Running the code you will see the next figure.</p>
 </div>
-<div class="paragraph">
-<div class="title">pwm7 Two PRUs running</div>
-<p>image::figures/pwm7 two prus running.png[pwm7 Two PRUs running]</p>
+<div class="imageblock">
+<div class="content">
+<img src="figures/pwm7_two_prus_running.png" alt="pwm7 Two PRUs running">
+</div>
+<div class="title">Figure 9. pwm7 Two PRUs running</div>
 </div>
 <div class="paragraph">
 <p>What&#8217;s going on there, the first channels look fine, but the PRU 1 channels
 are blurred.  To see what&#8217;s happening, let&#8217;s stop the oscilloscope.</p>
 </div>
-<div class="paragraph">
-<div class="title">pwm7 Two PRUs stopped</div>
-<p>image::figures/pwm7 two prus stopped.png[pwm7 Two PRUs stopped]</p>
+<div class="imageblock">
+<div class="content">
+<img src="figures/pwm7_two_prus_stopped.png" alt="pwm7 Two PRUs stopped">
+</div>
+<div class="title">Figure 10. pwm7 Two PRUs stopped</div>
 </div>
 <div class="paragraph">
 <p>The stopped display shows that the four channels are doing what we wanted, except
@@ -3092,7 +2869,7 @@ has details of how it works.  Here&#8217;s the code (<code>pwm8.c</code>).</p>
 </pre></td>
   <td class="code"><pre><span class="comment">// This code does MAXCH parallel PWM channels on both PRU 0 and PRU 1</span>
 <span class="comment">// All channels start at the same time.</span>
-<span class="comment">// It's period is 510ns</span>
+<span class="comment">// It's period is 430ns</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;pru_intc.h&gt;</span>
@@ -3181,8 +2958,12 @@ has details of how it works.  Here&#8217;s the code (<code>pwm8.c</code>).</p>
 </div>
 </div>
 <div class="paragraph">
-<p>In <code>pwm8.c</code> PRU 1 waits for a signal from PRU 0, so be sure to start PRU 1 first.
-`bone$ <strong>make PRUN=1; make PRUN=0</strong></p>
+<p>In <code>pwm8.c</code> PRU 1 waits for a signal from PRU 0, so be sure to start PRU 1 first.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>bone$ <strong>make PRUN=1; make PRUN=0</strong></code></pre>
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -3191,15 +2972,17 @@ has details of how it works.  Here&#8217;s the code (<code>pwm8.c</code>).</p>
 <p>The figure below shows the two PRUs are synchronized, though there is some extra
 overhead in the process so the period is longer.</p>
 </div>
-<div class="paragraph">
-<div class="title">pwm8 PRUs sycned</div>
-<p>image::figures/pwm8 prus sycned.png[pwm8 PRUs sycned]</p>
+<div class="imageblock">
+<div class="content">
+<img src="figures/pwm8_prus_sycned.png" alt="pwm8 PRUs sycned">
+</div>
+<div class="title">Figure 11. pwm8 PRUs sycned</div>
 </div>
 <div class="paragraph">
-<p>This isn&#8217;t much different from the previous examples.
-.pwm8.c changes from pwm7.c</p>
+<p>This isn&#8217;t much different from the previous examples.</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 7. pwm8.c changes from pwm7.c</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 90%;">
@@ -3253,7 +3036,7 @@ give time for the signal to get to PRU 1.</p></td>
 pins.</p>
 </div>
 <table id="blocks_io_pins" class="tableblock frame-all grid-all spread">
-<caption class="title">Table 7. Input/Output pins</caption>
+<caption class="title">Table 8. Input/Output pins</caption>
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 25%;">
@@ -3290,38 +3073,7 @@ pins.</p>
 <div class="listingblock">
 <div class="title">input_setup.sh</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
-  <td class="line-numbers"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-</pre></td>
-  <td class="code"><pre>#!/bin/bash
+<pre class="CodeRay highlight"><code data-lang="linenums">#!/bin/bash
 #
 export PRUN=0
 export TARGET=input1
@@ -3349,15 +3101,14 @@ elif [ $machine = &quot;PocketBeagle&quot; ]; then
 else
     echo &quot; Not Found&quot;
     pins=&quot;&quot;
-fi</pre></td>
-</tr></table></code></pre>
+fi</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The following code reads the input pin and writes its value to the output pin.
-.input1.c</p>
+<p>The following code reads the input pin and writes its value to the output pin.</p>
 </div>
 <div class="listingblock">
+<div class="title">input1.c</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -3418,7 +3169,10 @@ fi</pre></td>
 </div>
 <div class="sect3">
 <h4 id="_discussion_8"><a class="link" href="#_discussion_8">Discussion</a></h4>
-
+<div class="paragraph">
+<p>Just remember that <code>__R30</code> is for outputs and <code>__R31</code> is
+for inputs.</p>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -3432,7 +3186,7 @@ fi</pre></td>
 <div class="sect3">
 <h4 id="_solution_10"><a class="link" href="#_solution_10">Solution</a></h4>
 <div class="paragraph">
-<p>The Beagle doesn&#8217;t have a built in  analog to digital converter. You could
+<p>The Beagle doesn&#8217;t have a built-in  analog to digital converter. You could
 get a <a href="https://www.amazon.com/external-Adapter-Windows-Microphone-SD-CM-UAUD/dp/B001MSS6CS/0&amp;keywords=audio+dongle">USB Audio Dongle</a> which are under $10.  But here
 we&#8217;ll take another approach.</p>
 </div>
@@ -3442,7 +3196,9 @@ changes with time.  A small duty cycle for when the output signal is small and
 a large dudty cycle for when it is large.</p>
 </div>
 <div class="paragraph">
-<p>This example was inspired by <em>A PRU Sin Wave Generator</em> in chapter 13 of
+<p>This example was inspired by
+<a href="https://github.com/derekmolloy/exploringBB/tree/master/chp13/sineWave">A PRU Sin Wave Generator</a>
+in chapter 13 of
 <a href="http://exploringbeaglebone.com/">Exploring BeagleBone by Derek Molloy</a>.</p>
 </div>
 <div class="paragraph">
@@ -3574,7 +3330,7 @@ a large dudty cycle for when it is large.</p>
 </div>
 <div class="paragraph">
 <p>Set the <code>#define</code> at line 7 to the number of samples in one cycle of the waveform
-and get the <code>#define</code> at line 8 to which waveform and then run <code>make</code>.</p>
+and set the <code>#define</code> at line 8 to which waveform and then run <code>make</code>.</p>
 </div>
 </div>
 <div class="sect3">
@@ -3599,7 +3355,7 @@ signal.</p>
 <div class="content">
 <img src="figures/sawtoothsmooth.png" alt="Continuous Sawtooth Waveform">
 </div>
-<div class="title">Figure 5. Continuous Sawtooth Waveform</div>
+<div class="title">Figure 12. Continuous Sawtooth Waveform</div>
 </div>
 <div class="paragraph">
 <p>You need to sample the waveform and store one cycle. <a href="#blocks_sawtoothsampled">Sampled Sawtooth Waveform</a>
@@ -3610,13 +3366,13 @@ here we show 20 samples, which may be enough. In the code <code>MAXT</code> is s
 <div class="content">
 <img src="figures/sawtoothsampled.png" alt="Sampled Sawtooth Waveform">
 </div>
-<div class="title">Figure 6. Sampled Sawtooth Waveform</div>
+<div class="title">Figure 13. Sampled Sawtooth Waveform</div>
 </div>
 <div class="paragraph">
 <p>There&#8217;s a lot going on here; let&#8217;s take it line by line.</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 8. Line-by-line of sine1.c</caption>
+<caption class="title">Table 9. Line-by-line of sine1.c</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 90%;">
@@ -3637,17 +3393,17 @@ here we show 20 samples, which may be enough. In the code <code>MAXT</code> is s
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number for samples in one cycle of the analog waveform</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Which waveform to use.  We&#8217;ve defined SAWTOOTH, TRIANGLE and SINE, but
 you can define your own too.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">10-11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Declaring registers <code>_R30</code> and <code>_R31</code>.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declaring registers <code>__R30</code> and <code>__R31</code>.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">15-16</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>onCount</code>	 how many cycles the PWM should be 1 and <code>offCount</code> counts
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>onCount</code> counts how many cycles the PWM should be 1 and <code>offCount</code> counts
 how many it should be off.</p></td>
 </tr>
 <tr>
@@ -3697,26 +3453,26 @@ cycle count.</p></td>
 <div class="content">
 <img src="figures/sawunfiltered.png" alt="Unfiltered Sawtooth Waveform">
 </div>
-<div class="title">Figure 7. Unfiltered Sawtooth Waveform</div>
+<div class="title">Figure 14. Unfiltered Sawtooth Waveform</div>
 </div>
 <div class="paragraph">
 <p>It doesn&#8217;t look like a sawtooth; but if you look at the left side you will
 see each cycle has a longer and longer on time.  The duty cycle is increasing.
 Once it&#8217;s almost 100% duty cycle, it switches to a very small duty cycle.
 Therefore it&#8217;s output what we programmed, but what we want is the average of
-the signal.  The left had side has a large (and increasing) average which
+the signal.  The left hand side has a large (and increasing) average which
 would be for top of the sawtooth.  The right hand side has a small average,
 which is what you want for the start of the sawtooth.</p>
 </div>
 <div class="paragraph">
 <p>A simple low-pass filter, built with one resistor and one capacitor will do it.
-<a href="#blocks_filter">[blocks_filter]</a> shows how to wire it up.</p>
+<a href="#blocks_filterwiring">Low-Pass Filter Wiring Diagram</a> shows how to wire it up.</p>
 </div>
 <div id="blocks_filterwiring" class="imageblock">
 <div class="content">
 <img src="figures/filter_bb.png" alt="Low-Pass Filter Wiring Diagram">
 </div>
-<div class="title">Figure 8. Low-Pass Filter Wiring Diagram</div>
+<div class="title">Figure 15. Low-Pass Filter Wiring Diagram</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -3727,7 +3483,7 @@ which is what you want for the start of the sawtooth.</p>
 <td class="content">
 <div class="paragraph">
 <p>I used a 10K&Omega; variable resistor and a 0.022&mu;F capacitor. (The figure
-has the wrong value.) Probe the circuit between the resistor and the capacitor andI adjust the resistor until you get a good looking waveform.</p>
+has the wrong value.) Probe the circuit between the resistor and the capacitor and adjust the resistor until you get a good looking waveform.</p>
 </div>
 </td>
 </tr>
@@ -3738,12 +3494,12 @@ has the wrong value.) Probe the circuit between the resistor and the capacitor a
 </div>
 <div id="blocks_sawscope" class="imageblock">
 <div class="content">
-<img src="figures/sawscope.png" alt="Reconstructed Sawtooth Waveform" width="500">
+<img src="figures/sawscope.png" alt="Reconstructed Sawtooth Waveform">
 </div>
-<div class="title">Figure 9. Reconstructed Sawtooth Waveform</div>
+<div class="title">Figure 16. Reconstructed Sawtooth Waveform</div>
 </div>
 <div class="paragraph">
-<p>Now that look more like a sawtooth wave.  The top plot is the time-domain
+<p>Now that looks more like a sawtooth wave.  The top plot is the time-domain
 plot of the output of the low-pass filter. The bottom plot is the FFT of the top
 plot, therefore it&#8217;s the frequency domain. We are getting a sawtooth with a
 frequency of about 6.1KHz. You can see the fundamental frequency on the
@@ -3759,7 +3515,7 @@ resistor.  You&#8217;ll see something like <a href="#blocks_lowercutoff">Reconst
 <div class="content">
 <img src="figures/sawlowercutoff.png" alt="Reconstructed Sawtooth Waveform with Lower Cutoff Frequency">
 </div>
-<div class="title">Figure 10. Reconstructed Sawtooth Waveform with Lower Cutoff Frequency</div>
+<div class="title">Figure 17. Reconstructed Sawtooth Waveform with Lower Cutoff Frequency</div>
 </div>
 <div class="paragraph">
 <p>The high freqencies have been reduced, but the corner of the waveform has
@@ -3771,7 +3527,7 @@ get a sharper corner, but you&#8217;ll also get more high frequencies. See
 <div class="content">
 <img src="figures/sawhighercutoff.png" alt="Reconstructed Sawtooth Waveform with Higher Cutoff Frequency">
 </div>
-<div class="title">Figure 11. Reconstructed Sawtooth Waveform with Higher Cutoff Frequency</div>
+<div class="title">Figure 18. Reconstructed Sawtooth Waveform with Higher Cutoff Frequency</div>
 </div>
 <div class="paragraph">
 <p>Adjust to taste, though the real solution is to build a higher order filter.
@@ -3790,7 +3546,7 @@ as small as 20.</p>
 <div class="content">
 <img src="figures/triangle.png" alt="Reconstructed Triangle Waveform">
 </div>
-<div class="title">Figure 12. Reconstructed Triangle Waveform</div>
+<div class="title">Figure 19. Reconstructed Triangle Waveform</div>
 </div>
 <div class="paragraph">
 <p>And also the sine wave as shown in <a href="#blocks_sine">Reconstructed Sinusoid Waveform</a>.</p>
@@ -3799,7 +3555,7 @@ as small as 20.</p>
 <div class="content">
 <img src="figures/sine.png" alt="Reconstructed Sinusoid Waveform">
 </div>
-<div class="title">Figure 13. Reconstructed Sinusoid Waveform</div>
+<div class="title">Figure 20. Reconstructed Sinusoid Waveform</div>
 </div>
 <div class="paragraph">
 <p>Notice on the bottom plot the harmonics are much more suppressed.</p>
@@ -3812,31 +3568,7 @@ You can look in <code>/tmp/pru0-gen/sine1.map</code> to see how much memory is b
 <div id="blocks_sine1_map" class="listingblock">
 <div class="title">/tmp/pru0-gen/sine1.map for Sine Wave</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
-  <td class="line-numbers"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-</pre></td>
-  <td class="code"><pre>******************************************************************************
+<pre class="CodeRay highlight"><code data-lang="linenums">******************************************************************************
 PRU Linker Unix v2.1.5
 ******************************************************************************
 &gt;&gt; Linked Fri Jun 29 13:58:08 2018
@@ -3857,8 +3589,7 @@ PAGE 1:
   PRU_DMEM_1_0          00002000   00002000  00000000  00002000  RWIX
 
 PAGE 2:
-  PRU_SHAREDMEM         00010000   00003000  00000000  00003000  RWIX</pre></td>
-</tr></table></code></pre>
+  PRU_SHAREDMEM         00010000   00003000  00000000  00003000  RWIX</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3905,7 +3636,7 @@ sensesitive, which make the PRU a perfect candidate for driving it.</p>
 <div class="content">
 <img src="figures/neo_bb.png" alt="NeoPixel Wiring">
 </div>
-<div class="title">Figure 14. NeoPixel Wiring</div>
+<div class="title">Figure 21. NeoPixel Wiring</div>
 </div>
 <div class="paragraph">
 <p>Test your wiring with the simple code in <a href="#blocks_neo1">neo1.c - Code to turn all NeoPixels&#8217;s white</a>
@@ -4015,7 +3746,7 @@ which to turns all pixels white.</p>
 <div class="content">
 <img src="figures/neo_sequence.png" alt="NeoPixel bit sequence">
 </div>
-<div class="title">Figure 15. NeoPixel bit sequence</div>
+<div class="title">Figure 22. NeoPixel bit sequence</div>
 </div>
 <div class="paragraph">
 <p>Where the times are:</p>
@@ -4066,7 +3797,7 @@ shows the waveform for sending a 0 value.  Note the times are spot on.</p>
 <div class="content">
 <img src="figures/neo_scope.png" alt="neo scope">
 </div>
-<div class="title">Figure 16. NeoPixel zero timing</div>
+<div class="title">Figure 23. NeoPixel zero timing</div>
 </div>
 <div class="paragraph">
 <p>Each NeoPixel listens for a RGB value. Once a value has arrived all other values
@@ -4205,7 +3936,7 @@ green, red and blue values.</p>
 <div class="content">
 <img src="figures/neo_data_seq.png" alt="neo data seq">
 </div>
-<div class="title">Figure 17. NeoPixel data sequence</div>
+<div class="title">Figure 24. NeoPixel data sequence</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -4824,7 +4555,7 @@ LEDs.  You 0<sup>th</sup> LED should now be lit.</p>
 <p>There&#8217;s a lot here.  I&#8217;ll just hit some of the highlights in <a href="#blocks_neo4_lines">Line-by-line for neo4.c</a>.</p>
 </div>
 <table id="blocks_neo4_lines" class="tableblock frame-all grid-all spread">
-<caption class="title">Table 9. Line-by-line for neo4.c</caption>
+<caption class="title">Table 10. Line-by-line for neo4.c</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 90%;">
@@ -5167,48 +4898,7 @@ GPIO.output(LAT, <span class="integer">0</span>)     <span class="comment"># Set
 <div id="blocks_rgb_setup" class="listingblock">
 <div class="title">rgb_setup.sh</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash"><table class="CodeRay"><tr>
-  <td class="line-numbers"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-</pre></td>
-  <td class="code"><pre>#!/bin/bash
+<pre class="CodeRay highlight"><code data-lang="linenums">#!/bin/bash
 # Setup for 64x32 RGB Matrix
 export PRUN=0
 export TARGET=rgb1
@@ -5246,8 +4936,7 @@ do
     echo $pin
     config-pin $pin out
     config-pin -q $pin
-done</pre></td>
-</tr></table></code></pre>
+done</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -5257,7 +4946,7 @@ the PRU outs.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">    # config-pin $pin pruout
+<pre class="CodeRay highlight"><code>    # config-pin $pin pruout
     config-pin $pin out</code></pre>
 </div>
 </div>
@@ -5268,7 +4957,7 @@ the PRU outs.</p>
 <div class="content">
 <img src="figures/rgb_python.jpg" alt="Display running rgb_python.py">
 </div>
-<div class="title">Figure 18. Display running rgb_python.py</div>
+<div class="title">Figure 25. Display running rgb_python.py</div>
 </div>
 <div class="paragraph">
 <p>So why do only two lines appear at a time?  That&#8217;s how the display works.
@@ -5471,7 +5160,7 @@ all at once.  Here&#8217;s where the PRU comes in.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">    config-pin $pin pruout
+<pre class="CodeRay highlight"><code>    config-pin $pin pruout
     # config-pin $pin out</code></pre>
 </div>
 </div>
@@ -5482,7 +5171,7 @@ all at once.  Here&#8217;s where the PRU comes in.</p>
 <div class="content">
 <img src="figures/rgb_pru.jpg" alt="Display running rgb1.c on PRU 0">
 </div>
-<div class="title">Figure 19. Display running rgb1.c on PRU 0</div>
+<div class="title">Figure 26. Display running rgb1.c on PRU 0</div>
 </div>
 <div class="paragraph">
 <p>The PRU is fast enough to quickly write to the display so that it appears
@@ -5502,7 +5191,7 @@ go over some of them.</p>
 <div class="content">
 <img src="figures/matrix_j1.jpg" alt="RGB Matrix J1 connector" width="200">
 </div>
-<div class="title">Figure 20. RGB Matrix J1 connector</div>
+<div class="title">Figure 27. RGB Matrix J1 connector</div>
 </div>
 <div class="paragraph">
 <p>Notice the labels on the connect match the labels in the code.
@@ -5510,7 +5199,7 @@ go over some of them.</p>
 mapped to the pins on the Pocket Beagle.</p>
 </div>
 <table id="blocks_pocket_scroller_pins" class="tableblock frame-all grid-all spread">
-<caption class="title">Table 10. PocketScroller pin table</caption>
+<caption class="title">Table 11. PocketScroller pin table</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -5635,7 +5324,7 @@ LED matrix.</p>
 <div class="content">
 <img src="figures/rgb_waveforms.png" alt=".Oscilloscope display of CLK" width="OE" height="LAT and R1">
 </div>
-<div class="title">Figure 21. Oscilloscope display of CLK, OE, LAT and R1</div>
+<div class="title">Figure 28. Oscilloscope display of CLK, OE, LAT and R1</div>
 </div>
 <div class="paragraph">
 <p>The top waveform is the CLK, the next is OE, followed by LAT and finally R1.
@@ -5684,7 +5373,7 @@ comparision.</p>
 <div class="content">
 <img src="figures/rgb_fpp.png" alt="FPP waveforms">
 </div>
-<div class="title">Figure 22. FPP waveforms</div>
+<div class="title">Figure 29. FPP waveforms</div>
 </div>
 <div class="sect4">
 <h5 id="_getting_more_colors"><a class="link" href="#_getting_more_colors">Getting More Colors</a></h5>
@@ -5692,7 +5381,7 @@ comparision.</p>
 <p>The Adafruit description goes on to say:</p>
 </div>
 <div class="verseblock">
-<pre class="content">The only downside of this technique is that despite being very simple and fast, it has no PWM control built in! The controller can only set the LEDs on or off. So what do you do when you want full color? You actually need to draw the entire matrix over and over again at very high speeds to PWM the matrix manually. For that reason, you need to have a very fast controller (50 MHz is a minimum) if you want to do a lot of colors and motion video and have it look good.</pre>
+<pre class="content">The only downside of this technique is that despite being very simple and fast, it has no PWM control built-in! The controller can only set the LEDs on or off. So what do you do when you want full color? You actually need to draw the entire matrix over and over again at very high speeds to PWM the matrix manually. For that reason, you need to have a very fast controller (50 MHz is a minimum) if you want to do a lot of colors and motion video and have it look good.</pre>
 <div class="attribution">
 &#8212; https://cdn-learn.adafruit.com/downloads/pdf/32x16-32x32-rgb-led-matrix.pdf
 </div>
@@ -5719,7 +5408,7 @@ to get more colors.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>cd 05blocks/code/module</strong>
+<pre class="CodeRay highlight"><code>bone$ <strong>cd 05blocks/code/module</strong>
 bone$ <strong>sudo apt install linux-headers-`uname -r`</strong>
 bone$ <strong>wget https://github.com/beagleboard/linux/raw/4.9/drivers/rpmsg/rpmsg_pru.c</strong>
 bone$ <strong>make</strong>
@@ -5827,7 +5516,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-08-15 09:42:53 EDT
+Last updated 2018-08-16 14:33:51 EDT
 </div>
 </div>
 </body>

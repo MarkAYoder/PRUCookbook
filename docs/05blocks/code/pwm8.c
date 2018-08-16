@@ -1,6 +1,6 @@
 // This code does MAXCH parallel PWM channels on both PRU 0 and PRU 1
 // All channels start at the same time. 
-// It's period is 510ns
+// It's period is 430ns
 #include <stdint.h>
 #include <pru_cfg.h>
 #include <pru_intc.h>

@@ -18,11 +18,8 @@ include::../copyright.adoc[copyright]
 
 ==== Problem
 I want to control where my variables are stored in memory.
-[WARNING]
-====
-Include a section on accessing DDR.
-====
 
+// TODO Include a section on accessing DDR.
 
 ==== Solution
 Each PRU has is own 8KB of data memory (Data Mem0 and Mem1) and 12KB of shared memory (Shared RAM) as shown in <<blocks_PRU_block_diagram>>.
@@ -54,33 +51,33 @@ Here's the line-by-line
 |===
 |Line |Explanation
 
-|7    |`PRU_SRAM` is defined here.  It will be used later to declare variables
+|8    |`PRU_SRAM` is defined here.  It will be used later to declare variables
 in the `Shared RAM` location of memory.  Section 5.5.2 on page 75 of the
 http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler, v2.2, User's Guide] gives details of the command.  The `PRU_SHAREDMEM` 
 refers to the memory section defined in `AM335x_PRU.cmd` on line 26.  
-|8,9  |These are like the previous line except for the DMEM sections.
-|16   |Variables declared outside of `main()` are put on the heap.
-|17   |Adding `PRU_SRAM` has the variable stored in the shared memory.
-|18,19|These are stored in the PRU's local RAM.
-|20,21|These lines are for storing in the `.bss` section as declared on
+|9, 10 |These are like the previous line except for the DMEM sections.
+|17    |Variables declared outside of `main()` are put on the heap.
+|18    |Adding `PRU_SRAM` has the variable stored in the shared memory.
+|19, 20|These are stored in the PRU's local RAM.
+|21, 22|These lines are for storing in the `.bss` section as declared on
 line 74 of `AM335x_PRU.cmd`.
-|28-31|All the previous examples direct the compiler to an area in memory
+|29-32 |All the previous examples direct the compiler to an area in memory
 and the compilers figures out what to put where.  With these lines we 
 specify the exact location.  Here are start with the PRU_DRAM starting address and add 0x200 to it to avoid
 the ((stack)) and the ((heap)).  The advantage of this technique is you can
 easily share these variables between the ARM and the two PRUs.
-|36,37|Variable declared inside `main()` go on the stack.
+|37, 38|Variable declared inside `main()` go on the stack.
 |===
 
 [CAUTION]
 ====
-Using the technique of line 28-31 you can put variables anywhere, 
+Using the technique of line 29-32 you can put variables anywhere, 
 even where the compiler has put them.
 Be careful, it's easy to overwrite what the compiler has done
 ====
 
 Compile and run the program.
-[source,bash,linenums]
+[source,linenums]
 [subs=+quotes]
 ----
 bone$ *source shared_setup.sh*
@@ -104,7 +101,7 @@ start
 ----
 
 Now check the ((symbol table)) to see where things are allocated.
-[source,bash,linenums]
+[source,linenums]
 [subs=+quotes]
 ----
 bone $ *grep shared /tmp/pru0-gen/shared.map* 
@@ -130,9 +127,10 @@ therefore placed on the stack at run time.  The `shared.map` file shows the
 compile time allocations.  We have to look in the memory itself to see what
 happen at run time.
 
-Let's fire up `prudebug` (<<prudebug - A Simple Debugger for the PRU>>) to see
-where things are.
-[source,bash,linenums]
+Let's fire up `prudebug` 
+(<<../04debug/debug.html#debug_prudebug, prudebug - A Simple Debugger for the PRU>>)
+to see where things are.
+[source,linenums]
 [subs=+quotes]
 ----
 bone$ *sudo ./prudebug*
@@ -159,7 +157,7 @@ Absolute addr = 0x0000, offset = 0x0000, Len = 16
 ----
 The value of `shared_2` is in memory location 0.
 
-[source,bash,linenums]
+[source,linenums]
 [subs=+quotes]
 ----
 PRU0> *dd 0x100*
@@ -172,7 +170,7 @@ Absolute addr = 0x0100, offset = 0x0000, Len = 16
 There are `shared_0` and `shared_3` in the heap, but where is `shared_6` and
 `shared_7`?  They are supposed to be on the ((stack)) that starts at 0.
 
-[source,bash,linenums]
+[source,linenums]
 [subs=+quotes]
 ----
 PRU0> dd *0xc0*
@@ -184,7 +182,7 @@ Absolute addr = 0x00c0, offset = 0x0000, Len = 16
 ----
 There they are; the stack grows from the top. (The heap grows from the bottom.)
 
-[source,bash,linenums]
+[source,linenums]
 [subs=+quotes]
 ----
 PRU0> dd *0x2000*
@@ -196,7 +194,7 @@ Absolute addr = 0x2000, offset = 0x0000, Len = 16
 ----
 And there is PRU 1's memory. And finally the shared memory.
 
-[source,bash,linenums]
+[source,linenums]
 [subs=+quotes]
 ----
 PRU0> *dd 0x10000*
@@ -208,16 +206,16 @@ Absolute addr = 0x10000, offset = 0x0000, Len = 16
 ----
 
 The compiler offers great control over where variables are stored. Just
-be sure if you are hand picking where thing are put not to put them where
-the compiler is putting things.
+be sure if you are hand picking where things are put, not to put them in places 
+used by the compiler.
 
-=== Auto Initialization of Built in LED Triggers
+=== Auto Initialization of built-in LED Triggers
 ==== Problem
-I see the built in LEDs blink to their own patterns.  How do I turn this off? 
+I see the built-in LEDs blink to their own patterns.  How do I turn this off? 
 Can this be automated?
 
 ==== Solution
-Each built in LED has a default action (trigger) when the Bone boots up. 
+Each built-in LED has a default action (trigger) when the Bone boots up. 
 This is controlled by `/sys/class/leds`.
 [subs=+quotes]
 ----
@@ -240,7 +238,7 @@ kbd-shiftrlock kbd-ctrlllock kbd-ctrlrlock usb-gadget usb-host
 heartbeat backlight gpio cpu0 default-on 
 ----
 Notice `[mmc0]` is in brackets.  This means it's the current trigger; it flashes 
-when the built in flash memory is in use.  You can turn this off using:
+when the built-in flash memory is in use.  You can turn this off using:
 [subs=+quotes]
 ----
 bone$ *echo none | sudo tee trigger*
@@ -277,12 +275,12 @@ line 2 says to `RETAIN` it.  That is don't throw it away if it appears to be
 unused.
 
 ==== Discussion
-The above code stores this array in the `.out` file that created, but that's not 
+The above code stores this array in the `.out` file thats created, but that's not 
 enough. You need to run <<blocks_write_init_pins>> on the `.out` file to make 
 the code work.
 [[blocks_write_init_pins]]
 .write_init_pins.sh
-[source,bash,linenums]
+[source,linenums]
 [subs=+quotes]
 ----
 include::code/write_init_pins.sh[]
@@ -290,7 +288,7 @@ include::code/write_init_pins.sh[]
 
 The `readelf` command extracts the path and value from the `.out` file.
 
-[source,bash,linenums]
+[source,linenums]
 [subs=+quotes]
 ----
 bone$ *readelf -x .init_pins /tmp/pru0-gen/shared.out* 
@@ -322,8 +320,9 @@ I want to generate a PWM signal that has a fixed frequency and duty cycle.
 The solution is fairly easy, but be sure to check the *Discussion* section
 for details on making it work.
 
-Here's the code.
+<<blocks_pwm1>> shows the code.
 
+[[blocks_pwm1]]
 .pwm1.c
 [source,c,linenums] 
 ----
@@ -331,19 +330,19 @@ include::code/pwm1.c[]
 ----
 
 To run this code you need to configure the pin muxes to output the PRU.  If you are on the Black run
-[source,bash] 
+[source] 
 [subs=+quotes]
 ----
 bone$ *config-pin P9_31 pruout*
 ----
 On the Pocket run
-[source,bash] 
+[source] 
 [subs=+quotes]
 ----
 bone$ *config-pin P1_36 pruout*
 ----
-Then, tell Makefile which PRU you are compiling for and what your target file is
-[source,bash]
+Then, tell `Makefile` which PRU you are compiling for and what your target file is
+[source]
 [subs=+quotes]
 ----
 bone$ *export PRUN=0*
@@ -351,7 +350,7 @@ bone$ *export TARGET=pwm1*
 ----
 
 Now you are ready to compile
-[source,bash,linenums] 
+[source,linenums] 
 [subs=+quotes]
 ----
 bone$ *make*
@@ -369,15 +368,16 @@ Now attach an LED (or oscilloscope) to `P9_31` on the Black or `P1.36` on the Po
 Since this is our first example we'll discuss the many parts in detail.
 
 ===== pwm1.c
-Here's a line-by-line expanation of the c code.
+<<blocks_pwm1_line_by_line>> is a line-by-line expanation of the c code.
 
+[[blocks_pwm1_line_by_line]]
 .Line-by-line of pwm1.c
 [cols="1,9"]
 |===
 |Line|Explanation
 
 |1   |Standard c-header include
-|2   |Include for the PRU.  The compiler know where to find this since the Makefile says to look for includes in `/usr/lib/ti/pru-software-support-package`
+|2   |Include for the PRU.  The compiler knows where to find this since the `Makefile` says to look for includes in `/usr/lib/ti/pru-software-support-package`
 |3   |The file `resource_table_empty.h` is used by the PRU loader.  Generally we'll use the same file, and don't need to modify it.
 |===
 
@@ -393,20 +393,22 @@ include::code/resource_table_empty.h[]
 |===
 |Line|Explanation
 
-|5-6 |`__R30` and `__R31` are two variables that refer to the PRU output (`__R30`) and input (`__R31`) registers. 
-When you write something to `__R30` it will show up on the corresponding output pins.  
-When you read from `__R31` you read the data on the input pins.  
+|5-6 |`pass:[__]R30` and `pass:[__]R31` are two variables that refer to the PRU output (`pass:[__]R30`) and input (`pass:[__]R31`) registers. 
+When you write something to `pass:[__]R30` it will show up on the corresponding output pins.  
+When you read from `pass:[__]R31` you read the data on the input pins.  
 NOTE: Both names begin with two underscore's. Section 5.7.2 of the 
 http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler, v2.2, User's Guide]
 gives more details.
 |13    |`CT_CFG.SYSCFG_bit.STANDBY_INIT` is set to `0` to enable the OCP master port. More details on this and thousands of other regesters see the 
 https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]. Section 4 is on the PRU and section 4.5 gives details for all the registers.
-|15    |This line selects which GPIO pin to toggle.  The table below shows which bits in `__R30` map to which pins
+|15    |This line selects which GPIO pin to toggle.  The table below shows which bits in `pass:[__]R30` map to which pins
 |===
 
 Bit 0 is the LSB.
 
 (((mapping, positions, pin)))
+
+//  TODO fill in Blue
 
 [[blocks_mapping_bits]]
 .Mapping bit positions to pin names
@@ -442,16 +444,17 @@ Bit 0 is the LSB.
 |1  |15 |         |        |P1.30     
 |===
 
-Since we are running on PRU 0 we're using `0x0001`, that is bit 0, we'll be toggling `P9_31`.
+Since we are running on PRU 0, and we're using `0x0001`, that is bit 0, 
+we'll be toggling `P9_31`.
 
 .Line-by-line (continued again)
 [cols="1,9"]
 |===
 |Line|Explanation
 
-|18  |Here is where the action is.  This line reads `__R30` and then ORs it with `gpio`, setting the bits where there is a 1 in `gpio` and leaving the bits where there is a 0.  Thus we are setting the bit we selected. Finally the new value is written back to `__R30`. 
-|19  |`__delay_cycles` is an instrinsic function that delays with number of cycles passed to it. Each cycle is 5ns, and we are delaying 100,000,000 cycles which is 500,000,000ns, or 0.5 seconds. 
-|20  |This is like line 18, but `~gpio` inverts all the bits in `gpio` so that where we had a 1, there is now a 0.  This 0 is then ANDed with `__R30` setting the corresponding bit to 0.  Thus we are clearing the bit we selected.
+|18  |Here is where the action is.  This line reads `pass:[__]R30` and then ORs it with `gpio`, setting the bits where there is a 1 in `gpio` and leaving the bits where there is a 0.  Thus we are setting the bit we selected. Finally the new value is written back to `pass:[__]R30`. 
+|19  |`pass:[__]delay_cycles` is an ((instrinsic function)) that delays with number of cycles passed to it. Each cycle is 5ns, and we are delaying 100,000,000 cycles which is 500,000,000ns, or 0.5 seconds. 
+|20  |This is like line 18, but `~gpio` inverts all the bits in `gpio` so that where we had a 1, there is now a 0.  This 0 is then ANDed with `pass:[__]R30` setting the corresponding bit to 0.  Thus we are clearing the bit we selected.
 |===
 
 [TIP]
@@ -466,12 +469,12 @@ image::figures/pwm1.png[pwm1.c output]
 
 Notice the on time (`+Width(1)`) is 500ms, just as we predicted.  The off time is 498ms, which is only 2ms off from our prediction.  The standard deviation is 0, or only 380as, which is 380 * 10^-18^!.
 
-You can see how fast the PRU can run by setting both of the `__delay_cycles` to 0. This results in the next figure.
+You can see how fast the PRU can run by setting both of the `pass:[__]delay_cycles` to 0. This results in the next figure.
 
 .Output of pwm1.c with 0 delay cycles
 image::figures/pwm2.png[pwm1.c output with 0 delay]
 
-Notice the period is 15ns which gives us a frequency of about 67MHz. At this high frequency the breadboard that I'm using distorts the waveform so it's no longer a squarewave. The _on_ time is 5.3ns and the _off_ time is 9.8ns.  That means `__R30 |= gpio;` took only one 5ns cycle and `__R30 &= ~gpio;` also only took one cycle, but there is also an extra cycle needed for the loop.  This means the compiler was able to implement the while loop in just three 5ns instructions!  Not bad.
+Notice the period is 15ns which gives us a frequency of about 67MHz. At this high frequency the breadboard that I'm using distorts the waveform so it's no longer a squarewave. The _on_ time is 5.3ns and the _off_ time is 9.8ns.  That means `pass:[__]R30 |= gpio` took only one 5ns cycle and `pass:[__]R30 &= ~gpio` also only took one cycle, but there is also an extra cycle needed for the loop.  This means the compiler was able to implement the `while` loop in just three 5ns instructions!  Not bad.
 
 We want a square wave, so we need to add a delay to correct for the delay of looping back.
 
@@ -484,10 +487,11 @@ include::code/pwm2.c[]
 ----
 
 The output now looks like:
-.Output of pwm2.c corrected delay (`pwm3.png`)
+
+.Output of pwm2.c corrected delay
 image::figures/pwm3.png[pwm2.c corrected delay]
 
-It's not hard to adjust the two `__delay_cycles` to get the desired frequency and duty cycle.
+It's not hard to adjust the two `pass:[__]delay_cycles` to get the desired frequency and duty cycle.
 
 ### Controlling the PWM Frequency
 #### Problem
@@ -500,9 +504,9 @@ The DRAM 0 address is 0x0000 for PRU 0.  The same DRAM appears at address 0x4A30
 [TIP]
 ====
 See page
-184 of the https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]).  
+184 of the https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual].  
 ====
-We take the previous PRU and add the lines
+We take the previous PRU code and add the lines
 
 [source,c,linenums] 
 ----
@@ -519,18 +523,19 @@ Later in the code we use
 
 [source,c,linenums] 
 ----
-		pru0_dram[ch] = on[ch];		// Copy to DRAM0 so the ARM can change it
-		pru0_dram[ch+MAXCH] = off[ch];	// Copy oafter the on array
+	pru0_dram[ch] = on[ch];		    // Copy to DRAM0 so the ARM can change it
+	pru0_dram[ch+MAXCH] = off[ch];	// Copy after the on array
 ----
 to write the `on` and `off` times to the DRAM.  Then inside the `while` loop we use
 [source,c,linenums] 
 ----
-				onCount[ch] = pru0_dram[2*ch];		// Read from DRAM0
-				offCount[ch]= pru0_dram[2*ch+1];
+	onCount[ch] = pru0_dram[2*ch];		// Read from DRAM0
+	offCount[ch]= pru0_dram[2*ch+1];
 ----
 to read from the DRAM when reseting the counters.  Now, while the PRU is running, the ARM can write values into the DRAM and change
-the PWM on and off times.  Here's the whole code:
+the PWM on and off times.  <<blocks_pwm4>> is the whole code.
 
+[[blocks_pwm4]]
 .pwm4.c
 [source,c,linenums] 
 ----
@@ -547,12 +552,12 @@ include::code/pwm-test.c[pwm-test.c]
 A quick check on the 'scope shows <<blocks_pwm_arm_control>>.
 
 [[blocks_pwm_arm_control]]
-.pwm4.png PWM with ARM control
+.Four Channel PWM with ARM control
 image::figures/pwm4.png[pwm4.png]
 
-From the 'scope you see a 1 cycle on time results in a 450ns wide pulse and
+From the 'scope you see a 1 cycle _on_ time results in a 450ns wide pulse and
 a 3.06us period is .326KHz  Much
-slower than the 10ns pusle we saw before.  But it may be more than fast enough
+slower than the 10ns pulse we saw before.  But it may be more than fast enough
 for manny applicaions.  For example, most servos run at 50Hz.
 
 But we can do better.
@@ -562,7 +567,7 @@ But we can do better.
 The ARM controlled PRU code runs too slowly.
 
 ==== Solution
-Simple loops unrolling can greatly improve the speed.  `pwm5.c` is our unrolled
+Simple loop unrolling can greatly improve the speed.  `pwm5.c` is our unrolled
 version.
 
 .pwm5.c Unrolled
@@ -574,7 +579,7 @@ include::code/pwm5.c[pwm5.c]
 The output of `pwm5.c` is in the figure below.
 
 .pwm5.c Unrolled version of pwm4.c
-image::figures/pwm5 - no loop.png[pwm5.c Unrolled version of pwm4.c]
+image::figures/pwm5_no_loop.png[pwm5.c Unrolled version of pwm4.c]
 
 It's running about 6 times faster than `pwm4.c`.
 
@@ -611,13 +616,14 @@ I have a mutlichannel PWM working, but the pulses aren't synchronized, that is
 they don't all start at the same time.
 
 ==== Solution
-The figure below is a zoomed in version of the previous figure. Notice the pulse in each channel starts about 15ns later than the channel above 
+<<blocks_zoomed>> is a zoomed in version of the previous figure. Notice the pulse in each channel starts about 15ns later than the channel above 
 it.
 
+[[blocks_zoomed]]
 .pwm5 Zoomed In 
-image::figures/pwm5 zoomed.png[pwm5 zoomed.png]
+image::figures/pwm5_zoomed.png[pwm5 zoomed.png]
 
-The solution is to declare `Rtmp` (line 35) which holds the value for `__R30`.
+The solution is to declare `Rtmp` (line 35) which holds the value for `pass:[__]R30`.
 
 .pwm6.c Sync'ed Version of pwm5.c 
 [source,c,linenums]
@@ -626,14 +632,14 @@ include::code/pwm6.c[pwm6.c Sync'ed Version of pwm5.c]
 ----
 
 Each channel writes it's value to `Rtmp` (lines 17 and 20) and then after
-each channel has updated, `Rtmp` is copied to `__R30` (line 54).
+each channel has updated, `Rtmp` is copied to `pass:[__]R30` (line 54).
 
 ==== Discussion
 The following figure shows the channel are sync'ed. Though the period is slightly
 longer than before.
 
 .pwm6 Synchronized Channels
-image::figures/pwm6 synced.png[pwm6 Synchronized Channels]
+image::figures/pwm6_synced.png[pwm6 Synchronized Channels]
 
 
 === Adding More Channels via PRU 1
@@ -642,7 +648,7 @@ You need more output channels, or you need to shorten the period.
 
 ==== Solution
 PRU 0 can output up to eight output pins (see 
-<<#bit_positions,Mapping bit position to pin names>>). The code presented so far
+<<blocks_mapping_bits>>). The code presented so far
 can be easily extended to use the eight output pins.
 
 But what if you need more channels?
@@ -662,6 +668,7 @@ include::code/pwm7.c[pwm7.c Using Both PRUs]
 ----
 
 Be sure to run `pwm7_setup.sh` to get the coffect pins configured.
+
 .pwm7_setup.sh
 ----
 include::code/pwm7_setup.sh[pw7_setup.sh]
@@ -669,7 +676,7 @@ include::code/pwm7_setup.sh[pw7_setup.sh]
 This makes sure the PRU 1 pins are properly configured.
 
 Then compile and run with
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 bone$ *make PRUN=0; make PRUN=1*
@@ -703,7 +710,7 @@ is where the big change is.
 		onCount[ch] = on [ch+PRUN*MAXCH];
 		offCount[ch]= off[ch+PRUN*MAXCH];
 ----
-The Makefile sets `PRUN` to be the number of the PRU we are compiling for.  If 
+The `Makefile` sets `PRUN` to be the number of the PRU we are compiling for.  If 
 we are compiling for PRU 0, `on[ch+PRUN*MAXCH]` becomes `on[ch+0*2]` which is
 `on[ch]` which is what we had before.  But now if we are on PRU 1 it becomes
 `on[ch+1*2]` which is `on[ch+2]`.  That means we are picking up the second 
@@ -714,13 +721,13 @@ behavior.
 Running the code you will see the next figure.
 
 .pwm7 Two PRUs running
-image::figures/pwm7 two prus running.png[pwm7 Two PRUs running]
+image::figures/pwm7_two_prus_running.png[pwm7 Two PRUs running]
 
 What's going on there, the first channels look fine, but the PRU 1 channels
 are blurred.  To see what's happening, let's stop the oscilloscope.
 
 .pwm7 Two PRUs stopped
-image::figures/pwm7 two prus stopped.png[pwm7 Two PRUs stopped]
+image::figures/pwm7_two_prus_stopped.png[pwm7 Two PRUs stopped]
 
 The stopped display shows that the four channels are doing what we wanted, except 
 The PRU 0 channels have a period of 370ns while the PRU 1 channels at 330ns.
@@ -744,16 +751,21 @@ include::code/pwm8.c[pwm8.c Using INTC to signal from one PRU to the other]
 ----
 
 In `pwm8.c` PRU 1 waits for a signal from PRU 0, so be sure to start PRU 1 first.
-`bone$ *make PRUN=1; make PRUN=0*
+[source]
+[subs=+quotes]
+----
+bone$ *make PRUN=1; make PRUN=0*
+----
 
 ==== Discussion
 The figure below shows the two PRUs are synchronized, though there is some extra
 overhead in the process so the period is longer.
 
 .pwm8 PRUs sycned
-image::figures/pwm8 prus sycned.png[pwm8 PRUs sycned]
+image::figures/pwm8_prus_sycned.png[pwm8 PRUs sycned]
 
 This isn't much different from the previous examples.
+
 .pwm8.c changes from pwm7.c 
 [cols="1,9"]
 |===
@@ -764,7 +776,7 @@ See page 226 of the
 https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]
 for a diagram explaining events, channels, hosts, etc.
 |55-58|Set a configuration register and call `configInitc`.
-|73-77|PRU 1 then waits for PRU 0 to signal it.  Bit 31 of `__R31` corresponds
+|73-77|PRU 1 then waits for PRU 0 to signal it.  Bit 31 of `pass:[__]R31` corresponds
 to the Host-1 channel which `configInitc()` set up. We also clear event 16 so 
 PRU 0 can set it again.
 |81-84|On PRU 0 this generates the interupt to send to PRU 1.  I found PRU 1 was 
@@ -777,7 +789,7 @@ give time for the signal to get to PRU 1.
 You have an input pin that needs to be read at regular intervals.
 
 ==== Solution
-You can use the `__R31` register to read an input pin. Let's use the following
+You can use the `pass:[__]R31` register to read an input pin. Let's use the following
 pins.
 [[blocks_io_pins]]
 .Input/Output pins
@@ -791,12 +803,13 @@ These values came from <<blocks_mapping_bits>>.
 Configure the pins with `input_setup.sh`.
 
 .input_setup.sh
-[source,bash,linenums]
+[source,linenums]
 ----
 include::code/input_setup.sh[]input_setup.sh]
 ----
 
 The following code reads the input pin and writes its value to the output pin.
+
 .input1.c
 [source,c,linenums]
 ----
@@ -804,14 +817,15 @@ include::code/input1.c[input1.c]
 ----
 
 ==== Discussion
-
+Just remember that `pass:[__]R30` is for outputs and `pass:[__]R31` is 
+for inputs.
 
 === Analog Wave Generator
 ==== Problem
 I want to generate an analog output, but only have GPIO pins.
 
 ==== Solution
-The Beagle doesn't have a built in  analog to digital converter. You could
+The Beagle doesn't have a built-in  analog to digital converter. You could
 get a https://www.amazon.com/external-Adapter-Windows-Microphone-SD-CM-UAUD/dp/B001MSS6CS/0&keywords=audio+dongle[USB Audio Dongle] which are under $10.  But here
 we'll take another approach.
 
@@ -819,7 +833,9 @@ Earlier we generated a PWM signal.  Here we'll generate a PWM whose duty cycle
 changes with time.  A small duty cycle for when the output signal is small and
 a large dudty cycle for when it is large.
 
-This example was inspired by _A PRU Sin Wave Generator_ in chapter 13 of 
+This example was inspired by 
+https://github.com/derekmolloy/exploringBB/tree/master/chp13/sineWave[A PRU Sin Wave Generator]
+in chapter 13 of 
 http://exploringbeaglebone.com/[Exploring BeagleBone by Derek Molloy].
 
 Here's the code.
@@ -831,7 +847,7 @@ Here's the code.
 include::code/sine1.c[since1.c]
 ----
 Set the `#define` at line 7 to the number of samples in one cycle of the waveform 
-and get the `#define` at line 8 to which waveform and then run `make`.
+and set the `#define` at line 8 to which waveform and then run `make`.
 
 ==== Discussion
 The code has two parts.  The first part (lines 21 to 39) generate the waveform
@@ -868,10 +884,10 @@ There's a lot going on here; let's take it line by line.
 
 |2-5  |Standard c-header includes
 |7    |Number for samples in one cycle of the analog waveform
-|9    |Which waveform to use.  We've defined SAWTOOTH, TRIANGLE and SINE, but
+|8    |Which waveform to use.  We've defined SAWTOOTH, TRIANGLE and SINE, but
 you can define your own too.
-|10-11|Declaring registers `_R30` and `_R31`.
-|15-16|`onCount`	 how many cycles the PWM should be 1 and `offCount` counts
+|10-11|Declaring registers `pass:[__R30]` and `pass:[__R31]`.
+|15-16|`onCount` counts how many cycles the PWM should be 1 and `offCount` counts
 how many it should be off.
 |18   |`waveform[]` stores the analog waveform being ouput.
 |21-24|`SAWTOOTH` is the simplest of the waveforms. Each sample is the duty cycle 
@@ -899,12 +915,12 @@ It doesn't look like a sawtooth; but if you look at the left side you will
 see each cycle has a longer and longer on time.  The duty cycle is increasing.
 Once it's almost 100% duty cycle, it switches to a very small duty cycle.
 Therefore it's output what we programmed, but what we want is the average of 
-the signal.  The left had side has a large (and increasing) average which 
+the signal.  The left hand side has a large (and increasing) average which 
 would be for top of the sawtooth.  The right hand side has a small average,
 which is what you want for the start of the sawtooth.
 
 A simple low-pass filter, built with one resistor and one capacitor will do it.
-<<blocks_filter>> shows how to wire it up.
+<<blocks_filterwiring>> shows how to wire it up.
 
 [[blocks_filterwiring]]
 .Low-Pass Filter Wiring Diagram
@@ -913,16 +929,16 @@ image::figures/filter_bb.png[Low-Pass Filter Wiring Diagram]
 [NOTE]
 ====
 I used a 10K&Omega; variable resistor and a 0.022&mu;F capacitor. (The figure
-has the wrong value.) Probe the circuit between the resistor and the capacitor andI adjust the resistor until you get a good looking waveform.
+has the wrong value.) Probe the circuit between the resistor and the capacitor and adjust the resistor until you get a good looking waveform.
 ====
 
 <<blocks_sawscope>> shows the results for filtered the SAWTOOTH.
 
 [[blocks_sawscope]]
 .Reconstructed Sawtooth Waveform
-image::figures/sawscope.png[Reconstructed Sawtooth Waveform, width=500]
+image::figures/sawscope.png[Reconstructed Sawtooth Waveform]
 
-Now that look more like a sawtooth wave.  The top plot is the time-domain
+Now that looks more like a sawtooth wave.  The top plot is the time-domain
 plot of the output of the low-pass filter. The bottom plot is the FFT of the top 
 plot, therefore it's the frequency domain. We are getting a sawtooth with a
 frequency of about 6.1KHz. You can see the fundamental frequency on the 
@@ -975,7 +991,7 @@ You can look in `/tmp/pru0-gen/sine1.map` to see how much memory is being used.
 
 [[blocks_sine1_map]]
 ./tmp/pru0-gen/sine1.map for Sine Wave
-[source,bash,linenums]
+[source,linenums]
 ----
 include::code/sine1.map[lines=1..22]
 ----
@@ -1280,7 +1296,7 @@ Be sure to run the <<blocks_rgb_setup>> script before running the python code.
 
 [[blocks_rgb_setup]]
 .rgb_setup.sh
-[source,bash,linenums]
+[source,linenums]
 [subs=+quotes]
 ----
 include::code/rgb_setup.sh[]
@@ -1289,7 +1305,7 @@ include::code/rgb_setup.sh[]
 Make sure line 29 is commented out and line 30 is uncoomented. 
 Later we'll configure for _pruout_, but for now the python code doesn't use 
 the PRU outs.
-[source,bash]
+[source]
 [subs=+quotes]
 ----
     # config-pin $pin pruout
@@ -1319,7 +1335,7 @@ include::code/rgb1.c[]
 ----
 
 Don't forget the switch with comment on lines 29 and 30 of *rgb_setup.sh*. 
-[source,bash]
+[source]
 [subs=+quotes]
 ----
     config-pin $pin pruout
@@ -1415,7 +1431,7 @@ The Adafruit description goes on to say:
 
 [verse, https://cdn-learn.adafruit.com/downloads/pdf/32x16-32x32-rgb-led-matrix.pdf]
 ____
-The only downside of this technique is that despite being very simple and fast, it has no PWM control built in! The controller can only set the LEDs on or off. So what do you do when you want full color? You actually need to draw the entire matrix over and over again at very high speeds to PWM the matrix manually. For that reason, you need to have a very fast controller (50 MHz is a minimum) if you want to do a lot of colors and motion video and have it look good.
+The only downside of this technique is that despite being very simple and fast, it has no PWM control built-in! The controller can only set the LEDs on or off. So what do you do when you want full color? You actually need to draw the entire matrix over and over again at very high speeds to PWM the matrix manually. For that reason, you need to have a very fast controller (50 MHz is a minimum) if you want to do a lot of colors and motion video and have it look good.
 ____
 
 This is what FPP does, so our next step is to do our own PWMing on the LEDs 
@@ -1429,7 +1445,7 @@ Your Beagle doesn't have rpmsg_pru.
 
 ==== Solution
 Do the following.
-[source,bash]
+[source]
 [subs=+quotes]
 ----
 bone$ *cd 05blocks/code/module*
