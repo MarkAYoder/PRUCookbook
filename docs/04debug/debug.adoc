@@ -255,7 +255,8 @@ use the UART (serial port) to output debug information.  The PRU has it's
 own UART that can send characters to a serial port.
 
 You'll need a 3.3V FTDI cable to go between your Beagle and the USB port 
-on your host computer as shown in <<debug_ftdi>>.  
+on your host computer as shown in <<debug_ftdi>>.[FTDI images are from the
+BeagleBone Cookbook http://shop.oreilly.com/product/0636920033899.do] 
 You can get such a cable from places such as 
 https://www.sparkfun.com/products/9717[Sparkfun] or 
 https://www.adafruit.com/product/70[Adafruit].  

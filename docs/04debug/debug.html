@@ -865,7 +865,8 @@ own UART that can send characters to a serial port.</p>
 </div>
 <div class="paragraph">
 <p>You&#8217;ll need a 3.3V FTDI cable to go between your Beagle and the USB port
-on your host computer as shown in <a href="#debug_ftdi">FDTI cable</a>.
+on your host computer as shown in <a href="#debug_ftdi">FDTI cable</a>.[FTDI images are from the
+BeagleBone Cookbook <a href="http://shop.oreilly.com/product/0636920033899.do" class="bare">http://shop.oreilly.com/product/0636920033899.do</a>]
 You can get such a cable from places such as
 <a href="https://www.sparkfun.com/products/9717">Sparkfun</a> or
 <a href="https://www.adafruit.com/product/70">Adafruit</a>.</p>
@@ -881,16 +882,16 @@ You can get such a cable from places such as
 <h4 id="_discussion_3"><a class="link" href="#_discussion_3">Discussion</a></h4>
 <div class="paragraph">
 <p>The Beagle side of the FTDI cable has a small triangle on it as shown in
-<a href="#debug_ftdi_connector">FTDI connector</a>.</p>
+<a href="#debug_ftdi_connector">FTDI connector  [From BeagleBone Cookbook <a href="http://shop.oreilly.com/product/0636920033899.do" class="bare">http://shop.oreilly.com/product/0636920033899.do</a>]</a>.</p>
 </div>
 <div id="debug_ftdi_connector" class="imageblock">
 <div class="content">
 <img src="figures/FTDIconnector.jpg" alt="FTDI connector">
 </div>
-<div class="title">Figure 3. FTDI connector</div>
+<div class="title">Figure 3. FTDI connector  [From BeagleBone Cookbook <a href="http://shop.oreilly.com/product/0636920033899.do" class="bare">http://shop.oreilly.com/product/0636920033899.do</a>]</div>
 </div>
 <div class="paragraph">
-<p>The connector attaches to the Black on the FTDI pins, shown in <a href="#debug_ftdi_pins">FTDI pins for the FTDI connector</a>,
+<p>The connector attaches to the Black on the FTDI pins, shown in <a href="#debug_ftdi_pins">FTDI pins for the FTDI connector  [From BeagleBone Cookbook <a href="http://shop.oreilly.com/product/0636920033899.do" class="bare">http://shop.oreilly.com/product/0636920033899.do</a>]</a>,
 with the triangle connecting near pin <strong>P9_20</strong> which is the right side of
 the connector as viewed in the figure.</p>
 </div>
@@ -898,7 +899,7 @@ the connector as viewed in the figure.</p>
 <div class="content">
 <img src="figures/FTDIPins.png" alt="FTDI pins for the FTDI connector">
 </div>
-<div class="title">Figure 4. FTDI pins for the FTDI connector</div>
+<div class="title">Figure 4. FTDI pins for the FTDI connector  [From BeagleBone Cookbook <a href="http://shop.oreilly.com/product/0636920033899.do" class="bare">http://shop.oreilly.com/product/0636920033899.do</a>]</div>
 </div>
 <div class="paragraph">
 <p>Two examples of using the UART are presented here.  The first
@@ -1211,7 +1212,7 @@ Be careful using it because it also uses <code>while (!CT_UART.LSR_bit.TEMT);</c
 wait for the FIFO to empty, which may cause your code to miss something.</p>
 </div>
 <div class="paragraph">
-<p>Here&#8217;s the code (<a href="#debug_uart2">uart2.c</a>) that does it.</p>
+<p><a href="#debug_uart2">uart2.c</a> is the code that does it.</p>
 </div>
 <div id="debug_uart2" class="listingblock">
 <div class="title">uart2.c</div>
@@ -1560,7 +1561,7 @@ examples.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-08-16 12:38:44 EDT
+Last updated 2018-08-16 13:13:05 EDT
 </div>
 </div>
 </body>
