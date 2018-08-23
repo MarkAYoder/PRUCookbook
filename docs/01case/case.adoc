@@ -2,7 +2,7 @@ include::../header.adoc[]
 
 == Case Studies - Introduction
 
-It's an excisting time to be making projects that use embedded processors.  
+It's an exciting time to be making projects that use embedded processors.  
 Make:'s https://makezine.com/comparison/boards/[Makers' Guide to Boards] shows
 many of the options that are available and groups them into different types.  
 _Single board computers_ (SBCs) generally run Linux on some sort of https://www.arm.com/[ARM]
