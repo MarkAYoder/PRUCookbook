@@ -50,9 +50,9 @@ void main(void)
     	    	__delay_cycles(DELAY);;
     	      	
     	      	// Bottom row red
-    	      	gpio[r11_gpio][GPIO_SETDATAOUT/4]   = (0x1<<r12_pin);
+    	      	gpio[r12_gpio][GPIO_SETDATAOUT/4]   = (0x1<<r12_pin);
     	    	__delay_cycles(DELAY);
-    	      	gpio[r11_gpio][GPIO_CLEARDATAOUT/4] = (0x1<<g12_pin)|(0x1<<b12_pin);
+    	      	gpio[r12_gpio][GPIO_CLEARDATAOUT/4] = (0x1<<g12_pin)|(0x1<<b12_pin);
     	    	__delay_cycles(DELAY);
     	      	
                 __R30 |=  (0x1<<pru_clock);	// Toggle clock
@@ -66,7 +66,7 @@ void main(void)
     	    	__delay_cycles(DELAY);
     	      	
     	      	// Bottom row green
-    	    	gpio[r11_gpio][GPIO_CLEARDATAOUT/4] = (0x1<<r12_pin)|(0x1<<b12_pin);
+    	    	gpio[r12_gpio][GPIO_CLEARDATAOUT/4] = (0x1<<r12_pin)|(0x1<<b12_pin);
     	    	__delay_cycles(DELAY);
     	      	gpio[r11_gpio][GPIO_SETDATAOUT/4]   = (0x1<<g12_pin);
     	    	__delay_cycles(DELAY);
