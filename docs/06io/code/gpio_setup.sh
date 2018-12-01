@@ -24,6 +24,6 @@ fi
 for pin in $pins
 do
     echo $pin
-    config-pin $pin gpio
+    config-pin $pin out
     config-pin -q $pin
 done
