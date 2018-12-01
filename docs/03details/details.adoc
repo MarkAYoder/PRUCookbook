@@ -37,7 +37,7 @@ Change to the directory of the code you want to run.
 [source]
 [subs=+quotes]
 ----
-bone$ *cd PRUCookbook/doc/06io/code*
+bone$ *cd PRUCookbook/docs/06io/code*
 bone$ *ls*
 AM335x_PRU.cmd  gpio1.c  gpio_setup.sh  Makefile  resource_table_empty.h
 ----
