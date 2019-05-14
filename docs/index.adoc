@@ -50,7 +50,7 @@ footnote:[Roadmap-wise, I'd want to consider how to plug RPMsg into a printf fun
   ** [x] Loop Unrolling for Better Performance
   ** [x] Making All the Pulses Start at the Same Time
   ** [x] Adding More Channels via PRU 1
-  ** [x] Sychronziing Two PRUs
+  ** [x] Sychronizing Two PRUs
   ** [x] Reading an Input at Regular Intervals
   ** [x] Analog Wave Generator
   ** [x] WS2812 (NeoPixel) driver
