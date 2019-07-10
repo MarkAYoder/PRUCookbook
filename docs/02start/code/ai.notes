@@ -1,0 +1,22 @@
+Here are some differences between the AI and the Black for the PRU.
+
+Black
+/sys/devices/platform/ocp/
+    4a326004.pruss-soc-bus/
+        4a300000.pruss/
+            4a334000.pru/remoteproc/remoteproc1
+            4a338000.pru/remoteproc/remoteproc2
+        
+        
+AI
+/sys/devices/platform/44000000.ocp/
+    4b226004.pruss-soc-bus/
+        4b200000.pruss/
+            4b234000.pru/remoteproc/remoteproc0
+            4b238000.pru/remoteproc/remoteproc1
+    
+    
+    4b2a6004.pruss-soc-bus/
+        4b280000.pruss/
+            4b2b4000.pru/remoteproc/remoteproc2
+            4b2b8000.pru/remoteproc/remoteproc3
