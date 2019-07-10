@@ -2,7 +2,7 @@
 #include <pru_cfg.h>
 #include "resource_table_empty.h"
 
-#ifdef AI
+#if AI == 1
 #warning "Found AI"
 #define GPIO2 0x48055000
 #define GPIO3 0x48057000
@@ -38,8 +38,8 @@
 #define GPIO_CLEARDATAOUT 0x190
 #define GPIO_SETDATAOUT 0x194
 
-unsigned int volatile * const GPIO1_CLEAR = (unsigned int *) (GPIO3 + GPIO_CLEARDATAOUT);
-unsigned int volatile * const GPIO1_SET   = (unsigned int *) (GPIO3 + GPIO_SETDATAOUT);
+unsigned int volatile * const GPIO1_CLEAR = (unsigned int *) (GPIO1 + GPIO_CLEARDATAOUT);
+unsigned int volatile * const GPIO1_SET   = (unsigned int *) (GPIO1 + GPIO_SETDATAOUT);
 
 volatile register unsigned int __R30;
 volatile register unsigned int __R31;

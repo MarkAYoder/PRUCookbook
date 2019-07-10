@@ -26,6 +26,7 @@ LFLAGS=--reread_libs --warn_sections --stack_size=$(STACK_SIZE) --heap_size=$(HE
 
 # Check which model
 ifeq ($(MODEL), AI)
+	AI=1
 	CHIP=am57xx
 	ifeq ($(PRUN),1_0)
 		PRU_DIR=/sys/class/remoteproc/remoteproc0
@@ -40,6 +41,7 @@ ifeq ($(MODEL), AI)
 		PRU_DIR=/sys/class/remoteproc/remoteproc3
 	endif
 else
+	AI=0
 	CHIP=am335x
 	ifeq ($(PRUN),0)
 		PRU_DIR=/sys/class/remoteproc/remoteproc1
