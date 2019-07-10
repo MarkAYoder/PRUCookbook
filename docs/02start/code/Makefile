@@ -29,20 +29,20 @@ ifeq ($(MODEL), AI)
 	ifeq ($(PRUN),1_0)
 		PRU_DIR=/sys/class/remoteproc/remoteproc0
 	endif
-	ifeq ($(PRUN),pru1_1)
+	ifeq ($(PRUN),1_1)
 		PRU_DIR=/sys/class/remoteproc/remoteproc1
 	endif
-	ifeq ($(PRUN),pru2_0)
+	ifeq ($(PRUN),2_0)
 		PRU_DIR=/sys/class/remoteproc/remoteproc2
 	endif
-	ifeq ($(PRUN),pru2_1)
+	ifeq ($(PRUN),2_1)
 		PRU_DIR=/sys/class/remoteproc/remoteproc3
 	endif
 else
-	ifeq ($(PRUN),pru0)
+	ifeq ($(PRUN),0)
 		PRU_DIR=/sys/class/remoteproc/remoteproc1
 	endif
-	ifeq ($(PRUN),pru1)
+	ifeq ($(PRUN),1)
 		PRU_DIR=/sys/class/remoteproc/remoteproc2
 	endif
 endif
