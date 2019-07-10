@@ -25,6 +25,7 @@ CFLAGS=-v3 -O2 --printf_support=minimal --display_error_number --endian=little -
 LFLAGS=--reread_libs --warn_sections --stack_size=$(STACK_SIZE) --heap_size=$(HEAP_SIZE) -m $(GEN_DIR)/$(TARGET).map
 
 # Check which model
+PRU_DIR="Invalid PRUN"
 ifeq ($(MODEL), AI)
 	AI=1
 	CHIP=am57xx
@@ -51,17 +52,10 @@ else
 	endif
 endif
 
-# am57xx-pru1_0-fw
-# am57xx-pru1_1-fw
-# am57xx-pru2_0-fw
-# am57xx-pru2_1-fw
-
-# PRU_DIR=$(wildcard /sys/devices/platform/ocp/4a32600*.pruss-soc-bus/4a300000.pruss/$(PRU_ADDR).*/remoteproc/remoteproc*)
-
 all: stop install start
-	@echo "MODEL = $(MODEL)"
-	@echo "CHIP = $(CHIP)"
-	@echo "PRUN = $(PRUN)"
+	@echo "MODEL   = $(MODEL)"
+	@echo "CHIP    = $(CHIP)"
+	@echo "PRUN    = $(PRUN)"
 	@echo "PRU_DIR = $(PRU_DIR)"
 
 stop:

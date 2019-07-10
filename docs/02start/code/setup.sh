@@ -1,6 +1,6 @@
 #!/bin/bash
 model=$(awk '{print $NF}' /proc/device-tree/model)
-echo -n $model
+echo model=$model
 
 export TARGET=hello
 
