@@ -1,7 +1,8 @@
 #!/bin/bash
-export PRUN=0
+export PRUN=1_0
 export TARGET=hello
-export MODEL=BLACK
+export MODEL=AI
+export AI
 
 echo PRUN=$PRUN
 echo TARGET=$TARGET
