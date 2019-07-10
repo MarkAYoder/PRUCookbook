@@ -20,3 +20,40 @@ AI
         4b280000.pruss/
             4b2b4000.pru/remoteproc/remoteproc2
             4b2b8000.pru/remoteproc/remoteproc3
+            
+LED addresses
+https://github.com/beagleboard/BeagleBoard-DeviceTrees/blob/v4.19.x-ti/src/arm/am5729-beagleboneai.dts#L134-L171
+		led0 {
+			label = "beaglebone:green:usr0";
+			gpios = <&gpio3 17 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "heartbeat";
+			default-state = "off";
+		};
+
+		led1 {
+			label = "beaglebone:green:usr1";
+			gpios = <&gpio5 5 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "mmc0";
+			default-state = "off";
+		};
+
+		led2 {
+			label = "beaglebone:green:usr2";
+			gpios = <&gpio3 15 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "cpu";
+			default-state = "off";
+		};
+
+		led3 {
+			label = "beaglebone:green:usr3";
+			gpios = <&gpio3 14 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "mmc1";
+			default-state = "off";
+		};
+
+		led4 {
+			label = "beaglebone:green:usr4";
+			gpios = <&gpio3 7 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "phy0assoc";
+
+GPIO Addresses:  Page 404 for TRM
