@@ -3,6 +3,7 @@
 #include "resource_table_empty.h"
 
 #ifdef AI
+#warning "Found AI"
 #define GPIO2 0x48055000
 #define GPIO3 0x48057000
 #define GPIO4 0x48059000
@@ -20,6 +21,7 @@
 
 #else
 
+#warning "Found else"
 #define GPIO0 0x44E09000
 #define GPIO1 0x4804C000
 #define GPIO2 0x481AC000
@@ -36,8 +38,8 @@
 #define GPIO_CLEARDATAOUT 0x190
 #define GPIO_SETDATAOUT 0x194
 
-unsigned int volatile * const GPIO1_CLEAR = (unsigned int *) (GPIO1 + GPIO_CLEARDATAOUT);
-unsigned int volatile * const GPIO1_SET   = (unsigned int *) (GPIO1 + GPIO_SETDATAOUT);
+unsigned int volatile * const GPIO1_CLEAR = (unsigned int *) (GPIO3 + GPIO_CLEARDATAOUT);
+unsigned int volatile * const GPIO1_SET   = (unsigned int *) (GPIO3 + GPIO_SETDATAOUT);
 
 volatile register unsigned int __R30;
 volatile register unsigned int __R31;
