@@ -1,7 +1,16 @@
 #!/bin/bash
-export PRUN=0
+model=$(awk '{print $NF}' /proc/device-tree/model)
+echo -n $model
+
 export TARGET=hello
-export MODEL=BLACK
+
+if [ $model != "AI" ]; then
+    export PRUN=0
+    export MODEL=BLACK
+else
+    export PRUN=1_0
+    export MODEL=AI
+fi
 
 echo PRUN=$PRUN
 echo TARGET=$TARGET
