@@ -19,6 +19,12 @@
 #define USR4 (1<< 7)
 // GPIO5
 #define USR1 (1<< 5)
+// R30 bits - Output
+#define P9_14	(0x1<<14)
+#define P9_16	(0x1<<15)
+#define P8_15	(0x1<<16)
+#define P8_26	(0x1<<17)
+#define P8_16	(0x1<<18)
 
 #else
 
@@ -53,18 +59,18 @@ void main(void) {
 	uint32_t *gpio7 = (uint32_t *)GPIO7;
 	uint32_t *gpio8 = (uint32_t *)GPIO8;
 	
-	uint32_t gpio = (0x1<<5);	// Select which pin to toggle.  P9.15
+	uint32_t gpio = P9_14 | P9_16 | P8_15 | P8_16 | P8_26;	// Select which pin to toggle.  P9.15
 
 	/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
 
-	for(i=0; i<500; i++) {
+	for(i=0; i<50; i++) {
 		gpio5[GPIO_SETDATAOUT]   = USR1;			// The the USR3 LED on
 		gpio3[GPIO_CLEARDATAOUT] = USR3;
-		gpio4[GPIO_SETDATAOUT]   = (1<<29);
-		gpio8[GPIO_SETDATAOUT]   = (1<<18);
-		gpio4[GPIO_SETDATAOUT]   = (1<<28);
-		gpio6[GPIO_SETDATAOUT]   = (1<<17);
+		// gpio4[GPIO_SETDATAOUT]   = (1<<29);
+		// gpio8[GPIO_SETDATAOUT]   = (1<<18);
+		// gpio4[GPIO_SETDATAOUT]   = (1<<28);
+		// gpio6[GPIO_SETDATAOUT]   = (1<<17);
 		
 		__R30 |= gpio;		// Set the GPIO pin to 1
 
@@ -72,10 +78,10 @@ void main(void) {
 
 		gpio5[GPIO_CLEARDATAOUT] = USR1;
         gpio3[GPIO_SETDATAOUT]   = USR3;
-		gpio4[GPIO_CLEARDATAOUT] = (1<<29);
-		gpio8[GPIO_CLEARDATAOUT] = (1<<18);
-		gpio4[GPIO_CLEARDATAOUT] = (1<<28);
-		gpio6[GPIO_CLEARDATAOUT] = (1<<17);
+		// gpio4[GPIO_CLEARDATAOUT] = (1<<29);
+		// gpio8[GPIO_CLEARDATAOUT] = (1<<18);
+		// gpio4[GPIO_CLEARDATAOUT] = (1<<28);
+		// gpio6[GPIO_CLEARDATAOUT] = (1<<17);
 		
 		__R30 &= ~gpio;		// Clearn the GPIO pin
 
