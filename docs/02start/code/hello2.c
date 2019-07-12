@@ -25,6 +25,10 @@
 #define P8_15	(0x1<<16)
 #define P8_26	(0x1<<17)
 #define P8_16	(0x1<<18)
+// R31 bits - Input
+#define P8_13	(0x1<<7)
+#define P8_18	(0x1<<5)
+#define P8_19	(0x1<<6)
 
 #else
 
@@ -64,7 +68,7 @@ void main(void) {
 	/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
 
-	for(i=0; i<50; i++) {
+	for(i=0; i<500; i++) {
 		gpio5[GPIO_SETDATAOUT]   = USR1;			// The the USR3 LED on
 		gpio3[GPIO_CLEARDATAOUT] = USR3;
 		// gpio4[GPIO_SETDATAOUT]   = (1<<29);
@@ -85,7 +89,12 @@ void main(void) {
 		
 		__R30 &= ~gpio;		// Clearn the GPIO pin
 
-		 __delay_cycles(500000000/5); 
+		__delay_cycles(500000000/5); 
+		
+		if((__R31&P8_19) == P8_19) {
+            gpio3[GPIO_CLEARDATAOUT]   = USR2;      // Turn on LED
+        } else
+            gpio3[GPIO_SETDATAOUT] = USR2;      // Turn off LED
 	}
 	__halt();
 }
