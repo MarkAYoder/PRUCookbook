@@ -4,6 +4,7 @@
 
 #if AI == 1
 #warning "Found AI"
+#define GPIO1 0x4AE10000
 #define GPIO2 0x48055000
 #define GPIO3 0x48057000
 #define GPIO4 0x48059000
