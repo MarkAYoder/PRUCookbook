@@ -36,9 +36,9 @@
 
 #endif
 
-#define GPIO_CLEARDATAOUT	0x190
-#define GPIO_SETDATAOUT 	0x194
-#define GPIO_DATAOUT		0x138   // For reading the GPIO registers
+#define GPIO_CLEARDATAOUT	0x190/4	// /4 to convert from byte address to word address
+#define GPIO_SETDATAOUT 	0x194/4
+#define GPIO_DATAOUT		0x138/4   // For reading the GPIO registers
 
 volatile register unsigned int __R30;
 volatile register unsigned int __R31;
@@ -49,25 +49,35 @@ void main(void) {
 	uint32_t *gpio3 = (uint32_t *)GPIO3;
 	uint32_t *gpio4 = (uint32_t *)GPIO4;
 	uint32_t *gpio5 = (uint32_t *)GPIO5;
+	uint32_t *gpio6 = (uint32_t *)GPIO6;
+	uint32_t *gpio7 = (uint32_t *)GPIO7;
 	uint32_t *gpio8 = (uint32_t *)GPIO8;
+	
+	uint32_t gpio = (0x1<<5);	// Select which pin to toggle.  P9.15
 
 	/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
 
 	for(i=0; i<500; i++) {
-		gpio5[GPIO_SETDATAOUT/4]   = USR1;			// The the USR3 LED on
-		gpio3[GPIO_CLEARDATAOUT/4] = USR3;
-		gpio4[GPIO_SETDATAOUT/4]   = (1<<29);
-		gpio8[GPIO_SETDATAOUT/4]   = (1<<18);
-		gpio4[GPIO_SETDATAOUT/4]   = (1<<28);
+		gpio5[GPIO_SETDATAOUT]   = USR1;			// The the USR3 LED on
+		gpio3[GPIO_CLEARDATAOUT] = USR3;
+		gpio4[GPIO_SETDATAOUT]   = (1<<29);
+		gpio8[GPIO_SETDATAOUT]   = (1<<18);
+		gpio4[GPIO_SETDATAOUT]   = (1<<28);
+		gpio6[GPIO_SETDATAOUT]   = (1<<17);
+		
+		__R30 |= gpio;		// Set the GPIO pin to 1
 
 		__delay_cycles(500000000/5);    // Wait 1/2 second
 
-		gpio5[GPIO_CLEARDATAOUT/4] = USR1;
-        gpio3[GPIO_SETDATAOUT/4]   = USR3;
-		gpio4[GPIO_CLEARDATAOUT/4] = (1<<29);
-		gpio8[GPIO_CLEARDATAOUT/4] = (1<<18);
-		gpio4[GPIO_CLEARDATAOUT/4] = (1<<28);
+		gpio5[GPIO_CLEARDATAOUT] = USR1;
+        gpio3[GPIO_SETDATAOUT]   = USR3;
+		gpio4[GPIO_CLEARDATAOUT] = (1<<29);
+		gpio8[GPIO_CLEARDATAOUT] = (1<<18);
+		gpio4[GPIO_CLEARDATAOUT] = (1<<28);
+		gpio6[GPIO_CLEARDATAOUT] = (1<<17);
+		
+		__R30 &= ~gpio;		// Clearn the GPIO pin
 
 		 __delay_cycles(500000000/5); 
 	}
