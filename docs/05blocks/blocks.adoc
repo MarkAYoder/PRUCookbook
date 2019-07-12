@@ -558,7 +558,7 @@ image::figures/pwm4.png[pwm4.png]
 From the 'scope you see a 1 cycle _on_ time results in a 450ns wide pulse and
 a 3.06us period is .326KHz  Much
 slower than the 10ns pulse we saw before.  But it may be more than fast enough
-for manny applicaions.  For example, most servos run at 50Hz.
+for many applications.  For example, most servos run at 50Hz.
 
 But we can do better.
 
