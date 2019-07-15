@@ -26,9 +26,9 @@
 #define P8_26	(0x1<<17)
 #define P8_16	(0x1<<18)
 // R31 bits - Input
-#define P8_13	(0x1<<7)
 #define P8_18	(0x1<<5)
 #define P8_19	(0x1<<6)
+#define P8_13	(0x1<<7)
 
 #else
 
@@ -56,19 +56,21 @@ volatile register unsigned int __R31;
 void main(void) {
 	int i;
 	
+	// uint32_t *gpio1 = (uint32_t *)GPIO1;
+	// uint32_t *gpio2 = (uint32_t *)GPIO2;
 	uint32_t *gpio3 = (uint32_t *)GPIO3;
-	uint32_t *gpio4 = (uint32_t *)GPIO4;
+	// uint32_t *gpio4 = (uint32_t *)GPIO4;
 	uint32_t *gpio5 = (uint32_t *)GPIO5;
-	uint32_t *gpio6 = (uint32_t *)GPIO6;
-	uint32_t *gpio7 = (uint32_t *)GPIO7;
-	uint32_t *gpio8 = (uint32_t *)GPIO8;
+	// uint32_t *gpio6 = (uint32_t *)GPIO6;
+	// uint32_t *gpio7 = (uint32_t *)GPIO7;
+	// uint32_t *gpio8 = (uint32_t *)GPIO8;
 	
 	uint32_t gpio = P9_14 | P9_16 | P8_15 | P8_16 | P8_26;	// Select which pin to toggle.  P9.15
 
 	/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
 
-	for(i=0; i<500; i++) {
+	for(i=0; i<10; i++) {
 		gpio5[GPIO_SETDATAOUT]   = USR1;			// The the USR3 LED on
 		gpio3[GPIO_CLEARDATAOUT] = USR2;
 		// gpio4[GPIO_SETDATAOUT]   = (1<<29);
