@@ -81,6 +81,11 @@ $(GEN_DIR)/$(TARGET).obj: $(TARGET).c
 	@echo 'CC	$<'
 	@clpru --include_path=$(PRU_CGT)/include $(INCLUDE) $(CFLAGS) -D=PRUN=$(PRUN) -fe $@ $<
 
+$(GEN_DIR)/$(TARGET).obj: $(TARGET).pru$(PRUN)c
+	@mkdir -p $(GEN_DIR)
+	@echo 'CC	$<'
+	@clpru --include_path=$(PRU_CGT)/include $(INCLUDE) $(CFLAGS) -D=PRUN=$(PRUN) -fe $@ $<
+
 clean:
 	@echo 'CLEAN	.    PRU $(PRUN)'
 	@rm -rf $(GEN_DIR)
