@@ -19,13 +19,13 @@
 #define USR4 (1<< 7)
 // GPIO5
 #define USR1 (1<< 5)
-// R30 bits - Output
+// R30 bits - Output on pru1_1
 #define P9_14	(0x1<<14)
 #define P9_16	(0x1<<15)
 #define P8_15	(0x1<<16)
 #define P8_26	(0x1<<17)
 #define P8_16	(0x1<<18)
-// R31 bits - Input
+// R31 bits - Input on pru1_1
 #define P8_18	(0x1<<5)
 #define P8_19	(0x1<<6)
 #define P8_13	(0x1<<7)
@@ -65,7 +65,8 @@ void main(void) {
 	// uint32_t *gpio7 = (uint32_t *)GPIO7;
 	// uint32_t *gpio8 = (uint32_t *)GPIO8;
 	
-	uint32_t gpio = P9_14 | P9_16 | P8_15 | P8_16 | P8_26;	// Select which pin to toggle.  P9.15
+	// Select which pins to toggle.  These are all on pru1_1
+	uint32_t gpio = P9_14 | P9_16 | P8_15 | P8_16 | P8_26;
 
 	/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
