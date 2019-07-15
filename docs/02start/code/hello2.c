@@ -70,7 +70,7 @@ void main(void) {
 
 	for(i=0; i<500; i++) {
 		gpio5[GPIO_SETDATAOUT]   = USR1;			// The the USR3 LED on
-		gpio3[GPIO_CLEARDATAOUT] = USR3;
+		gpio3[GPIO_CLEARDATAOUT] = USR2;
 		// gpio4[GPIO_SETDATAOUT]   = (1<<29);
 		// gpio8[GPIO_SETDATAOUT]   = (1<<18);
 		// gpio4[GPIO_SETDATAOUT]   = (1<<28);
@@ -81,7 +81,7 @@ void main(void) {
 		__delay_cycles(500000000/5);    // Wait 1/2 second
 
 		gpio5[GPIO_CLEARDATAOUT] = USR1;
-        gpio3[GPIO_SETDATAOUT]   = USR3;
+        gpio3[GPIO_SETDATAOUT]   = USR2;
 		// gpio4[GPIO_CLEARDATAOUT] = (1<<29);
 		// gpio8[GPIO_CLEARDATAOUT] = (1<<18);
 		// gpio4[GPIO_CLEARDATAOUT] = (1<<28);
@@ -92,9 +92,9 @@ void main(void) {
 		__delay_cycles(500000000/5); 
 		
 		if((__R31&P8_19) == P8_19) {
-            gpio3[GPIO_CLEARDATAOUT]   = USR2;      // Turn on LED
+            gpio3[GPIO_CLEARDATAOUT]   = USR3;      // Turn on LED
         } else
-            gpio3[GPIO_SETDATAOUT] = USR2;      // Turn off LED
+            gpio3[GPIO_SETDATAOUT]     = USR3;      // Turn off LED
 	}
 	__halt();
 }
