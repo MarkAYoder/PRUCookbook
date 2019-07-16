@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <pru_cfg.h>
 #include "resource_table_empty.h"
+#define	PRUN 1_1
 #include "prugpio.h"
 
 #pragma DATA_SECTION(init_pins, ".init_pins")
