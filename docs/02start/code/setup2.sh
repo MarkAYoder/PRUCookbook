@@ -4,7 +4,7 @@ echo model=$model
 
 if [ $model != "AI" ]; then
     export PRUN=0
-    export MODEL=BLACK
+    export MODEL=Black
 else
     export PRUN=1_1
     export MODEL=AI
