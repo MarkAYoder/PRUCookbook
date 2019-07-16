@@ -65,17 +65,17 @@ all: stop install start
 
 stop:
 	@echo "-    Stopping PRU $(PRUN)"
-	@echo stop | sudo tee $(PRU_DIR)/state || echo Cannot stop $(PRUN)
+	@echo stop | tee $(PRU_DIR)/state || echo Cannot stop $(PRUN)
 
 start:
 	@echo "-    Starting PRU $(PRUN)"
-	@echo start | sudo tee $(PRU_DIR)/state
+	@echo start | tee $(PRU_DIR)/state
 	@echo write_init_pins.sh
-	@sudo /var/lib/cloud9/extras/pru/write_init_pins.sh /lib/firmware/$(CHIP)-pru$(PRUN)-fw
+	@/var/lib/cloud9/extras/pru/write_init_pins.sh /lib/firmware/$(CHIP)-pru$(PRUN)-fw
 
 install: $(GEN_DIR)/$(TARGET).out
 	@echo '-	copying firmware file $(GEN_DIR)/$(TARGET).out to /lib/firmware/$(CHIP)-pru$(PRUN)-fw'
-	@sudo cp $(GEN_DIR)/$(TARGET).out /lib/firmware/$(CHIP)-pru$(PRUN)-fw
+	@cp $(GEN_DIR)/$(TARGET).out /lib/firmware/$(CHIP)-pru$(PRUN)-fw
 
 $(GEN_DIR)/$(TARGET).out: $(GEN_DIR)/$(TARGET).obj
 	@echo 'LD	$^' 
