@@ -1,16 +1,9 @@
 #include <stdint.h>
 #include <pru_cfg.h>
 #include "resource_table_empty.h"
-#define	PRUN 1_1
 #include "prugpio.h"
 
-#pragma DATA_SECTION(init_pins, ".init_pins")
-#pragma RETAIN(init_pins)
-const char init_pins[] =  
-	"/sys/class/leds/beaglebone:green:usr1/trigger\0none\0" \
-	"/sys/class/leds/beaglebone:green:usr2/trigger\0none\0" \
-	"/sys/class/leds/beaglebone:green:usr3/trigger\0none\0" \
-	"\0\0";
+#define	PRUN 1_1
 
 volatile register unsigned int __R30;
 volatile register unsigned int __R31;
@@ -63,3 +56,13 @@ void main(void) {
 	}
 	__halt();
 }
+
+// Turns off triggers
+#pragma DATA_SECTION(init_pins, ".init_pins")
+#pragma RETAIN(init_pins)
+const char init_pins[] =  
+	"/sys/class/leds/beaglebone:green:usr1/trigger\0none\0" \
+	"/sys/class/leds/beaglebone:green:usr2/trigger\0none\0" \
+	"/sys/class/leds/beaglebone:green:usr3/trigger\0none\0" \
+	"\0\0";
+
