@@ -9,6 +9,9 @@
 # PRU_CGT environment variable points to the TI PRU compiler directory.
 # PRU_SUPPORT points to pru-software-support-package.
 # GEN_DIR points to where to put the generated files.
+
+$(warning TARGET=$(TARGET), PRUN=$(PRUN), MODEL=$(MODEL))
+
 PRU_CGT:=/usr/share/ti/cgt-pru
 PRU_SUPPORT:=/usr/lib/ti/pru-software-support-package
 GEN_DIR:=/tmp/pru$(PRUN)-gen
@@ -52,6 +55,8 @@ else
 	endif
 endif
 
+$(warning CHIP=$(CHIP), PRU_DIR=$(PRU_DIR))
+
 all: stop install start
 	@echo "MODEL   = $(MODEL)"
 	@echo "CHIP    = $(CHIP)"
@@ -76,12 +81,7 @@ $(GEN_DIR)/$(TARGET).out: $(GEN_DIR)/$(TARGET).obj
 	@echo 'LD	$^' 
 	@lnkpru -i$(PRU_CGT)/lib -i$(PRU_CGT)/include $(LFLAGS) -o $@ $^ $(LINKER_COMMAND_FILE) --library=libc.a $(LIBS) $^
 
-# $(GEN_DIR)/$(TARGET).obj: $(TARGET).c
-# 	@mkdir -p $(GEN_DIR)
-# 	@echo 'CC	$<'
-# 	@clpru --include_path=$(PRU_CGT)/include $(INCLUDE) $(CFLAGS) -D=PRUN=$(PRUN) -fe $@ $<
-
-$(GEN_DIR)/$(TARGET).obj: $(TARGET).pru$(PRUN)c
+$(GEN_DIR)/$(TARGET).obj: $(TARGET).pru$(PRUN).c
 	@mkdir -p $(GEN_DIR)
 	@echo 'CC	$<'
 	@clpru --include_path=$(PRU_CGT)/include $(INCLUDE) $(CFLAGS) -D=PRUN=$(PRUN) -fe $@ $<
