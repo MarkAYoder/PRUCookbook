@@ -3,7 +3,7 @@
 #include "resource_table_empty.h"
 #include "prugpio.h"
 
-#define	PRUN 1_1
+#define	PRUN 1
 
 volatile register unsigned int __R30;
 volatile register unsigned int __R31;
