@@ -1305,7 +1305,7 @@ Be sure to run the <<blocks_rgb_setup>> script before running the python code.
 include::code/rgb_setup.sh[]
 ----
 
-Make sure line 29 is commented out and line 30 is uncoomented. 
+Make sure line 29 is commented out and line 30 is uncommented. 
 Later we'll configure for _pruout_, but for now the python code doesn't use 
 the PRU outs.
 [source]

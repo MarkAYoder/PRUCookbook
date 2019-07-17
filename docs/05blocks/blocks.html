@@ -1079,10 +1079,16 @@ for details on making it work.</p>
 21
 22
 23
+24
+25
+26
 </pre></td>
   <td class="code"><pre><span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;prugpio.h&quot;</span>
+
+<span class="preprocessor">#define</span> PRUN <span class="integer">1</span>_1
 
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t __R30;
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t __R31;
@@ -1094,7 +1100,7 @@ for details on making it work.</p>
     <span class="comment">/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */</span>
     CT_CFG.SYSCFG_bit.STANDBY_INIT = <span class="integer">0</span>;
 
-    gpio = <span class="hex">0x0001</span>;  <span class="comment">// Select which pin to toggle.</span>
+    gpio = P9_14;   <span class="comment">// Select which pin to toggle.</span>
 
     <span class="keyword">while</span> (<span class="integer">1</span>) {
         __R30 |= gpio;      <span class="comment">// Set the GPIO pin to 1</span>
@@ -4911,7 +4917,7 @@ done</pre></td>
 </div>
 </div>
 <div class="paragraph">
-<p>Make sure line 29 is commented out and line 30 is uncoomented.
+<p>Make sure line 29 is commented out and line 30 is uncommented.
 Later we&#8217;ll configure for <em>pruout</em>, but for now the python code doesn&#8217;t use
 the PRU outs.</p>
 </div>
@@ -5487,7 +5493,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-07-10 16:51:25 -0400
+Last updated 2019-07-17 17:00:49 -0400
 </div>
 </div>
 <style>
