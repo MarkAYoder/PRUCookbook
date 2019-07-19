@@ -15,6 +15,10 @@
 #define USR4 (1<< 7)
 // GPIO5
 #define USR1 (1<< 5)
+// GPIO6
+#define P9_25   (0x1<<17)
+// GPIO8
+#define P8_17   (0x1<18)
 // R30 bits - Output on pru1_1
 #define P9_14	(0x1<<14)
 #define P9_16	(0x1<<15)
