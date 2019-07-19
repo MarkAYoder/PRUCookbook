@@ -35,6 +35,7 @@ endif
 PRU_DIR=$(wildcard /sys/devices/platform/ocp/4a32600*.pruss-soc-bus/4a300000.pruss/$(PRU_ADDR).*/remoteproc/remoteproc*)
 
 all: stop install start
+	@echo $(PRU_DIR)
 
 stop:
 	@echo "-    Stopping PRU $(PRUN)"
