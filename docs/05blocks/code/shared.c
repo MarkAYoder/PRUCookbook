@@ -21,7 +21,7 @@ PRU_DMEM1 volatile uint32_t shared_3;
 volatile uint32_t shared_4;
 
 /* NOTE:  Here we pick where in memory to store shared_5.  The stack and
- *		  heap take up the frist 0x200 words, so we must start after that.
+ *		  heap take up the first 0x200 words, so we must start after that.
  *		  Since we are hardcoding where things are stored we can share
  *		  this between the PRUs and the ARM.
 */
