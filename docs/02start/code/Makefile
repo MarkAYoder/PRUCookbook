@@ -18,7 +18,7 @@ GEN_DIR:=/tmp/pru$(PRUN)-gen
 
 LINKER_COMMAND_FILE=AM335x_PRU.cmd
 LIBS=--library=$(PRU_SUPPORT)/lib/rpmsg_lib.lib
-INCLUDE=--include_path=$(PRU_SUPPORT)/include --include_path=$(PRU_SUPPORT)/include/am335x
+INCLUDE=--include_path=$(PRU_SUPPORT)/include --include_path=$(PRU_SUPPORT)/include/am335x --include_path=../../common
 
 STACK_SIZE=0x100
 HEAP_SIZE=0x100
