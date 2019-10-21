@@ -3,8 +3,6 @@
 #include "resource_table_empty.h"
 #include "prugpio.h"
 
-#define	PRUN 1
-
 volatile register unsigned int __R30;
 volatile register unsigned int __R31;
 
@@ -19,13 +17,9 @@ void main(void) {
 	for(i=0; i<10; i++) {
 		gpio1[GPIO_SETDATAOUT]   = USR3;			// The the USR3 LED on
 
-		// __R30 |= gpio;		// Set the GPIO pin to 1
-
 		__delay_cycles(500000000/5);    // Wait 1/2 second
 
 		gpio1[GPIO_CLEARDATAOUT] = USR3;
-
-		// __R30 &= ~gpio;		// Clearn the GPIO pin
 
 		__delay_cycles(500000000/5); 
 
