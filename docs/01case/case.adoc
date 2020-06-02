@@ -18,11 +18,14 @@ operation.
 
 But what if you have a projcet that needs the flexibility of an OS and the timing 
 of a microcontroller?  This is where the BeagleBoard excells since it has both 
-an ARM procssor running Linux and two **P**rogrammable **R**eal-Time **U**nits (PRUs).
+an ARM procssor running Linux and two footnote:[Four if you are on the BeagleBone AI];
+**P**rogrammable **R**eal-Time **U**nits (PRUs).
 The PRUs have 32-bit cores which run
 independently of the ARM processor, therefore they can
 be programmed to respond quickly to inputs and produce very precisely timed 
 outputs. 
+
+* TODO Update link
 
 There are many projects that use the PRU (http://processors.wiki.ti.com/index.php/PRU_Projects) to do things that can't be 
 done with just a SBC or just a microcontroller. Here we present some case studies that give a high-level view of using the PRUs.  In later
@@ -41,6 +44,9 @@ Here we present
 The following are resources used in this chapter.
 
 .Resources
+
+* TODO  Add AI header tables
+
 * https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#673_PRUICSS_Pin_Access[Pocket Beagle System Reference Manual]
 * https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP8HeaderTable.pdf[P8 Header Table]
 * https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf[P9 Header Table]
@@ -63,6 +69,9 @@ image:figures/blue.png[Blue balancing]
 
 The http://strawsondesign.com/docs/roboticscape/[Robotics Control Library] is a 
 package that is already installed on the Blue, Black and Pocket, 
+
+* TODO AI too?
+
 that contains a C library and example/testing programs. It uses the PRU to extend the 
 real-time hardware of the Bone by adding eight addional servo channels and one 
 addition real-time encoder input.
