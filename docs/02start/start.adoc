@@ -115,40 +115,16 @@ You want to find the lastest version of Debian that is available for your Bone.
 
 ==== Solution
 On your host computer open a browser and go to
-http://rcn-ee.net/deb/testing.
-This shows you a list of the dates of the most recent Debian images.
+http://beagleboard.org/latest-images.
+This shows you two current choices of recent Debian images,
+one for the BeagleBone AI (AM5729 Debian 10.3 2020-04-06 8GB SD IoT TIDL) and
+one for all the other Beagles (AM3358 Debian 10.3 2020-04-06 4GB SD IoT).
+Download the one for your Beagle.
 
 .Latest Debian images
-image:figures/debianImages1.png[Latest Debian images]
+image:figures/latest-images.png[Latest Debian images]
 
-Scroll to the bottom of the list for the most recent image as shown in
-<<start_images>>.
-
-[[start_images]]
-.Latest Debian images bottom view
-image:figures/debianImages2.png[Latest Debian images]
-
-Click on the most recent one and you'll see many choices as shown in 
-<<start_choices>>.
-
-[[start_choices]]
-.Debian Images from which to choose
-image::figures/debianImages3.png[Debian image choice]
-
-I suggest using the *stretch-iot* image.  *buster* is still a few months 
-from release at the time of this writing and isn't ready yet.  
-The other *stretech* images include 
-x-window packages which we don't need.  The *stretch-console* is a minimal 
-image which doesn't include things we _do_ need.
-
-Click on *stretch-iot* and you'll see <<start_strtech>>.
-
-[[start_strtech]]
-.stretch-iot choices
-image::figures/debianImages4.png[stretch-iot choices]
-
-Download *bone-debian-9.5-iot-armhf-2018-08-12-4gb.img.xz*.  It contains all the 
-packages we'll need.
+It contains all the packages we'll need.
 
 === Flashing a Micro SD Card
 ==== Problem
@@ -158,7 +134,7 @@ I've downloaded the image and need to flash my micro SD card.
 Get a micro SD card that has at least 4GB and preferibly 8GB.  
 
 There are many ways to flash the card, but the best seems to be Etcher by
-_resin.io_.  Go to <https://etcher.io/> and download the version for your host 
+_resin.io_.  Go to <https://www.balena.io/etcher/> and download the version for your host 
 computer.  Fire up Etcher, select the image you just downloaded (no need to 
 uncompress it, Etcher does it for you), select the SD card and hit the *Flash* 
 button and wait for it to finish.
