@@ -45,11 +45,10 @@ The following are resources used in this chapter.
 
 .Resources
 
-* TODO  Add AI header tables
-
 * https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#673_PRUICSS_Pin_Access[Pocket Beagle System Reference Manual]
-* https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP8HeaderTable.pdf[P8 Header Table]
-* https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf[P9 Header Table]
+* https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP8HeaderTable.pdf[BeagleBone Black P8 Header Table]
+* https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf[BeagleBone Black P9 Header Table]
+* https://github.com/beagleboard/beaglebone-ai/wiki/System-Reference-Manual[BeagleBone AI System Reference Manual]
 
 
 === Robotics Control Library
@@ -95,6 +94,8 @@ examples.  Follow the instructions in
 <<../03details/details.adocs#details_configure_servos, Configuring Pins for Controlling Servos>> 
 to configure the pins for the Black and the Pocket.
 ====
+
+* TODO - verify these commands
 
 Just run:
 [source]
@@ -146,8 +147,13 @@ The BeagleBone Blue sends these eight outputs to it's servo channels.  The Black
 
 You can find these details in the 
 https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP8HeaderTable.pdf[P8 Header Table], 
-https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf[P9 Header Table] and then https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#673_PRUICSS_Pin_Access[Pocket Beagle System Reference Manual].
+https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf[P9 Header Table], 
+https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#673_PRUICSS_Pin_Access[Pocket Beagle System Reference Manual] 
 (Here is a more usable version of the https://docs.google.com/spreadsheets/d/1FRGvYOyW1RiNSEVprvstfJAVeapnASgDXHtxeDOjgqw/edit?usp=sharing[table].)
+and
+https://github.com/beagleboard/beaglebone-ai/wiki/System-Reference-Manual[BeagleBone AI System Reference Manual].
+(Here is a more usable version of the https://docs.google.com/spreadsheets/d/1dFSBVem86vAUD7MLXvqdS-N0Efi8_g_O1iTqzql8DAo/edit#gid=0[table].)
+
 
 Be default the PRUs are already loaded with the code needed to run the
 servos.  All you have to do is run the command.
@@ -199,13 +205,15 @@ pins shown in <<case_pin_mapping>>.
 [[case_pin_mapping]]
 .eQEP to pin mapping
 |===
-|eQEP|Blue pin|Black pin A|Black pin B|Pocket pin A|Pocket pin B
+|eQEP|Blue pin|Black pin A|Black pin B|AI pin A|AI pin B|Pocket pin A|Pocket pin B
 
-|0   |E1      |P9_42B     |P9_27      |P1.31       |P2.24       
-|1   |E2      |P8_35      |P8_33      |P2.10       |
-|2   |E3      |P8_12      |P8_11      |P2.24       |P2.33       
-|2   |        |P8_41      |P8_42      |            |
-|    |E4      |P8_16      |P8_15      |P2.09       |P2.18       
+|0   |E1      |P9_42B     |P9_27      |        |        |P1.31       |P2.24       
+|1   |E2      |P8_35      |P8_33      |P8_35   |P8_33   |P2.10       |
+|2   |E3      |P8_12      |P8_11      |P8_12   |P8_11   |P2.24       |P2.33       
+|2   |        |P8_41      |P8_42      |P9_19   |P9_41   |            |
+|    |E4      |P8_16      |P8_15      |        |        |P2.09       |P2.18       
+|3   |        |           |           |P8_25   |P8_24   |            |
+|3   |        |           |           |P9_42   |P9_27   |            |
 |===
 
 [NOTE]
@@ -265,6 +273,8 @@ ____
 The quickest solution is to get the https://github.com/abhishek-kakkar/BeagleLogic/wiki/BeagleLogic-%22no-setup-required%22-setup:-Introducing-System-Image![no-setup-required image].  It runs on an older image (15-Apr-2016) but should still work.
 
 If you want to be running a newer image, there are instructions on the site for https://beaglelogic.readthedocs.io/en/latest/install.html[installing BeagleLogic], but I had to do the additional steps in <<case_installing_beaglelogic>>.
+
+* TODO - Recheck
 
 [[case_installing_beaglelogic]]
 .Installing BeagleLogic
