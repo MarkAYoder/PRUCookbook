@@ -158,7 +158,7 @@ a web-based intergrated development environment (IDE) as shown in
 .Cloud9 IDE
 image:figures/c9.png[The Cloud9 IDE]
 
-Just point the browswer on your host computer to <http://192.168.7.2:3000> 
+Just point the browswer on your host computer to <http://192.168.7.2> 
 and start exploring.
 
 === Getting Example Code
@@ -202,16 +202,16 @@ You want to make sure everything is set up by blinking an LED.
 
 ==== Solution
 The 'hello, world' of the embedded world is to flash an LED. <<start_hello>> 
-is some code that blinks the `USR3` LED five times using the PRU.
+is some code that blinks the `USR3` LED ten times using the PRU.
 
 // TODO The *'s and _'s in the code are messing with the formatting.
 
 [[start_hello]]
-.hello.c
+.hello.pru0.c
 [source,c,linenums]
 [subs=+quotes]
 ----
-include::code/hello.c[]
+include::code/hello.pru0.c[]
 ----
 
 Later chapters will go into details of how this code works, but if you want 
@@ -225,17 +225,19 @@ to run it right now do the following.
 bone$ *git clone https://github.com/MarkAYoder/PRUCookbook.git*
 bone$ *cd PRUCookbook/docs/02start/code*
 bone$ *source setup.sh*
-PRUN=0
-TARGET=hello
+TARGET=hello.pru0
 bone$ *make*
+/var/lib/cloud9/common/Makefile:28: MODEL=TI_AM335x_BeagleBone_Black,TARGET=hello.pru0,COMMON=/var/lib/cloud9/common
+/var/lib/cloud9/common/Makefile:147: GEN_DIR=/tmp/cloud9-examples,CHIP=am335x,PROC=pru,PRUN=0,PRU_DIR=/sys/class/remoteproc/remoteproc1,EXE=.out
 -    Stopping PRU 0
-[sudo] password for debian: 
-stop
-CC	hello.c
-LD	/tmp/pru0-gen/hello.obj
--	copying firmware file /tmp/pru0-gen/hello.out to /lib/firmware/am335x-pru0-fw
+-	copying firmware file /tmp/cloud9-examples/hello.pru0.out to /lib/firmware/am335x-pru0-fw
+write_init_pins.sh
+writing "none" to "/sys/class/leds/beaglebone:green:usr3/trigger"
 -    Starting PRU 0
-start
+MODEL   = TI_AM335x_BeagleBone_Black
+PROC    = pru
+PRUN    = 0
+PRU_DIR = /sys/class/remoteproc/remoteproc1
 ----
 
 Look quickly and you will see the `USR3` LED blinking.  

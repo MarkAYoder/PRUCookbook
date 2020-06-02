@@ -734,7 +734,7 @@ a web-based intergrated development environment (IDE) as shown in
 <p><span class="image"><img src="figures/c9.png" alt="The Cloud9 IDE"></span></p>
 </div>
 <div class="paragraph">
-<p>Just point the browswer on your host computer to <a href="http://192.168.7.2:3000" class="bare">http://192.168.7.2:3000</a>
+<p>Just point the browswer on your host computer to <a href="http://192.168.7.2" class="bare">http://192.168.7.2</a>
 and start exploring.</p>
 </div>
 </div>
@@ -793,11 +793,11 @@ AM335x_PRU.cmd  hello.c  Makefile  resource_table_empty.h  setup.sh</code></pre>
 <div class="sect3">
 <h4 id="_solution_6"><a class="link" href="#_solution_6">Solution</a></h4>
 <div class="paragraph">
-<p>The 'hello, world' of the embedded world is to flash an LED. <a href="#start_hello">hello.c</a>
-is some code that blinks the <code>USR3</code> LED five times using the PRU.</p>
+<p>The 'hello, world' of the embedded world is to flash an LED. <a href="#start_hello">hello.pru0.c</a>
+is some code that blinks the <code>USR3</code> LED ten times using the PRU.</p>
 </div>
 <div id="start_hello" class="listingblock">
-<div class="title">hello.c</div>
+<div class="title">hello.pru0.c</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -885,17 +885,19 @@ to run it right now do the following.</p>
 <pre class="CodeRay highlight"><code>bone$ <strong>git clone https://github.com/MarkAYoder/PRUCookbook.git</strong>
 bone$ <strong>cd PRUCookbook/docs/02start/code</strong>
 bone$ <strong>source setup.sh</strong>
-PRUN=0
-TARGET=hello
+TARGET=hello.pru0
 bone$ <strong>make</strong>
+/var/lib/cloud9/common/Makefile:28: MODEL=TI_AM335x_BeagleBone_Black,TARGET=hello.pru0,COMMON=/var/lib/cloud9/common
+/var/lib/cloud9/common/Makefile:147: GEN_DIR=/tmp/cloud9-examples,CHIP=am335x,PROC=pru,PRUN=0,PRU_DIR=/sys/class/remoteproc/remoteproc1,EXE=.out
 -    Stopping PRU 0
-[sudo] password for debian:
-stop
-CC  hello.c
-LD  /tmp/pru0-gen/hello.obj
--   copying firmware file /tmp/pru0-gen/hello.out to /lib/firmware/am335x-pru0-fw
+-   copying firmware file /tmp/cloud9-examples/hello.pru0.out to /lib/firmware/am335x-pru0-fw
+write_init_pins.sh
+writing &quot;none&quot; to &quot;/sys/class/leds/beaglebone:green:usr3/trigger&quot;
 -    Starting PRU 0
-start</code></pre>
+MODEL   = TI_AM335x_BeagleBone_Black
+PROC    = pru
+PRUN    = 0
+PRU_DIR = /sys/class/remoteproc/remoteproc1</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -911,7 +913,7 @@ start</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-02 10:21:13 -0400
+Last updated 2020-06-02 11:13:30 -0400
 </div>
 </div>
 <style>
