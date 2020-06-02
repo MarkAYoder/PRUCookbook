@@ -96,6 +96,17 @@ The Pocket is based on the same processor as the Black and Blue and has:
 
 See <http://beagleboard.org/pocket> for more details.
 
+===== BeagleBone AI
+If you want to do deep learning, try the  http://beagleboard.org/ai[BeagleBone AI].
+
+[[start_ai]]
+.BeagleBone AI
+image:figures/BB_AI_BeautyAngle_800px.jpg[BeableBone AI]
+
+The AI has:
+
+* TODO
+
 
 === Installing the Latest OS on Your Bone
 
