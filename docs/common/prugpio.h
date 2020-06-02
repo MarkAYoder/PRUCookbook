@@ -50,7 +50,7 @@
 
 #else
 
-#warning "Found else"
+#warning "Found am335x"
 // These are addresses for the am35xx
 #define GPIO0 0x44E09000
 #define GPIO1 0x4804C000
@@ -70,6 +70,7 @@
 
 // The define a couple of GPIO pin addresses on Pocket
 // GPIO1
+#define P2_1 (1<<18)
 #define P1_32 (1<<10)
 
 // R30 output bits on pru0
