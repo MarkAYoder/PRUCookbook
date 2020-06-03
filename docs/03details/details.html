@@ -448,7 +448,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_stopping_and_starting_the_pru">1.3. Stopping and Starting the PRU</a></li>
 <li><a href="#details_makefile">1.4. The Standard Makefile</a></li>
 <li><a href="#_compiling_with_clpru_and_lnkpru">1.5. Compiling with clpru and lnkpru</a></li>
-<li><a href="#detail_linker">1.6. The Linker Command File - AM335x_PRU.cmd</a></li>
+<li><a href="#detail_linker">1.6. The Linker Command File - am335x_pru.cmd</a></li>
 <li><a href="#_loading_firmware">1.7. Loading Firmware</a></li>
 <li><a href="#details_configure_servos">1.8. Configuring Pins for Controlling Servos</a></li>
 <li><a href="#details_configure_encoders">1.9. Configuring Pins for Controlling Encoders</a></li>
@@ -588,7 +588,7 @@ The file extension <code>.pru0</code> specifies the number of the PRU you are us
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>cp gpio.pru0.c gpio.pru1.c
+<pre>bone$ <strong>cp gpio.pru0.c gpio.pru1.c</strong>
 bone$ <strong>export TARGET=gpio.pru1</strong></pre>
 </div>
 </div>
@@ -600,13 +600,20 @@ bone$ <strong>export TARGET=gpio.pru1</strong></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>cp gpio.pru0.c gpio.pru1.c
+<pre>bone$ <strong>cp gpio.pru0.c gpio.pru1.c</strong>
 bone$ <strong>make TARGET=gpio.pru1</strong></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>The setup file also contains instructions to figure out which Beagle you are running
 and then configure the pins acordingly.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>TODO - Fix config-pin</p>
+</li>
+</ul>
 </div>
 <div class="listingblock">
 <div class="title">setup.sh</div>
@@ -616,29 +623,29 @@ and then configure the pins acordingly.</p>
 export TARGET=gpio.pru0
 echo TARGET=$TARGET
 
-# # Configure the PRU pins based on which Beagle is running
-# machine=$(awk '{print $NF}' /proc/device-tree/model)
-# echo -n $machine
-# if [ $machine = &quot;Black&quot; ]; then
-#     echo &quot; Found&quot;
-#     pins=&quot;P9_11&quot;
-# elif [ $machine = &quot;Blue&quot; ]; then
-#     echo &quot; Found&quot;
-#     pins=&quot;&quot;
-# elif [ $machine = &quot;PocketBeagle&quot; ]; then
-#     echo &quot; Found&quot;
-#     pins=&quot;P1_36&quot;
-# else
-#     echo &quot; Not Found&quot;
-#     pins=&quot;&quot;
-# fi
+# Configure the PRU pins based on which Beagle is running
+machine=$(awk '{print $NF}' /proc/device-tree/model)
+echo -n $machine
+if [ $machine = &quot;Black&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;P9_11&quot;
+elif [ $machine = &quot;Blue&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;&quot;
+elif [ $machine = &quot;PocketBeagle&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;P1_36&quot;
+else
+    echo &quot; Not Found&quot;
+    pins=&quot;&quot;
+fi
 
-# for pin in $pins
-# do
-#     echo $pin
-#     config-pin $pin gpio
-#     config-pin -q $pin
-# done</code></pre>
+for pin in $pins
+do
+    echo $pin
+    config-pin $pin out
+    config-pin -q $pin
+done</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -705,19 +712,28 @@ start</code></pre>
 is stopped.</p>
 </div>
 <div class="paragraph">
-<p>This assumes <code>PRUN</code> is set to the number of the PRU you are using.
+<p>This assumes <code>TARGET</code> is set to the PRU you are using.
 If you want to control the other PRU use:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>bone$ <strong>make PRUN=1 stop</strong>
-bone$ <strong>make PRUN=1 start</strong></code></pre>
+<pre class="CodeRay highlight"><code>bone$ <strong>cp gpio.pru0.c gpio.pru1.c</strong>
+bone$ <strong>make TARGET=gpio.pru1</strong>
+bone$ <strong>make TARGET=gpio.pru1 stop</strong>
+bone$ <strong>make TARGET=gpio.pru1 start</strong></code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="details_makefile"><a class="link" href="#details_makefile">1.4. The Standard Makefile</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p>TODO - Make this into how to use the standard Makefile</p>
+</li>
+</ul>
+</div>
 <div class="sect3">
 <h4 id="_problem_4"><a class="link" href="#_problem_4">Problem</a></h4>
 <div class="paragraph">
@@ -795,7 +811,7 @@ The <code>.out</code> file is the generated code.</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">16</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">This points to the file that tells the linker where in memory to
-put things.  It will be covered in <a href="#detail_linker">The Linker Command File - AM335x_PRU.cmd</a>.</p></td>
+put things.  It will be covered in <a href="#detail_linker">The Linker Command File - am335x_pru.cmd</a>.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">17,18</p></td>
@@ -901,19 +917,17 @@ They are called <code>clpru</code> and <code>lnkpru</code>.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>If fact there are PRU versions of many of the standard code generation tools.</p>
+<p>IN fact there are PRU versions of many of the standard code generation tools.</p>
 </div>
 <div class="listingblock">
 <div class="title">code tools</div>
 <div class="content">
 <pre class="CodeRay highlight"><code>bone$ <strong>ls /usr/bin/*pru</strong>
-/usr/bin/abspru    /usr/bin/dempru      /usr/bin/nmpru
-/usr/bin/acpiapru  /usr/bin/dispru      /usr/bin/ofdpru
-/usr/bin/arpru     /usr/bin/embedpru    /usr/bin/optpru
-/usr/bin/asmpru    /usr/bin/hexpru      /usr/bin/rc_test_encoders_pru
-/usr/bin/cgpru     /usr/bin/ilkpru      /usr/bin/strippru
-/usr/bin/clistpru  /usr/bin/libinfopru  /usr/bin/xrefpru
-/usr/bin/clpru     /usr/bin/lnkpru</code></pre>
+/usr/bin/abspru    /usr/bin/clistpru  /usr/bin/hexpru      /usr/bin/ofdpru
+/usr/bin/acpiapru  /usr/bin/clpru     /usr/bin/ilkpru      /usr/bin/optpru
+/usr/bin/arpru     /usr/bin/dempru    /usr/bin/libinfopru  /usr/bin/rc_test_encoders_pru
+/usr/bin/asmpru    /usr/bin/dispru    /usr/bin/lnkpru      /usr/bin/strippru
+/usr/bin/cgpru     /usr/bin/embedpru  /usr/bin/nmpru       /usr/bin/xrefpru</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -922,7 +936,7 @@ They are called <code>clpru</code> and <code>lnkpru</code>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="detail_linker"><a class="link" href="#detail_linker">1.6. The Linker Command File - AM335x_PRU.cmd</a></h3>
+<h3 id="detail_linker"><a class="link" href="#detail_linker">1.6. The Linker Command File - am335x_pru.cmd</a></h3>
 <div class="sect3">
 <h4 id="_problem_6"><a class="link" href="#_problem_6">Problem</a></h4>
 <div class="paragraph">
@@ -932,11 +946,11 @@ They are called <code>clpru</code> and <code>lnkpru</code>.</p>
 <div class="sect3">
 <h4 id="_solution_6"><a class="link" href="#_solution_6">Solution</a></h4>
 <div class="paragraph">
-<p><code>AM335x_PRU.cmd</code> is the standard linker command file that tells the linker
+<p><code>am335x_pru.cmd</code> is the standard linker command file that tells the linker
 where to put what.</p>
 </div>
 <div class="listingblock">
-<div class="title">AM335x_PRU.cmd</div>
+<div class="title">am335x_pru.cmd</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="linker"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -1025,6 +1039,7 @@ where to put what.</p>
 84
 85
 86
+87
 </pre></td>
   <td class="code"><pre>/****************************************************************************/
 /*  AM335x_PRU.cmd                                                          */
@@ -1111,6 +1126,7 @@ SECTIONS {
     .fardata    &gt;  PRU_DMEM_0_1, PAGE 1
 
     .resource_table &gt; PRU_DMEM_0_1, PAGE 1
+    .init_pins &gt; PRU_DMEM_0_1, PAGE 1
 }</pre></td>
 </tr></table></code></pre>
 </div>
@@ -1207,6 +1223,13 @@ the heap are in the locations below 0x0200.</p>
 </div>
 <div class="sect3">
 <h4 id="_discussion_4"><a class="link" href="#_discussion_4">Discussion</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>TODO - update for AI</p>
+</li>
+</ul>
+</div>
 <div class="paragraph">
 <p>The PRUs appear in the Linux file space at
 <code>/sys/devices/platform/ocp/4a32600*.pruss-soc-bus/4a300000.pruss</code>.</p>
@@ -1379,7 +1402,7 @@ to the hardware eQEPs and other to the PRU inputs.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-03 11:13:13 -0400
+Last updated 2020-06-03 19:43:39 -0400
 </div>
 </div>
 <style>

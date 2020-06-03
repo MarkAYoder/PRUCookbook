@@ -87,7 +87,7 @@ You can override the `TARGET` on the command line.
 
 [subs=+quotes]
 ----
-cp gpio.pru0.c gpio.pru1.c
+bone$ *cp gpio.pru0.c gpio.pru1.c*
 bone$ *export TARGET=gpio.pru1*
 ----
 
@@ -96,7 +96,7 @@ Notice the `TARGET` doesn't have the `.c` on the end.
 You can also specify them when running `make`.
 [subs=+quotes]
 ----
-cp gpio.pru0.c gpio.pru1.c
+bone$ *cp gpio.pru0.c gpio.pru1.c*
 bone$ *make TARGET=gpio.pru1*
 ----
 
@@ -145,18 +145,22 @@ start
 See <<../04debug/debug.html#_dmesg_hw,dmesg -Hw>> to see how to tell if the PRU
 is stopped.
 
-This assumes `PRUN` is set to the number of the PRU you are using.
+This assumes `TARGET` is set to the PRU you are using.
 If you want to control the other PRU use:
 [source]
 [subs=+quotes]
 ----
-bone$ *make PRUN=1 stop*
-bone$ *make PRUN=1 start*
+bone$ *cp gpio.pru0.c gpio.pru1.c*
+bone$ *make TARGET=gpio.pru1*
+bone$ *make TARGET=gpio.pru1 stop*
+bone$ *make TARGET=gpio.pru1 start*
 ----
 
 
 [[details_makefile]]
 === The Standard Makefile
+
+* TODO - Make this into how to use the standard Makefile
 
 ==== Problem
 There are all sorts of options that need to be set when compiling
@@ -261,37 +265,35 @@ Details on each can be found here:
 * http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler]
 * http://www.ti.com/lit/ug/spruhv6b/spruhv6b.pdf[PRU Assembly Language Tools]
 
-If fact there are PRU versions of many of the standard code generation tools.
+IN fact there are PRU versions of many of the standard code generation tools.
 
 .code tools
 [source]
 [subs=+quotes]
 ----
 bone$ *ls /usr/bin/*pru*
-/usr/bin/abspru    /usr/bin/dempru      /usr/bin/nmpru
-/usr/bin/acpiapru  /usr/bin/dispru      /usr/bin/ofdpru
-/usr/bin/arpru     /usr/bin/embedpru    /usr/bin/optpru
-/usr/bin/asmpru    /usr/bin/hexpru      /usr/bin/rc_test_encoders_pru
-/usr/bin/cgpru     /usr/bin/ilkpru      /usr/bin/strippru
-/usr/bin/clistpru  /usr/bin/libinfopru  /usr/bin/xrefpru
-/usr/bin/clpru     /usr/bin/lnkpru
+/usr/bin/abspru    /usr/bin/clistpru  /usr/bin/hexpru      /usr/bin/ofdpru
+/usr/bin/acpiapru  /usr/bin/clpru     /usr/bin/ilkpru      /usr/bin/optpru
+/usr/bin/arpru     /usr/bin/dempru    /usr/bin/libinfopru  /usr/bin/rc_test_encoders_pru
+/usr/bin/asmpru    /usr/bin/dispru    /usr/bin/lnkpru      /usr/bin/strippru
+/usr/bin/cgpru     /usr/bin/embedpru  /usr/bin/nmpru       /usr/bin/xrefpru
 ----
 See the http://www.ti.com/lit/ug/spruhv6b/spruhv6b.pdf[PRU Assembly Language Tools] for more details.
 
 [[detail_linker]]
-=== The Linker Command File - AM335x_PRU.cmd
+=== The Linker Command File - am335x_pru.cmd
 
 ==== Problem
 The linker needs to be told where in memory to place the code and variables.
 
 ==== Solution
-`AM335x_PRU.cmd` is the standard linker command file that tells the linker
+`am335x_pru.cmd` is the standard linker command file that tells the linker
 where to put what.
 
-.AM335x_PRU.cmd
+.am335x_pru.cmd
 [source,linker,linenums]
 ----
-include::code/AM335x_PRU.cmd[AM335x_PRU.cmd]
+include::code/am335x_pru.cmd[am335x_pru.cmd]
 ----
 
 ==== Discussion
@@ -335,6 +337,9 @@ It's a simple three step process.
 This is all handled in the <<details_makefile>>.
 
 ==== Discussion
+
+* TODO - update for AI
+
 The PRUs appear in the Linux file space at
 `/sys/devices/platform/ocp/4a32600*.pruss-soc-bus/4a300000.pruss`.
 
