@@ -40,15 +40,15 @@ Change to the directory of the code you want to run.
 ----
 bone$ *cd PRUCookbook/docs/06io/code*
 bone$ *ls*
-gpio1.pru0.c  gpio_setup.sh  Makefile
+gpio.pru0.c  Makefile  setup.sh
 ----
 
 Source the setup file.
 [source]
 [subs=+quotes]
 ----
-bone$ *source gpio_setup.sh*
-TARGET=gpio1.pru0
+bone$ *source setup.sh*
+TARGET=gpio.pru0
 ----
 
 Now you are ready to compile and run.  This is automated for you in the Makefile
@@ -56,13 +56,15 @@ Now you are ready to compile and run.  This is automated for you in the Makefile
 [subs=+quotes]
 ----
 bone$ *make*
-/var/lib/cloud9/common/Makefile:28: MODEL=TI_AM335x_BeagleBone_Black,TARGET=gpio1.pru0,COMMON=/var/lib/cloud9/common
+/var/lib/cloud9/common/Makefile:28: MODEL=TI_AM335x_BeagleBone_Black,TARGET=gpio.pru0,COMMON=/var/lib/cloud9/common
 /var/lib/cloud9/common/Makefile:147: GEN_DIR=/tmp/cloud9-examples,CHIP=am335x,PROC=pru,PRUN=0,PRU_DIR=/sys/class/remoteproc/remoteproc1,EXE=.out
 -    Stopping PRU 0
-CC	gpio1.pru0.c
+/bin/sh: 1: echo: echo: I/O error
+Cannot stop 0
+CC	gpio.pru0.c
 "/var/lib/cloud9/common/prugpio.h", line 53: warning #1181-D: #warning directive: "Found am335x"
-LD	/tmp/cloud9-examples/gpio1.pru0.o
--	copying firmware file /tmp/cloud9-examples/gpio1.pru0.out to /lib/firmware/am335x-pru0-fw
+LD	/tmp/cloud9-examples/gpio.pru0.o
+-	copying firmware file /tmp/cloud9-examples/gpio.pru0.out to /lib/firmware/am335x-pru0-fw
 write_init_pins.sh
 writing "out" to "/sys/class/gpio/gpio30/direction"
 -    Starting PRU 0
@@ -70,23 +72,23 @@ MODEL   = TI_AM335x_BeagleBone_Black
 PROC    = pru
 PRUN    = 0
 PRU_DIR = /sys/class/remoteproc/remoteproc1
-rm /tmp/cloud9-examples/gpio1.pru0.o
+rm /tmp/cloud9-examples/gpio.pru0.o
 ----
-
-Congratulations, your are now running a PRU.
+Congratulations, your are now running a PRU.  If you have an LED attached to
+`P9_11` it should be blinking.
 
 ==== Discussion
 The `setup.sh` file sets the `TARGET` to the file you want to compile.
-give the filename, without the `.c` extension (`gpio1.pru0`).
-The file extension `.pru0` gives the number of the PRU you are using 
-(either 1_0, 1_1, 2_0, 2_1 on the AI or 0 or 1 on the others)
+Set it to the filename, without the `.c` extension (`gpio.pru0`).
+The file extension `.pru0` specifies the number of the PRU you are using 
+(either `1_0`, `1_1`, `2_0`, `2_1` on the AI or `0` or `1` on the others)
 
-You can override these on the command line.
+You can override the `TARGET` on the command line.
 
 [subs=+quotes]
 ----
-bone$ *export PRUN=0*
-bone$ *export TARGET=gpio1*
+cp gpio.pru0.c gpio.pru1.c
+bone$ *export TARGET=gpio.pru1*
 ----
 
 Notice the `TARGET` doesn't have the `.c` on the end.
@@ -94,11 +96,14 @@ Notice the `TARGET` doesn't have the `.c` on the end.
 You can also specify them when running `make`.
 [subs=+quotes]
 ----
-bone$ *make PRUN=0 TARGET=gpio1*
+cp gpio.pru0.c gpio.pru1.c
+bone$ *make TARGET=gpio.pru1*
 ----
 
 The setup file also contains instructions to figure out which Beagle you are running
 and then configure the pins acordingly.
+
+* TODO - Fix config-pin
 
 .setup.sh
 [source,linenums]

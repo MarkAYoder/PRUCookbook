@@ -533,7 +533,7 @@ compile code and also start and stop the PRUs.</p>
 <div class="content">
 <pre class="CodeRay highlight"><code>bone$ <strong>cd PRUCookbook/docs/06io/code</strong>
 bone$ <strong>ls</strong>
-gpio1.pru0.c  gpio_setup.sh  Makefile</code></pre>
+gpio.pru0.c  Makefile  setup.sh</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -541,8 +541,8 @@ gpio1.pru0.c  gpio_setup.sh  Makefile</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>bone$ <strong>source gpio_setup.sh</strong>
-TARGET=gpio1.pru0</code></pre>
+<pre class="CodeRay highlight"><code>bone$ <strong>source setup.sh</strong>
+TARGET=gpio.pru0</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -551,13 +551,15 @@ TARGET=gpio1.pru0</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>bone$ <strong>make</strong>
-/var/lib/cloud9/common/Makefile:28: MODEL=TI_AM335x_BeagleBone_Black,TARGET=gpio1.pru0,COMMON=/var/lib/cloud9/common
+/var/lib/cloud9/common/Makefile:28: MODEL=TI_AM335x_BeagleBone_Black,TARGET=gpio.pru0,COMMON=/var/lib/cloud9/common
 /var/lib/cloud9/common/Makefile:147: GEN_DIR=/tmp/cloud9-examples,CHIP=am335x,PROC=pru,PRUN=0,PRU_DIR=/sys/class/remoteproc/remoteproc1,EXE=.out
 -    Stopping PRU 0
-CC  gpio1.pru0.c
+/bin/sh: 1: echo: echo: I/O error
+Cannot stop 0
+CC  gpio.pru0.c
 &quot;/var/lib/cloud9/common/prugpio.h&quot;, line 53: warning #1181-D: #warning directive: &quot;Found am335x&quot;
-LD  /tmp/cloud9-examples/gpio1.pru0.o
--   copying firmware file /tmp/cloud9-examples/gpio1.pru0.out to /lib/firmware/am335x-pru0-fw
+LD  /tmp/cloud9-examples/gpio.pru0.o
+-   copying firmware file /tmp/cloud9-examples/gpio.pru0.out to /lib/firmware/am335x-pru0-fw
 write_init_pins.sh
 writing &quot;out&quot; to &quot;/sys/class/gpio/gpio30/direction&quot;
 -    Starting PRU 0
@@ -565,26 +567,29 @@ MODEL   = TI_AM335x_BeagleBone_Black
 PROC    = pru
 PRUN    = 0
 PRU_DIR = /sys/class/remoteproc/remoteproc1
-rm /tmp/cloud9-examples/gpio1.pru0.o</code></pre>
+rm /tmp/cloud9-examples/gpio.pru0.o</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Congratulations, your are now running a PRU.</p>
+<p>Congratulations, your are now running a PRU.  If you have an LED attached to
+<code>P9_11</code> it should be blinking.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_discussion"><a class="link" href="#_discussion">Discussion</a></h4>
 <div class="paragraph">
 <p>The <code>setup.sh</code> file sets the <code>TARGET</code> to the file you want to compile.
-The file extension <em>.pru0</em> gives the number of the PRU you are using
-(either 1_0, 1_1, 2_0, 2_1 on the AI or 0 or 1on the others)
-You can override these on the
-command line.</p>
+Set it to the filename, without the <code>.c</code> extension (<code>gpio.pru0</code>).
+The file extension <code>.pru0</code> specifies the number of the PRU you are using
+(either <code>1_0</code>, <code>1_1</code>, <code>2_0</code>, <code>2_1</code> on the AI or <code>0</code> or <code>1</code> on the others)</p>
+</div>
+<div class="paragraph">
+<p>You can override the <code>TARGET</code> on the command line.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>bone$ <strong>export PRUN=0</strong>
-bone$ <strong>export TARGET=gpio1</strong></pre>
+<pre>cp gpio.pru0.c gpio.pru1.c
+bone$ <strong>export TARGET=gpio.pru1</strong></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -595,7 +600,8 @@ bone$ <strong>export TARGET=gpio1</strong></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>bone$ <strong>make PRUN=0 TARGET=gpio1</strong></pre>
+<pre>cp gpio.pru0.c gpio.pru1.c
+bone$ <strong>make TARGET=gpio.pru1</strong></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -606,34 +612,33 @@ and then configure the pins acordingly.</p>
 <div class="title">setup.sh</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="linenums">#!/bin/bash
-export PRUN=0
-export TARGET=gpio1
-echo PRUN=$PRUN
+
+export TARGET=gpio.pru0
 echo TARGET=$TARGET
 
-# Configure the PRU pins based on which Beagle is running
-machine=$(awk '{print $NF}' /proc/device-tree/model)
-echo -n $machine
-if [ $machine = &quot;Black&quot; ]; then
-    echo &quot; Found&quot;
-    pins=&quot;P9_11&quot;
-elif [ $machine = &quot;Blue&quot; ]; then
-    echo &quot; Found&quot;
-    pins=&quot;&quot;
-elif [ $machine = &quot;PocketBeagle&quot; ]; then
-    echo &quot; Found&quot;
-    pins=&quot;P1_36&quot;
-else
-    echo &quot; Not Found&quot;
-    pins=&quot;&quot;
-fi
+# # Configure the PRU pins based on which Beagle is running
+# machine=$(awk '{print $NF}' /proc/device-tree/model)
+# echo -n $machine
+# if [ $machine = &quot;Black&quot; ]; then
+#     echo &quot; Found&quot;
+#     pins=&quot;P9_11&quot;
+# elif [ $machine = &quot;Blue&quot; ]; then
+#     echo &quot; Found&quot;
+#     pins=&quot;&quot;
+# elif [ $machine = &quot;PocketBeagle&quot; ]; then
+#     echo &quot; Found&quot;
+#     pins=&quot;P1_36&quot;
+# else
+#     echo &quot; Not Found&quot;
+#     pins=&quot;&quot;
+# fi
 
-for pin in $pins
-do
-    echo $pin
-    config-pin $pin gpio
-    config-pin -q $pin
-done</code></pre>
+# for pin in $pins
+# do
+#     echo $pin
+#     config-pin $pin gpio
+#     config-pin -q $pin
+# done</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1374,7 +1379,7 @@ to the hardware eQEPs and other to the PRU inputs.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-03 10:43:23 -0400
+Last updated 2020-06-03 11:13:13 -0400
 </div>
 </div>
 <style>
