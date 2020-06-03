@@ -33,4 +33,3 @@ void main(void) {
 const char init_pins[] =  
 	"/sys/class/leds/beaglebone:green:usr3/trigger\0none\0" \
 	"\0\0";
-

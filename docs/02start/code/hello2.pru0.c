@@ -40,4 +40,3 @@ const char init_pins[] =
 	"/sys/class/leds/beaglebone:green:usr1/trigger\0none\0" \
 	"/sys/class/leds/beaglebone:green:usr2/trigger\0none\0" \
 	"\0\0";
-
