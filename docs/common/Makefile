@@ -20,11 +20,13 @@
 COMMON:=$(abspath $(lastword $(MAKEFILE_LIST)/..))
 PRU_CGT:=/usr/share/ti/cgt-pru
 PRU_SUPPORT:=/usr/lib/ti/pru-software-support-package
+PRU_STARTERWARE:=/usr/share/ti/starterware
 C6X_CGT:=/usr/share/ti/cgt-c6x
 TIDL_API_DIR:=/usr/share/ti/tidl/tidl_api
 GEN_DIR:=/tmp/cloud9-examples
 MODEL:=$(shell cat /proc/device-tree/model | sed 's/ /_/g' | tr -d '\000')
-$(warning MODEL=$(MODEL),TARGET=$(TARGET),COMMON=$(COMMON))
+# $(warning MODEL=$(MODEL),TARGET=$(TARGET),COMMON=$(COMMON))
+$(warning MODEL=$(MODEL),TARGET=$(TARGET))
 
 #
 # Define PROC and build variables
@@ -95,7 +97,6 @@ define target-to-proc =
   PROC=arm
   EXE=.out
  endif
- $(warning CHIP=$(CHIP),PRUN=$(PRUN),CHIP_REV=$(CHIP_REV))
 endef
 
 #
@@ -117,6 +118,7 @@ define proc-to-build-vars =
   CC=clpru -fe
   CFLAGS=--include_path=$(COMMON) --include_path=$(PRU_SUPPORT)/include \
    --include_path=$(PRU_SUPPORT)/include/$(CHIP_REV) \
+   --include_path=$(PRU_STARTERWARE)/include --include_path=$(PRU_STARTERWARE)/include/hw \
    --include_path=$(PRU_CGT)/include -DCHIP=$(CHIP) -DCHIP_IS_$(CHIP) -DMODEL=$(MODEL) -DPROC=$(PROC) -DPRUN=$(PRUN) \
    -v3 -O2 --printf_support=minimal --display_error_number --endian=little --hardware_mac=on \
    --obj_directory=$(GEN_DIR) --pp_directory=$(GEN_DIR) --asm_directory=$(GEN_DIR) -ppd -ppa --asm_listing \
@@ -127,8 +129,8 @@ define proc-to-build-vars =
    $(TIDL_API_DIR)/tidl_api.a $(TIDL_API_DIR)/tidl_imgutil.a \
    -lTIOpenCL -locl_util -lpthread
   CXX=g++ -c -o
-  CXXFLAGS=-DCHIP=$(CHIP) -DMODEL=$(MODEL) -DPROC=$(PROC) -O3 -Wall -Werror -Wno-error=ignored-attributes \
-   -I. -I$(TIDL_API_DIR)/inc -std=c++11 -I/usr/share/ti/opencl 
+  CXXFLAGS=-DCHIP=$(CHIP) -DMODEL=$(MODEL) -DPROC=$(PROC) -fPIC -O3 -Wall -Werror -Wno-error=ignored-attributes \
+   -I. -I$(TIDL_API_DIR)/inc -std=c++14 -I/usr/share/ti/opencl 
  else
   LD=gcc -o
   LDFLAGS=-lc -lm
@@ -143,7 +145,7 @@ endef
 
 ifneq ($(TARGET),)
 $(eval $(call target-to-proc,$(TARGET).out))
-$(warning GEN_DIR=$(GEN_DIR),CHIP=$(CHIP),PROC=$(PROC),PRUN=$(PRUN),PRU_DIR=$(PRU_DIR),EXE=$(EXE))
+# $(warning GEN_DIR=$(GEN_DIR),CHIP=$(CHIP),PROC=$(PROC),PRUN=$(PRUN),PRU_DIR=$(PRU_DIR),EXE=$(EXE))
 
 all: stop install start
 	@echo "MODEL   = $(MODEL)"
@@ -160,13 +162,14 @@ endif
 
 start:
 ifneq ($(PRU_DIR),)
-	@echo "-    Starting PRU $(PRUN)"
-	@echo start > $(PRU_DIR)/state
 	@echo write_init_pins.sh
 	@$(COMMON)/write_init_pins.sh /lib/firmware/$(CHIP)-pru$(PRUN)-fw
+	@echo "-    Starting PRU $(PRUN)"
+	@echo start > $(PRU_DIR)/state
 else ifeq ($(PROC),tidl)
 	ti-mct-heap-check -c
-	sudo mjpg_streamer -i "input_opencv.so -r 640x480 --filter ./$(TARGET)$(EXE)" -o "output_http.so -p 8080 -w /usr/share/mjpg-streamer/www"
+	sudo mjpg_streamer -i "input_opencv.so -r 640x480 -d /dev/$(shell fgrep -v vpe /sys/class/video4linux/video*/name | perl -ne '/\/(video\d+)\/name/ && print $$1') \
+	--filter ./$(TARGET)$(EXE)" -o "output_http.so -p 8090 -w /usr/share/mjpg-streamer/www"
 else
 	./$(TARGET)$(EXE)
 endif
