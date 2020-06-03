@@ -1,1 +1,1 @@
-../../03details/code/Makefile
+include /var/lib/cloud9/common/Makefile
