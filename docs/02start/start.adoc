@@ -117,8 +117,10 @@ You want to find the lastest version of Debian that is available for your Bone.
 On your host computer open a browser and go to
 http://beagleboard.org/latest-images.
 This shows you two current choices of recent Debian images,
-one for the BeagleBone AI (AM5729 Debian 10.3 2020-04-06 8GB SD IoT TIDL) and
-one for all the other Beagles (AM3358 Debian 10.3 2020-04-06 4GB SD IoT).
+one for the BeagleBone AI 
+(https://debian.beagleboard.org/images/am57xx-debian-10.3-iot-tidl-armhf-2020-04-06-6gb.img.xz[AM5729 Debian 10.3 2020-04-06 8GB SD IoT TIDL]) and
+one for all the other Beagles (
+https://debian.beagleboard.org/images/bone-debian-10.3-iot-armhf-2020-04-06-4gb.img.xz[AM3358 Debian 10.3 2020-04-06 4GB SD IoT]).
 Download the one for your Beagle.
 
 .Latest Debian images
@@ -134,7 +136,7 @@ I've downloaded the image and need to flash my micro SD card.
 Get a micro SD card that has at least 4GB and preferibly 8GB.  
 
 There are many ways to flash the card, but the best seems to be Etcher by
-_resin.io_.  Go to <https://www.balena.io/etcher/> and download the version for your host 
+https://www.balena.io/.  Go to <https://www.balena.io/etcher/> and download the version for your host 
 computer.  Fire up Etcher, select the image you just downloaded (no need to 
 uncompress it, Etcher does it for you), select the SD card and hit the *Flash* 
 button and wait for it to finish.
