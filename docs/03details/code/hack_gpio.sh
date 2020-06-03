@@ -1,7 +1,7 @@
 #!/bin/bash
 # Maps pin name (P9_11) to gpio number via libgpiod
 #
-# Usage:  pack_gpio.sh P9_11
+# Usage:  hack_gpio.sh P9_11
 
 chip="0"
 found=0
