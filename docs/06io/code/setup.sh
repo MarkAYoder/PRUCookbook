@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export TARGET=gpio1.pru0
+export TARGET=gpio.pru0
 echo TARGET=$TARGET
 
 # # Configure the PRU pins based on which Beagle is running
