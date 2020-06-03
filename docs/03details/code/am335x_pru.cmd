@@ -83,4 +83,5 @@ SECTIONS {
 	.fardata	>  PRU_DMEM_0_1, PAGE 1
 
 	.resource_table > PRU_DMEM_0_1, PAGE 1
+	.init_pins > PRU_DMEM_0_1, PAGE 1
 }
