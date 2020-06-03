@@ -1,7 +1,7 @@
 #!/bin/bash
 # Adds "in" and "out" to config-pin
 #
-# Usage:  hack_gpio.sh P9_11 out
+# Usage:  config-pin.sh P9_11 out
 
 pin=$1  # Name of pin to be changed
 dir=$2  # Direction, either in or out
