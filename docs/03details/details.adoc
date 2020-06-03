@@ -14,7 +14,8 @@ The following are resources used in this chapter.
 * http://git.ti.com/pru-software-support-package[PRU Software Support Package]
 * http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler]
 * http://www.ti.com/lit/ug/spruhv6b/spruhv6b.pdf[PRU Assembly Language Tools]
-* https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]
+* http://www.ti.com/lit/pdf/spruhz6l[AM572x Technical Reference Manual] (AI)
+* http://www.ti.com/lit/pdf/spruh73[AM335x Technical Reference Manual] (All others)
 
 === Getting Example Code
 ==== Problem
@@ -39,19 +40,15 @@ Change to the directory of the code you want to run.
 ----
 bone$ *cd PRUCookbook/docs/06io/code*
 bone$ *ls*
-AM335x_PRU.cmd  gpio1.c  gpio_setup.sh  Makefile  resource_table_empty.h
+gpio1.pru0.c  gpio_setup.sh  Makefile
 ----
 
 Source the setup file.
-[source,
+[source]
 [subs=+quotes]
 ----
 bone$ *source gpio_setup.sh*
-PRUN=0
-TARGET=gpio1
-Black Found
-P9_11
-P9_11 Mode: gpio Direction: out Value: 0
+TARGET=gpio1.pru0
 ----
 
 Now you are ready to compile and run.  This is automated for you in the Makefile
@@ -59,20 +56,32 @@ Now you are ready to compile and run.  This is automated for you in the Makefile
 [subs=+quotes]
 ----
 bone$ *make*
+/var/lib/cloud9/common/Makefile:28: MODEL=TI_AM335x_BeagleBone_Black,TARGET=gpio1.pru0,COMMON=/var/lib/cloud9/common
+/var/lib/cloud9/common/Makefile:147: GEN_DIR=/tmp/cloud9-examples,CHIP=am335x,PROC=pru,PRUN=0,PRU_DIR=/sys/class/remoteproc/remoteproc1,EXE=.out
 -    Stopping PRU 0
-stop
--	copying firmware file /tmp/pru0-gen/gpio1.out to /lib/firmware/am335x-pru0-fw
+CC	gpio1.pru0.c
+"/var/lib/cloud9/common/prugpio.h", line 53: warning #1181-D: #warning directive: "Found am335x"
+LD	/tmp/cloud9-examples/gpio1.pru0.o
+-	copying firmware file /tmp/cloud9-examples/gpio1.pru0.out to /lib/firmware/am335x-pru0-fw
+write_init_pins.sh
+writing "out" to "/sys/class/gpio/gpio30/direction"
 -    Starting PRU 0
-start
+MODEL   = TI_AM335x_BeagleBone_Black
+PROC    = pru
+PRUN    = 0
+PRU_DIR = /sys/class/remoteproc/remoteproc1
+rm /tmp/cloud9-examples/gpio1.pru0.o
 ----
 
 Congratulations, your are now running a PRU.
 
 ==== Discussion
-The `setup.sh` file sets `PRUN` to the number of the PRU you are using 
-(either 0 or 1) and
-`TARGET` to the file you want to compile. You can override these on the
-command line.
+The `setup.sh` file sets the `TARGET` to the file you want to compile.
+give the filename, without the `.c` extension (`gpio1.pru0`).
+The file extension `.pru0` gives the number of the PRU you are using 
+(either 1_0, 1_1, 2_0, 2_1 on the AI or 0 or 1 on the others)
+
+You can override these on the command line.
 
 [subs=+quotes]
 ----
