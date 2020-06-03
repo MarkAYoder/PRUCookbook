@@ -8,7 +8,7 @@ dir=$2  # Direction, either in or out
 
 if [ "$dir" != "in" ] && [ "$dir" != "out" ] ; then
     # Use config-pin
-    config-pin $*
+    /usr/bin/config-pin $*
     exit
 fi
 
