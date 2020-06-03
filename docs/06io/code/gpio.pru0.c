@@ -20,10 +20,3 @@ void main(void)
 		__delay_cycles(100000000);
 	}
 }
-
-// Set P9_11 (gpio 30) to output
-#pragma DATA_SECTION(init_pins, ".init_pins")
-#pragma RETAIN(init_pins)
-const char init_pins[] =  
-	"/sys/class/gpio/gpio30/direction\0out\0" \
-	"\0\0";
