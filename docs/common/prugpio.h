@@ -52,7 +52,7 @@
 
 #warning "Found am335x"
 // These are addresses for the am35xx
-#define GPIO0 0x44E09000
+#define GPIO0 0x44E07000        // From table 2.2 of am335x TRM
 #define GPIO1 0x4804C000
 #define GPIO2 0x481AC000
 #define GPIO3 0x481AE000
