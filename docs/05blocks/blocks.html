@@ -3145,6 +3145,9 @@ give time for the signal to get to PRU 1.</p></td>
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p>This ends the multipart pwm example.</p>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -3164,28 +3167,32 @@ pins.</p>
 <table id="blocks_io_pins" class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 8. Input/Output pins</caption>
 <colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
 </colgroup>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Direction</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Bit number</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Black</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AI (ICSS2)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Pocket</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">out</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">P9_31</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_44</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">P1.36</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">in</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">P9_25</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_36</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">P1.29</p></td>
 </tr>
 </tbody>
@@ -3201,9 +3208,7 @@ pins.</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="linenums">#!/bin/bash
 #
-export PRUN=0
-export TARGET=input1
-echo PRUN=$PRUN
+export TARGET=input.pru0
 echo TARGET=$TARGET
 
 # Configure the PRU pins based on which Beagle is running
@@ -3234,7 +3239,7 @@ fi</code></pre>
 <p>The following code reads the input pin and writes its value to the output pin.</p>
 </div>
 <div class="listingblock">
-<div class="title">input1.c</div>
+<div class="title">input.c</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -5686,7 +5691,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-04 15:54:58 -0400
+Last updated 2020-06-04 16:05:17 -0400
 </div>
 </div>
 <style>

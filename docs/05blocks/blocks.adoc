@@ -808,6 +808,8 @@ slow to respond to the interupt, so I put this code at the end of the loop to
 give time for the signal to get to PRU 1.
 |===
 
+This ends the multipart pwm example.
+
 === Reading an Input at Regular Intervals
 ==== Problem
 You have an input pin that needs to be read at regular intervals.
@@ -818,9 +820,9 @@ pins.
 [[blocks_io_pins]]
 .Input/Output pins
 |===
-|Direction|Bit number|Black|Pocket
-|out      |0         |P9_31|P1.36
-|in       |7         |P9_25|P1.29
+|Direction|Bit number|Black|AI (ICSS2)|Pocket
+|out      |0         |P9_31|P8_44     |P1.36
+|in       |7         |P9_25|P8_36     |P1.29
 |===
 These values came from <<blocks_mapping_bits>>.
 
@@ -834,10 +836,10 @@ include::code/input_setup.sh[]input_setup.sh]
 
 The following code reads the input pin and writes its value to the output pin.
 
-.input1.c
+.input.c
 [source,c,linenums]
 ----
-include::code/input1.c[input1.c]
+include::code/input.pru0.c[input.pru0.c]
 ----
 
 ==== Discussion
