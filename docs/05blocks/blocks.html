@@ -689,7 +689,7 @@ PRU_DMEM1 <span class="directive">volatile</span> uint32_t shared_3;
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>PRU_SRAM</code> is defined here.  It will be used later to declare variables
 in the <code>Shared RAM</code> location of memory.  Section 5.5.2 on page 75 of the
 <a href="http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf">PRU Optimizing C/C++ Compiler, v2.2, User&#8217;s Guide</a> gives details of the command.  The <code>PRU_SHAREDMEM</code>
-refers to the memory section defined in <code>AM335x_PRU.cmd</code> on line 26.</p></td>
+refers to the memory section defined in <code>am335x_pru.cmd</code> on line 26.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">9, 10</p></td>
@@ -710,7 +710,7 @@ refers to the memory section defined in <code>AM335x_PRU.cmd</code> on line 26.<
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">21, 22</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">These lines are for storing in the <code>.bss</code> section as declared on
-line 74 of <code>AM335x_PRU.cmd</code>.</p></td>
+line 74 of <code>am335x_pru.cmd</code>.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">29-32</p></td>
@@ -938,7 +938,7 @@ when the built-in flash memory is in use.  You can turn this off using:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>bone$ <strong>echo none | sudo tee trigger</strong>
+<pre>bone$ <strong>echo none &gt; trigger</strong>
 bone$ <strong>cat trigger</strong>
 [none] rc-feedback kbd-scrolllock kbd-numlock kbd-capslock kbd-kanalock
 kbd-shiftlock kbd-altgrlock kbd-ctrllock kbd-altlock kbd-shiftllock
@@ -949,21 +949,6 @@ heartbeat backlight gpio cpu0 default-on</pre>
 </div>
 <div class="paragraph">
 <p>Now it is no longer flashing.</p>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Tip</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>You have to have root permissions to write to <code>trigger</code>.  Here we use
-<code>| sudo tee trigger</code> since <code>sudo echo none &gt; trigger</code> doesn&#8217;t do what you want.</p>
-</div>
-</td>
-</tr>
-</table>
 </div>
 <div class="paragraph">
 <p>How can this be automated so when code is run that needs the trigger off, it&#8217;s
@@ -1010,6 +995,7 @@ while read -a line; do
     if [ ${#line[@]} == 2 ]; then
         echo writing \&quot;${line[1]}\&quot; to \&quot;${line[0]}\&quot;
         echo ${line[1]} &gt; ${line[0]}
+        sleep 0.1
     fi
 done &lt;&lt;&lt; &quot;$init_pins&quot;</code></pre>
 </div>
@@ -5498,7 +5484,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-03 20:12:16 -0400
+Last updated 2020-06-03 20:34:49 -0400
 </div>
 </div>
 <style>
