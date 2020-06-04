@@ -3336,7 +3336,7 @@ in chapter 13 of
 <p>Here&#8217;s the code.</p>
 </div>
 <div class="listingblock">
-<div class="title">sine1.c</div>
+<div class="title">sine.pru0.c</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -3503,7 +3503,7 @@ here we show 20 samples, which may be enough. In the code <code>MAXT</code> is s
 <p>There&#8217;s a lot going on here; let&#8217;s take it line by line.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 9. Line-by-line of sine1.c</caption>
+<caption class="title">Table 9. Line-by-line of sine.pru0.c</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 90%;">
@@ -3612,9 +3612,14 @@ which is what you want for the start of the sawtooth.</p>
 <div class="title">Note</div>
 </td>
 <td class="content">
-<div class="paragraph">
-<p>I used a 10K&Omega; variable resistor and a 0.022&mu;F capacitor. (The figure
+<div class="ulist">
+<ul>
+<li>
+<p>TODO - fix figure
+I used a 10K&Omega; variable resistor and a 0.022&mu;F capacitor. (The figure
 has the wrong value.) Probe the circuit between the resistor and the capacitor and adjust the resistor until you get a good looking waveform.</p>
+</li>
+</ul>
 </div>
 </td>
 </tr>
@@ -3693,11 +3698,11 @@ as small as 20.</p>
 </div>
 <div class="paragraph">
 <p>Generating the sine waveform uses floats. This requires much more code.
-You can look in <code>/tmp/pru0-gen/sine1.map</code> to see how much memory is being used.
-<a href="#blocks_sine1_map">/tmp/pru0-gen/sine1.map for Sine Wave</a> shows the first few lines for the sine wave.</p>
+You can look in <code>/tmp/cloud9-examples/sine.pru0.map</code> to see how much memory is being used.
+<a href="#blocks_sine_map">/tmp/cloud9-examples/sine.pru0.map for Sine Wave</a> shows the first few lines for the sine wave.</p>
 </div>
-<div id="blocks_sine1_map" class="listingblock">
-<div class="title">/tmp/pru0-gen/sine1.map for Sine Wave</div>
+<div id="blocks_sine_map" class="listingblock">
+<div class="title">/tmp/cloud9-examples/sine.pru0.map for Sine Wave</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="linenums">******************************************************************************
 PRU Linker Unix v2.1.5
@@ -5691,7 +5696,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-04 16:05:17 -0400
+Last updated 2020-06-04 16:19:44 -0400
 </div>
 </div>
 <style>

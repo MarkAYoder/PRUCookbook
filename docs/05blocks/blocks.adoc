@@ -866,11 +866,11 @@ http://exploringbeaglebone.com/[Exploring BeagleBone by Derek Molloy].
 
 Here's the code.
 
-.sine1.c
+.sine.pru0.c
 [source,c,linenums]
 [subs=+quotes]
 ----
-include::code/sine1.c[since1.c]
+include::code/sine.pru0.c[sine.pru0.c]
 ----
 Set the `#define` at line 7 to the number of samples in one cycle of the waveform 
 and set the `#define` at line 8 to which waveform and then run `make`.
@@ -903,7 +903,7 @@ image::figures/sawtoothsampled.png[Sampled Sawtooth Waveform]
 
 There's a lot going on here; let's take it line by line.
 
-.Line-by-line of sine1.c
+.Line-by-line of sine.pru0.c
 [cols="1,9"]
 |===
 |Line |Explanation
@@ -954,6 +954,8 @@ image::figures/filter_bb.png[Low-Pass Filter Wiring Diagram]
 
 [NOTE]
 ====
+
+* TODO - fix figure
 I used a 10K&Omega; variable resistor and a 0.022&mu;F capacitor. (The figure
 has the wrong value.) Probe the circuit between the resistor and the capacitor and adjust the resistor until you get a good looking waveform.
 ====
@@ -1012,14 +1014,14 @@ image::figures/sine.png[Reconstructed Sinusoid Waveform]
 Notice on the bottom plot the harmonics are much more suppressed.
 
 Generating the sine waveform uses ((floats)). This requires much more code.
-You can look in `/tmp/pru0-gen/sine1.map` to see how much memory is being used.
-<<blocks_sine1_map>> shows the first few lines for the sine wave.
+You can look in `/tmp/cloud9-examples/sine.pru0.map` to see how much memory is being used.
+<<blocks_sine_map>> shows the first few lines for the sine wave.
 
-[[blocks_sine1_map]]
-./tmp/pru0-gen/sine1.map for Sine Wave
+[[blocks_sine_map]]
+./tmp/cloud9-examples/sine.pru0.map for Sine Wave
 [source,linenums]
 ----
-include::code/sine1.map[lines=1..22]
+include::code/sine.map[lines=1..22]
 ----
 
 Notice line 19 shows 0x18c0 bytes are being used for instructions.  That's 6336 
