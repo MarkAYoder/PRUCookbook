@@ -174,7 +174,7 @@ Absolute addr = 0x0100, offset = 0x0000, Len = 16
 [0x0120] 0x00000200 0x3ec71de3 0x1a013e1a 0xbf2a01a0 
 [0x0130] 0x111110b0 0x3f811111 0x55555555 0xbfc55555 
 ----
-There are `shared_0` and `shared_3` in the heap, but where is `shared_6` and
+There are `shared_0` and `shared_4` in the heap, but where is `shared_6` and
 `shared_7`?  They are supposed to be on the ((stack)) that starts at 0.
 
 [source,linenums]
@@ -199,7 +199,7 @@ Absolute addr = 0x2000, offset = 0x0000, Len = 16
 [0x2020] 0x8dec3da3 0xe39a6756 0x642cb8b8 0xcb6952c0 
 [0x2030] 0x2f22ebda 0x548d97c5 0x9241786f 0x72dfeb86 
 ----
-And there is PRU 1's memory. And finally the shared memory.
+And there is PRU 1's memory with `shared_3`. And finally the shared memory.
 
 [source,linenums]
 [subs=+quotes]
