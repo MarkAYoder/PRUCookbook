@@ -1065,11 +1065,11 @@ Test your wiring with the simple code in <<blocks_neo1>>
 which to turns all pixels white.
 
 [[blocks_neo1]]
-.neo1.c - Code to turn all NeoPixels's white
+.neo1.pru0.c - Code to turn all NeoPixels's white
 [source,c,linenums]
 [subs=+quotes]
 ----
-include::code/neo1.c[]
+include::code/neo1.pru0.c[]
 ----
 
 ==== Discussion
@@ -1119,11 +1119,11 @@ Wire your NeoPixels as shown in <<blocks_neo_wiring>> then run the code in
 <<blocks_neo2>>.
 
 [[blocks_neo2]]
-.neo2.c - Code to turn on green, red, blue
+.neo2.pru0.c - Code to turn on green, red, blue
 [source,c,linenums]
 [subs=+quotes]
 ----
-include::code/neo2.c[]
+include::code/neo2.pru0.c[]
 ----
 
 This will make the first LED green, the second red and the third blue.
@@ -1141,10 +1141,10 @@ The usual order for colors is RGB (red, green, blue), but the NeoPixels use
 GRB (green, red, blue).
 ====
 
-<<blocks_neo2_line>> is the line-by-line for `neo2.c`.
+<<blocks_neo2_line>> is the line-by-line for `neo2.pru0.c`.
 
 [[blocks_neo2_line]]
-.Line-by-line for neo2.c
+.Line-by-line for neo2.pru0.c
 [cols="1,9"]
 |====
 |Line |Explanation
@@ -1180,15 +1180,15 @@ running around a ring of blue background.  <<blocks_neo3_video>> shows
 the code in action.
 
 [[blocks_neo3_video]]
-.neo3.c - Simple animation
+.neo3.pru0.c - Simple animation
 video::figures/ring_around.mp4[width=320, end=4]
 
 [[blocks_neo3]]
-.neo3.c - Code to animate a red pixel running around a ring of blue
+.neo3.pru0.c - Code to animate a red pixel running around a ring of blue
 [source,c,linenums]
 [subs=+quotes]
 ----
-include::code/neo3.c[]
+include::code/neo3.pru0.c[]
 ----
 
 ==== Discussion
@@ -1217,29 +1217,28 @@ the PRUs.  It's already included on current images. <<blocks_neo4>> shows
 an example.
 
 [[blocks_neo4]]
-.neo4.c - Code to talk to the PRU via rpmsg_pru
+.neo4.pru0.c - Code to talk to the PRU via rpmsg_pru
 [source,c,linenums]
 [subs=+quotes]
 ----
-include::code/neo4.c[]
+include::code/neo4.pru0.c[]
 ----
 
 Run the code as usual.
 [source,c]
 [subs=+quotes]
 ----
-bone$ *export TARGET=neo4*
-bone$ *make*
+bone$ *make TARGET=neo4.pru0*
+/var/lib/cloud9/common/Makefile:29: MODEL=TI_AM335x_BeagleBone_Black,TARGET=neo4.pru0
 -    Stopping PRU 0
-stop
-CC	neo4.c
-LD	/tmp/pru0-gen/neo4.obj
--	copying firmware file /tmp/pru0-gen/neo4.out to /lib/firmware/am335x-pru0-fw
+-	copying firmware file /tmp/cloud9-examples/neo4.pru0.out to /lib/firmware/am335x-pru0-fw
+write_init_pins.sh
 -    Starting PRU 0
-start
-bone$ *sudo chmod 666 /dev/rpmsg_pru30*
-bone$ *echo 0 0xff 0 127 > /dev/rpmsg_pru30*
-bone$ *echo -1 > /dev/rpmsg_pru30*
+MODEL   = TI_AM335x_BeagleBone_Black
+PROC    = pru
+PRUN    = 0
+PRU_DIR = /sys/class/remoteproc/remoteproc1
+
 ----
 
 `/dev/rpmsg_pru30` is a device driver that lets the ARM talk to the PRU.
@@ -1267,12 +1266,12 @@ is already installed.  This connects this PRU to the driver.
 |69-84|Here are a number of details needed to set up the channel between 
 the PRU and the ARM.
 |87   |Here we wait until the ARM sends us some numbers.
-|91   |Receive all the data from the ARM, store it in `payload[]`.
-|95-103|The data sent is:  index red green blue.  Pull off the index.  If it's 
+|90   |Receive all the data from the ARM, store it in `payload[]`.
+|94-102|The data sent is:  index red green blue.  Pull off the index.  If it's 
 in the right range, pull off the red, green and blue values.
-|105  |The NeoPixels want the data in GRB order.  Shift and OR everything 
+|104  |The NeoPixels want the data in GRB order.  Shift and OR everything 
 together.
-|108-131|If the `index` = -1, send the contents of `color` to the LEDs.  This
+|107-130|If the `index` = -1, send the contents of `color` to the LEDs.  This
 code is same as before.
 |====
 

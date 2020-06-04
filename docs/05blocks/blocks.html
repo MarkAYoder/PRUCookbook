@@ -3775,11 +3775,11 @@ sensesitive, which make the PRU a perfect candidate for driving it.</p>
 <div class="title">Figure 21. NeoPixel Wiring</div>
 </div>
 <div class="paragraph">
-<p>Test your wiring with the simple code in <a href="#blocks_neo1">neo1.c - Code to turn all NeoPixels&#8217;s white</a>
+<p>Test your wiring with the simple code in <a href="#blocks_neo1">neo1.pru0.c - Code to turn all NeoPixels&#8217;s white</a>
 which to turns all pixels white.</p>
 </div>
 <div id="blocks_neo1" class="listingblock">
-<div class="title">neo1.c - Code to turn all NeoPixels&#8217;s white</div>
+<div class="title">neo1.pru0.c - Code to turn all NeoPixels&#8217;s white</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -3922,7 +3922,7 @@ which to turns all pixels white.</p>
 </tbody>
 </table>
 <div class="paragraph">
-<p>The code in <a href="#blocks_neo1">neo1.c - Code to turn all NeoPixels&#8217;s white</a> define these times in lines 7-10.
+<p>The code in <a href="#blocks_neo1">neo1.pru0.c - Code to turn all NeoPixels&#8217;s white</a> define these times in lines 7-10.
 The <code>/5</code> is because
 each instruction take 5ns.  Lines 27-30 then set the output to 1 for
 the desired time and then to 0 and keeps repeating it for the entire
@@ -3958,10 +3958,10 @@ grab the next value for itself and start over again.</p>
 <h4 id="_solution_12"><a class="link" href="#_solution_12">Solution</a></h4>
 <div class="paragraph">
 <p>Wire your NeoPixels as shown in <a href="#blocks_neo_wiring">NeoPixel Wiring</a> then run the code in
-<a href="#blocks_neo2">neo2.c - Code to turn on green, red, blue</a>.</p>
+<a href="#blocks_neo2">neo2.pru0.c - Code to turn on green, red, blue</a>.</p>
 </div>
 <div id="blocks_neo2" class="listingblock">
-<div class="title">neo2.c - Code to turn on green, red, blue</div>
+<div class="title">neo2.pru0.c - Code to turn on green, red, blue</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -4090,10 +4090,10 @@ GRB (green, red, blue).</p>
 </table>
 </div>
 <div class="paragraph">
-<p><a href="#blocks_neo2_line">Line-by-line for neo2.c</a> is the line-by-line for <code>neo2.c</code>.</p>
+<p><a href="#blocks_neo2_line">Line-by-line for neo2.pru0.c</a> is the line-by-line for <code>neo2.pru0.c</code>.</p>
 </div>
 <table id="blocks_neo2_line" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 10. Line-by-line for neo2.c</caption>
+<caption class="title">Table 10. Line-by-line for neo2.pru0.c</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 90%;">
@@ -4169,12 +4169,12 @@ be changed.</p>
 <div class="paragraph">
 <p>You need to keep an array of colors for the whole string in the PRU.  Change
 the color of any pixels you want in the array and then send out the whole
-string to the LEDs.  <a href="#blocks_neo3">neo3.c - Code to animate a red pixel running around a ring of blue</a> shows an example animates a red pixel
-running around a ring of blue background.  <a href="#blocks_neo3_video">neo3.c - Simple animation</a> shows
+string to the LEDs.  <a href="#blocks_neo3">neo3.pru0.c - Code to animate a red pixel running around a ring of blue</a> shows an example animates a red pixel
+running around a ring of blue background.  <a href="#blocks_neo3_video">neo3.pru0.c - Simple animation</a> shows
 the code in action.</p>
 </div>
 <div id="blocks_neo3_video" class="videoblock">
-<div class="title">neo3.c - Simple animation</div>
+<div class="title">neo3.pru0.c - Simple animation</div>
 <div class="content">
 <video src="figures/ring_around.mp4#t=,4" width="320" controls>
 Your browser does not support the video tag.
@@ -4182,7 +4182,7 @@ Your browser does not support the video tag.
 </div>
 </div>
 <div id="blocks_neo3" class="listingblock">
-<div class="title">neo3.c - Code to animate a red pixel running around a ring of blue</div>
+<div class="title">neo3.pru0.c - Code to animate a red pixel running around a ring of blue</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -4377,11 +4377,11 @@ through a <code>/dev</code> interface.</p>
 <div class="paragraph">
 <p>The <a href="https://github.com/beagleboard/linux/raw/4.9/drivers/rpmsg/rpmsg_pru.c">rpmsg_pru</a>
 driver provides a way to pass data between the ARM processor and
-the PRUs.  It&#8217;s already included on current images. <a href="#blocks_neo4">neo4.c - Code to talk to the PRU via rpmsg_pru</a> shows
+the PRUs.  It&#8217;s already included on current images. <a href="#blocks_neo4">neo4.pru0.c - Code to talk to the PRU via rpmsg_pru</a> shows
 an example.</p>
 </div>
 <div id="blocks_neo4" class="listingblock">
-<div class="title">neo4.c - Code to talk to the PRU via rpmsg_pru</div>
+<div class="title">neo4.pru0.c - Code to talk to the PRU via rpmsg_pru</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -4665,18 +4665,16 @@ uint32_t color[STR_LEN];    <span class="comment">// green, red, blue</span>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="c">bone$ <strong>export TARGET=neo4</strong>
-bone$ <strong>make</strong>
+<pre class="CodeRay highlight"><code data-lang="c">bone$ <strong>make TARGET=neo4.pru0</strong>
+/var/lib/cloud9/common/Makefile:<span class="integer">29</span>: MODEL=TI_AM335x_BeagleBone_Black,TARGET=neo4.pru0
 -    Stopping PRU <span class="integer">0</span>
-stop
-CC  neo4.c
-LD  /tmp/pru0-gen/neo4.obj
--   copying firmware file /tmp/pru0-gen/neo4.out to /lib/firmware/am335x-pru0-fw
+-   copying firmware file /tmp/cloud9-examples/neo4.pru0.out to /lib/firmware/am335x-pru0-fw
+write_init_pins.sh
 -    Starting PRU <span class="integer">0</span>
-start
-bone$ <strong>sudo chmod <span class="integer">666</span> /dev/rpmsg_pru30</strong>
-bone$ <strong>echo <span class="integer">0</span> <span class="hex">0xff</span> <span class="integer">0</span> <span class="integer">127</span> &gt; /dev/rpmsg_pru30</strong>
-bone$ <strong>echo -<span class="integer">1</span> &gt; /dev/rpmsg_pru30</strong></code></pre>
+MODEL   = TI_AM335x_BeagleBone_Black
+PROC    = pru
+PRUN    = <span class="integer">0</span>
+PRU_DIR = /sys/class/remoteproc/remoteproc1</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4740,21 +4738,21 @@ the PRU and the ARM.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Here we wait until the ARM sends us some numbers.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">91</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">90</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Receive all the data from the ARM, store it in <code>payload[]</code>.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">95-103</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">94-102</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The data sent is:  index red green blue.  Pull off the index.  If it&#8217;s
 in the right range, pull off the red, green and blue values.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">105</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">104</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The NeoPixels want the data in GRB order.  Shift and OR everything
 together.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">108-131</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">107-130</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If the <code>index</code> = -1, send the contents of <code>color</code> to the LEDs.  This
 code is same as before.</p></td>
 </tr>
@@ -5696,7 +5694,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-04 16:19:44 -0400
+Last updated 2020-06-04 16:51:07 -0400
 </div>
 </div>
 <style>
