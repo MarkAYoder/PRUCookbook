@@ -4,5 +4,6 @@ while read -a line; do
     if [ ${#line[@]} == 2 ]; then
         echo writing \"${line[1]}\" to \"${line[0]}\"
         echo ${line[1]} > ${line[0]}
+        sleep 0.1
     fi
 done <<< "$init_pins"
