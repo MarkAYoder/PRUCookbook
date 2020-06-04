@@ -8,7 +8,8 @@ The following are resources used in this chapter.
 
 .Resources
 * http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler, v2.2, User's Guide]
-* https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]
+* http://www.ti.com/lit/pdf/spruhz6l[AM572x Technical Reference Manual] (AI)
+* http://www.ti.com/lit/pdf/spruh73[AM335x Technical Reference Manual] (All others)
 * http://exploringbeaglebone.com/[Exploring BeagleBone by Derek Molloy]
 * https://cdn-shop.adafruit.com/datasheets/WS2812.pdf[WS2812 Data Sheet]
 
@@ -36,17 +37,17 @@ of these memories variables are stored.
 <<blocks_shared>> shows how to allocate seven variable in six different locations.
 
 [[blocks_shared]]
-.shared.c - Examples of Using Different Memory Locations
+.shared.pro0.c - Examples of Using Different Memory Locations
 [source,c,linenums]
 [subs=+quotes]
 ----
-include::code/shared.c[]
+include::code/shared.pru0.c[]
 ----
 
 ==== Discussion
 Here's the line-by-line
 
-.Line-byline for shared.c
+.Line-byline for shared.pru0.c
 [cols="1,9"]
 |===
 |Line |Explanation
@@ -80,39 +81,45 @@ Compile and run the program.
 [source,linenums]
 [subs=+quotes]
 ----
-bone$ *source shared_setup.sh*
-PRUN=0
-TARGET=shared
+bone$ *source shared_setup.sh* 
+TARGET=shared.pru0
 Black Found
 P9_31
-P9_31 Mode: pruout
+Current mode for P9_31 is:     pruout
+Current mode for P9_31 is:     pruout
 P9_29
-P9_29 Mode: pruout
+Current mode for P9_29 is:     pruout
+Current mode for P9_29 is:     pruout
 P9_30
-P9_30 Mode: pruout
+Current mode for P9_30 is:     pruout
+Current mode for P9_30 is:     pruout
 P9_28
-P9_28 Mode: pruout
+Current mode for P9_28 is:     pruout
+Current mode for P9_28 is:     pruout
 bone$ *make*
+/var/lib/cloud9/common/Makefile:29: MODEL=TI_AM335x_BeagleBone_Black,TARGET=shared.pru0
 -    Stopping PRU 0
-stop
--	copying firmware file /tmp/pru0-gen/shared.out to /lib/firmware/am335x-pru0-fw
+-	copying firmware file /tmp/cloud9-examples/shared.pru0.out to /lib/firmware/am335x-pru0-fw
+write_init_pins.sh
 -    Starting PRU 0
-start
+MODEL   = TI_AM335x_BeagleBone_Black
+PROC    = pru
+PRUN    = 0
+PRU_DIR = /sys/class/remoteproc/remoteproc1
 ----
 
 Now check the ((symbol table)) to see where things are allocated.
 [source,linenums]
 [subs=+quotes]
 ----
-bone $ *grep shared /tmp/pru0-gen/shared.map* 
-OUTPUT FILE NAME:   </tmp/pru0-gen/shared.out>
+bone $ *grep shared /tmp/cloud9-examples/shared.pru0.map* 
 ....
-1     00000000  shared_2                     
-1     00000118  shared_4                     
 1     0000011c  shared_0                     
-1     00000120  shared_5                     
+2     00010000  shared_1                     
+1     00000000  shared_2                     
 1     00002000  shared_3                     
-2     00010000  shared_1              
+1     00000118  shared_4                     
+1     00000120  shared_5                     
 ----
 
 We see, `shared_0` had no directives and was places in the heap that is 0x100

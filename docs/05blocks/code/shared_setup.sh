@@ -1,8 +1,6 @@
 #!/bin/bash
 #
-export PRUN=0
-export TARGET=shared
-echo PRUN=$PRUN
+export TARGET=shared.pru0
 echo TARGET=$TARGET
 
 # Configure the PRU pins based on which Beagle is running

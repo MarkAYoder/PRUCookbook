@@ -485,7 +485,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><a href="http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf">PRU Optimizing C/C++ Compiler, v2.2, User&#8217;s Guide</a></p>
 </li>
 <li>
-<p><a href="https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf">AM335x Technical Reference Manual</a></p>
+<p><a href="http://www.ti.com/lit/pdf/spruhz6l">AM572x Technical Reference Manual</a> (AI)</p>
+</li>
+<li>
+<p><a href="http://www.ti.com/lit/pdf/spruh73">AM335x Technical Reference Manual</a> (All others)</p>
 </li>
 <li>
 <p><a href="http://exploringbeaglebone.com/">Exploring BeagleBone by Derek Molloy</a></p>
@@ -526,10 +529,10 @@ access the shared RAM at 0x0001_0000. The compiler can control where each
 of these memories variables are stored.</p>
 </div>
 <div class="paragraph">
-<p><a href="#blocks_shared">shared.c - Examples of Using Different Memory Locations</a> shows how to allocate seven variable in six different locations.</p>
+<p><a href="#blocks_shared">shared.pro0.c - Examples of Using Different Memory Locations</a> shows how to allocate seven variable in six different locations.</p>
 </div>
 <div id="blocks_shared" class="listingblock">
-<div class="title">shared.c - Examples of Using Different Memory Locations</div>
+<div class="title">shared.pro0.c - Examples of Using Different Memory Locations</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -619,7 +622,7 @@ PRU_DMEM1 <span class="directive">volatile</span> uint32_t shared_3;
 <span class="directive">volatile</span> uint32_t shared_4;
 
 <span class="comment">/</strong> NOTE:  Here we pick where in memory to store shared_5.  The stack and
- *        heap take up the frist 0x200 words, so we must start after that.
+ *        heap take up the first 0x200 words, so we must start after that.
  *        Since we are hardcoding where things are stored we can share
  *        this between the PRUs and the ARM.
 <strong>/</span>
@@ -669,7 +672,7 @@ PRU_DMEM1 <span class="directive">volatile</span> uint32_t shared_3;
 <p>Here&#8217;s the line-by-line</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Line-byline for shared.c</caption>
+<caption class="title">Table 1. Line-byline for shared.pru0.c</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 90%;">
@@ -745,23 +748,30 @@ Be careful, it&#8217;s easy to overwrite what the compiler has done</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="linenums">bone$ <strong>source shared_setup.sh</strong>
-PRUN=0
-TARGET=shared
+TARGET=shared.pru0
 Black Found
 P9_31
-P9_31 Mode: pruout
+Current mode for P9_31 is:     pruout
+Current mode for P9_31 is:     pruout
 P9_29
-P9_29 Mode: pruout
+Current mode for P9_29 is:     pruout
+Current mode for P9_29 is:     pruout
 P9_30
-P9_30 Mode: pruout
+Current mode for P9_30 is:     pruout
+Current mode for P9_30 is:     pruout
 P9_28
-P9_28 Mode: pruout
+Current mode for P9_28 is:     pruout
+Current mode for P9_28 is:     pruout
 bone$ <strong>make</strong>
+/var/lib/cloud9/common/Makefile:29: MODEL=TI_AM335x_BeagleBone_Black,TARGET=shared.pru0
 -    Stopping PRU 0
-stop
--   copying firmware file /tmp/pru0-gen/shared.out to /lib/firmware/am335x-pru0-fw
+-   copying firmware file /tmp/cloud9-examples/shared.pru0.out to /lib/firmware/am335x-pru0-fw
+write_init_pins.sh
 -    Starting PRU 0
-start</code></pre>
+MODEL   = TI_AM335x_BeagleBone_Black
+PROC    = pru
+PRUN    = 0
+PRU_DIR = /sys/class/remoteproc/remoteproc1</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -769,15 +779,14 @@ start</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="linenums">bone $ <strong>grep shared /tmp/pru0-gen/shared.map</strong>
-OUTPUT FILE NAME:   &lt;/tmp/pru0-gen/shared.out&gt;
+<pre class="CodeRay highlight"><code data-lang="linenums">bone $ <strong>grep shared /tmp/cloud9-examples/shared.pru0.map</strong>
 ....
-1     00000000  shared_2
-1     00000118  shared_4
 1     0000011c  shared_0
-1     00000120  shared_5
+2     00010000  shared_1
+1     00000000  shared_2
 1     00002000  shared_3
-2     00010000  shared_1</code></pre>
+1     00000118  shared_4
+1     00000120  shared_5</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1080,8 +1089,6 @@ for details on making it work.</p>
 22
 23
 24
-25
-26
 </pre></td>
   <td class="code"><pre><span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
@@ -1095,12 +1102,10 @@ for details on making it work.</p>
 
 <span class="directive">void</span> main(<span class="directive">void</span>)
 {
-    uint32_t gpio;
+    uint32_t gpio = P9_30;  <span class="comment">// Select which pin to toggle.;</span>
 
     <span class="comment">/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */</span>
     CT_CFG.SYSCFG_bit.STANDBY_INIT = <span class="integer">0</span>;
-
-    gpio = P9_14;   <span class="comment">// Select which pin to toggle.</span>
 
     <span class="keyword">while</span> (<span class="integer">1</span>) {
         __R30 |= gpio;      <span class="comment">// Set the GPIO pin to 1</span>
@@ -5493,7 +5498,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-07-17 17:00:49 -0400
+Last updated 2020-06-03 20:12:16 -0400
 </div>
 </div>
 <style>
