@@ -5,6 +5,8 @@
 #include <pru_cfg.h>
 #include "resource_table_empty.h"
 
+#define PRUNUM 1
+
 #define PRU0_DRAM		0x00000			// Offset to DRAM
 // Skip the first 0x200 byte of DRAM since the Makefile allocates
 // 0x100 for the STACK and 0x100 for the HEAP.
@@ -40,10 +42,10 @@ void main(void)
 
 #pragma UNROLL(MAXCH)
 	for(ch=0; ch<MAXCH; ch++) {
-		pru0_dram[2*ch  ] = on [ch+PRUN*MAXCH];	// Copy to DRAM0 so the ARM can change it
-		pru0_dram[2*ch+1] = off[ch+PRUN*MAXCH];	// Interleave the on and off values
-		onCount[ch] = on [ch+PRUN*MAXCH];
-		offCount[ch]= off[ch+PRUN*MAXCH];
+		pru0_dram[2*ch  ] = on [ch+PRUNUM*MAXCH];	// Copy to DRAM0 so the ARM can change it
+		pru0_dram[2*ch+1] = off[ch+PRUNUM*MAXCH];	// Interleave the on and off values
+		onCount[ch] = on [ch+PRUNUM*MAXCH];
+		offCount[ch]= off[ch+PRUNUM*MAXCH];
 	}
 	Rtmp = __R30;
 

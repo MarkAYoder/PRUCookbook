@@ -474,14 +474,14 @@ You can read more about instrinsics in section 5.11 of the (http://www.ti.com/li
 When you run this code and look at the output you will see something like the following figure.
 
 .Output of pwm1.pru0.c with 100,000,000 delays cycles giving a 1s period
-image::figures/pwm1.png[pwm1.c output]
+image::figures/pwm1.png[pwm1.pru0.c output]
 
 Notice the on time (`+Width(1)`) is 500ms, just as we predicted.  The off time is 498ms, which is only 2ms off from our prediction.  The standard deviation is 0, or only 380as, which is 380 * 10^-18^!.
 
 You can see how fast the PRU can run by setting both of the `pass:[__]delay_cycles` to 0. This results in the next figure.
 
-.Output of pwm1.c with 0 delay cycles
-image::figures/pwm2.png[pwm1.c output with 0 delay]
+.Output of pwm1.pru0c with 0 delay cycles
+image::figures/pwm2.png[pwm1.pru0.c output with 0 delay]
 
 Notice the period is 15ns which gives us a frequency of about 67MHz. At this high frequency the breadboard that I'm using distorts the waveform so it's no longer a squarewave. The _on_ time is 5.3ns and the _off_ time is 9.8ns.  That means `pass:[__]R30 |= gpio` took only one 5ns cycle and `pass:[__]R30 &= ~gpio` also only took one cycle, but there is also an extra cycle needed for the loop.  This means the compiler was able to implement the `while` loop in just three 5ns instructions!  Not bad.
 
@@ -489,15 +489,15 @@ We want a square wave, so we need to add a delay to correct for the delay of loo
 
 Here's the code that does just that.
 
-.pwm2.c
+.pwm2.pru0.c
 [source,c,linenums] 
 ----
-include::code/pwm2.c[]
+include::code/pwm2.pru0.c[]
 ----
 
 The output now looks like:
 
-.Output of pwm2.c corrected delay
+.Output of pwm2.pru0.c corrected delay
 image::figures/pwm3.png[pwm2.c corrected delay]
 
 It's not hard to adjust the two `pass:[__]delay_cycles` to get the desired frequency and duty cycle.
@@ -545,10 +545,10 @@ to read from the DRAM when reseting the counters.  Now, while the PRU is running
 the PWM on and off times.  <<blocks_pwm4>> is the whole code.
 
 [[blocks_pwm4]]
-.pwm4.c
+.pwm4.pru0.c
 [source,c,linenums] 
 ----
-include::code/pwm4.c[pwm4.c]
+include::code/pwm4.pru0.c[pwm4.pru0.c]
 ----
 Here is code that runs on the ARM side to set the on and off time values.
 
@@ -565,7 +565,7 @@ A quick check on the 'scope shows <<blocks_pwm_arm_control>>.
 image::figures/pwm4.png[pwm4.png]
 
 From the 'scope you see a 1 cycle _on_ time results in a 450ns wide pulse and
-a 3.06us period is .326KHz  Much
+a 3.06us period is 326KHz, much
 slower than the 10ns pulse we saw before.  But it may be more than fast enough
 for many applications.  For example, most servos run at 50Hz.
 
@@ -576,25 +576,25 @@ But we can do better.
 The ARM controlled PRU code runs too slowly.
 
 ==== Solution
-Simple loop unrolling can greatly improve the speed.  `pwm5.c` is our unrolled
+Simple loop unrolling can greatly improve the speed.  `pwm5.pru0.c` is our unrolled
 version.
 
-.pwm5.c Unrolled
+.pwm5.pru0.c Unrolled
 [source,c,linenums]
 ----
-include::code/pwm5.c[pwm5.c]
+include::code/pwm5.pru0.c[pwm5.pru0.c]
 ----
 
-The output of `pwm5.c` is in the figure below.
+The output of `pwm5.pru0.c` is in the figure below.
 
-.pwm5.c Unrolled version of pwm4.c
-image::figures/pwm5_no_loop.png[pwm5.c Unrolled version of pwm4.c]
+.pwm5.pru0.c Unrolled version of pwm4.pru0.c
+image::figures/pwm5_no_loop.png[pwm5.pru0.c Unrolled version of pwm4.pru0.c]
 
-It's running about 6 times faster than `pwm4.c`.
+It's running about 6 times faster than `pwm4.pru0.c`.
 
-.pwm4.c vs. pwm5.c
+.pwm4.pru0.c vs. pwm5.pru0.c
 |===
-|Measure|pwm4.c time|pwm5.c time|Speedup|pwm5.c w/o UNROLL|Speedup
+|Measure|pwm4.pru0.c time|pwm5.pru0.c time|Speedup|pwm5.pru0.c w/o UNROLL|Speedup
 
 |Period|3.06&mu;s   |510ns      |6x     |1.81&mu;s      |~1.7x
 |Width+|450ns       |70ns       |~6x    |1.56&mu;s      |~.3x
@@ -607,7 +607,7 @@ Here's how it works.
 First look at line 39.  You see `#pragma UNROLL(MAXCH)` which is a `pragma`
 that tells the compiler to unroll the loop that follows.  We are unrolling it
 `MAXCH` times (four times in this example). Just removing the `pragma` causes
-the speedup compared to the `pwm4.c` case to drop from 6x to only 1.7x.  
+the speedup compared to the `pwm4.pru0.c` case to drop from 6x to only 1.7x.  
 
 We also have our `for` loop inside the `while` loop that can be unrolled.
 Unfortunately `UNROLL()` doesn't work on it, therefore we have to do it by
@@ -629,15 +629,15 @@ they don't all start at the same time.
 it.
 
 [[blocks_zoomed]]
-.pwm5 Zoomed In 
-image::figures/pwm5_zoomed.png[pwm5 zoomed.png]
+.pwm5.pru0 Zoomed In 
+image::figures/pwm5_zoomed.png[pwm5.pru0 zoomed.png]
 
 The solution is to declare `Rtmp` (line 35) which holds the value for `pass:[__]R30`.
 
-.pwm6.c Sync'ed Version of pwm5.c 
+.pwm6.pru0.c Sync'ed Version of pwm5.pru0.c 
 [source,c,linenums]
 ----
-include::code/pwm6.c[pwm6.c Sync'ed Version of pwm5.c]
+include::code/pwm6.pru0.c[pwm6.pru0.c Sync'ed Version of pwm5.pru0.c]
 ----
 
 Each channel writes it's value to `Rtmp` (lines 17 and 20) and then after
@@ -647,8 +647,8 @@ each channel has updated, `Rtmp` is copied to `pass:[__]R30` (line 54).
 The following figure shows the channel are sync'ed. Though the period is slightly
 longer than before.
 
-.pwm6 Synchronized Channels
-image::figures/pwm6_synced.png[pwm6 Synchronized Channels]
+.pwm6.pru0 Synchronized Channels
+image::figures/pwm6_synced.png[pwm6.pru0 Synchronized Channels]
 
 
 === Adding More Channels via PRU 1
@@ -668,15 +668,15 @@ you add a channel, the overall period gets longer.  Twice as many channels
 means twice as long a period.  If you move half the channels to PRU 1, you
 will make the period half as long.
 
-Here's the code (`pwm7.c`)
+Here's the code (`pwm7.pru0.c`)
 
-.pwm7.c Using Both PRUs
+.pwm7.pru0.c Using Both PRUs
 [source,c,linenums]
 ----
-include::code/pwm7.c[pwm7.c Using Both PRUs]
+include::code/pwm7.pru0.c[pwm7.pru0.c Using Both PRUs]
 ----
 
-Be sure to run `pwm7_setup.sh` to get the coffect pins configured.
+Be sure to run `pwm7_setup.sh` to get the correct pins configured.
 
 .pwm7_setup.sh
 ----
@@ -684,25 +684,32 @@ include::code/pwm7_setup.sh[pw7_setup.sh]
 ----
 This makes sure the PRU 1 pins are properly configured.
 
-Then compile and run with
+Here we have a second `pwm7` file. `pwm7.pru1.c` is identical to `pwm7.pru0.c`
+except `PRUNUM` is set to 1, instead of 0.
+
+Compile and run the two files with:
 [source]
 [subs=+quotes]
 ----
-bone$ *make PRUN=0; make PRUN=1*
+bone$ *make TARGET=pwm7.pru0; make TARGET=pwm7.pru1*
+/var/lib/cloud9/common/Makefile:29: MODEL=TI_AM335x_BeagleBone_Black,TARGET=pwm7.pru0
 -    Stopping PRU 0
-stop
-CC	pwm7.c
-LD	/tmp/pru0-gen/pwm7.obj
--	copying firmware file /tmp/pru0-gen/pwm7.out to /lib/firmware/am335x-pru0-fw
+-	copying firmware file /tmp/cloud9-examples/pwm7.pru0.out to /lib/firmware/am335x-pru0-fw
+write_init_pins.sh
 -    Starting PRU 0
-start
+MODEL   = TI_AM335x_BeagleBone_Black
+PROC    = pru
+PRUN    = 0
+PRU_DIR = /sys/class/remoteproc/remoteproc1
+/var/lib/cloud9/common/Makefile:29: MODEL=TI_AM335x_BeagleBone_Black,TARGET=pwm7.pru1
 -    Stopping PRU 1
-stop
-CC	pwm7.c
-LD	/tmp/pru1-gen/pwm7.obj
--	copying firmware file /tmp/pru1-gen/pwm7.out to /lib/firmware/am335x-pru1-fw
+-	copying firmware file /tmp/cloud9-examples/pwm7.pru1.out to /lib/firmware/am335x-pru1-fw
+write_init_pins.sh
 -    Starting PRU 1
-start
+MODEL   = TI_AM335x_BeagleBone_Black
+PROC    = pru
+PRUN    = 1
+PRU_DIR = /sys/class/remoteproc/remoteproc2
 ----
 This will first stop, compile and start PRU 0, then do the same for PRU 1.
 
@@ -710,17 +717,16 @@ Moving half of the channels to PRU1 dropped the period from 510ns to 370ns, so
 we gained a bit.
 
 ==== Discussion
-There weren't many changes to be made.  Line 13 we set MAXCH to 2. Lines 43-46
+There weren't many changes to be made.  Line 15 we set MAXCH to 2. Lines 44-48
 is where the big change is.
 [source,c]
 ----
-		pru0_dram[2*ch  ] = on [ch+PRUN*MAXCH];	// Copy to DRAM0 so the ARM can change it
-		pru0_dram[2*ch+1] = off[ch+PRUN*MAXCH];	// Interleave the on and off values
-		onCount[ch] = on [ch+PRUN*MAXCH];
-		offCount[ch]= off[ch+PRUN*MAXCH];
+		pru0_dram[2*ch  ] = on [ch+PRUNUN*MAXCH];	// Copy to DRAM0 so the ARM can change it
+		pru0_dram[2*ch+1] = off[ch+PRUNUN*MAXCH];	// Interleave the on and off values
+		onCount[ch] = on [ch+PRUNUN*MAXCH];
+		offCount[ch]= off[ch+PRUNUN*MAXCH];
 ----
-The `Makefile` sets `PRUN` to be the number of the PRU we are compiling for.  If 
-we are compiling for PRU 0, `on[ch+PRUN*MAXCH]` becomes `on[ch+0*2]` which is
+If we are compiling for PRU 0, `on[ch+PRUNUN*MAXCH]` becomes `on[ch+0*2]` which is
 `on[ch]` which is what we had before.  But now if we are on PRU 1 it becomes
 `on[ch+1*2]` which is `on[ch+2]`.  That means we are picking up the second 
 half of the `on` and `off` arrays.  The first half goes to PRU 0, the second to
@@ -729,13 +735,13 @@ behavior.
 
 Running the code you will see the next figure.
 
-.pwm7 Two PRUs running
-image::figures/pwm7_two_prus_running.png[pwm7 Two PRUs running]
+.pwm7.pru0 Two PRUs running
+image::figures/pwm7_two_prus_running.png[pwm7.pru0 Two PRUs running]
 
 What's going on there, the first channels look fine, but the PRU 1 channels
 are blurred.  To see what's happening, let's stop the oscilloscope.
 
-.pwm7 Two PRUs stopped
+.pwm7.pru0 Two PRUs stopped
 image::figures/pwm7_two_prus_stopped.png[pwm7 Two PRUs stopped]
 
 The stopped display shows that the four channels are doing what we wanted, except 
@@ -775,7 +781,7 @@ image::figures/pwm8_prus_sycned.png[pwm8 PRUs sycned]
 
 This isn't much different from the previous examples.
 
-.pwm8.c changes from pwm7.c 
+.pwm8.c changes from pwm7.pru0.c 
 [cols="1,9"]
 |===
 |Line|Change

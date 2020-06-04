@@ -1092,11 +1092,10 @@ for details on making it work.</p>
     <span class="keyword">while</span> (<span class="integer">1</span>) {
         __R30 |= gpio;      <span class="comment">// Set the GPIO pin to 1</span>
         __delay_cycles(<span class="integer">100000000</span>);
-        __R30 &amp;= ~gpio;     <span class="comment">// Clearn the GPIO pin</span>
+        __R30 &amp;= ~gpio;     <span class="comment">// Clear the GPIO pin</span>
         __delay_cycles(<span class="integer">100000000</span>);
     }
-}
-</pre></td>
+}</pre></td>
 </tr></table></code></pre>
 </div>
 </div>
@@ -1637,9 +1636,9 @@ we&#8217;ll be toggling <code>P9_31</code>.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="figures/pwm1.png" alt="pwm1.c output">
+<img src="figures/pwm1.png" alt="pwm1.pru0.c output">
 </div>
-<div class="title">Figure 2. Output of pwm1.c with 100,000,000 delays cycles giving a 1s period</div>
+<div class="title">Figure 2. Output of pwm1.pru0.c with 100,000,000 delays cycles giving a 1s period</div>
 </div>
 <div class="paragraph">
 <p>Notice the on time (<code>+Width(1)</code>) is 500ms, just as we predicted.  The off time is 498ms, which is only 2ms off from our prediction.  The standard deviation is 0, or only 380as, which is 380 * 10<sup>-18</sup>!.</p>
@@ -1649,9 +1648,9 @@ we&#8217;ll be toggling <code>P9_31</code>.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="figures/pwm2.png" alt="pwm1.c output with 0 delay">
+<img src="figures/pwm2.png" alt="pwm1.pru0.c output with 0 delay">
 </div>
-<div class="title">Figure 3. Output of pwm1.c with 0 delay cycles</div>
+<div class="title">Figure 3. Output of pwm1.pru0c with 0 delay cycles</div>
 </div>
 <div class="paragraph">
 <p>Notice the period is 15ns which gives us a frequency of about 67MHz. At this high frequency the breadboard that I&#8217;m using distorts the waveform so it&#8217;s no longer a squarewave. The <em>on</em> time is 5.3ns and the <em>off</em> time is 9.8ns.  That means <code>__R30 |= gpio</code> took only one 5ns cycle and <code>__R30 &amp;= ~gpio</code> also only took one cycle, but there is also an extra cycle needed for the loop.  This means the compiler was able to implement the <code>while</code> loop in just three 5ns instructions!  Not bad.</p>
@@ -1663,7 +1662,7 @@ we&#8217;ll be toggling <code>P9_31</code>.</p>
 <p>Here&#8217;s the code that does just that.</p>
 </div>
 <div class="listingblock">
-<div class="title">pwm2.c</div>
+<div class="title">pwm2.pru0.c</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -1688,23 +1687,21 @@ we&#8217;ll be toggling <code>P9_31</code>.</p>
 20
 21
 22
-23
 </pre></td>
   <td class="code"><pre><span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;prugpio.h&quot;</span>
 
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t __R30;
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t __R31;
 
 <span class="directive">void</span> main(<span class="directive">void</span>)
 {
-    uint32_t gpio;
+    uint32_t gpio = P9_31;  <span class="comment">// Select which pin to toggle.;</span>
 
     <span class="comment">/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */</span>
     CT_CFG.SYSCFG_bit.STANDBY_INIT = <span class="integer">0</span>;
-
-    gpio = <span class="hex">0x0001</span>;  <span class="comment">// Select which pin to toggle.</span>
 
     <span class="keyword">while</span> (<span class="integer">1</span>) {
         __R30 |= gpio;      <span class="comment">// Set the GPIO pin to 1</span>
@@ -1712,8 +1709,7 @@ we&#8217;ll be toggling <code>P9_31</code>.</p>
         __R30 &amp;= ~gpio;     <span class="comment">// Clear the GPIO pin</span>
         __delay_cycles(<span class="integer">0</span>);
     }
-}
-</pre></td>
+}</pre></td>
 </tr></table></code></pre>
 </div>
 </div>
@@ -1724,7 +1720,7 @@ we&#8217;ll be toggling <code>P9_31</code>.</p>
 <div class="content">
 <img src="figures/pwm3.png" alt="pwm2.c corrected delay">
 </div>
-<div class="title">Figure 4. Output of pwm2.c corrected delay</div>
+<div class="title">Figure 4. Output of pwm2.pru0.c corrected delay</div>
 </div>
 <div class="paragraph">
 <p>It&#8217;s not hard to adjust the two <code>__delay_cycles</code> to get the desired frequency and duty cycle.</p>
@@ -1825,10 +1821,10 @@ points to may change, so don&#8217;t make any assumptions while optimizing.</p>
 </div>
 <div class="paragraph">
 <p>to read from the DRAM when reseting the counters.  Now, while the PRU is running, the ARM can write values into the DRAM and change
-the PWM on and off times.  <a href="#blocks_pwm4">pwm4.c</a> is the whole code.</p>
+the PWM on and off times.  <a href="#blocks_pwm4">pwm4.pru0.c</a> is the whole code.</p>
 </div>
 <div id="blocks_pwm4" class="listingblock">
-<div class="title">pwm4.c</div>
+<div class="title">pwm4.pru0.c</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -2104,7 +2100,7 @@ the PWM on and off times.  <a href="#blocks_pwm4">pwm4.c</a> is the whole code.<
 </div>
 <div class="paragraph">
 <p>From the 'scope you see a 1 cycle <em>on</em> time results in a 450ns wide pulse and
-a 3.06us period is .326KHz  Much
+a 3.06us period is 326KHz, much
 slower than the 10ns pulse we saw before.  But it may be more than fast enough
 for many applications.  For example, most servos run at 50Hz.</p>
 </div>
@@ -2124,11 +2120,11 @@ for many applications.  For example, most servos run at 50Hz.</p>
 <div class="sect3">
 <h4 id="_solution_5"><a class="link" href="#_solution_5">Solution</a></h4>
 <div class="paragraph">
-<p>Simple loop unrolling can greatly improve the speed.  <code>pwm5.c</code> is our unrolled
+<p>Simple loop unrolling can greatly improve the speed.  <code>pwm5.pru0.c</code> is our unrolled
 version.</p>
 </div>
 <div class="listingblock">
-<div class="title">pwm5.c Unrolled</div>
+<div class="title">pwm5.pru0.c Unrolled</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -2242,19 +2238,19 @@ version.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>The output of <code>pwm5.c</code> is in the figure below.</p>
+<p>The output of <code>pwm5.pru0.c</code> is in the figure below.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="figures/pwm5_no_loop.png" alt="pwm5.c Unrolled version of pwm4.c">
+<img src="figures/pwm5_no_loop.png" alt="pwm5.pru0.c Unrolled version of pwm4.pru0.c">
 </div>
-<div class="title">Figure 6. pwm5.c Unrolled version of pwm4.c</div>
+<div class="title">Figure 6. pwm5.pru0.c Unrolled version of pwm4.pru0.c</div>
 </div>
 <div class="paragraph">
-<p>It&#8217;s running about 6 times faster than <code>pwm4.c</code>.</p>
+<p>It&#8217;s running about 6 times faster than <code>pwm4.pru0.c</code>.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. pwm4.c vs. pwm5.c</caption>
+<caption class="title">Table 6. pwm4.pru0.c vs. pwm5.pru0.c</caption>
 <colgroup>
 <col style="width: 16.6666%;">
 <col style="width: 16.6666%;">
@@ -2266,10 +2262,10 @@ version.</p>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Measure</th>
-<th class="tableblock halign-left valign-top">pwm4.c time</th>
-<th class="tableblock halign-left valign-top">pwm5.c time</th>
+<th class="tableblock halign-left valign-top">pwm4.pru0.c time</th>
+<th class="tableblock halign-left valign-top">pwm5.pru0.c time</th>
 <th class="tableblock halign-left valign-top">Speedup</th>
-<th class="tableblock halign-left valign-top">pwm5.c w/o UNROLL</th>
+<th class="tableblock halign-left valign-top">pwm5.pru0.c w/o UNROLL</th>
 <th class="tableblock halign-left valign-top">Speedup</th>
 </tr>
 </thead>
@@ -2303,7 +2299,7 @@ version.</p>
 First look at line 39.  You see <code>#pragma UNROLL(MAXCH)</code> which is a <code>pragma</code>
 that tells the compiler to unroll the loop that follows.  We are unrolling it
 <code>MAXCH</code> times (four times in this example). Just removing the <code>pragma</code> causes
-the speedup compared to the <code>pwm4.c</code> case to drop from 6x to only 1.7x.</p>
+the speedup compared to the <code>pwm4.pru0.c</code> case to drop from 6x to only 1.7x.</p>
 </div>
 <div class="paragraph">
 <p>We also have our <code>for</code> loop inside the <code>while</code> loop that can be unrolled.
@@ -2331,20 +2327,20 @@ they don&#8217;t all start at the same time.</p>
 <div class="sect3">
 <h4 id="_solution_6"><a class="link" href="#_solution_6">Solution</a></h4>
 <div class="paragraph">
-<p><a href="#blocks_zoomed">pwm5 Zoomed In</a> is a zoomed in version of the previous figure. Notice the pulse in each channel starts about 15ns later than the channel above
+<p><a href="#blocks_zoomed">pwm5.pru0 Zoomed In</a> is a zoomed in version of the previous figure. Notice the pulse in each channel starts about 15ns later than the channel above
 it.</p>
 </div>
 <div id="blocks_zoomed" class="imageblock">
 <div class="content">
-<img src="figures/pwm5_zoomed.png" alt="pwm5 zoomed.png">
+<img src="figures/pwm5_zoomed.png" alt="pwm5.pru0 zoomed.png">
 </div>
-<div class="title">Figure 7. pwm5 Zoomed In</div>
+<div class="title">Figure 7. pwm5.pru0 Zoomed In</div>
 </div>
 <div class="paragraph">
 <p>The solution is to declare <code>Rtmp</code> (line 35) which holds the value for <code>__R30</code>.</p>
 </div>
 <div class="listingblock">
-<div class="title">pwm6.c Sync&#8217;ed Version of pwm5.c</div>
+<div class="title">pwm6.pru0.c Sync&#8217;ed Version of pwm5.pru0.c</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -2476,9 +2472,9 @@ longer than before.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="figures/pwm6_synced.png" alt="pwm6 Synchronized Channels">
+<img src="figures/pwm6_synced.png" alt="pwm6.pru0 Synchronized Channels">
 </div>
-<div class="title">Figure 8. pwm6 Synchronized Channels</div>
+<div class="title">Figure 8. pwm6.pru0 Synchronized Channels</div>
 </div>
 </div>
 </div>
@@ -2508,10 +2504,10 @@ means twice as long a period.  If you move half the channels to PRU 1, you
 will make the period half as long.</p>
 </div>
 <div class="paragraph">
-<p>Here&#8217;s the code (<code>pwm7.c</code>)</p>
+<p>Here&#8217;s the code (<code>pwm7.pru0.c</code>)</p>
 </div>
 <div class="listingblock">
-<div class="title">pwm7.c Using Both PRUs</div>
+<div class="title">pwm7.pru0.c Using Both PRUs</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -2569,6 +2565,8 @@ will make the period half as long.</p>
 53
 54
 55
+56
+57
 </pre></td>
   <td class="code"><pre><span class="comment">// This code does MAXCH parallel PWM channels on both PRU 0 and PRU 1</span>
 <span class="comment">// All channels start at the same time. But the PRU 1 ch have a difference period</span>
@@ -2576,6 +2574,8 @@ will make the period half as long.</p>
 <span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
+
+<span class="preprocessor">#define</span> PRUNUM <span class="integer">0</span>
 
 <span class="preprocessor">#define</span> PRU0_DRAM       <span class="hex">0x00000</span>         <span class="comment">// Offset to DRAM</span>
 <span class="comment">// Skip the first 0x200 byte of DRAM since the Makefile allocates</span>
@@ -2612,10 +2612,10 @@ will make the period half as long.</p>
 
 <span class="preprocessor">#pragma</span> UNROLL(MAXCH)
     <span class="keyword">for</span>(ch=<span class="integer">0</span>; ch&lt;MAXCH; ch++) {
-        pru0_dram[<span class="integer">2</span>*ch  ] = on [ch+PRUN*MAXCH]; <span class="comment">// Copy to DRAM0 so the ARM can change it</span>
-        pru0_dram[<span class="integer">2</span>*ch+<span class="integer">1</span>] = off[ch+PRUN*MAXCH]; <span class="comment">// Interleave the on and off values</span>
-        onCount[ch] = on [ch+PRUN*MAXCH];
-        offCount[ch]= off[ch+PRUN*MAXCH];
+        pru0_dram[<span class="integer">2</span>*ch  ] = on [ch+PRUNUM*MAXCH];   <span class="comment">// Copy to DRAM0 so the ARM can change it</span>
+        pru0_dram[<span class="integer">2</span>*ch+<span class="integer">1</span>] = off[ch+PRUNUM*MAXCH];   <span class="comment">// Interleave the on and off values</span>
+        onCount[ch] = on [ch+PRUNUM*MAXCH];
+        offCount[ch]= off[ch+PRUNUM*MAXCH];
     }
     Rtmp = __R30;
 
@@ -2629,16 +2629,14 @@ will make the period half as long.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Be sure to run <code>pwm7_setup.sh</code> to get the coffect pins configured.</p>
+<p>Be sure to run <code>pwm7_setup.sh</code> to get the correct pins configured.</p>
 </div>
 <div class="listingblock">
 <div class="title">pwm7_setup.sh</div>
 <div class="content">
 <pre>#!/bin/bash
 #
-export PRUN=0
-export TARGET=pwm7
-echo PRUN=$PRUN
+export TARGET=pwm7.pru0
 echo TARGET=$TARGET
 
 # Configure the PRU pins based on which Beagle is running
@@ -2670,25 +2668,33 @@ done</pre>
 <p>This makes sure the PRU 1 pins are properly configured.</p>
 </div>
 <div class="paragraph">
-<p>Then compile and run with</p>
+<p>Here we have a second <code>pwm7</code> file. <code>pwm7.pru1.c</code> is identical to <code>pwm7.pru0.c</code>
+except <code>PRUNUM</code> is set to 1, instead of 0.</p>
+</div>
+<div class="paragraph">
+<p>Compile and run the two files with:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>bone$ <strong>make PRUN=0; make PRUN=1</strong>
+<pre class="CodeRay highlight"><code>bone$ <strong>make TARGET=pwm7.pru0; make TARGET=pwm7.pru1</strong>
+/var/lib/cloud9/common/Makefile:29: MODEL=TI_AM335x_BeagleBone_Black,TARGET=pwm7.pru0
 -    Stopping PRU 0
-stop
-CC  pwm7.c
-LD  /tmp/pru0-gen/pwm7.obj
--   copying firmware file /tmp/pru0-gen/pwm7.out to /lib/firmware/am335x-pru0-fw
+-   copying firmware file /tmp/cloud9-examples/pwm7.pru0.out to /lib/firmware/am335x-pru0-fw
+write_init_pins.sh
 -    Starting PRU 0
-start
+MODEL   = TI_AM335x_BeagleBone_Black
+PROC    = pru
+PRUN    = 0
+PRU_DIR = /sys/class/remoteproc/remoteproc1
+/var/lib/cloud9/common/Makefile:29: MODEL=TI_AM335x_BeagleBone_Black,TARGET=pwm7.pru1
 -    Stopping PRU 1
-stop
-CC  pwm7.c
-LD  /tmp/pru1-gen/pwm7.obj
--   copying firmware file /tmp/pru1-gen/pwm7.out to /lib/firmware/am335x-pru1-fw
+-   copying firmware file /tmp/cloud9-examples/pwm7.pru1.out to /lib/firmware/am335x-pru1-fw
+write_init_pins.sh
 -    Starting PRU 1
-start</code></pre>
+MODEL   = TI_AM335x_BeagleBone_Black
+PROC    = pru
+PRUN    = 1
+PRU_DIR = /sys/class/remoteproc/remoteproc2</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2707,15 +2713,14 @@ is where the big change is.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="c">        pru0_dram[<span class="integer">2</span>*ch  ] = on [ch+PRUN*MAXCH]; <span class="comment">// Copy to DRAM0 so the ARM can change it</span>
-        pru0_dram[<span class="integer">2</span>*ch+<span class="integer">1</span>] = off[ch+PRUN*MAXCH]; <span class="comment">// Interleave the on and off values</span>
-        onCount[ch] = on [ch+PRUN*MAXCH];
-        offCount[ch]= off[ch+PRUN*MAXCH];</code></pre>
+<pre class="CodeRay highlight"><code data-lang="c">        pru0_dram[<span class="integer">2</span>*ch  ] = on [ch+PRUNUN*MAXCH];   <span class="comment">// Copy to DRAM0 so the ARM can change it</span>
+        pru0_dram[<span class="integer">2</span>*ch+<span class="integer">1</span>] = off[ch+PRUNUN*MAXCH];   <span class="comment">// Interleave the on and off values</span>
+        onCount[ch] = on [ch+PRUNUN*MAXCH];
+        offCount[ch]= off[ch+PRUNUN*MAXCH];</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The <code>Makefile</code> sets <code>PRUN</code> to be the number of the PRU we are compiling for.  If
-we are compiling for PRU 0, <code>on[ch+PRUN*MAXCH]</code> becomes <code>on[ch+0*2]</code> which is
+<p>If we are compiling for PRU 0, <code>on[ch+PRUNUN*MAXCH]</code> becomes <code>on[ch+0*2]</code> which is
 <code>on[ch]</code> which is what we had before.  But now if we are on PRU 1 it becomes
 <code>on[ch+1*2]</code> which is <code>on[ch+2]</code>.  That means we are picking up the second
 half of the <code>on</code> and <code>off</code> arrays.  The first half goes to PRU 0, the second to
@@ -2727,9 +2732,9 @@ behavior.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="figures/pwm7_two_prus_running.png" alt="pwm7 Two PRUs running">
+<img src="figures/pwm7_two_prus_running.png" alt="pwm7.pru0 Two PRUs running">
 </div>
-<div class="title">Figure 9. pwm7 Two PRUs running</div>
+<div class="title">Figure 9. pwm7.pru0 Two PRUs running</div>
 </div>
 <div class="paragraph">
 <p>What&#8217;s going on there, the first channels look fine, but the PRU 1 channels
@@ -2739,7 +2744,7 @@ are blurred.  To see what&#8217;s happening, let&#8217;s stop the oscilloscope.<
 <div class="content">
 <img src="figures/pwm7_two_prus_stopped.png" alt="pwm7 Two PRUs stopped">
 </div>
-<div class="title">Figure 10. pwm7 Two PRUs stopped</div>
+<div class="title">Figure 10. pwm7.pru0 Two PRUs stopped</div>
 </div>
 <div class="paragraph">
 <p>The stopped display shows that the four channels are doing what we wanted, except
@@ -2971,7 +2976,7 @@ overhead in the process so the period is longer.</p>
 <p>This isn&#8217;t much different from the previous examples.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. pwm8.c changes from pwm7.c</caption>
+<caption class="title">Table 7. pwm8.c changes from pwm7.pru0.c</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 90%;">
@@ -5549,7 +5554,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-04 14:19:06 -0400
+Last updated 2020-06-04 15:19:39 -0400
 </div>
 </div>
 <style>
