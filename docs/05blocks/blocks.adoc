@@ -757,44 +757,53 @@ I need to synchronize the two PRUs so they run together.
 Use the Interrupt Controller (INTC).  It allows one PRU to signal the other.
 Page 225 of the 
 https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]
-has details of how it works.  Here's the code (`pwm8.c`).
+has details of how it works.  Here's the code for PRU 0, which at the end of the
+`while` loop signals PRU 1 to start(`pwm8.pru0.c`).
 
-.pwm8.c Using INTC to signal from one PRU to the other
+.pwm8.pru0.c PRU 0 using INTC to send a signal to PRU 1 
 [source,c,linenums]
 ----
-include::code/pwm8.c[pwm8.c Using INTC to signal from one PRU to the other]
+include::code/pwm8.pru0.c[pwm8.pru0.c  PRU 0 using INTC to send a signal to PRU 1]
 ----
 
-In `pwm8.c` PRU 1 waits for a signal from PRU 0, so be sure to start PRU 1 first.
+PRU 2's code waits for PRU 0 before going.
+
+.pwm8.pru1.c PRU 1 waiting for INTC from PRU 0 
+[source,c,linenums]
+----
+include::code/pwm8.pru1.c[pwm8.pru1.c PRU 1 waiting for INTC from PRU 0 ]
+----
+
+In `pwm8.pru0.c` PRU 1 waits for a signal from PRU 0, so be sure to start PRU 1 first.
 [source]
 [subs=+quotes]
 ----
-bone$ *make PRUN=1; make PRUN=0*
+bone$ *make TARGET=pwm8.pru0; make TARGET=pwm8.pru1*
 ----
 
 ==== Discussion
 The figure below shows the two PRUs are synchronized, though there is some extra
 overhead in the process so the period is longer.
 
-.pwm8 PRUs sycned
-image::figures/pwm8_prus_sycned.png[pwm8 PRUs sycned]
+.pwm8.pru0 PRUs sycned
+image::figures/pwm8_prus_sycned.png[pwm8.pru0 PRUs sycned]
 
 This isn't much different from the previous examples.
 
-.pwm8.c changes from pwm7.pru0.c 
-[cols="1,9"]
+.pwm8.pru0.c changes from pwm7.pru0.c 
+[cols="1,1,9"]
 |===
-|Line|Change
+|PRU|Line|Change
 
-|32-45|For PRU 0 these define `configInitc()` which initializes the interupts.
+|0  |37-45|For PRU 0 these define `configInitc()` which initializes the interupts.
 See page 226 of the 
 https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]
 for a diagram explaining events, channels, hosts, etc.
-|55-58|Set a configuration register and call `configInitc`.
-|73-77|PRU 1 then waits for PRU 0 to signal it.  Bit 31 of `pass:[__]R31` corresponds
+|0  |55-56|Set a configuration register and call `configInitc`.
+|1  |59-61|PRU 1 then waits for PRU 0 to signal it.  Bit 31 of `pass:[__]R31` corresponds
 to the Host-1 channel which `configInitc()` set up. We also clear event 16 so 
 PRU 0 can set it again.
-|81-84|On PRU 0 this generates the interupt to send to PRU 1.  I found PRU 1 was 
+|0  |74-75|On PRU 0 this generates the interupt to send to PRU 1.  I found PRU 1 was 
 slow to respond to the interupt, so I put this code at the end of the loop to
 give time for the signal to get to PRU 1.
 |===

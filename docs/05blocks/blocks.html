@@ -2708,7 +2708,7 @@ we gained a bit.</p>
 <div class="sect3">
 <h4 id="_discussion_6"><a class="link" href="#_discussion_6">Discussion</a></h4>
 <div class="paragraph">
-<p>There weren&#8217;t many changes to be made.  Line 13 we set MAXCH to 2. Lines 43-46
+<p>There weren&#8217;t many changes to be made.  Line 15 we set MAXCH to 2. Lines 44-48
 is where the big change is.</p>
 </div>
 <div class="listingblock">
@@ -2767,10 +2767,11 @@ It appears the compiler has optimied the two PRUs slightly differenty.</p>
 <p>Use the Interrupt Controller (INTC).  It allows one PRU to signal the other.
 Page 225 of the
 <a href="https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf">AM335x Technical Reference Manual</a>
-has details of how it works.  Here&#8217;s the code (<code>pwm8.c</code>).</p>
+has details of how it works.  Here&#8217;s the code for PRU 0, which at the end of the
+<code>while</code> loop signals PRU 1 to start(<code>pwm8.pru0.c</code>).</p>
 </div>
 <div class="listingblock">
-<div class="title">pwm8.c Using INTC to signal from one PRU to the other</div>
+<div class="title">pwm8.pru0.c PRU 0 using INTC to send a signal to PRU 1</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -2851,15 +2852,6 @@ has details of how it works.  Here&#8217;s the code (<code>pwm8.c</code>).</p>
 76
 77
 78
-79
-80
-81
-82
-83
-84
-85
-86
-87
 </pre></td>
   <td class="code"><pre><span class="comment">// This code does MAXCH parallel PWM channels on both PRU 0 and PRU 1</span>
 <span class="comment">// All channels start at the same time.</span>
@@ -2869,6 +2861,8 @@ has details of how it works.  Here&#8217;s the code (<code>pwm8.c</code>).</p>
 <span class="preprocessor">#include</span> <span class="include">&lt;pru_intc.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;pru_ctrl.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
+
+<span class="preprocessor">#define</span> PRUNUM <span class="integer">0</span>
 
 <span class="preprocessor">#define</span> PRU0_DRAM       <span class="hex">0x00000</span>         <span class="comment">// Offset to DRAM</span>
 <span class="comment">// Skip the first 0x200 byte of DRAM since the Makefile allocates</span>
@@ -2895,7 +2889,6 @@ has details of how it works.  Here&#8217;s the code (<code>pwm8.c</code>).</p>
 <span class="comment">// Initialize interupts so the PRUs can be syncronized.</span>
 <span class="comment">// PRU1 is started first and then waits for PRU0</span>
 <span class="comment">// PRU0 is then started and tells PRU1 when to start going</span>
-<span class="preprocessor">#if</span> PRUN==<span class="integer">0</span>
 <span class="directive">void</span> configIntc(<span class="directive">void</span>) {
     __R31 = <span class="hex">0x00000000</span>;                 <span class="comment">// Clear any pending PRU-generated events</span>
     CT_INTC.CMR4_bit.CH_MAP_16 = <span class="integer">1</span>;     <span class="comment">// Map event 16 to channel 1</span>
@@ -2905,7 +2898,6 @@ has details of how it works.  Here&#8217;s the code (<code>pwm8.c</code>).</p>
     CT_INTC.HIEISR |= (<span class="integer">1</span> &lt;&lt; <span class="integer">0</span>);         <span class="comment">// Enable Host interrupt 1</span>
     CT_INTC.GER = <span class="integer">1</span>;                    <span class="comment">// Globally enable host interrupts</span>
 }
-<span class="preprocessor">#endif</span>
 
 <span class="directive">void</span> main(<span class="directive">void</span>)
 {
@@ -2915,48 +2907,182 @@ has details of how it works.  Here&#8217;s the code (<code>pwm8.c</code>).</p>
     uint32_t onCount[MAXCH], offCount[MAXCH];
     <span class="directive">register</span> uint32_t Rtmp;
 
-<span class="preprocessor">#if</span> PRUN==<span class="integer">0</span>
     CT_CFG.GPCFG0 = <span class="hex">0x0000</span>;             <span class="comment">// Configure GPI and GPO as Mode 0 (Direct Connect)</span>
     configIntc();                       <span class="comment">// Configure INTC</span>
-<span class="preprocessor">#endif</span>
 
     <span class="comment">/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */</span>
     CT_CFG.SYSCFG_bit.STANDBY_INIT = <span class="integer">0</span>;
 
 <span class="preprocessor">#pragma</span> UNROLL(MAXCH)
     <span class="keyword">for</span>(ch=<span class="integer">0</span>; ch&lt;MAXCH; ch++) {
-        pru0_dram[<span class="integer">2</span>*ch  ] = on [ch+PRUN*MAXCH]; <span class="comment">// Copy to DRAM0 so the ARM can change it</span>
-        pru0_dram[<span class="integer">2</span>*ch+<span class="integer">1</span>] = off[ch+PRUN*MAXCH]; <span class="comment">// Interleave the on and off values</span>
-        onCount[ch] = on [ch+PRUN*MAXCH];
-        offCount[ch]= off[ch+PRUN*MAXCH];
+        pru0_dram[<span class="integer">2</span>*ch  ] = on [ch+PRUNUM*MAXCH];   <span class="comment">// Copy to DRAM0 so the ARM can change it</span>
+        pru0_dram[<span class="integer">2</span>*ch+<span class="integer">1</span>] = off[ch+PRUNUM*MAXCH];   <span class="comment">// Interleave the on and off values</span>
+        onCount[ch] = on [ch+PRUNUM*MAXCH];
+        offCount[ch]= off[ch+PRUNUM*MAXCH];
     }
     Rtmp = __R30;
 
     <span class="keyword">while</span> (<span class="integer">1</span>) {
-<span class="preprocessor">#if</span> PRUN==<span class="integer">1</span>
-        <span class="keyword">while</span>((__R31 &amp; (<span class="hex">0x1</span>&lt;&lt;<span class="integer">31</span>))==<span class="integer">0</span>) {     <span class="comment">// Wait for PRU 0</span>
-        }
-        CT_INTC.SICR = <span class="integer">16</span>;                  <span class="comment">// Clear event 16</span>
-<span class="preprocessor">#endif</span>
         __R30 = Rtmp;
         update(<span class="integer">0</span>)
         update(<span class="integer">1</span>)
-<span class="preprocessor">#if</span> PRUN==<span class="integer">0</span>
 <span class="preprocessor">#define</span> PRU0_PRU1_EVT <span class="integer">16</span>
         __R31 = (PRU0_PRU1_EVT-<span class="integer">16</span>) | (<span class="hex">0x1</span>&lt;&lt;<span class="integer">5</span>);  <span class="comment">//Tell PRU 1 to start</span>
         __delay_cycles(<span class="integer">1</span>);
-<span class="preprocessor">#endif</span>
     }
 }</pre></td>
 </tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>In <code>pwm8.c</code> PRU 1 waits for a signal from PRU 0, so be sure to start PRU 1 first.</p>
+<p>PRU 2&#8217;s code waits for PRU 0 before going.</p>
+</div>
+<div class="listingblock">
+<div class="title">pwm8.pru1.c PRU 1 waiting for INTC from PRU 0</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+</pre></td>
+  <td class="code"><pre><span class="comment">// This code does MAXCH parallel PWM channels on both PRU 0 and PRU 1</span>
+<span class="comment">// All channels start at the same time.</span>
+<span class="comment">// It's period is 430ns</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;pru_intc.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;pru_ctrl.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
+
+<span class="preprocessor">#define</span> PRUNUM <span class="integer">1</span>
+
+<span class="preprocessor">#define</span> PRU0_DRAM       <span class="hex">0x00000</span>         <span class="comment">// Offset to DRAM</span>
+<span class="comment">// Skip the first 0x200 byte of DRAM since the Makefile allocates</span>
+<span class="comment">// 0x100 for the STACK and 0x100 for the HEAP.</span>
+<span class="directive">volatile</span> <span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> *pru0_dram = (<span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> *) (PRU0_DRAM + <span class="hex">0x200</span>);
+
+<span class="preprocessor">#define</span> MAXCH   <span class="integer">2</span>   <span class="comment">// Maximum number of channels per PRU</span>
+
+<span class="preprocessor">#define</span> update(ch) \
+            <span class="keyword">if</span>(onCount[ch]) {           \
+                onCount[ch]--;          \
+                Rtmp |= <span class="hex">0x1</span>&lt;&lt;ch;        \
+            } <span class="keyword">else</span> <span class="keyword">if</span>(offCount[ch]) {   \
+                offCount[ch]--;         \
+                Rtmp &amp;= ~(<span class="hex">0x1</span>&lt;&lt;ch); \
+            } <span class="keyword">else</span> {                    \
+                onCount[ch] = pru0_dram[<span class="integer">2</span>*ch];  \
+                offCount[ch]= pru0_dram[<span class="integer">2</span>*ch+<span class="integer">1</span>];    \
+            }
+
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t __R30;
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t __R31;
+
+<span class="comment">// Initialize interupts so the PRUs can be syncronized.</span>
+<span class="comment">// PRU1 is started first and then waits for PRU0</span>
+<span class="comment">// PRU0 is then started and tells PRU1 when to start going</span>
+
+<span class="directive">void</span> main(<span class="directive">void</span>)
+{
+    uint32_t ch;
+    uint32_t on[]  = {<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>, <span class="integer">4</span>};
+    uint32_t off[] = {<span class="integer">4</span>, <span class="integer">3</span>, <span class="integer">2</span>, <span class="integer">1</span>};
+    uint32_t onCount[MAXCH], offCount[MAXCH];
+    <span class="directive">register</span> uint32_t Rtmp;
+
+    <span class="comment">/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */</span>
+    CT_CFG.SYSCFG_bit.STANDBY_INIT = <span class="integer">0</span>;
+
+<span class="preprocessor">#pragma</span> UNROLL(MAXCH)
+    <span class="keyword">for</span>(ch=<span class="integer">0</span>; ch&lt;MAXCH; ch++) {
+        pru0_dram[<span class="integer">2</span>*ch  ] = on [ch+PRUNUM*MAXCH];   <span class="comment">// Copy to DRAM0 so the ARM can change it</span>
+        pru0_dram[<span class="integer">2</span>*ch+<span class="integer">1</span>] = off[ch+PRUNUM*MAXCH];   <span class="comment">// Interleave the on and off values</span>
+        onCount[ch] = on [ch+PRUNUM*MAXCH];
+        offCount[ch]= off[ch+PRUNUM*MAXCH];
+    }
+    Rtmp = __R30;
+
+    <span class="keyword">while</span> (<span class="integer">1</span>) {
+        <span class="keyword">while</span>((__R31 &amp; (<span class="hex">0x1</span>&lt;&lt;<span class="integer">31</span>))==<span class="integer">0</span>) {     <span class="comment">// Wait for PRU 0</span>
+        }
+        CT_INTC.SICR = <span class="integer">16</span>;                  <span class="comment">// Clear event 16</span>
+        __R30 = Rtmp;
+        update(<span class="integer">0</span>)
+        update(<span class="integer">1</span>)
+    }
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In <code>pwm8.pru0.c</code> PRU 1 waits for a signal from PRU 0, so be sure to start PRU 1 first.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>bone$ <strong>make PRUN=1; make PRUN=0</strong></code></pre>
+<pre class="CodeRay highlight"><code>bone$ <strong>make TARGET=pwm8.pru0; make TARGET=pwm8.pru1</strong></code></pre>
 </div>
 </div>
 </div>
@@ -2968,45 +3094,51 @@ overhead in the process so the period is longer.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="figures/pwm8_prus_sycned.png" alt="pwm8 PRUs sycned">
+<img src="figures/pwm8_prus_sycned.png" alt="pwm8.pru0 PRUs sycned">
 </div>
-<div class="title">Figure 11. pwm8 PRUs sycned</div>
+<div class="title">Figure 11. pwm8.pru0 PRUs sycned</div>
 </div>
 <div class="paragraph">
 <p>This isn&#8217;t much different from the previous examples.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. pwm8.c changes from pwm7.pru0.c</caption>
+<caption class="title">Table 7. pwm8.pru0.c changes from pwm7.pru0.c</caption>
 <colgroup>
-<col style="width: 10%;">
-<col style="width: 90%;">
+<col style="width: 9.0909%;">
+<col style="width: 9.0909%;">
+<col style="width: 81.8182%;">
 </colgroup>
 <thead>
 <tr>
+<th class="tableblock halign-left valign-top">PRU</th>
 <th class="tableblock halign-left valign-top">Line</th>
 <th class="tableblock halign-left valign-top">Change</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">32-45</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">37-45</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">For PRU 0 these define <code>configInitc()</code> which initializes the interupts.
 See page 226 of the
 <a href="https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf">AM335x Technical Reference Manual</a>
 for a diagram explaining events, channels, hosts, etc.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">55-58</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">55-56</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Set a configuration register and call <code>configInitc</code>.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">73-77</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">59-61</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PRU 1 then waits for PRU 0 to signal it.  Bit 31 of <code>__R31</code> corresponds
 to the Host-1 channel which <code>configInitc()</code> set up. We also clear event 16 so
 PRU 0 can set it again.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">81-84</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">74-75</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">On PRU 0 this generates the interupt to send to PRU 1.  I found PRU 1 was
 slow to respond to the interupt, so I put this code at the end of the loop to
 give time for the signal to get to PRU 1.</p></td>
@@ -5554,7 +5686,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-04 15:19:39 -0400
+Last updated 2020-06-04 15:54:58 -0400
 </div>
 </div>
 <style>
