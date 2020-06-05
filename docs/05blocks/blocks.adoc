@@ -1289,6 +1289,9 @@ the last number, or you numbers will get blurred together.
 
 
 === RGB LED Matrix - No Integrated Drivers
+
+* TODO - update
+
 ==== Problem
 You have a RGB LED matrix 
 (<<../01case/case.html#case_rgb_matrix, 1.4. RGB LED Matrix - No Integrated Drivers>>) and want to know
