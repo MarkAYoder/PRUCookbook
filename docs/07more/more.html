@@ -872,10 +872,10 @@ In this example, line 6 of <a href="#more_test2">delay-test2.pru0.c</a> <code>#d
 <p>Each PRU has a <code>CYCLE</code> register which counts the number of cycles since
 the PRU was enabled. They also have a <code>STALL</code> register that counts how
 many times the PRU stalled fetching an instruction.
-<a href="#more_cycle">cycle.c - Code to count cycles.</a> shows they are used.</p>
+<a href="#more_cycle">cycle.pru0.c - Code to count cycles.</a> shows they are used.</p>
 </div>
 <div id="more_cycle" class="listingblock">
-<div class="title">cycle.c - Code to count cycles.</div>
+<div class="title">cycle.pru0.c - Code to count cycles.</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -909,12 +909,16 @@ many times the PRU stalled fetching an instruction.
 29
 30
 31
+32
+33
+34
 </pre></td>
   <td class="code"><pre><span class="comment">// Access the CYCLE and STALL registers</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;pru_ctrl.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;prugpio.h&quot;</span>
 
 <span class="preprocessor">#define</span> out <span class="integer">1</span>       <span class="comment">// Bit number to output on</span>
 
@@ -923,6 +927,8 @@ many times the PRU stalled fetching an instruction.
 
 <span class="directive">void</span> main(<span class="directive">void</span>)
 {
+    uint32_t gpio = P9_31;  <span class="comment">// Select which pin to toggle.;</span>
+
     <span class="comment">// These will be kept in registers and never witten to DRAM</span>
     uint32_t cycle, stall;
 
@@ -931,11 +937,11 @@ many times the PRU stalled fetching an instruction.
 
     PRU0_CTRL.CTRL_bit.CTR_EN = <span class="integer">1</span>;  <span class="comment">// Enable cycle counter</span>
 
-    <em>R30 |= <span class="hex">0x1</span>&lt;&lt;out;          <span class="comment">// Set the GPIO pin to 1</span>
+    <em>R30 |= gpio;              <span class="comment">// Set the GPIO pin to 1</span>
     <span class="comment">// Reset cycle counter, cycle is on the right side to force the compiler</span>
     <span class="comment">// to put it in it's own register</span>
     PRU0_CTRL.CYCLE = cycle;
-    </em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;out);       <span class="comment">// Clear the GPIO pin</span>
+    </em>R30 &amp;= ~gpio;             <span class="comment">// Clear the GPIO pin</span>
     cycle = PRU0_CTRL.CYCLE;    <span class="comment">// Read cycle and store in a register</span>
     stall = PRU0_CTRL.STALL;    <span class="comment">// Ditto for stall</span>
 
@@ -951,10 +957,10 @@ many times the PRU stalled fetching an instruction.
 <p>The code is mostly the same as other examples.
 <code>cycle</code> and <code>stall</code> end up in registers which
 we can read using prudebug.
-<a href="#more_cycle_lines">Line-by-line for cycle.c</a> is the Line-by-line.</p>
+<a href="#more_cycle_lines">Line-by-line for cycle.pru0.c</a> is the Line-by-line.</p>
 </div>
 <table id="more_cycle_lines" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. Line-by-line for cycle.c</caption>
+<caption class="title">Table 2. Line-by-line for cycle.pru0.c</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 90%;">
@@ -973,7 +979,7 @@ we can read using prudebug.
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">15</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Declaring <code>cycle</code> and <code>stall</code>.  The compiler will optimize these and just
-keep them in registers.  We&#8217;ll have to look at the <code>cycle.lst</code> file to see where
+keep them in registers.  We&#8217;ll have to look at the <code>cycle.pru0.lst</code> file to see where
 they are stored.</p></td>
 </tr>
 <tr>
@@ -994,10 +1000,10 @@ register.</p></td>
 </table>
 <div class="paragraph">
 <p>You can see where <code>cycle</code> and <code>stall</code> are stored by looking into
-<a href="#more_cycle_list0">/tmp/pru0-gen/cycle.lst Lines 122..118</a>.</p>
+<a href="#more_cycle_list0">/tmp/cloud9-examples/cycle.pru0.lst Lines 113..119</a>.</p>
 </div>
 <div id="more_cycle_list0" class="listingblock">
-<div class="title">/tmp/pru0-gen/cycle.lst Lines 122..118</div>
+<div class="title">/tmp/cloud9-examples/cycle.pru0.lst Lines 113..119</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="asm"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -1008,23 +1014,23 @@ register.</p></td>
 6
 7
 </pre></td>
-  <td class="code"><pre>     102;----------------------------------------------------------------------
-     103;  20 | PRU0_CTRL.CTRL_bit.CTR_EN = 1;  // Enable cycle counter
-     104;----------------------------------------------------------------------
-     105 0000000c 200080240002C0          LDI32     r0, 0x00022000        ; [ALU_PRU] |20| $O$C1
-     106 00000014 000000F1002081          LBBO      &amp;r1, r0, 0, 4         ; [ALU_PRU] |20|
-     107 00000018 0000001F03E1E1          SET       r1, r1, 0x00000003    ; [ALU_PRU] |20|
-     108 0000001c 000000E1002081          SBBO      &amp;r1, r0, 0, 4         ; [ALU_PRU] |20|</pre></td>
+  <td class="code"><pre>     103;----------------------------------------------------------------------
+     104;  23 | PRU0_CTRL.CTRL_bit.CTR_EN = 1;  // Enable cycle counter
+     105;----------------------------------------------------------------------
+     106 0000000c 200080240002C0          LDI32     r0, 0x00022000        ; [ALU_PRU] |23| $O$C1
+     107 00000014 000000F1002081          LBBO      &amp;r1, r0, 0, 4         ; [ALU_PRU] |23|
+     108 00000018 0000001F03E1E1          SET       r1, r1, 0x00000003    ; [ALU_PRU] |23|
+     109 0000001c 000000E1002081          SBBO      &amp;r1, r0, 0, 4         ; [ALU_PRU] |23|</pre></td>
 </tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Here the <code>LDI32</code> instruction loads the address <code>0x22000</code> into <code>r0</code>.
 This is the offset to the <code>CTRL</code> registers.
- Later in the file we see <a href="#more_cycle_list1">/tmp/pru0-gen/cycle.lst Lines 145..151</a>.</p>
+ Later in the file we see <a href="#more_cycle_list1">/tmp/cloud9-examples/cycle.pru0.lst Lines 146..152</a>.</p>
 </div>
 <div id="more_cycle_list1" class="listingblock">
-<div class="title">/tmp/pru0-gen/cycle.lst Lines 145..151</div>
+<div class="title">/tmp/cloud9-examples/cycle.pru0.lst Lines 146..152</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="asm"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -1035,13 +1041,13 @@ This is the offset to the <code>CTRL</code> registers.
 6
 7
 </pre></td>
-  <td class="code"><pre>     130;----------------------------------------------------------------------
-     131 0000002c 000000F10C2081          LBBO      &amp;r1, r0, 12, 4        ; [ALU_PRU] |27| $O$C1
-     132        .dwpsn  file &quot;cycle.c&quot;,line 28,column 2,is_stmt,isa 0
-     133;----------------------------------------------------------------------
-     134;  28 | stall = PRU0_CTRL.STALL;        // Ditto for stall
-     135;----------------------------------------------------------------------
-     136 00000030 000000F1102080          LBBO      &amp;r0, r0, 16, 4        ; [ALU_PRU] |28| $O$C1</pre></td>
+  <td class="code"><pre>     131;----------------------------------------------------------------------
+     132 0000002c 000000F10C2081          LBBO      &amp;r1, r0, 12, 4        ; [ALU_PRU] |30| $O$C1
+     133        .dwpsn  file &quot;cycle.pru0.c&quot;,line 31,column 2,is_stmt,isa 0
+     134;----------------------------------------------------------------------
+     135;  31 | stall = PRU0_CTRL.STALL;        // Ditto for stall
+     136;----------------------------------------------------------------------
+     137 00000030 000000F1102080          LBBO      &amp;r0, r0, 16, 4        ; [ALU_PRU] |31| $O$C1</pre></td>
 </tr></table></code></pre>
 </div>
 </div>
@@ -1577,7 +1583,7 @@ details.)</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-05 14:06:05 -0400
+Last updated 2020-06-05 14:23:14 -0400
 </div>
 </div>
 <style>

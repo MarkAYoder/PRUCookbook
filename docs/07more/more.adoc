@@ -175,11 +175,11 @@ many times the PRU stalled fetching an instruction.
 <<more_cycle>> shows they are used.
 
 [[more_cycle]]
-.cycle.c - Code to count cycles.
+.cycle.pru0.c - Code to count cycles.
 [source,c,linenums]
 [subs=+quotes]
 ----
-include::code/cycle.c[]
+include::code/cycle.pru0.c[]
 ----
 
 ==== Discission
@@ -190,13 +190,13 @@ we can read using prudebug.
 
 [[more_cycle_lines]]
 [cols="1,9"]
-.Line-by-line for cycle.c
+.Line-by-line for cycle.pru0.c
 |===
 |Line|Explanation
 
 |4   |Needed to reference `CYCLE` and `STALL`. 
 |15  |Declaring `cycle` and `stall`.  The compiler will optimize these and just
-keep them in registers.  We'll have to look at the `cycle.lst` file to see where
+keep them in registers.  We'll have to look at the `cycle.pru0.lst` file to see where
 they are stored.
 |20  |Enables `CYCLE`.
 |25  |Reset `CYCLE`. It ignores the value assigned to it and always sets it
@@ -208,22 +208,22 @@ register.
 You can see where `cycle` and `stall` are stored by looking into 
 <<more_cycle_list0>>.
 [[more_cycle_list0]]
-./tmp/pru0-gen/cycle.lst Lines 122..118
+./tmp/cloud9-examples/cycle.pru0.lst Lines 113..119
 [source,asm,linenums]
 [subs=+quotes]
 ----
-include::code/cycle.lst[lines=112..118]
+include::code/cycle.pru0.lst[lines=113..119]
 ----
 Here the `LDI32` instruction loads the address `0x22000` into `r0`.  
 This is the offset to the `CTRL` registers. 
  Later in the file we see <<more_cycle_list1>>.
  
 [[more_cycle_list1]]
-./tmp/pru0-gen/cycle.lst Lines 145..151
+./tmp/cloud9-examples/cycle.pru0.lst Lines 146..152
 [source,asm,linenums]
 [subs=+quotes]
 ----
-include::code/cycle.lst[lines=145..151]
+include::code/cycle.pru0.lst[lines=146..152]
 ----
 The first `LBBO` takes the contents of `r0` and adds the offset 12 to it and
 copies 4 bytes into `r1`.  This points to `CYCLE`, so `r1` has the contents of
@@ -262,7 +262,7 @@ and 2 cycles to read the `CYCLE` register and save it in the register.
 It's interesting there are 5 `stall` cycles. 
 
 If you switch the order of
-lines 27 and 28 you'll see `cycle` is 7 and `stall` is 2. `cycle` now
+lines 30 and 31 you'll see `cycle` is 7 and `stall` is 2. `cycle` now
 includes the time needed to read `stall` and `stall` no longer includes
 the time to read `cycle`.
 

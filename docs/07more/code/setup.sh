@@ -1,9 +1,7 @@
 #!/bin/bash
 #
-export PRUN=0
-export TARGET=delay-test
-export TARGETasm=delay
-echo PRUN=$PRUN
+export TARGET=delay-test.pru0
+export TARGETasm=delay.pru0
 echo TARGET=$TARGET
 echo TARGETasm=$TARGETasm
 
@@ -12,7 +10,7 @@ machine=$(awk '{print $NF}' /proc/device-tree/model)
 echo -n $machine
 if [ $machine = "Black" ]; then
     echo " Found"
-    pins="P9_29 "
+    pins="P9_31"
 elif [ $machine = "Blue" ]; then
     echo " Found"
     pins=""

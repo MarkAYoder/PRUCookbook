@@ -1,0 +1,3082 @@
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE    1
+
+       1;******************************************************************************
+       2;* PRU C/C++ Codegen                                              Unix v2.1.5 *
+       3;* Date/Time created: Fri Jun  5 14:14:07 2020                                *
+       4;******************************************************************************
+       5        .compiler_opts --abi=eabi --endian=little --hll_source=on --object_format=elf --silicon_versio
+       6
+       7$C$DW$CU        .dwtag  DW_TAG_compile_unit
+       8        .dwattr $C$DW$CU, DW_AT_name("cycle.pru0.c")
+       9        .dwattr $C$DW$CU, DW_AT_producer("TI PRU C/C++ Codegen Unix v2.1.5 Copyright (c) 2012-2017 Tex
+      10        .dwattr $C$DW$CU, DW_AT_TI_version(0x01)
+      11        .dwattr $C$DW$CU, DW_AT_comp_dir("/home/debian/PRUCookbook/docs/07more/code")
+      12        .global __PRU_CREG_PRU_CFG
+      13
+      14$C$DW$1 .dwtag  DW_TAG_subprogram, DW_AT_name("__halt")
+      15        .dwattr $C$DW$1, DW_AT_TI_symbol_name("__halt")
+      16        .dwattr $C$DW$1, DW_AT_declaration
+      17        .dwattr $C$DW$1, DW_AT_external
+      18        .weak   ||CT_CFG||
+      19 00000000                 ||CT_CFG||:     .usect  ".creg.PRU_CFG.noload.near",68,1
+      20$C$DW$2 .dwtag  DW_TAG_variable, DW_AT_name("CT_CFG")
+      21        .dwattr $C$DW$2, DW_AT_TI_symbol_name("CT_CFG")
+      22        .dwattr $C$DW$2, DW_AT_location[DW_OP_addr ||CT_CFG||]
+      23        .dwattr $C$DW$2, DW_AT_type(*$C$DW$T$98)
+      24        .dwattr $C$DW$2, DW_AT_external
+      25        .dwattr $C$DW$2, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru_
+      26        .dwattr $C$DW$2, DW_AT_decl_line(0xf2)
+      27        .dwattr $C$DW$2, DW_AT_decl_column(0x17)
+      28        .global ||pru_remoteproc_ResourceTable||
+      29 00000000                         .sect   ".resource_table:retain", RW
+      30        .retain
+      31        .align  1
+      32        .elfsym ||pru_remoteproc_ResourceTable||,SYM_SIZE(20)
+      33 00000000                 ||pru_remoteproc_ResourceTable||:
+      34 00000000 00000000000001          .bits   1,32                    ; pru_remoteproc_ResourceTable.base.ver @ 0
+      35 00000004 00000000000000          .bits   0,32                    ; pru_remoteproc_ResourceTable.base.num @ 32
+      36 00000008 00000000000000          .bits   0,32                    ; pru_remoteproc_ResourceTable.base.reserved[0] @ 64
+      37 0000000c 00000000000000          .bits   0,32                    ; pru_remoteproc_ResourceTable.base.reserved[1] @ 96
+      38 00000010 00000000000000          .bits   0,32                    ; pru_remoteproc_ResourceTable.offset[0] @ 128
+      39
+      40$C$DW$3 .dwtag  DW_TAG_variable, DW_AT_name("pru_remoteproc_ResourceTable")
+      41        .dwattr $C$DW$3, DW_AT_TI_symbol_name("pru_remoteproc_ResourceTable")
+      42        .dwattr $C$DW$3, DW_AT_location[DW_OP_addr ||pru_remoteproc_ResourceTable||]
+      43        .dwattr $C$DW$3, DW_AT_type(*$C$DW$T$92)
+      44        .dwattr $C$DW$3, DW_AT_external
+      45        .dwattr $C$DW$3, DW_AT_decl_file("/var/lib/cloud9/common/resource_table_empty.h")
+      46        .dwattr $C$DW$3, DW_AT_decl_line(0x1f)
+      47        .dwattr $C$DW$3, DW_AT_decl_column(0x1a)
+      48;       optpru /tmp/TI18yQKu8QO /tmp/TI18y6Ruqzt 
+      49;       acpiapru -@/tmp/TI18yH9tQJL 
+      50 00000000                         .sect   ".text:main"
+      51        .clink
+      52        .global ||main||
+      53
+      54$C$DW$4 .dwtag  DW_TAG_subprogram, DW_AT_name("main")
+      55        .dwattr $C$DW$4, DW_AT_low_pc(||main||)
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE    2
+
+      56        .dwattr $C$DW$4, DW_AT_high_pc(0x00)
+      57        .dwattr $C$DW$4, DW_AT_TI_symbol_name("main")
+      58        .dwattr $C$DW$4, DW_AT_external
+      59        .dwattr $C$DW$4, DW_AT_TI_begin_file("cycle.pru0.c")
+      60        .dwattr $C$DW$4, DW_AT_TI_begin_line(0x0d)
+      61        .dwattr $C$DW$4, DW_AT_TI_begin_column(0x06)
+      62        .dwattr $C$DW$4, DW_AT_decl_file("cycle.pru0.c")
+      63        .dwattr $C$DW$4, DW_AT_decl_line(0x0d)
+      64        .dwattr $C$DW$4, DW_AT_decl_column(0x06)
+      65        .dwattr $C$DW$4, DW_AT_TI_max_frame_size(0x00)
+      66        .dwpsn  file "cycle.pru0.c",line 14,column 1,is_stmt,address ||main||,isa 0
+      67
+      68        .dwfde $C$DW$CIE, ||main||
+      69;----------------------------------------------------------------------
+      70;  13 | void main(void)                                                        
+      71;  15 | uint32_t gpio = P9_31;  // Select which pin to toggle.;                
+      72;  17 | // These will be kept in registers and never witten to DRAM            
+      73;  18 | uint32_t cycle, stall;                                                 
+      74;  20 | // Clear SYSCFG[STANDBY_INIT] to enable OCP master port                
+      75;----------------------------------------------------------------------
+      76
+      77;***************************************************************
+      78;* FNAME: main                          FR SIZE:   0           *
+      79;*                                                             *
+      80;* FUNCTION ENVIRONMENT                                        *
+      81;*                                                             *
+      82;* FUNCTION PROPERTIES                                         *
+      83;*                            0 Auto,  0 SOE     *
+      84;***************************************************************
+      85
+      86||main||:
+      87;* --------------------------------------------------------------------------*
+      88;* r0_0  assigned to $O$C1
+      89;* r14_0 assigned to cycle
+      90$C$DW$5 .dwtag  DW_TAG_variable, DW_AT_name("cycle")
+      91        .dwattr $C$DW$5, DW_AT_TI_symbol_name("cycle")
+      92        .dwattr $C$DW$5, DW_AT_type(*$C$DW$T$32)
+      93        .dwattr $C$DW$5, DW_AT_location[DW_OP_regx 0x38]
+      94        .dwcfi  cfa_offset, 0
+      95        .dwpsn  file "cycle.pru0.c",line 21,column 2,is_stmt,isa 0
+      96;----------------------------------------------------------------------
+      97;  21 | CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;                                    
+      98;----------------------------------------------------------------------
+      99 00000000 00000091042080!         LBCO      &r0, __PRU_CREG_PRU_CFG, $CSBREL(||CT_CFG||+4), 4 ; [ALU_PRU] |21| CT_CFG
+     100 00000004 0000001D04E0E0          CLR       r0, r0, 0x00000004    ; [ALU_PRU] |21| 
+     101 00000008 00000081042080!         SBCO      &r0, __PRU_CREG_PRU_CFG, $CSBREL(||CT_CFG||+4), 4 ; [ALU_PRU] |21| CT_CFG
+     102        .dwpsn  file "cycle.pru0.c",line 23,column 2,is_stmt,isa 0
+     103;----------------------------------------------------------------------
+     104;  23 | PRU0_CTRL.CTRL_bit.CTR_EN = 1;  // Enable cycle counter                
+     105;----------------------------------------------------------------------
+     106 0000000c 200080240002C0          LDI32     r0, 0x00022000        ; [ALU_PRU] |23| $O$C1
+     107 00000014 000000F1002081          LBBO      &r1, r0, 0, 4         ; [ALU_PRU] |23| 
+     108 00000018 0000001F03E1E1          SET       r1, r1, 0x00000003    ; [ALU_PRU] |23| 
+     109 0000001c 000000E1002081          SBBO      &r1, r0, 0, 4         ; [ALU_PRU] |23| 
+     110        .dwpsn  file "cycle.pru0.c",line 25,column 2,is_stmt,isa 0
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE    3
+
+     111;----------------------------------------------------------------------
+     112;  25 | __R30 |= gpio;                          // Set the GPIO pin to 1       
+     113;  26 | // Reset cycle counter, cycle is on the right side to force the compile
+     114;     | r                                                                      
+     115;  27 | // to put it in it's own register                                      
+     116;----------------------------------------------------------------------
+     117 00000020 0000001F00FEFE          SET       r30, r30, 0x00000000  ; [ALU_PRU] |25| 
+     118        .dwpsn  file "cycle.pru0.c",line 28,column 2,is_stmt,isa 0
+     119;----------------------------------------------------------------------
+     120;  28 | PRU0_CTRL.CYCLE = cycle;                                               
+     121;----------------------------------------------------------------------
+     122 00000024 000000E10C208E          SBBO      &r14, r0, 12, 4       ; [ALU_PRU] |28| $O$C1,cycle
+     123        .dwpsn  file "cycle.pru0.c",line 29,column 2,is_stmt,isa 0
+     124;----------------------------------------------------------------------
+     125;  29 | __R30 &= ~gpio;                         // Clear the GPIO pin          
+     126;----------------------------------------------------------------------
+     127 00000028 0000001D00FEFE          CLR       r30, r30, 0x00000000  ; [ALU_PRU] |29| 
+     128        .dwpsn  file "cycle.pru0.c",line 30,column 2,is_stmt,isa 0
+     129;----------------------------------------------------------------------
+     130;  30 | cycle = PRU0_CTRL.CYCLE;        // Read cycle and store in a register  
+     131;----------------------------------------------------------------------
+     132 0000002c 000000F10C2081          LBBO      &r1, r0, 12, 4        ; [ALU_PRU] |30| $O$C1
+     133        .dwpsn  file "cycle.pru0.c",line 31,column 2,is_stmt,isa 0
+     134;----------------------------------------------------------------------
+     135;  31 | stall = PRU0_CTRL.STALL;        // Ditto for stall                     
+     136;----------------------------------------------------------------------
+     137 00000030 000000F1102080          LBBO      &r0, r0, 16, 4        ; [ALU_PRU] |31| $O$C1
+     138        .dwpsn  file "cycle.pru0.c",line 33,column 2,is_stmt,isa 0
+     139;----------------------------------------------------------------------
+     140;  33 | __halt();                                                              
+     141;----------------------------------------------------------------------
+     142 00000034 0000002A000000          HALT      ; [ALU_PRU] |33| 
+     143$C$DW$6 .dwtag  DW_TAG_TI_branch
+     144        .dwattr $C$DW$6, DW_AT_low_pc(0x00)
+     145        .dwattr $C$DW$6, DW_AT_TI_return
+     146 00000038 00000020C30000          JMP       r3.w2                 ; [ALU_PRU] 
+     147        .dwattr $C$DW$4, DW_AT_TI_end_file("cycle.pru0.c")
+     148        .dwattr $C$DW$4, DW_AT_TI_end_line(0x22)
+     149        .dwattr $C$DW$4, DW_AT_TI_end_column(0x01)
+     150        .dwendentry
+     151        .dwendtag $C$DW$4
+     152
+     153
+     154;******************************************************************************
+     155;* TYPE INFORMATION                                                           *
+     156;******************************************************************************
+     157
+     158$C$DW$T$19      .dwtag  DW_TAG_structure_type
+     159        .dwattr $C$DW$T$19, DW_AT_byte_size(0x04)
+     160$C$DW$7 .dwtag  DW_TAG_member
+     161        .dwattr $C$DW$7, DW_AT_type(*$C$DW$T$11)
+     162        .dwattr $C$DW$7, DW_AT_name("REVID")
+     163        .dwattr $C$DW$7, DW_AT_TI_symbol_name("REVID")
+     164        .dwattr $C$DW$7, DW_AT_bit_offset(0x00), DW_AT_bit_size(0x20)
+     165        .dwattr $C$DW$7, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE    4
+
+     166        .dwattr $C$DW$7, DW_AT_accessibility(DW_ACCESS_public)
+     167        .dwattr $C$DW$7, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru_
+     168        .dwattr $C$DW$7, DW_AT_decl_line(0x2d)
+     169        .dwattr $C$DW$7, DW_AT_decl_column(0x0d)
+     170        .dwendtag $C$DW$T$19
+     171
+     172        .dwattr $C$DW$T$19, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+     173        .dwattr $C$DW$T$19, DW_AT_decl_line(0x2c)
+     174        .dwattr $C$DW$T$19, DW_AT_decl_column(0x13)
+     175$C$DW$T$48      .dwtag  DW_TAG_volatile_type
+     176        .dwattr $C$DW$T$48, DW_AT_type(*$C$DW$T$19)
+     177
+     178$C$DW$T$20      .dwtag  DW_TAG_structure_type
+     179        .dwattr $C$DW$T$20, DW_AT_byte_size(0x04)
+     180$C$DW$8 .dwtag  DW_TAG_member
+     181        .dwattr $C$DW$8, DW_AT_type(*$C$DW$T$11)
+     182        .dwattr $C$DW$8, DW_AT_name("IDLE_MODE")
+     183        .dwattr $C$DW$8, DW_AT_TI_symbol_name("IDLE_MODE")
+     184        .dwattr $C$DW$8, DW_AT_bit_offset(0x1e), DW_AT_bit_size(0x02)
+     185        .dwattr $C$DW$8, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     186        .dwattr $C$DW$8, DW_AT_accessibility(DW_ACCESS_public)
+     187        .dwattr $C$DW$8, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru_
+     188        .dwattr $C$DW$8, DW_AT_decl_line(0x37)
+     189        .dwattr $C$DW$8, DW_AT_decl_column(0x0d)
+     190$C$DW$9 .dwtag  DW_TAG_member
+     191        .dwattr $C$DW$9, DW_AT_type(*$C$DW$T$11)
+     192        .dwattr $C$DW$9, DW_AT_name("STANDBY_MODE")
+     193        .dwattr $C$DW$9, DW_AT_TI_symbol_name("STANDBY_MODE")
+     194        .dwattr $C$DW$9, DW_AT_bit_offset(0x1c), DW_AT_bit_size(0x02)
+     195        .dwattr $C$DW$9, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     196        .dwattr $C$DW$9, DW_AT_accessibility(DW_ACCESS_public)
+     197        .dwattr $C$DW$9, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru_
+     198        .dwattr $C$DW$9, DW_AT_decl_line(0x38)
+     199        .dwattr $C$DW$9, DW_AT_decl_column(0x0d)
+     200$C$DW$10        .dwtag  DW_TAG_member
+     201        .dwattr $C$DW$10, DW_AT_type(*$C$DW$T$11)
+     202        .dwattr $C$DW$10, DW_AT_name("STANDBY_INIT")
+     203        .dwattr $C$DW$10, DW_AT_TI_symbol_name("STANDBY_INIT")
+     204        .dwattr $C$DW$10, DW_AT_bit_offset(0x1b), DW_AT_bit_size(0x01)
+     205        .dwattr $C$DW$10, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     206        .dwattr $C$DW$10, DW_AT_accessibility(DW_ACCESS_public)
+     207        .dwattr $C$DW$10, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     208        .dwattr $C$DW$10, DW_AT_decl_line(0x39)
+     209        .dwattr $C$DW$10, DW_AT_decl_column(0x0d)
+     210$C$DW$11        .dwtag  DW_TAG_member
+     211        .dwattr $C$DW$11, DW_AT_type(*$C$DW$T$11)
+     212        .dwattr $C$DW$11, DW_AT_name("SUB_MWAIT")
+     213        .dwattr $C$DW$11, DW_AT_TI_symbol_name("SUB_MWAIT")
+     214        .dwattr $C$DW$11, DW_AT_bit_offset(0x1a), DW_AT_bit_size(0x01)
+     215        .dwattr $C$DW$11, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     216        .dwattr $C$DW$11, DW_AT_accessibility(DW_ACCESS_public)
+     217        .dwattr $C$DW$11, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     218        .dwattr $C$DW$11, DW_AT_decl_line(0x3a)
+     219        .dwattr $C$DW$11, DW_AT_decl_column(0x0d)
+     220$C$DW$12        .dwtag  DW_TAG_member
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE    5
+
+     221        .dwattr $C$DW$12, DW_AT_type(*$C$DW$T$11)
+     222        .dwattr $C$DW$12, DW_AT_name("rsvd6")
+     223        .dwattr $C$DW$12, DW_AT_TI_symbol_name("rsvd6")
+     224        .dwattr $C$DW$12, DW_AT_bit_offset(0x00), DW_AT_bit_size(0x1a)
+     225        .dwattr $C$DW$12, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     226        .dwattr $C$DW$12, DW_AT_accessibility(DW_ACCESS_public)
+     227        .dwattr $C$DW$12, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     228        .dwattr $C$DW$12, DW_AT_decl_line(0x3b)
+     229        .dwattr $C$DW$12, DW_AT_decl_column(0x0d)
+     230        .dwendtag $C$DW$T$20
+     231
+     232        .dwattr $C$DW$T$20, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+     233        .dwattr $C$DW$T$20, DW_AT_decl_line(0x36)
+     234        .dwattr $C$DW$T$20, DW_AT_decl_column(0x13)
+     235$C$DW$T$50      .dwtag  DW_TAG_volatile_type
+     236        .dwattr $C$DW$T$50, DW_AT_type(*$C$DW$T$20)
+     237
+     238$C$DW$T$21      .dwtag  DW_TAG_structure_type
+     239        .dwattr $C$DW$T$21, DW_AT_byte_size(0x04)
+     240$C$DW$13        .dwtag  DW_TAG_member
+     241        .dwattr $C$DW$13, DW_AT_type(*$C$DW$T$11)
+     242        .dwattr $C$DW$13, DW_AT_name("PRU0_GPI_MODE")
+     243        .dwattr $C$DW$13, DW_AT_TI_symbol_name("PRU0_GPI_MODE")
+     244        .dwattr $C$DW$13, DW_AT_bit_offset(0x1e), DW_AT_bit_size(0x02)
+     245        .dwattr $C$DW$13, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     246        .dwattr $C$DW$13, DW_AT_accessibility(DW_ACCESS_public)
+     247        .dwattr $C$DW$13, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     248        .dwattr $C$DW$13, DW_AT_decl_line(0x45)
+     249        .dwattr $C$DW$13, DW_AT_decl_column(0x0d)
+     250$C$DW$14        .dwtag  DW_TAG_member
+     251        .dwattr $C$DW$14, DW_AT_type(*$C$DW$T$11)
+     252        .dwattr $C$DW$14, DW_AT_name("PRU0_GPI_CLK_MODE")
+     253        .dwattr $C$DW$14, DW_AT_TI_symbol_name("PRU0_GPI_CLK_MODE")
+     254        .dwattr $C$DW$14, DW_AT_bit_offset(0x1d), DW_AT_bit_size(0x01)
+     255        .dwattr $C$DW$14, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     256        .dwattr $C$DW$14, DW_AT_accessibility(DW_ACCESS_public)
+     257        .dwattr $C$DW$14, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     258        .dwattr $C$DW$14, DW_AT_decl_line(0x46)
+     259        .dwattr $C$DW$14, DW_AT_decl_column(0x0d)
+     260$C$DW$15        .dwtag  DW_TAG_member
+     261        .dwattr $C$DW$15, DW_AT_type(*$C$DW$T$11)
+     262        .dwattr $C$DW$15, DW_AT_name("PRU0_GPI_DIV0")
+     263        .dwattr $C$DW$15, DW_AT_TI_symbol_name("PRU0_GPI_DIV0")
+     264        .dwattr $C$DW$15, DW_AT_bit_offset(0x18), DW_AT_bit_size(0x05)
+     265        .dwattr $C$DW$15, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     266        .dwattr $C$DW$15, DW_AT_accessibility(DW_ACCESS_public)
+     267        .dwattr $C$DW$15, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     268        .dwattr $C$DW$15, DW_AT_decl_line(0x47)
+     269        .dwattr $C$DW$15, DW_AT_decl_column(0x0d)
+     270$C$DW$16        .dwtag  DW_TAG_member
+     271        .dwattr $C$DW$16, DW_AT_type(*$C$DW$T$11)
+     272        .dwattr $C$DW$16, DW_AT_name("PRU0_GPI_DIV1")
+     273        .dwattr $C$DW$16, DW_AT_TI_symbol_name("PRU0_GPI_DIV1")
+     274        .dwattr $C$DW$16, DW_AT_bit_offset(0x13), DW_AT_bit_size(0x05)
+     275        .dwattr $C$DW$16, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE    6
+
+     276        .dwattr $C$DW$16, DW_AT_accessibility(DW_ACCESS_public)
+     277        .dwattr $C$DW$16, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     278        .dwattr $C$DW$16, DW_AT_decl_line(0x48)
+     279        .dwattr $C$DW$16, DW_AT_decl_column(0x0d)
+     280$C$DW$17        .dwtag  DW_TAG_member
+     281        .dwattr $C$DW$17, DW_AT_type(*$C$DW$T$11)
+     282        .dwattr $C$DW$17, DW_AT_name("PRU0_GPI_SB")
+     283        .dwattr $C$DW$17, DW_AT_TI_symbol_name("PRU0_GPI_SB")
+     284        .dwattr $C$DW$17, DW_AT_bit_offset(0x12), DW_AT_bit_size(0x01)
+     285        .dwattr $C$DW$17, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     286        .dwattr $C$DW$17, DW_AT_accessibility(DW_ACCESS_public)
+     287        .dwattr $C$DW$17, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     288        .dwattr $C$DW$17, DW_AT_decl_line(0x49)
+     289        .dwattr $C$DW$17, DW_AT_decl_column(0x0d)
+     290$C$DW$18        .dwtag  DW_TAG_member
+     291        .dwattr $C$DW$18, DW_AT_type(*$C$DW$T$11)
+     292        .dwattr $C$DW$18, DW_AT_name("PRU0_GPO_MODE")
+     293        .dwattr $C$DW$18, DW_AT_TI_symbol_name("PRU0_GPO_MODE")
+     294        .dwattr $C$DW$18, DW_AT_bit_offset(0x11), DW_AT_bit_size(0x01)
+     295        .dwattr $C$DW$18, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     296        .dwattr $C$DW$18, DW_AT_accessibility(DW_ACCESS_public)
+     297        .dwattr $C$DW$18, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     298        .dwattr $C$DW$18, DW_AT_decl_line(0x4a)
+     299        .dwattr $C$DW$18, DW_AT_decl_column(0x0d)
+     300$C$DW$19        .dwtag  DW_TAG_member
+     301        .dwattr $C$DW$19, DW_AT_type(*$C$DW$T$11)
+     302        .dwattr $C$DW$19, DW_AT_name("PRU0_GPO_DIV0")
+     303        .dwattr $C$DW$19, DW_AT_TI_symbol_name("PRU0_GPO_DIV0")
+     304        .dwattr $C$DW$19, DW_AT_bit_offset(0x0c), DW_AT_bit_size(0x05)
+     305        .dwattr $C$DW$19, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     306        .dwattr $C$DW$19, DW_AT_accessibility(DW_ACCESS_public)
+     307        .dwattr $C$DW$19, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     308        .dwattr $C$DW$19, DW_AT_decl_line(0x4b)
+     309        .dwattr $C$DW$19, DW_AT_decl_column(0x0d)
+     310$C$DW$20        .dwtag  DW_TAG_member
+     311        .dwattr $C$DW$20, DW_AT_type(*$C$DW$T$11)
+     312        .dwattr $C$DW$20, DW_AT_name("PRU0_GPO_DIV1")
+     313        .dwattr $C$DW$20, DW_AT_TI_symbol_name("PRU0_GPO_DIV1")
+     314        .dwattr $C$DW$20, DW_AT_bit_offset(0x07), DW_AT_bit_size(0x05)
+     315        .dwattr $C$DW$20, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     316        .dwattr $C$DW$20, DW_AT_accessibility(DW_ACCESS_public)
+     317        .dwattr $C$DW$20, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     318        .dwattr $C$DW$20, DW_AT_decl_line(0x4c)
+     319        .dwattr $C$DW$20, DW_AT_decl_column(0x0d)
+     320$C$DW$21        .dwtag  DW_TAG_member
+     321        .dwattr $C$DW$21, DW_AT_type(*$C$DW$T$11)
+     322        .dwattr $C$DW$21, DW_AT_name("PRU0_GPO_SH_SEL")
+     323        .dwattr $C$DW$21, DW_AT_TI_symbol_name("PRU0_GPO_SH_SEL")
+     324        .dwattr $C$DW$21, DW_AT_bit_offset(0x06), DW_AT_bit_size(0x01)
+     325        .dwattr $C$DW$21, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     326        .dwattr $C$DW$21, DW_AT_accessibility(DW_ACCESS_public)
+     327        .dwattr $C$DW$21, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     328        .dwattr $C$DW$21, DW_AT_decl_line(0x4d)
+     329        .dwattr $C$DW$21, DW_AT_decl_column(0x0d)
+     330$C$DW$22        .dwtag  DW_TAG_member
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE    7
+
+     331        .dwattr $C$DW$22, DW_AT_type(*$C$DW$T$11)
+     332        .dwattr $C$DW$22, DW_AT_name("rsvd26")
+     333        .dwattr $C$DW$22, DW_AT_TI_symbol_name("rsvd26")
+     334        .dwattr $C$DW$22, DW_AT_bit_offset(0x00), DW_AT_bit_size(0x06)
+     335        .dwattr $C$DW$22, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     336        .dwattr $C$DW$22, DW_AT_accessibility(DW_ACCESS_public)
+     337        .dwattr $C$DW$22, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     338        .dwattr $C$DW$22, DW_AT_decl_line(0x4e)
+     339        .dwattr $C$DW$22, DW_AT_decl_column(0x0d)
+     340        .dwendtag $C$DW$T$21
+     341
+     342        .dwattr $C$DW$T$21, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+     343        .dwattr $C$DW$T$21, DW_AT_decl_line(0x44)
+     344        .dwattr $C$DW$T$21, DW_AT_decl_column(0x13)
+     345$C$DW$T$52      .dwtag  DW_TAG_volatile_type
+     346        .dwattr $C$DW$T$52, DW_AT_type(*$C$DW$T$21)
+     347
+     348$C$DW$T$22      .dwtag  DW_TAG_structure_type
+     349        .dwattr $C$DW$T$22, DW_AT_byte_size(0x04)
+     350$C$DW$23        .dwtag  DW_TAG_member
+     351        .dwattr $C$DW$23, DW_AT_type(*$C$DW$T$11)
+     352        .dwattr $C$DW$23, DW_AT_name("PRU1_GPI_MODE")
+     353        .dwattr $C$DW$23, DW_AT_TI_symbol_name("PRU1_GPI_MODE")
+     354        .dwattr $C$DW$23, DW_AT_bit_offset(0x1e), DW_AT_bit_size(0x02)
+     355        .dwattr $C$DW$23, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     356        .dwattr $C$DW$23, DW_AT_accessibility(DW_ACCESS_public)
+     357        .dwattr $C$DW$23, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     358        .dwattr $C$DW$23, DW_AT_decl_line(0x58)
+     359        .dwattr $C$DW$23, DW_AT_decl_column(0x0d)
+     360$C$DW$24        .dwtag  DW_TAG_member
+     361        .dwattr $C$DW$24, DW_AT_type(*$C$DW$T$11)
+     362        .dwattr $C$DW$24, DW_AT_name("PRU1_GPI_CLK_MODE")
+     363        .dwattr $C$DW$24, DW_AT_TI_symbol_name("PRU1_GPI_CLK_MODE")
+     364        .dwattr $C$DW$24, DW_AT_bit_offset(0x1d), DW_AT_bit_size(0x01)
+     365        .dwattr $C$DW$24, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     366        .dwattr $C$DW$24, DW_AT_accessibility(DW_ACCESS_public)
+     367        .dwattr $C$DW$24, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     368        .dwattr $C$DW$24, DW_AT_decl_line(0x59)
+     369        .dwattr $C$DW$24, DW_AT_decl_column(0x0d)
+     370$C$DW$25        .dwtag  DW_TAG_member
+     371        .dwattr $C$DW$25, DW_AT_type(*$C$DW$T$11)
+     372        .dwattr $C$DW$25, DW_AT_name("PRU1_GPI_DIV0")
+     373        .dwattr $C$DW$25, DW_AT_TI_symbol_name("PRU1_GPI_DIV0")
+     374        .dwattr $C$DW$25, DW_AT_bit_offset(0x18), DW_AT_bit_size(0x05)
+     375        .dwattr $C$DW$25, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     376        .dwattr $C$DW$25, DW_AT_accessibility(DW_ACCESS_public)
+     377        .dwattr $C$DW$25, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     378        .dwattr $C$DW$25, DW_AT_decl_line(0x5a)
+     379        .dwattr $C$DW$25, DW_AT_decl_column(0x0d)
+     380$C$DW$26        .dwtag  DW_TAG_member
+     381        .dwattr $C$DW$26, DW_AT_type(*$C$DW$T$11)
+     382        .dwattr $C$DW$26, DW_AT_name("PRU1_GPI_DIV1")
+     383        .dwattr $C$DW$26, DW_AT_TI_symbol_name("PRU1_GPI_DIV1")
+     384        .dwattr $C$DW$26, DW_AT_bit_offset(0x13), DW_AT_bit_size(0x05)
+     385        .dwattr $C$DW$26, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE    8
+
+     386        .dwattr $C$DW$26, DW_AT_accessibility(DW_ACCESS_public)
+     387        .dwattr $C$DW$26, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     388        .dwattr $C$DW$26, DW_AT_decl_line(0x5b)
+     389        .dwattr $C$DW$26, DW_AT_decl_column(0x0d)
+     390$C$DW$27        .dwtag  DW_TAG_member
+     391        .dwattr $C$DW$27, DW_AT_type(*$C$DW$T$11)
+     392        .dwattr $C$DW$27, DW_AT_name("PRU1_GPI_SB")
+     393        .dwattr $C$DW$27, DW_AT_TI_symbol_name("PRU1_GPI_SB")
+     394        .dwattr $C$DW$27, DW_AT_bit_offset(0x12), DW_AT_bit_size(0x01)
+     395        .dwattr $C$DW$27, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     396        .dwattr $C$DW$27, DW_AT_accessibility(DW_ACCESS_public)
+     397        .dwattr $C$DW$27, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     398        .dwattr $C$DW$27, DW_AT_decl_line(0x5c)
+     399        .dwattr $C$DW$27, DW_AT_decl_column(0x0d)
+     400$C$DW$28        .dwtag  DW_TAG_member
+     401        .dwattr $C$DW$28, DW_AT_type(*$C$DW$T$11)
+     402        .dwattr $C$DW$28, DW_AT_name("PRU1_GPO_MODE")
+     403        .dwattr $C$DW$28, DW_AT_TI_symbol_name("PRU1_GPO_MODE")
+     404        .dwattr $C$DW$28, DW_AT_bit_offset(0x11), DW_AT_bit_size(0x01)
+     405        .dwattr $C$DW$28, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     406        .dwattr $C$DW$28, DW_AT_accessibility(DW_ACCESS_public)
+     407        .dwattr $C$DW$28, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     408        .dwattr $C$DW$28, DW_AT_decl_line(0x5d)
+     409        .dwattr $C$DW$28, DW_AT_decl_column(0x0d)
+     410$C$DW$29        .dwtag  DW_TAG_member
+     411        .dwattr $C$DW$29, DW_AT_type(*$C$DW$T$11)
+     412        .dwattr $C$DW$29, DW_AT_name("PRU1_GPO_DIV0")
+     413        .dwattr $C$DW$29, DW_AT_TI_symbol_name("PRU1_GPO_DIV0")
+     414        .dwattr $C$DW$29, DW_AT_bit_offset(0x0c), DW_AT_bit_size(0x05)
+     415        .dwattr $C$DW$29, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     416        .dwattr $C$DW$29, DW_AT_accessibility(DW_ACCESS_public)
+     417        .dwattr $C$DW$29, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     418        .dwattr $C$DW$29, DW_AT_decl_line(0x5e)
+     419        .dwattr $C$DW$29, DW_AT_decl_column(0x0d)
+     420$C$DW$30        .dwtag  DW_TAG_member
+     421        .dwattr $C$DW$30, DW_AT_type(*$C$DW$T$11)
+     422        .dwattr $C$DW$30, DW_AT_name("PRU1_GPO_DIV1")
+     423        .dwattr $C$DW$30, DW_AT_TI_symbol_name("PRU1_GPO_DIV1")
+     424        .dwattr $C$DW$30, DW_AT_bit_offset(0x07), DW_AT_bit_size(0x05)
+     425        .dwattr $C$DW$30, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     426        .dwattr $C$DW$30, DW_AT_accessibility(DW_ACCESS_public)
+     427        .dwattr $C$DW$30, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     428        .dwattr $C$DW$30, DW_AT_decl_line(0x5f)
+     429        .dwattr $C$DW$30, DW_AT_decl_column(0x0d)
+     430$C$DW$31        .dwtag  DW_TAG_member
+     431        .dwattr $C$DW$31, DW_AT_type(*$C$DW$T$11)
+     432        .dwattr $C$DW$31, DW_AT_name("PRU1_GPO_SH_SEL")
+     433        .dwattr $C$DW$31, DW_AT_TI_symbol_name("PRU1_GPO_SH_SEL")
+     434        .dwattr $C$DW$31, DW_AT_bit_offset(0x06), DW_AT_bit_size(0x01)
+     435        .dwattr $C$DW$31, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     436        .dwattr $C$DW$31, DW_AT_accessibility(DW_ACCESS_public)
+     437        .dwattr $C$DW$31, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     438        .dwattr $C$DW$31, DW_AT_decl_line(0x60)
+     439        .dwattr $C$DW$31, DW_AT_decl_column(0x0d)
+     440$C$DW$32        .dwtag  DW_TAG_member
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE    9
+
+     441        .dwattr $C$DW$32, DW_AT_type(*$C$DW$T$11)
+     442        .dwattr $C$DW$32, DW_AT_name("rsvd26")
+     443        .dwattr $C$DW$32, DW_AT_TI_symbol_name("rsvd26")
+     444        .dwattr $C$DW$32, DW_AT_bit_offset(0x00), DW_AT_bit_size(0x06)
+     445        .dwattr $C$DW$32, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     446        .dwattr $C$DW$32, DW_AT_accessibility(DW_ACCESS_public)
+     447        .dwattr $C$DW$32, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     448        .dwattr $C$DW$32, DW_AT_decl_line(0x61)
+     449        .dwattr $C$DW$32, DW_AT_decl_column(0x0d)
+     450        .dwendtag $C$DW$T$22
+     451
+     452        .dwattr $C$DW$T$22, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+     453        .dwattr $C$DW$T$22, DW_AT_decl_line(0x57)
+     454        .dwattr $C$DW$T$22, DW_AT_decl_column(0x13)
+     455$C$DW$T$54      .dwtag  DW_TAG_volatile_type
+     456        .dwattr $C$DW$T$54, DW_AT_type(*$C$DW$T$22)
+     457
+     458$C$DW$T$23      .dwtag  DW_TAG_structure_type
+     459        .dwattr $C$DW$T$23, DW_AT_byte_size(0x04)
+     460$C$DW$33        .dwtag  DW_TAG_member
+     461        .dwattr $C$DW$33, DW_AT_type(*$C$DW$T$11)
+     462        .dwattr $C$DW$33, DW_AT_name("PRU0_CLK_STOP_REQ")
+     463        .dwattr $C$DW$33, DW_AT_TI_symbol_name("PRU0_CLK_STOP_REQ")
+     464        .dwattr $C$DW$33, DW_AT_bit_offset(0x1f), DW_AT_bit_size(0x01)
+     465        .dwattr $C$DW$33, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     466        .dwattr $C$DW$33, DW_AT_accessibility(DW_ACCESS_public)
+     467        .dwattr $C$DW$33, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     468        .dwattr $C$DW$33, DW_AT_decl_line(0x6b)
+     469        .dwattr $C$DW$33, DW_AT_decl_column(0x0d)
+     470$C$DW$34        .dwtag  DW_TAG_member
+     471        .dwattr $C$DW$34, DW_AT_type(*$C$DW$T$11)
+     472        .dwattr $C$DW$34, DW_AT_name("PRU0_CLK_STOP_ACK")
+     473        .dwattr $C$DW$34, DW_AT_TI_symbol_name("PRU0_CLK_STOP_ACK")
+     474        .dwattr $C$DW$34, DW_AT_bit_offset(0x1e), DW_AT_bit_size(0x01)
+     475        .dwattr $C$DW$34, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     476        .dwattr $C$DW$34, DW_AT_accessibility(DW_ACCESS_public)
+     477        .dwattr $C$DW$34, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     478        .dwattr $C$DW$34, DW_AT_decl_line(0x6c)
+     479        .dwattr $C$DW$34, DW_AT_decl_column(0x0d)
+     480$C$DW$35        .dwtag  DW_TAG_member
+     481        .dwattr $C$DW$35, DW_AT_type(*$C$DW$T$11)
+     482        .dwattr $C$DW$35, DW_AT_name("PRU0_CLK_EN")
+     483        .dwattr $C$DW$35, DW_AT_TI_symbol_name("PRU0_CLK_EN")
+     484        .dwattr $C$DW$35, DW_AT_bit_offset(0x1d), DW_AT_bit_size(0x01)
+     485        .dwattr $C$DW$35, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     486        .dwattr $C$DW$35, DW_AT_accessibility(DW_ACCESS_public)
+     487        .dwattr $C$DW$35, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     488        .dwattr $C$DW$35, DW_AT_decl_line(0x6d)
+     489        .dwattr $C$DW$35, DW_AT_decl_column(0x0d)
+     490$C$DW$36        .dwtag  DW_TAG_member
+     491        .dwattr $C$DW$36, DW_AT_type(*$C$DW$T$11)
+     492        .dwattr $C$DW$36, DW_AT_name("PRU1_CLK_STOP_REQ")
+     493        .dwattr $C$DW$36, DW_AT_TI_symbol_name("PRU1_CLK_STOP_REQ")
+     494        .dwattr $C$DW$36, DW_AT_bit_offset(0x1c), DW_AT_bit_size(0x01)
+     495        .dwattr $C$DW$36, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   10
+
+     496        .dwattr $C$DW$36, DW_AT_accessibility(DW_ACCESS_public)
+     497        .dwattr $C$DW$36, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     498        .dwattr $C$DW$36, DW_AT_decl_line(0x6e)
+     499        .dwattr $C$DW$36, DW_AT_decl_column(0x0d)
+     500$C$DW$37        .dwtag  DW_TAG_member
+     501        .dwattr $C$DW$37, DW_AT_type(*$C$DW$T$11)
+     502        .dwattr $C$DW$37, DW_AT_name("PRU1_CLK_STOP_ACK")
+     503        .dwattr $C$DW$37, DW_AT_TI_symbol_name("PRU1_CLK_STOP_ACK")
+     504        .dwattr $C$DW$37, DW_AT_bit_offset(0x1b), DW_AT_bit_size(0x01)
+     505        .dwattr $C$DW$37, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     506        .dwattr $C$DW$37, DW_AT_accessibility(DW_ACCESS_public)
+     507        .dwattr $C$DW$37, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     508        .dwattr $C$DW$37, DW_AT_decl_line(0x6f)
+     509        .dwattr $C$DW$37, DW_AT_decl_column(0x0d)
+     510$C$DW$38        .dwtag  DW_TAG_member
+     511        .dwattr $C$DW$38, DW_AT_type(*$C$DW$T$11)
+     512        .dwattr $C$DW$38, DW_AT_name("PRU1_CLK_EN")
+     513        .dwattr $C$DW$38, DW_AT_TI_symbol_name("PRU1_CLK_EN")
+     514        .dwattr $C$DW$38, DW_AT_bit_offset(0x1a), DW_AT_bit_size(0x01)
+     515        .dwattr $C$DW$38, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     516        .dwattr $C$DW$38, DW_AT_accessibility(DW_ACCESS_public)
+     517        .dwattr $C$DW$38, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     518        .dwattr $C$DW$38, DW_AT_decl_line(0x70)
+     519        .dwattr $C$DW$38, DW_AT_decl_column(0x0d)
+     520$C$DW$39        .dwtag  DW_TAG_member
+     521        .dwattr $C$DW$39, DW_AT_type(*$C$DW$T$11)
+     522        .dwattr $C$DW$39, DW_AT_name("INTC_CLK_STOP_REQ")
+     523        .dwattr $C$DW$39, DW_AT_TI_symbol_name("INTC_CLK_STOP_REQ")
+     524        .dwattr $C$DW$39, DW_AT_bit_offset(0x19), DW_AT_bit_size(0x01)
+     525        .dwattr $C$DW$39, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     526        .dwattr $C$DW$39, DW_AT_accessibility(DW_ACCESS_public)
+     527        .dwattr $C$DW$39, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     528        .dwattr $C$DW$39, DW_AT_decl_line(0x71)
+     529        .dwattr $C$DW$39, DW_AT_decl_column(0x0d)
+     530$C$DW$40        .dwtag  DW_TAG_member
+     531        .dwattr $C$DW$40, DW_AT_type(*$C$DW$T$11)
+     532        .dwattr $C$DW$40, DW_AT_name("INTC_CLK_STOP_ACK")
+     533        .dwattr $C$DW$40, DW_AT_TI_symbol_name("INTC_CLK_STOP_ACK")
+     534        .dwattr $C$DW$40, DW_AT_bit_offset(0x18), DW_AT_bit_size(0x01)
+     535        .dwattr $C$DW$40, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     536        .dwattr $C$DW$40, DW_AT_accessibility(DW_ACCESS_public)
+     537        .dwattr $C$DW$40, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     538        .dwattr $C$DW$40, DW_AT_decl_line(0x72)
+     539        .dwattr $C$DW$40, DW_AT_decl_column(0x0d)
+     540$C$DW$41        .dwtag  DW_TAG_member
+     541        .dwattr $C$DW$41, DW_AT_type(*$C$DW$T$11)
+     542        .dwattr $C$DW$41, DW_AT_name("INTC_CLK_EN")
+     543        .dwattr $C$DW$41, DW_AT_TI_symbol_name("INTC_CLK_EN")
+     544        .dwattr $C$DW$41, DW_AT_bit_offset(0x17), DW_AT_bit_size(0x01)
+     545        .dwattr $C$DW$41, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     546        .dwattr $C$DW$41, DW_AT_accessibility(DW_ACCESS_public)
+     547        .dwattr $C$DW$41, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     548        .dwattr $C$DW$41, DW_AT_decl_line(0x73)
+     549        .dwattr $C$DW$41, DW_AT_decl_column(0x0d)
+     550$C$DW$42        .dwtag  DW_TAG_member
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   11
+
+     551        .dwattr $C$DW$42, DW_AT_type(*$C$DW$T$11)
+     552        .dwattr $C$DW$42, DW_AT_name("UART_CLK_STOP_REQ")
+     553        .dwattr $C$DW$42, DW_AT_TI_symbol_name("UART_CLK_STOP_REQ")
+     554        .dwattr $C$DW$42, DW_AT_bit_offset(0x16), DW_AT_bit_size(0x01)
+     555        .dwattr $C$DW$42, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     556        .dwattr $C$DW$42, DW_AT_accessibility(DW_ACCESS_public)
+     557        .dwattr $C$DW$42, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     558        .dwattr $C$DW$42, DW_AT_decl_line(0x74)
+     559        .dwattr $C$DW$42, DW_AT_decl_column(0x0d)
+     560$C$DW$43        .dwtag  DW_TAG_member
+     561        .dwattr $C$DW$43, DW_AT_type(*$C$DW$T$11)
+     562        .dwattr $C$DW$43, DW_AT_name("UART_CLK_STOP_ACK")
+     563        .dwattr $C$DW$43, DW_AT_TI_symbol_name("UART_CLK_STOP_ACK")
+     564        .dwattr $C$DW$43, DW_AT_bit_offset(0x15), DW_AT_bit_size(0x01)
+     565        .dwattr $C$DW$43, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     566        .dwattr $C$DW$43, DW_AT_accessibility(DW_ACCESS_public)
+     567        .dwattr $C$DW$43, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     568        .dwattr $C$DW$43, DW_AT_decl_line(0x75)
+     569        .dwattr $C$DW$43, DW_AT_decl_column(0x0d)
+     570$C$DW$44        .dwtag  DW_TAG_member
+     571        .dwattr $C$DW$44, DW_AT_type(*$C$DW$T$11)
+     572        .dwattr $C$DW$44, DW_AT_name("UART_CLK_EN")
+     573        .dwattr $C$DW$44, DW_AT_TI_symbol_name("UART_CLK_EN")
+     574        .dwattr $C$DW$44, DW_AT_bit_offset(0x14), DW_AT_bit_size(0x01)
+     575        .dwattr $C$DW$44, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     576        .dwattr $C$DW$44, DW_AT_accessibility(DW_ACCESS_public)
+     577        .dwattr $C$DW$44, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     578        .dwattr $C$DW$44, DW_AT_decl_line(0x76)
+     579        .dwattr $C$DW$44, DW_AT_decl_column(0x0d)
+     580$C$DW$45        .dwtag  DW_TAG_member
+     581        .dwattr $C$DW$45, DW_AT_type(*$C$DW$T$11)
+     582        .dwattr $C$DW$45, DW_AT_name("ECAP_CLK_STOP_REQ")
+     583        .dwattr $C$DW$45, DW_AT_TI_symbol_name("ECAP_CLK_STOP_REQ")
+     584        .dwattr $C$DW$45, DW_AT_bit_offset(0x13), DW_AT_bit_size(0x01)
+     585        .dwattr $C$DW$45, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     586        .dwattr $C$DW$45, DW_AT_accessibility(DW_ACCESS_public)
+     587        .dwattr $C$DW$45, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     588        .dwattr $C$DW$45, DW_AT_decl_line(0x77)
+     589        .dwattr $C$DW$45, DW_AT_decl_column(0x0d)
+     590$C$DW$46        .dwtag  DW_TAG_member
+     591        .dwattr $C$DW$46, DW_AT_type(*$C$DW$T$11)
+     592        .dwattr $C$DW$46, DW_AT_name("ECAP_CLK_STOP_ACK")
+     593        .dwattr $C$DW$46, DW_AT_TI_symbol_name("ECAP_CLK_STOP_ACK")
+     594        .dwattr $C$DW$46, DW_AT_bit_offset(0x12), DW_AT_bit_size(0x01)
+     595        .dwattr $C$DW$46, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     596        .dwattr $C$DW$46, DW_AT_accessibility(DW_ACCESS_public)
+     597        .dwattr $C$DW$46, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     598        .dwattr $C$DW$46, DW_AT_decl_line(0x78)
+     599        .dwattr $C$DW$46, DW_AT_decl_column(0x0d)
+     600$C$DW$47        .dwtag  DW_TAG_member
+     601        .dwattr $C$DW$47, DW_AT_type(*$C$DW$T$11)
+     602        .dwattr $C$DW$47, DW_AT_name("ECAP_CLK_EN")
+     603        .dwattr $C$DW$47, DW_AT_TI_symbol_name("ECAP_CLK_EN")
+     604        .dwattr $C$DW$47, DW_AT_bit_offset(0x11), DW_AT_bit_size(0x01)
+     605        .dwattr $C$DW$47, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   12
+
+     606        .dwattr $C$DW$47, DW_AT_accessibility(DW_ACCESS_public)
+     607        .dwattr $C$DW$47, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     608        .dwattr $C$DW$47, DW_AT_decl_line(0x79)
+     609        .dwattr $C$DW$47, DW_AT_decl_column(0x0d)
+     610$C$DW$48        .dwtag  DW_TAG_member
+     611        .dwattr $C$DW$48, DW_AT_type(*$C$DW$T$11)
+     612        .dwattr $C$DW$48, DW_AT_name("IEP_CLK_STOP_REQ")
+     613        .dwattr $C$DW$48, DW_AT_TI_symbol_name("IEP_CLK_STOP_REQ")
+     614        .dwattr $C$DW$48, DW_AT_bit_offset(0x10), DW_AT_bit_size(0x01)
+     615        .dwattr $C$DW$48, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     616        .dwattr $C$DW$48, DW_AT_accessibility(DW_ACCESS_public)
+     617        .dwattr $C$DW$48, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     618        .dwattr $C$DW$48, DW_AT_decl_line(0x7a)
+     619        .dwattr $C$DW$48, DW_AT_decl_column(0x0d)
+     620$C$DW$49        .dwtag  DW_TAG_member
+     621        .dwattr $C$DW$49, DW_AT_type(*$C$DW$T$11)
+     622        .dwattr $C$DW$49, DW_AT_name("IEP_CLK_STOP_ACK")
+     623        .dwattr $C$DW$49, DW_AT_TI_symbol_name("IEP_CLK_STOP_ACK")
+     624        .dwattr $C$DW$49, DW_AT_bit_offset(0x0f), DW_AT_bit_size(0x01)
+     625        .dwattr $C$DW$49, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     626        .dwattr $C$DW$49, DW_AT_accessibility(DW_ACCESS_public)
+     627        .dwattr $C$DW$49, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     628        .dwattr $C$DW$49, DW_AT_decl_line(0x7b)
+     629        .dwattr $C$DW$49, DW_AT_decl_column(0x0d)
+     630$C$DW$50        .dwtag  DW_TAG_member
+     631        .dwattr $C$DW$50, DW_AT_type(*$C$DW$T$11)
+     632        .dwattr $C$DW$50, DW_AT_name("IEP_CLK_EN")
+     633        .dwattr $C$DW$50, DW_AT_TI_symbol_name("IEP_CLK_EN")
+     634        .dwattr $C$DW$50, DW_AT_bit_offset(0x0e), DW_AT_bit_size(0x01)
+     635        .dwattr $C$DW$50, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     636        .dwattr $C$DW$50, DW_AT_accessibility(DW_ACCESS_public)
+     637        .dwattr $C$DW$50, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     638        .dwattr $C$DW$50, DW_AT_decl_line(0x7c)
+     639        .dwattr $C$DW$50, DW_AT_decl_column(0x0d)
+     640$C$DW$51        .dwtag  DW_TAG_member
+     641        .dwattr $C$DW$51, DW_AT_type(*$C$DW$T$11)
+     642        .dwattr $C$DW$51, DW_AT_name("rsvd18")
+     643        .dwattr $C$DW$51, DW_AT_TI_symbol_name("rsvd18")
+     644        .dwattr $C$DW$51, DW_AT_bit_offset(0x00), DW_AT_bit_size(0x0e)
+     645        .dwattr $C$DW$51, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     646        .dwattr $C$DW$51, DW_AT_accessibility(DW_ACCESS_public)
+     647        .dwattr $C$DW$51, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     648        .dwattr $C$DW$51, DW_AT_decl_line(0x7d)
+     649        .dwattr $C$DW$51, DW_AT_decl_column(0x0d)
+     650        .dwendtag $C$DW$T$23
+     651
+     652        .dwattr $C$DW$T$23, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+     653        .dwattr $C$DW$T$23, DW_AT_decl_line(0x6a)
+     654        .dwattr $C$DW$T$23, DW_AT_decl_column(0x13)
+     655$C$DW$T$56      .dwtag  DW_TAG_volatile_type
+     656        .dwattr $C$DW$T$56, DW_AT_type(*$C$DW$T$23)
+     657
+     658$C$DW$T$24      .dwtag  DW_TAG_structure_type
+     659        .dwattr $C$DW$T$24, DW_AT_byte_size(0x04)
+     660$C$DW$52        .dwtag  DW_TAG_member
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   13
+
+     661        .dwattr $C$DW$52, DW_AT_type(*$C$DW$T$11)
+     662        .dwattr $C$DW$52, DW_AT_name("PRU0_IMEM_PE_RAW")
+     663        .dwattr $C$DW$52, DW_AT_TI_symbol_name("PRU0_IMEM_PE_RAW")
+     664        .dwattr $C$DW$52, DW_AT_bit_offset(0x1c), DW_AT_bit_size(0x04)
+     665        .dwattr $C$DW$52, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     666        .dwattr $C$DW$52, DW_AT_accessibility(DW_ACCESS_public)
+     667        .dwattr $C$DW$52, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     668        .dwattr $C$DW$52, DW_AT_decl_line(0x87)
+     669        .dwattr $C$DW$52, DW_AT_decl_column(0x0d)
+     670$C$DW$53        .dwtag  DW_TAG_member
+     671        .dwattr $C$DW$53, DW_AT_type(*$C$DW$T$11)
+     672        .dwattr $C$DW$53, DW_AT_name("PRU0_DMEM_PE_RAW")
+     673        .dwattr $C$DW$53, DW_AT_TI_symbol_name("PRU0_DMEM_PE_RAW")
+     674        .dwattr $C$DW$53, DW_AT_bit_offset(0x18), DW_AT_bit_size(0x04)
+     675        .dwattr $C$DW$53, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     676        .dwattr $C$DW$53, DW_AT_accessibility(DW_ACCESS_public)
+     677        .dwattr $C$DW$53, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     678        .dwattr $C$DW$53, DW_AT_decl_line(0x88)
+     679        .dwattr $C$DW$53, DW_AT_decl_column(0x0d)
+     680$C$DW$54        .dwtag  DW_TAG_member
+     681        .dwattr $C$DW$54, DW_AT_type(*$C$DW$T$11)
+     682        .dwattr $C$DW$54, DW_AT_name("PRU1_IMEM_PE_RAW")
+     683        .dwattr $C$DW$54, DW_AT_TI_symbol_name("PRU1_IMEM_PE_RAW")
+     684        .dwattr $C$DW$54, DW_AT_bit_offset(0x14), DW_AT_bit_size(0x04)
+     685        .dwattr $C$DW$54, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     686        .dwattr $C$DW$54, DW_AT_accessibility(DW_ACCESS_public)
+     687        .dwattr $C$DW$54, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     688        .dwattr $C$DW$54, DW_AT_decl_line(0x89)
+     689        .dwattr $C$DW$54, DW_AT_decl_column(0x0d)
+     690$C$DW$55        .dwtag  DW_TAG_member
+     691        .dwattr $C$DW$55, DW_AT_type(*$C$DW$T$11)
+     692        .dwattr $C$DW$55, DW_AT_name("PRU1_DMEM_PE_RAW")
+     693        .dwattr $C$DW$55, DW_AT_TI_symbol_name("PRU1_DMEM_PE_RAW")
+     694        .dwattr $C$DW$55, DW_AT_bit_offset(0x10), DW_AT_bit_size(0x04)
+     695        .dwattr $C$DW$55, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     696        .dwattr $C$DW$55, DW_AT_accessibility(DW_ACCESS_public)
+     697        .dwattr $C$DW$55, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     698        .dwattr $C$DW$55, DW_AT_decl_line(0x8a)
+     699        .dwattr $C$DW$55, DW_AT_decl_column(0x0d)
+     700$C$DW$56        .dwtag  DW_TAG_member
+     701        .dwattr $C$DW$56, DW_AT_type(*$C$DW$T$11)
+     702        .dwattr $C$DW$56, DW_AT_name("RAM_PE_RAW")
+     703        .dwattr $C$DW$56, DW_AT_TI_symbol_name("RAM_PE_RAW")
+     704        .dwattr $C$DW$56, DW_AT_bit_offset(0x0c), DW_AT_bit_size(0x04)
+     705        .dwattr $C$DW$56, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     706        .dwattr $C$DW$56, DW_AT_accessibility(DW_ACCESS_public)
+     707        .dwattr $C$DW$56, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     708        .dwattr $C$DW$56, DW_AT_decl_line(0x8b)
+     709        .dwattr $C$DW$56, DW_AT_decl_column(0x0d)
+     710$C$DW$57        .dwtag  DW_TAG_member
+     711        .dwattr $C$DW$57, DW_AT_type(*$C$DW$T$11)
+     712        .dwattr $C$DW$57, DW_AT_name("rsvd20")
+     713        .dwattr $C$DW$57, DW_AT_TI_symbol_name("rsvd20")
+     714        .dwattr $C$DW$57, DW_AT_bit_offset(0x00), DW_AT_bit_size(0x0c)
+     715        .dwattr $C$DW$57, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   14
+
+     716        .dwattr $C$DW$57, DW_AT_accessibility(DW_ACCESS_public)
+     717        .dwattr $C$DW$57, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     718        .dwattr $C$DW$57, DW_AT_decl_line(0x8c)
+     719        .dwattr $C$DW$57, DW_AT_decl_column(0x0d)
+     720        .dwendtag $C$DW$T$24
+     721
+     722        .dwattr $C$DW$T$24, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+     723        .dwattr $C$DW$T$24, DW_AT_decl_line(0x86)
+     724        .dwattr $C$DW$T$24, DW_AT_decl_column(0x14)
+     725$C$DW$T$58      .dwtag  DW_TAG_volatile_type
+     726        .dwattr $C$DW$T$58, DW_AT_type(*$C$DW$T$24)
+     727
+     728$C$DW$T$25      .dwtag  DW_TAG_structure_type
+     729        .dwattr $C$DW$T$25, DW_AT_byte_size(0x04)
+     730$C$DW$58        .dwtag  DW_TAG_member
+     731        .dwattr $C$DW$58, DW_AT_type(*$C$DW$T$11)
+     732        .dwattr $C$DW$58, DW_AT_name("PRU0_IMEM_PE")
+     733        .dwattr $C$DW$58, DW_AT_TI_symbol_name("PRU0_IMEM_PE")
+     734        .dwattr $C$DW$58, DW_AT_bit_offset(0x1c), DW_AT_bit_size(0x04)
+     735        .dwattr $C$DW$58, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     736        .dwattr $C$DW$58, DW_AT_accessibility(DW_ACCESS_public)
+     737        .dwattr $C$DW$58, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     738        .dwattr $C$DW$58, DW_AT_decl_line(0x96)
+     739        .dwattr $C$DW$58, DW_AT_decl_column(0x0d)
+     740$C$DW$59        .dwtag  DW_TAG_member
+     741        .dwattr $C$DW$59, DW_AT_type(*$C$DW$T$11)
+     742        .dwattr $C$DW$59, DW_AT_name("PRU0_DMEM_PE")
+     743        .dwattr $C$DW$59, DW_AT_TI_symbol_name("PRU0_DMEM_PE")
+     744        .dwattr $C$DW$59, DW_AT_bit_offset(0x18), DW_AT_bit_size(0x04)
+     745        .dwattr $C$DW$59, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     746        .dwattr $C$DW$59, DW_AT_accessibility(DW_ACCESS_public)
+     747        .dwattr $C$DW$59, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     748        .dwattr $C$DW$59, DW_AT_decl_line(0x97)
+     749        .dwattr $C$DW$59, DW_AT_decl_column(0x0d)
+     750$C$DW$60        .dwtag  DW_TAG_member
+     751        .dwattr $C$DW$60, DW_AT_type(*$C$DW$T$11)
+     752        .dwattr $C$DW$60, DW_AT_name("PRU1_IMEM_PE")
+     753        .dwattr $C$DW$60, DW_AT_TI_symbol_name("PRU1_IMEM_PE")
+     754        .dwattr $C$DW$60, DW_AT_bit_offset(0x14), DW_AT_bit_size(0x04)
+     755        .dwattr $C$DW$60, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     756        .dwattr $C$DW$60, DW_AT_accessibility(DW_ACCESS_public)
+     757        .dwattr $C$DW$60, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     758        .dwattr $C$DW$60, DW_AT_decl_line(0x98)
+     759        .dwattr $C$DW$60, DW_AT_decl_column(0x0d)
+     760$C$DW$61        .dwtag  DW_TAG_member
+     761        .dwattr $C$DW$61, DW_AT_type(*$C$DW$T$11)
+     762        .dwattr $C$DW$61, DW_AT_name("PRU1_DMEM_PE")
+     763        .dwattr $C$DW$61, DW_AT_TI_symbol_name("PRU1_DMEM_PE")
+     764        .dwattr $C$DW$61, DW_AT_bit_offset(0x10), DW_AT_bit_size(0x04)
+     765        .dwattr $C$DW$61, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     766        .dwattr $C$DW$61, DW_AT_accessibility(DW_ACCESS_public)
+     767        .dwattr $C$DW$61, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     768        .dwattr $C$DW$61, DW_AT_decl_line(0x99)
+     769        .dwattr $C$DW$61, DW_AT_decl_column(0x0d)
+     770$C$DW$62        .dwtag  DW_TAG_member
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   15
+
+     771        .dwattr $C$DW$62, DW_AT_type(*$C$DW$T$11)
+     772        .dwattr $C$DW$62, DW_AT_name("RAM_PE")
+     773        .dwattr $C$DW$62, DW_AT_TI_symbol_name("RAM_PE")
+     774        .dwattr $C$DW$62, DW_AT_bit_offset(0x0c), DW_AT_bit_size(0x04)
+     775        .dwattr $C$DW$62, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     776        .dwattr $C$DW$62, DW_AT_accessibility(DW_ACCESS_public)
+     777        .dwattr $C$DW$62, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     778        .dwattr $C$DW$62, DW_AT_decl_line(0x9a)
+     779        .dwattr $C$DW$62, DW_AT_decl_column(0x0d)
+     780$C$DW$63        .dwtag  DW_TAG_member
+     781        .dwattr $C$DW$63, DW_AT_type(*$C$DW$T$11)
+     782        .dwattr $C$DW$63, DW_AT_name("rsvd20")
+     783        .dwattr $C$DW$63, DW_AT_TI_symbol_name("rsvd20")
+     784        .dwattr $C$DW$63, DW_AT_bit_offset(0x00), DW_AT_bit_size(0x0c)
+     785        .dwattr $C$DW$63, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     786        .dwattr $C$DW$63, DW_AT_accessibility(DW_ACCESS_public)
+     787        .dwattr $C$DW$63, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     788        .dwattr $C$DW$63, DW_AT_decl_line(0x9b)
+     789        .dwattr $C$DW$63, DW_AT_decl_column(0x0d)
+     790        .dwendtag $C$DW$T$25
+     791
+     792        .dwattr $C$DW$T$25, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+     793        .dwattr $C$DW$T$25, DW_AT_decl_line(0x95)
+     794        .dwattr $C$DW$T$25, DW_AT_decl_column(0x14)
+     795$C$DW$T$60      .dwtag  DW_TAG_volatile_type
+     796        .dwattr $C$DW$T$60, DW_AT_type(*$C$DW$T$25)
+     797
+     798$C$DW$T$26      .dwtag  DW_TAG_structure_type
+     799        .dwattr $C$DW$T$26, DW_AT_byte_size(0x04)
+     800$C$DW$64        .dwtag  DW_TAG_member
+     801        .dwattr $C$DW$64, DW_AT_type(*$C$DW$T$11)
+     802        .dwattr $C$DW$64, DW_AT_name("PRU0_IMEM_PE_SET")
+     803        .dwattr $C$DW$64, DW_AT_TI_symbol_name("PRU0_IMEM_PE_SET")
+     804        .dwattr $C$DW$64, DW_AT_bit_offset(0x1c), DW_AT_bit_size(0x04)
+     805        .dwattr $C$DW$64, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     806        .dwattr $C$DW$64, DW_AT_accessibility(DW_ACCESS_public)
+     807        .dwattr $C$DW$64, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     808        .dwattr $C$DW$64, DW_AT_decl_line(0xa4)
+     809        .dwattr $C$DW$64, DW_AT_decl_column(0x0d)
+     810$C$DW$65        .dwtag  DW_TAG_member
+     811        .dwattr $C$DW$65, DW_AT_type(*$C$DW$T$11)
+     812        .dwattr $C$DW$65, DW_AT_name("PRU0_DMEM_PE_SET")
+     813        .dwattr $C$DW$65, DW_AT_TI_symbol_name("PRU0_DMEM_PE_SET")
+     814        .dwattr $C$DW$65, DW_AT_bit_offset(0x18), DW_AT_bit_size(0x04)
+     815        .dwattr $C$DW$65, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     816        .dwattr $C$DW$65, DW_AT_accessibility(DW_ACCESS_public)
+     817        .dwattr $C$DW$65, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     818        .dwattr $C$DW$65, DW_AT_decl_line(0xa5)
+     819        .dwattr $C$DW$65, DW_AT_decl_column(0x0d)
+     820$C$DW$66        .dwtag  DW_TAG_member
+     821        .dwattr $C$DW$66, DW_AT_type(*$C$DW$T$11)
+     822        .dwattr $C$DW$66, DW_AT_name("PRU1_IMEM_PE_SET")
+     823        .dwattr $C$DW$66, DW_AT_TI_symbol_name("PRU1_IMEM_PE_SET")
+     824        .dwattr $C$DW$66, DW_AT_bit_offset(0x14), DW_AT_bit_size(0x04)
+     825        .dwattr $C$DW$66, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   16
+
+     826        .dwattr $C$DW$66, DW_AT_accessibility(DW_ACCESS_public)
+     827        .dwattr $C$DW$66, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     828        .dwattr $C$DW$66, DW_AT_decl_line(0xa6)
+     829        .dwattr $C$DW$66, DW_AT_decl_column(0x0d)
+     830$C$DW$67        .dwtag  DW_TAG_member
+     831        .dwattr $C$DW$67, DW_AT_type(*$C$DW$T$11)
+     832        .dwattr $C$DW$67, DW_AT_name("PRU1_DMEM_PE_SET")
+     833        .dwattr $C$DW$67, DW_AT_TI_symbol_name("PRU1_DMEM_PE_SET")
+     834        .dwattr $C$DW$67, DW_AT_bit_offset(0x10), DW_AT_bit_size(0x04)
+     835        .dwattr $C$DW$67, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     836        .dwattr $C$DW$67, DW_AT_accessibility(DW_ACCESS_public)
+     837        .dwattr $C$DW$67, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     838        .dwattr $C$DW$67, DW_AT_decl_line(0xa7)
+     839        .dwattr $C$DW$67, DW_AT_decl_column(0x0d)
+     840$C$DW$68        .dwtag  DW_TAG_member
+     841        .dwattr $C$DW$68, DW_AT_type(*$C$DW$T$11)
+     842        .dwattr $C$DW$68, DW_AT_name("RAM_PE_SET")
+     843        .dwattr $C$DW$68, DW_AT_TI_symbol_name("RAM_PE_SET")
+     844        .dwattr $C$DW$68, DW_AT_bit_offset(0x0c), DW_AT_bit_size(0x04)
+     845        .dwattr $C$DW$68, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     846        .dwattr $C$DW$68, DW_AT_accessibility(DW_ACCESS_public)
+     847        .dwattr $C$DW$68, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     848        .dwattr $C$DW$68, DW_AT_decl_line(0xa8)
+     849        .dwattr $C$DW$68, DW_AT_decl_column(0x0d)
+     850$C$DW$69        .dwtag  DW_TAG_member
+     851        .dwattr $C$DW$69, DW_AT_type(*$C$DW$T$11)
+     852        .dwattr $C$DW$69, DW_AT_name("rsvd20")
+     853        .dwattr $C$DW$69, DW_AT_TI_symbol_name("rsvd20")
+     854        .dwattr $C$DW$69, DW_AT_bit_offset(0x00), DW_AT_bit_size(0x0c)
+     855        .dwattr $C$DW$69, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     856        .dwattr $C$DW$69, DW_AT_accessibility(DW_ACCESS_public)
+     857        .dwattr $C$DW$69, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     858        .dwattr $C$DW$69, DW_AT_decl_line(0xa9)
+     859        .dwattr $C$DW$69, DW_AT_decl_column(0x0d)
+     860        .dwendtag $C$DW$T$26
+     861
+     862        .dwattr $C$DW$T$26, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+     863        .dwattr $C$DW$T$26, DW_AT_decl_line(0xa3)
+     864        .dwattr $C$DW$T$26, DW_AT_decl_column(0x13)
+     865$C$DW$T$62      .dwtag  DW_TAG_volatile_type
+     866        .dwattr $C$DW$T$62, DW_AT_type(*$C$DW$T$26)
+     867
+     868$C$DW$T$27      .dwtag  DW_TAG_structure_type
+     869        .dwattr $C$DW$T$27, DW_AT_byte_size(0x04)
+     870$C$DW$70        .dwtag  DW_TAG_member
+     871        .dwattr $C$DW$70, DW_AT_type(*$C$DW$T$11)
+     872        .dwattr $C$DW$70, DW_AT_name("PRU0_IMEM_PE_CLR")
+     873        .dwattr $C$DW$70, DW_AT_TI_symbol_name("PRU0_IMEM_PE_CLR")
+     874        .dwattr $C$DW$70, DW_AT_bit_offset(0x1c), DW_AT_bit_size(0x04)
+     875        .dwattr $C$DW$70, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     876        .dwattr $C$DW$70, DW_AT_accessibility(DW_ACCESS_public)
+     877        .dwattr $C$DW$70, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     878        .dwattr $C$DW$70, DW_AT_decl_line(0xb3)
+     879        .dwattr $C$DW$70, DW_AT_decl_column(0x0d)
+     880$C$DW$71        .dwtag  DW_TAG_member
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   17
+
+     881        .dwattr $C$DW$71, DW_AT_type(*$C$DW$T$11)
+     882        .dwattr $C$DW$71, DW_AT_name("PRU0_DMEM_PE_CLR")
+     883        .dwattr $C$DW$71, DW_AT_TI_symbol_name("PRU0_DMEM_PE_CLR")
+     884        .dwattr $C$DW$71, DW_AT_bit_offset(0x18), DW_AT_bit_size(0x04)
+     885        .dwattr $C$DW$71, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     886        .dwattr $C$DW$71, DW_AT_accessibility(DW_ACCESS_public)
+     887        .dwattr $C$DW$71, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     888        .dwattr $C$DW$71, DW_AT_decl_line(0xb4)
+     889        .dwattr $C$DW$71, DW_AT_decl_column(0x0d)
+     890$C$DW$72        .dwtag  DW_TAG_member
+     891        .dwattr $C$DW$72, DW_AT_type(*$C$DW$T$11)
+     892        .dwattr $C$DW$72, DW_AT_name("PRU1_IMEM_PE_CLR")
+     893        .dwattr $C$DW$72, DW_AT_TI_symbol_name("PRU1_IMEM_PE_CLR")
+     894        .dwattr $C$DW$72, DW_AT_bit_offset(0x14), DW_AT_bit_size(0x04)
+     895        .dwattr $C$DW$72, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     896        .dwattr $C$DW$72, DW_AT_accessibility(DW_ACCESS_public)
+     897        .dwattr $C$DW$72, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     898        .dwattr $C$DW$72, DW_AT_decl_line(0xb5)
+     899        .dwattr $C$DW$72, DW_AT_decl_column(0x0d)
+     900$C$DW$73        .dwtag  DW_TAG_member
+     901        .dwattr $C$DW$73, DW_AT_type(*$C$DW$T$11)
+     902        .dwattr $C$DW$73, DW_AT_name("PRU1_DMEM_PE_CLR")
+     903        .dwattr $C$DW$73, DW_AT_TI_symbol_name("PRU1_DMEM_PE_CLR")
+     904        .dwattr $C$DW$73, DW_AT_bit_offset(0x10), DW_AT_bit_size(0x04)
+     905        .dwattr $C$DW$73, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     906        .dwattr $C$DW$73, DW_AT_accessibility(DW_ACCESS_public)
+     907        .dwattr $C$DW$73, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     908        .dwattr $C$DW$73, DW_AT_decl_line(0xb6)
+     909        .dwattr $C$DW$73, DW_AT_decl_column(0x0d)
+     910$C$DW$74        .dwtag  DW_TAG_member
+     911        .dwattr $C$DW$74, DW_AT_type(*$C$DW$T$11)
+     912        .dwattr $C$DW$74, DW_AT_name("rsvd16")
+     913        .dwattr $C$DW$74, DW_AT_TI_symbol_name("rsvd16")
+     914        .dwattr $C$DW$74, DW_AT_bit_offset(0x00), DW_AT_bit_size(0x10)
+     915        .dwattr $C$DW$74, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     916        .dwattr $C$DW$74, DW_AT_accessibility(DW_ACCESS_public)
+     917        .dwattr $C$DW$74, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     918        .dwattr $C$DW$74, DW_AT_decl_line(0xb7)
+     919        .dwattr $C$DW$74, DW_AT_decl_column(0x0d)
+     920        .dwendtag $C$DW$T$27
+     921
+     922        .dwattr $C$DW$T$27, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+     923        .dwattr $C$DW$T$27, DW_AT_decl_line(0xb2)
+     924        .dwattr $C$DW$T$27, DW_AT_decl_column(0x13)
+     925$C$DW$T$64      .dwtag  DW_TAG_volatile_type
+     926        .dwattr $C$DW$T$64, DW_AT_type(*$C$DW$T$27)
+     927
+     928$C$DW$T$28      .dwtag  DW_TAG_structure_type
+     929        .dwattr $C$DW$T$28, DW_AT_byte_size(0x04)
+     930$C$DW$75        .dwtag  DW_TAG_member
+     931        .dwattr $C$DW$75, DW_AT_type(*$C$DW$T$11)
+     932        .dwattr $C$DW$75, DW_AT_name("PMAO_PRU0")
+     933        .dwattr $C$DW$75, DW_AT_TI_symbol_name("PMAO_PRU0")
+     934        .dwattr $C$DW$75, DW_AT_bit_offset(0x1f), DW_AT_bit_size(0x01)
+     935        .dwattr $C$DW$75, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   18
+
+     936        .dwattr $C$DW$75, DW_AT_accessibility(DW_ACCESS_public)
+     937        .dwattr $C$DW$75, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     938        .dwattr $C$DW$75, DW_AT_decl_line(0xc4)
+     939        .dwattr $C$DW$75, DW_AT_decl_column(0x0d)
+     940$C$DW$76        .dwtag  DW_TAG_member
+     941        .dwattr $C$DW$76, DW_AT_type(*$C$DW$T$11)
+     942        .dwattr $C$DW$76, DW_AT_name("PMAO_PRU1")
+     943        .dwattr $C$DW$76, DW_AT_TI_symbol_name("PMAO_PRU1")
+     944        .dwattr $C$DW$76, DW_AT_bit_offset(0x1e), DW_AT_bit_size(0x01)
+     945        .dwattr $C$DW$76, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     946        .dwattr $C$DW$76, DW_AT_accessibility(DW_ACCESS_public)
+     947        .dwattr $C$DW$76, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     948        .dwattr $C$DW$76, DW_AT_decl_line(0xc5)
+     949        .dwattr $C$DW$76, DW_AT_decl_column(0x0d)
+     950$C$DW$77        .dwtag  DW_TAG_member
+     951        .dwattr $C$DW$77, DW_AT_type(*$C$DW$T$11)
+     952        .dwattr $C$DW$77, DW_AT_name("rsvd2")
+     953        .dwattr $C$DW$77, DW_AT_TI_symbol_name("rsvd2")
+     954        .dwattr $C$DW$77, DW_AT_bit_offset(0x00), DW_AT_bit_size(0x1e)
+     955        .dwattr $C$DW$77, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     956        .dwattr $C$DW$77, DW_AT_accessibility(DW_ACCESS_public)
+     957        .dwattr $C$DW$77, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     958        .dwattr $C$DW$77, DW_AT_decl_line(0xc6)
+     959        .dwattr $C$DW$77, DW_AT_decl_column(0x0d)
+     960        .dwendtag $C$DW$T$28
+     961
+     962        .dwattr $C$DW$T$28, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+     963        .dwattr $C$DW$T$28, DW_AT_decl_line(0xc3)
+     964        .dwattr $C$DW$T$28, DW_AT_decl_column(0x13)
+     965$C$DW$T$66      .dwtag  DW_TAG_volatile_type
+     966        .dwattr $C$DW$T$66, DW_AT_type(*$C$DW$T$28)
+     967
+     968$C$DW$T$29      .dwtag  DW_TAG_structure_type
+     969        .dwattr $C$DW$T$29, DW_AT_byte_size(0x04)
+     970$C$DW$78        .dwtag  DW_TAG_member
+     971        .dwattr $C$DW$78, DW_AT_type(*$C$DW$T$11)
+     972        .dwattr $C$DW$78, DW_AT_name("OCP_EN")
+     973        .dwattr $C$DW$78, DW_AT_TI_symbol_name("OCP_EN")
+     974        .dwattr $C$DW$78, DW_AT_bit_offset(0x1f), DW_AT_bit_size(0x01)
+     975        .dwattr $C$DW$78, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     976        .dwattr $C$DW$78, DW_AT_accessibility(DW_ACCESS_public)
+     977        .dwattr $C$DW$78, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     978        .dwattr $C$DW$78, DW_AT_decl_line(0xd3)
+     979        .dwattr $C$DW$78, DW_AT_decl_column(0x0d)
+     980$C$DW$79        .dwtag  DW_TAG_member
+     981        .dwattr $C$DW$79, DW_AT_type(*$C$DW$T$11)
+     982        .dwattr $C$DW$79, DW_AT_name("rsvd1")
+     983        .dwattr $C$DW$79, DW_AT_TI_symbol_name("rsvd1")
+     984        .dwattr $C$DW$79, DW_AT_bit_offset(0x00), DW_AT_bit_size(0x1f)
+     985        .dwattr $C$DW$79, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+     986        .dwattr $C$DW$79, DW_AT_accessibility(DW_ACCESS_public)
+     987        .dwattr $C$DW$79, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+     988        .dwattr $C$DW$79, DW_AT_decl_line(0xd4)
+     989        .dwattr $C$DW$79, DW_AT_decl_column(0x0d)
+     990        .dwendtag $C$DW$T$29
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   19
+
+     991
+     992        .dwattr $C$DW$T$29, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+     993        .dwattr $C$DW$T$29, DW_AT_decl_line(0xd2)
+     994        .dwattr $C$DW$T$29, DW_AT_decl_column(0x13)
+     995$C$DW$T$68      .dwtag  DW_TAG_volatile_type
+     996        .dwattr $C$DW$T$68, DW_AT_type(*$C$DW$T$29)
+     997
+     998$C$DW$T$30      .dwtag  DW_TAG_structure_type
+     999        .dwattr $C$DW$T$30, DW_AT_byte_size(0x04)
+    1000$C$DW$80        .dwtag  DW_TAG_member
+    1001        .dwattr $C$DW$80, DW_AT_type(*$C$DW$T$11)
+    1002        .dwattr $C$DW$80, DW_AT_name("PRU1_PAD_HP_EN")
+    1003        .dwattr $C$DW$80, DW_AT_TI_symbol_name("PRU1_PAD_HP_EN")
+    1004        .dwattr $C$DW$80, DW_AT_bit_offset(0x1f), DW_AT_bit_size(0x01)
+    1005        .dwattr $C$DW$80, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1006        .dwattr $C$DW$80, DW_AT_accessibility(DW_ACCESS_public)
+    1007        .dwattr $C$DW$80, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+    1008        .dwattr $C$DW$80, DW_AT_decl_line(0xde)
+    1009        .dwattr $C$DW$80, DW_AT_decl_column(0x0d)
+    1010$C$DW$81        .dwtag  DW_TAG_member
+    1011        .dwattr $C$DW$81, DW_AT_type(*$C$DW$T$11)
+    1012        .dwattr $C$DW$81, DW_AT_name("XFR_SHIFT_EN")
+    1013        .dwattr $C$DW$81, DW_AT_TI_symbol_name("XFR_SHIFT_EN")
+    1014        .dwattr $C$DW$81, DW_AT_bit_offset(0x1e), DW_AT_bit_size(0x01)
+    1015        .dwattr $C$DW$81, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1016        .dwattr $C$DW$81, DW_AT_accessibility(DW_ACCESS_public)
+    1017        .dwattr $C$DW$81, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+    1018        .dwattr $C$DW$81, DW_AT_decl_line(0xdf)
+    1019        .dwattr $C$DW$81, DW_AT_decl_column(0x0d)
+    1020$C$DW$82        .dwtag  DW_TAG_member
+    1021        .dwattr $C$DW$82, DW_AT_type(*$C$DW$T$11)
+    1022        .dwattr $C$DW$82, DW_AT_name("rsvd2")
+    1023        .dwattr $C$DW$82, DW_AT_TI_symbol_name("rsvd2")
+    1024        .dwattr $C$DW$82, DW_AT_bit_offset(0x00), DW_AT_bit_size(0x1e)
+    1025        .dwattr $C$DW$82, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1026        .dwattr $C$DW$82, DW_AT_accessibility(DW_ACCESS_public)
+    1027        .dwattr $C$DW$82, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+    1028        .dwattr $C$DW$82, DW_AT_decl_line(0xe0)
+    1029        .dwattr $C$DW$82, DW_AT_decl_column(0x0d)
+    1030        .dwendtag $C$DW$T$30
+    1031
+    1032        .dwattr $C$DW$T$30, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1033        .dwattr $C$DW$T$30, DW_AT_decl_line(0xdd)
+    1034        .dwattr $C$DW$T$30, DW_AT_decl_column(0x13)
+    1035$C$DW$T$70      .dwtag  DW_TAG_volatile_type
+    1036        .dwattr $C$DW$T$70, DW_AT_type(*$C$DW$T$30)
+    1037
+    1038$C$DW$T$31      .dwtag  DW_TAG_structure_type
+    1039        .dwattr $C$DW$T$31, DW_AT_byte_size(0x04)
+    1040$C$DW$83        .dwtag  DW_TAG_member
+    1041        .dwattr $C$DW$83, DW_AT_type(*$C$DW$T$11)
+    1042        .dwattr $C$DW$83, DW_AT_name("PIN_MUX_SEL")
+    1043        .dwattr $C$DW$83, DW_AT_TI_symbol_name("PIN_MUX_SEL")
+    1044        .dwattr $C$DW$83, DW_AT_bit_offset(0x18), DW_AT_bit_size(0x08)
+    1045        .dwattr $C$DW$83, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   20
+
+    1046        .dwattr $C$DW$83, DW_AT_accessibility(DW_ACCESS_public)
+    1047        .dwattr $C$DW$83, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+    1048        .dwattr $C$DW$83, DW_AT_decl_line(0xec)
+    1049        .dwattr $C$DW$83, DW_AT_decl_column(0x0d)
+    1050$C$DW$84        .dwtag  DW_TAG_member
+    1051        .dwattr $C$DW$84, DW_AT_type(*$C$DW$T$11)
+    1052        .dwattr $C$DW$84, DW_AT_name("rsvd2")
+    1053        .dwattr $C$DW$84, DW_AT_TI_symbol_name("rsvd2")
+    1054        .dwattr $C$DW$84, DW_AT_bit_offset(0x00), DW_AT_bit_size(0x18)
+    1055        .dwattr $C$DW$84, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1056        .dwattr $C$DW$84, DW_AT_accessibility(DW_ACCESS_public)
+    1057        .dwattr $C$DW$84, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+    1058        .dwattr $C$DW$84, DW_AT_decl_line(0xed)
+    1059        .dwattr $C$DW$84, DW_AT_decl_column(0x0d)
+    1060        .dwendtag $C$DW$T$31
+    1061
+    1062        .dwattr $C$DW$T$31, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1063        .dwattr $C$DW$T$31, DW_AT_decl_line(0xeb)
+    1064        .dwattr $C$DW$T$31, DW_AT_decl_column(0x13)
+    1065$C$DW$T$72      .dwtag  DW_TAG_volatile_type
+    1066        .dwattr $C$DW$T$72, DW_AT_type(*$C$DW$T$31)
+    1067
+    1068$C$DW$T$35      .dwtag  DW_TAG_structure_type
+    1069        .dwattr $C$DW$T$35, DW_AT_byte_size(0x44)
+    1070$C$DW$85        .dwtag  DW_TAG_member
+    1071        .dwattr $C$DW$85, DW_AT_type(*$C$DW$T$49)
+    1072        .dwattr $C$DW$85, DW_AT_name("$P$T0")
+    1073        .dwattr $C$DW$85, DW_AT_TI_symbol_name("$P$T0")
+    1074        .dwattr $C$DW$85, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1075        .dwattr $C$DW$85, DW_AT_accessibility(DW_ACCESS_public)
+    1076        .dwattr $C$DW$85, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+    1077        .dwattr $C$DW$85, DW_AT_decl_line(0x29)
+    1078        .dwattr $C$DW$85, DW_AT_decl_column(0x02)
+    1079$C$DW$86        .dwtag  DW_TAG_member
+    1080        .dwattr $C$DW$86, DW_AT_type(*$C$DW$T$51)
+    1081        .dwattr $C$DW$86, DW_AT_name("$P$T1")
+    1082        .dwattr $C$DW$86, DW_AT_TI_symbol_name("$P$T1")
+    1083        .dwattr $C$DW$86, DW_AT_data_member_location[DW_OP_plus_uconst 0x4]
+    1084        .dwattr $C$DW$86, DW_AT_accessibility(DW_ACCESS_public)
+    1085        .dwattr $C$DW$86, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+    1086        .dwattr $C$DW$86, DW_AT_decl_line(0x33)
+    1087        .dwattr $C$DW$86, DW_AT_decl_column(0x02)
+    1088$C$DW$87        .dwtag  DW_TAG_member
+    1089        .dwattr $C$DW$87, DW_AT_type(*$C$DW$T$53)
+    1090        .dwattr $C$DW$87, DW_AT_name("$P$T2")
+    1091        .dwattr $C$DW$87, DW_AT_TI_symbol_name("$P$T2")
+    1092        .dwattr $C$DW$87, DW_AT_data_member_location[DW_OP_plus_uconst 0x8]
+    1093        .dwattr $C$DW$87, DW_AT_accessibility(DW_ACCESS_public)
+    1094        .dwattr $C$DW$87, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+    1095        .dwattr $C$DW$87, DW_AT_decl_line(0x41)
+    1096        .dwattr $C$DW$87, DW_AT_decl_column(0x02)
+    1097$C$DW$88        .dwtag  DW_TAG_member
+    1098        .dwattr $C$DW$88, DW_AT_type(*$C$DW$T$55)
+    1099        .dwattr $C$DW$88, DW_AT_name("$P$T3")
+    1100        .dwattr $C$DW$88, DW_AT_TI_symbol_name("$P$T3")
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   21
+
+    1101        .dwattr $C$DW$88, DW_AT_data_member_location[DW_OP_plus_uconst 0xc]
+    1102        .dwattr $C$DW$88, DW_AT_accessibility(DW_ACCESS_public)
+    1103        .dwattr $C$DW$88, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+    1104        .dwattr $C$DW$88, DW_AT_decl_line(0x54)
+    1105        .dwattr $C$DW$88, DW_AT_decl_column(0x02)
+    1106$C$DW$89        .dwtag  DW_TAG_member
+    1107        .dwattr $C$DW$89, DW_AT_type(*$C$DW$T$57)
+    1108        .dwattr $C$DW$89, DW_AT_name("$P$T4")
+    1109        .dwattr $C$DW$89, DW_AT_TI_symbol_name("$P$T4")
+    1110        .dwattr $C$DW$89, DW_AT_data_member_location[DW_OP_plus_uconst 0x10]
+    1111        .dwattr $C$DW$89, DW_AT_accessibility(DW_ACCESS_public)
+    1112        .dwattr $C$DW$89, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+    1113        .dwattr $C$DW$89, DW_AT_decl_line(0x67)
+    1114        .dwattr $C$DW$89, DW_AT_decl_column(0x02)
+    1115$C$DW$90        .dwtag  DW_TAG_member
+    1116        .dwattr $C$DW$90, DW_AT_type(*$C$DW$T$59)
+    1117        .dwattr $C$DW$90, DW_AT_name("$P$T5")
+    1118        .dwattr $C$DW$90, DW_AT_TI_symbol_name("$P$T5")
+    1119        .dwattr $C$DW$90, DW_AT_data_member_location[DW_OP_plus_uconst 0x14]
+    1120        .dwattr $C$DW$90, DW_AT_accessibility(DW_ACCESS_public)
+    1121        .dwattr $C$DW$90, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+    1122        .dwattr $C$DW$90, DW_AT_decl_line(0x83)
+    1123        .dwattr $C$DW$90, DW_AT_decl_column(0x02)
+    1124$C$DW$91        .dwtag  DW_TAG_member
+    1125        .dwattr $C$DW$91, DW_AT_type(*$C$DW$T$61)
+    1126        .dwattr $C$DW$91, DW_AT_name("$P$T6")
+    1127        .dwattr $C$DW$91, DW_AT_TI_symbol_name("$P$T6")
+    1128        .dwattr $C$DW$91, DW_AT_data_member_location[DW_OP_plus_uconst 0x18]
+    1129        .dwattr $C$DW$91, DW_AT_accessibility(DW_ACCESS_public)
+    1130        .dwattr $C$DW$91, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+    1131        .dwattr $C$DW$91, DW_AT_decl_line(0x92)
+    1132        .dwattr $C$DW$91, DW_AT_decl_column(0x02)
+    1133$C$DW$92        .dwtag  DW_TAG_member
+    1134        .dwattr $C$DW$92, DW_AT_type(*$C$DW$T$63)
+    1135        .dwattr $C$DW$92, DW_AT_name("$P$T7")
+    1136        .dwattr $C$DW$92, DW_AT_TI_symbol_name("$P$T7")
+    1137        .dwattr $C$DW$92, DW_AT_data_member_location[DW_OP_plus_uconst 0x1c]
+    1138        .dwattr $C$DW$92, DW_AT_accessibility(DW_ACCESS_public)
+    1139        .dwattr $C$DW$92, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+    1140        .dwattr $C$DW$92, DW_AT_decl_line(0xa0)
+    1141        .dwattr $C$DW$92, DW_AT_decl_column(0x02)
+    1142$C$DW$93        .dwtag  DW_TAG_member
+    1143        .dwattr $C$DW$93, DW_AT_type(*$C$DW$T$65)
+    1144        .dwattr $C$DW$93, DW_AT_name("$P$T8")
+    1145        .dwattr $C$DW$93, DW_AT_TI_symbol_name("$P$T8")
+    1146        .dwattr $C$DW$93, DW_AT_data_member_location[DW_OP_plus_uconst 0x20]
+    1147        .dwattr $C$DW$93, DW_AT_accessibility(DW_ACCESS_public)
+    1148        .dwattr $C$DW$93, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+    1149        .dwattr $C$DW$93, DW_AT_decl_line(0xaf)
+    1150        .dwattr $C$DW$93, DW_AT_decl_column(0x02)
+    1151$C$DW$94        .dwtag  DW_TAG_member
+    1152        .dwattr $C$DW$94, DW_AT_type(*$C$DW$T$32)
+    1153        .dwattr $C$DW$94, DW_AT_name("rsvd24")
+    1154        .dwattr $C$DW$94, DW_AT_TI_symbol_name("rsvd24")
+    1155        .dwattr $C$DW$94, DW_AT_data_member_location[DW_OP_plus_uconst 0x24]
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   22
+
+    1156        .dwattr $C$DW$94, DW_AT_accessibility(DW_ACCESS_public)
+    1157        .dwattr $C$DW$94, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+    1158        .dwattr $C$DW$94, DW_AT_decl_line(0xbc)
+    1159        .dwattr $C$DW$94, DW_AT_decl_column(0x0b)
+    1160$C$DW$95        .dwtag  DW_TAG_member
+    1161        .dwattr $C$DW$95, DW_AT_type(*$C$DW$T$67)
+    1162        .dwattr $C$DW$95, DW_AT_name("$P$T9")
+    1163        .dwattr $C$DW$95, DW_AT_TI_symbol_name("$P$T9")
+    1164        .dwattr $C$DW$95, DW_AT_data_member_location[DW_OP_plus_uconst 0x28]
+    1165        .dwattr $C$DW$95, DW_AT_accessibility(DW_ACCESS_public)
+    1166        .dwattr $C$DW$95, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+    1167        .dwattr $C$DW$95, DW_AT_decl_line(0xc0)
+    1168        .dwattr $C$DW$95, DW_AT_decl_column(0x02)
+    1169$C$DW$96        .dwtag  DW_TAG_member
+    1170        .dwattr $C$DW$96, DW_AT_type(*$C$DW$T$33)
+    1171        .dwattr $C$DW$96, DW_AT_name("rsvd2c")
+    1172        .dwattr $C$DW$96, DW_AT_TI_symbol_name("rsvd2c")
+    1173        .dwattr $C$DW$96, DW_AT_data_member_location[DW_OP_plus_uconst 0x2c]
+    1174        .dwattr $C$DW$96, DW_AT_accessibility(DW_ACCESS_public)
+    1175        .dwattr $C$DW$96, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+    1176        .dwattr $C$DW$96, DW_AT_decl_line(0xcb)
+    1177        .dwattr $C$DW$96, DW_AT_decl_column(0x0b)
+    1178$C$DW$97        .dwtag  DW_TAG_member
+    1179        .dwattr $C$DW$97, DW_AT_type(*$C$DW$T$69)
+    1180        .dwattr $C$DW$97, DW_AT_name("$P$T10")
+    1181        .dwattr $C$DW$97, DW_AT_TI_symbol_name("$P$T10")
+    1182        .dwattr $C$DW$97, DW_AT_data_member_location[DW_OP_plus_uconst 0x30]
+    1183        .dwattr $C$DW$97, DW_AT_accessibility(DW_ACCESS_public)
+    1184        .dwattr $C$DW$97, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+    1185        .dwattr $C$DW$97, DW_AT_decl_line(0xcf)
+    1186        .dwattr $C$DW$97, DW_AT_decl_column(0x02)
+    1187$C$DW$98        .dwtag  DW_TAG_member
+    1188        .dwattr $C$DW$98, DW_AT_type(*$C$DW$T$71)
+    1189        .dwattr $C$DW$98, DW_AT_name("$P$T11")
+    1190        .dwattr $C$DW$98, DW_AT_TI_symbol_name("$P$T11")
+    1191        .dwattr $C$DW$98, DW_AT_data_member_location[DW_OP_plus_uconst 0x34]
+    1192        .dwattr $C$DW$98, DW_AT_accessibility(DW_ACCESS_public)
+    1193        .dwattr $C$DW$98, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+    1194        .dwattr $C$DW$98, DW_AT_decl_line(0xda)
+    1195        .dwattr $C$DW$98, DW_AT_decl_column(0x02)
+    1196$C$DW$99        .dwtag  DW_TAG_member
+    1197        .dwattr $C$DW$99, DW_AT_type(*$C$DW$T$34)
+    1198        .dwattr $C$DW$99, DW_AT_name("rsvd38")
+    1199        .dwattr $C$DW$99, DW_AT_TI_symbol_name("rsvd38")
+    1200        .dwattr $C$DW$99, DW_AT_data_member_location[DW_OP_plus_uconst 0x38]
+    1201        .dwattr $C$DW$99, DW_AT_accessibility(DW_ACCESS_public)
+    1202        .dwattr $C$DW$99, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pru
+    1203        .dwattr $C$DW$99, DW_AT_decl_line(0xe5)
+    1204        .dwattr $C$DW$99, DW_AT_decl_column(0x0b)
+    1205$C$DW$100       .dwtag  DW_TAG_member
+    1206        .dwattr $C$DW$100, DW_AT_type(*$C$DW$T$73)
+    1207        .dwattr $C$DW$100, DW_AT_name("$P$T12")
+    1208        .dwattr $C$DW$100, DW_AT_TI_symbol_name("$P$T12")
+    1209        .dwattr $C$DW$100, DW_AT_data_member_location[DW_OP_plus_uconst 0x40]
+    1210        .dwattr $C$DW$100, DW_AT_accessibility(DW_ACCESS_public)
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   23
+
+    1211        .dwattr $C$DW$100, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1212        .dwattr $C$DW$100, DW_AT_decl_line(0xe8)
+    1213        .dwattr $C$DW$100, DW_AT_decl_column(0x02)
+    1214        .dwendtag $C$DW$T$35
+    1215
+    1216        .dwattr $C$DW$T$35, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1217        .dwattr $C$DW$T$35, DW_AT_decl_line(0x26)
+    1218        .dwattr $C$DW$T$35, DW_AT_decl_column(0x10)
+    1219$C$DW$T$97      .dwtag  DW_TAG_typedef, DW_AT_name("pruCfg")
+    1220        .dwattr $C$DW$T$97, DW_AT_type(*$C$DW$T$35)
+    1221        .dwattr $C$DW$T$97, DW_AT_language(DW_LANG_C)
+    1222        .dwattr $C$DW$T$97, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1223        .dwattr $C$DW$T$97, DW_AT_decl_line(0xf0)
+    1224        .dwattr $C$DW$T$97, DW_AT_decl_column(0x03)
+    1225$C$DW$T$98      .dwtag  DW_TAG_volatile_type
+    1226        .dwattr $C$DW$T$98, DW_AT_type(*$C$DW$T$97)
+    1227
+    1228$C$DW$T$36      .dwtag  DW_TAG_structure_type
+    1229        .dwattr $C$DW$T$36, DW_AT_byte_size(0x04)
+    1230$C$DW$101       .dwtag  DW_TAG_member
+    1231        .dwattr $C$DW$101, DW_AT_type(*$C$DW$T$11)
+    1232        .dwattr $C$DW$101, DW_AT_name("SOFT_RST_N")
+    1233        .dwattr $C$DW$101, DW_AT_TI_symbol_name("SOFT_RST_N")
+    1234        .dwattr $C$DW$101, DW_AT_bit_offset(0x1f), DW_AT_bit_size(0x01)
+    1235        .dwattr $C$DW$101, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1236        .dwattr $C$DW$101, DW_AT_accessibility(DW_ACCESS_public)
+    1237        .dwattr $C$DW$101, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1238        .dwattr $C$DW$101, DW_AT_decl_line(0x2d)
+    1239        .dwattr $C$DW$101, DW_AT_decl_column(0x0d)
+    1240$C$DW$102       .dwtag  DW_TAG_member
+    1241        .dwattr $C$DW$102, DW_AT_type(*$C$DW$T$11)
+    1242        .dwattr $C$DW$102, DW_AT_name("EN")
+    1243        .dwattr $C$DW$102, DW_AT_TI_symbol_name("EN")
+    1244        .dwattr $C$DW$102, DW_AT_bit_offset(0x1e), DW_AT_bit_size(0x01)
+    1245        .dwattr $C$DW$102, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1246        .dwattr $C$DW$102, DW_AT_accessibility(DW_ACCESS_public)
+    1247        .dwattr $C$DW$102, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1248        .dwattr $C$DW$102, DW_AT_decl_line(0x2e)
+    1249        .dwattr $C$DW$102, DW_AT_decl_column(0x0d)
+    1250$C$DW$103       .dwtag  DW_TAG_member
+    1251        .dwattr $C$DW$103, DW_AT_type(*$C$DW$T$11)
+    1252        .dwattr $C$DW$103, DW_AT_name("SLEEPING")
+    1253        .dwattr $C$DW$103, DW_AT_TI_symbol_name("SLEEPING")
+    1254        .dwattr $C$DW$103, DW_AT_bit_offset(0x1d), DW_AT_bit_size(0x01)
+    1255        .dwattr $C$DW$103, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1256        .dwattr $C$DW$103, DW_AT_accessibility(DW_ACCESS_public)
+    1257        .dwattr $C$DW$103, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1258        .dwattr $C$DW$103, DW_AT_decl_line(0x2f)
+    1259        .dwattr $C$DW$103, DW_AT_decl_column(0x0d)
+    1260$C$DW$104       .dwtag  DW_TAG_member
+    1261        .dwattr $C$DW$104, DW_AT_type(*$C$DW$T$11)
+    1262        .dwattr $C$DW$104, DW_AT_name("CTR_EN")
+    1263        .dwattr $C$DW$104, DW_AT_TI_symbol_name("CTR_EN")
+    1264        .dwattr $C$DW$104, DW_AT_bit_offset(0x1c), DW_AT_bit_size(0x01)
+    1265        .dwattr $C$DW$104, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   24
+
+    1266        .dwattr $C$DW$104, DW_AT_accessibility(DW_ACCESS_public)
+    1267        .dwattr $C$DW$104, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1268        .dwattr $C$DW$104, DW_AT_decl_line(0x30)
+    1269        .dwattr $C$DW$104, DW_AT_decl_column(0x0d)
+    1270$C$DW$105       .dwtag  DW_TAG_member
+    1271        .dwattr $C$DW$105, DW_AT_type(*$C$DW$T$11)
+    1272        .dwattr $C$DW$105, DW_AT_name("rsvd4")
+    1273        .dwattr $C$DW$105, DW_AT_TI_symbol_name("rsvd4")
+    1274        .dwattr $C$DW$105, DW_AT_bit_offset(0x18), DW_AT_bit_size(0x04)
+    1275        .dwattr $C$DW$105, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1276        .dwattr $C$DW$105, DW_AT_accessibility(DW_ACCESS_public)
+    1277        .dwattr $C$DW$105, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1278        .dwattr $C$DW$105, DW_AT_decl_line(0x31)
+    1279        .dwattr $C$DW$105, DW_AT_decl_column(0x0d)
+    1280$C$DW$106       .dwtag  DW_TAG_member
+    1281        .dwattr $C$DW$106, DW_AT_type(*$C$DW$T$11)
+    1282        .dwattr $C$DW$106, DW_AT_name("SINGLE_STEP")
+    1283        .dwattr $C$DW$106, DW_AT_TI_symbol_name("SINGLE_STEP")
+    1284        .dwattr $C$DW$106, DW_AT_bit_offset(0x17), DW_AT_bit_size(0x01)
+    1285        .dwattr $C$DW$106, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1286        .dwattr $C$DW$106, DW_AT_accessibility(DW_ACCESS_public)
+    1287        .dwattr $C$DW$106, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1288        .dwattr $C$DW$106, DW_AT_decl_line(0x32)
+    1289        .dwattr $C$DW$106, DW_AT_decl_column(0x0d)
+    1290$C$DW$107       .dwtag  DW_TAG_member
+    1291        .dwattr $C$DW$107, DW_AT_type(*$C$DW$T$11)
+    1292        .dwattr $C$DW$107, DW_AT_name("rsvd9")
+    1293        .dwattr $C$DW$107, DW_AT_TI_symbol_name("rsvd9")
+    1294        .dwattr $C$DW$107, DW_AT_bit_offset(0x11), DW_AT_bit_size(0x06)
+    1295        .dwattr $C$DW$107, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1296        .dwattr $C$DW$107, DW_AT_accessibility(DW_ACCESS_public)
+    1297        .dwattr $C$DW$107, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1298        .dwattr $C$DW$107, DW_AT_decl_line(0x33)
+    1299        .dwattr $C$DW$107, DW_AT_decl_column(0x0d)
+    1300$C$DW$108       .dwtag  DW_TAG_member
+    1301        .dwattr $C$DW$108, DW_AT_type(*$C$DW$T$11)
+    1302        .dwattr $C$DW$108, DW_AT_name("RUNSTATE")
+    1303        .dwattr $C$DW$108, DW_AT_TI_symbol_name("RUNSTATE")
+    1304        .dwattr $C$DW$108, DW_AT_bit_offset(0x10), DW_AT_bit_size(0x01)
+    1305        .dwattr $C$DW$108, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1306        .dwattr $C$DW$108, DW_AT_accessibility(DW_ACCESS_public)
+    1307        .dwattr $C$DW$108, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1308        .dwattr $C$DW$108, DW_AT_decl_line(0x34)
+    1309        .dwattr $C$DW$108, DW_AT_decl_column(0x0d)
+    1310$C$DW$109       .dwtag  DW_TAG_member
+    1311        .dwattr $C$DW$109, DW_AT_type(*$C$DW$T$11)
+    1312        .dwattr $C$DW$109, DW_AT_name("PCTR_RST_VAL")
+    1313        .dwattr $C$DW$109, DW_AT_TI_symbol_name("PCTR_RST_VAL")
+    1314        .dwattr $C$DW$109, DW_AT_bit_offset(0x00), DW_AT_bit_size(0x10)
+    1315        .dwattr $C$DW$109, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1316        .dwattr $C$DW$109, DW_AT_accessibility(DW_ACCESS_public)
+    1317        .dwattr $C$DW$109, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1318        .dwattr $C$DW$109, DW_AT_decl_line(0x35)
+    1319        .dwattr $C$DW$109, DW_AT_decl_column(0x0d)
+    1320        .dwendtag $C$DW$T$36
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   25
+
+    1321
+    1322        .dwattr $C$DW$T$36, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1323        .dwattr $C$DW$T$36, DW_AT_decl_line(0x2c)
+    1324        .dwattr $C$DW$T$36, DW_AT_decl_column(0x13)
+    1325$C$DW$T$74      .dwtag  DW_TAG_volatile_type
+    1326        .dwattr $C$DW$T$74, DW_AT_type(*$C$DW$T$36)
+    1327
+    1328$C$DW$T$37      .dwtag  DW_TAG_structure_type
+    1329        .dwattr $C$DW$T$37, DW_AT_byte_size(0x04)
+    1330$C$DW$110       .dwtag  DW_TAG_member
+    1331        .dwattr $C$DW$110, DW_AT_type(*$C$DW$T$11)
+    1332        .dwattr $C$DW$110, DW_AT_name("PCTR")
+    1333        .dwattr $C$DW$110, DW_AT_TI_symbol_name("PCTR")
+    1334        .dwattr $C$DW$110, DW_AT_bit_offset(0x10), DW_AT_bit_size(0x10)
+    1335        .dwattr $C$DW$110, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1336        .dwattr $C$DW$110, DW_AT_accessibility(DW_ACCESS_public)
+    1337        .dwattr $C$DW$110, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1338        .dwattr $C$DW$110, DW_AT_decl_line(0x3f)
+    1339        .dwattr $C$DW$110, DW_AT_decl_column(0x0d)
+    1340$C$DW$111       .dwtag  DW_TAG_member
+    1341        .dwattr $C$DW$111, DW_AT_type(*$C$DW$T$11)
+    1342        .dwattr $C$DW$111, DW_AT_name("rsvd16")
+    1343        .dwattr $C$DW$111, DW_AT_TI_symbol_name("rsvd16")
+    1344        .dwattr $C$DW$111, DW_AT_bit_offset(0x00), DW_AT_bit_size(0x10)
+    1345        .dwattr $C$DW$111, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1346        .dwattr $C$DW$111, DW_AT_accessibility(DW_ACCESS_public)
+    1347        .dwattr $C$DW$111, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1348        .dwattr $C$DW$111, DW_AT_decl_line(0x40)
+    1349        .dwattr $C$DW$111, DW_AT_decl_column(0x0d)
+    1350        .dwendtag $C$DW$T$37
+    1351
+    1352        .dwattr $C$DW$T$37, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1353        .dwattr $C$DW$T$37, DW_AT_decl_line(0x3e)
+    1354        .dwattr $C$DW$T$37, DW_AT_decl_column(0x13)
+    1355$C$DW$T$76      .dwtag  DW_TAG_volatile_type
+    1356        .dwattr $C$DW$T$76, DW_AT_type(*$C$DW$T$37)
+    1357
+    1358$C$DW$T$38      .dwtag  DW_TAG_structure_type
+    1359        .dwattr $C$DW$T$38, DW_AT_byte_size(0x04)
+    1360$C$DW$112       .dwtag  DW_TAG_member
+    1361        .dwattr $C$DW$112, DW_AT_type(*$C$DW$T$11)
+    1362        .dwattr $C$DW$112, DW_AT_name("BITWISE_ENS")
+    1363        .dwattr $C$DW$112, DW_AT_TI_symbol_name("BITWISE_ENS")
+    1364        .dwattr $C$DW$112, DW_AT_bit_offset(0x00), DW_AT_bit_size(0x20)
+    1365        .dwattr $C$DW$112, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1366        .dwattr $C$DW$112, DW_AT_accessibility(DW_ACCESS_public)
+    1367        .dwattr $C$DW$112, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1368        .dwattr $C$DW$112, DW_AT_decl_line(0x4a)
+    1369        .dwattr $C$DW$112, DW_AT_decl_column(0x0d)
+    1370        .dwendtag $C$DW$T$38
+    1371
+    1372        .dwattr $C$DW$T$38, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1373        .dwattr $C$DW$T$38, DW_AT_decl_line(0x49)
+    1374        .dwattr $C$DW$T$38, DW_AT_decl_column(0x13)
+    1375$C$DW$T$78      .dwtag  DW_TAG_volatile_type
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   26
+
+    1376        .dwattr $C$DW$T$78, DW_AT_type(*$C$DW$T$38)
+    1377
+    1378$C$DW$T$39      .dwtag  DW_TAG_structure_type
+    1379        .dwattr $C$DW$T$39, DW_AT_byte_size(0x04)
+    1380$C$DW$113       .dwtag  DW_TAG_member
+    1381        .dwattr $C$DW$113, DW_AT_type(*$C$DW$T$11)
+    1382        .dwattr $C$DW$113, DW_AT_name("CYCLECOUNT")
+    1383        .dwattr $C$DW$113, DW_AT_TI_symbol_name("CYCLECOUNT")
+    1384        .dwattr $C$DW$113, DW_AT_bit_offset(0x00), DW_AT_bit_size(0x20)
+    1385        .dwattr $C$DW$113, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1386        .dwattr $C$DW$113, DW_AT_accessibility(DW_ACCESS_public)
+    1387        .dwattr $C$DW$113, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1388        .dwattr $C$DW$113, DW_AT_decl_line(0x54)
+    1389        .dwattr $C$DW$113, DW_AT_decl_column(0x0d)
+    1390        .dwendtag $C$DW$T$39
+    1391
+    1392        .dwattr $C$DW$T$39, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1393        .dwattr $C$DW$T$39, DW_AT_decl_line(0x53)
+    1394        .dwattr $C$DW$T$39, DW_AT_decl_column(0x13)
+    1395$C$DW$T$80      .dwtag  DW_TAG_volatile_type
+    1396        .dwattr $C$DW$T$80, DW_AT_type(*$C$DW$T$39)
+    1397
+    1398$C$DW$T$40      .dwtag  DW_TAG_structure_type
+    1399        .dwattr $C$DW$T$40, DW_AT_byte_size(0x04)
+    1400$C$DW$114       .dwtag  DW_TAG_member
+    1401        .dwattr $C$DW$114, DW_AT_type(*$C$DW$T$11)
+    1402        .dwattr $C$DW$114, DW_AT_name("STALLCOUNT")
+    1403        .dwattr $C$DW$114, DW_AT_TI_symbol_name("STALLCOUNT")
+    1404        .dwattr $C$DW$114, DW_AT_bit_offset(0x00), DW_AT_bit_size(0x20)
+    1405        .dwattr $C$DW$114, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1406        .dwattr $C$DW$114, DW_AT_accessibility(DW_ACCESS_public)
+    1407        .dwattr $C$DW$114, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1408        .dwattr $C$DW$114, DW_AT_decl_line(0x5e)
+    1409        .dwattr $C$DW$114, DW_AT_decl_column(0x0d)
+    1410        .dwendtag $C$DW$T$40
+    1411
+    1412        .dwattr $C$DW$T$40, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1413        .dwattr $C$DW$T$40, DW_AT_decl_line(0x5d)
+    1414        .dwattr $C$DW$T$40, DW_AT_decl_column(0x14)
+    1415$C$DW$T$82      .dwtag  DW_TAG_volatile_type
+    1416        .dwattr $C$DW$T$82, DW_AT_type(*$C$DW$T$40)
+    1417
+    1418$C$DW$T$41      .dwtag  DW_TAG_structure_type
+    1419        .dwattr $C$DW$T$41, DW_AT_byte_size(0x04)
+    1420$C$DW$115       .dwtag  DW_TAG_member
+    1421        .dwattr $C$DW$115, DW_AT_type(*$C$DW$T$11)
+    1422        .dwattr $C$DW$115, DW_AT_name("C24_BLK_IDX")
+    1423        .dwattr $C$DW$115, DW_AT_TI_symbol_name("C24_BLK_IDX")
+    1424        .dwattr $C$DW$115, DW_AT_bit_offset(0x18), DW_AT_bit_size(0x08)
+    1425        .dwattr $C$DW$115, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1426        .dwattr $C$DW$115, DW_AT_accessibility(DW_ACCESS_public)
+    1427        .dwattr $C$DW$115, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1428        .dwattr $C$DW$115, DW_AT_decl_line(0x6b)
+    1429        .dwattr $C$DW$115, DW_AT_decl_column(0x0d)
+    1430$C$DW$116       .dwtag  DW_TAG_member
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   27
+
+    1431        .dwattr $C$DW$116, DW_AT_type(*$C$DW$T$11)
+    1432        .dwattr $C$DW$116, DW_AT_name("rsvd8")
+    1433        .dwattr $C$DW$116, DW_AT_TI_symbol_name("rsvd8")
+    1434        .dwattr $C$DW$116, DW_AT_bit_offset(0x10), DW_AT_bit_size(0x08)
+    1435        .dwattr $C$DW$116, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1436        .dwattr $C$DW$116, DW_AT_accessibility(DW_ACCESS_public)
+    1437        .dwattr $C$DW$116, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1438        .dwattr $C$DW$116, DW_AT_decl_line(0x6c)
+    1439        .dwattr $C$DW$116, DW_AT_decl_column(0x0d)
+    1440$C$DW$117       .dwtag  DW_TAG_member
+    1441        .dwattr $C$DW$117, DW_AT_type(*$C$DW$T$11)
+    1442        .dwattr $C$DW$117, DW_AT_name("C25_BLK_IDX")
+    1443        .dwattr $C$DW$117, DW_AT_TI_symbol_name("C25_BLK_IDX")
+    1444        .dwattr $C$DW$117, DW_AT_bit_offset(0x08), DW_AT_bit_size(0x08)
+    1445        .dwattr $C$DW$117, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1446        .dwattr $C$DW$117, DW_AT_accessibility(DW_ACCESS_public)
+    1447        .dwattr $C$DW$117, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1448        .dwattr $C$DW$117, DW_AT_decl_line(0x6d)
+    1449        .dwattr $C$DW$117, DW_AT_decl_column(0x0d)
+    1450$C$DW$118       .dwtag  DW_TAG_member
+    1451        .dwattr $C$DW$118, DW_AT_type(*$C$DW$T$11)
+    1452        .dwattr $C$DW$118, DW_AT_name("rsvd24")
+    1453        .dwattr $C$DW$118, DW_AT_TI_symbol_name("rsvd24")
+    1454        .dwattr $C$DW$118, DW_AT_bit_offset(0x00), DW_AT_bit_size(0x08)
+    1455        .dwattr $C$DW$118, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1456        .dwattr $C$DW$118, DW_AT_accessibility(DW_ACCESS_public)
+    1457        .dwattr $C$DW$118, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1458        .dwattr $C$DW$118, DW_AT_decl_line(0x6e)
+    1459        .dwattr $C$DW$118, DW_AT_decl_column(0x0d)
+    1460        .dwendtag $C$DW$T$41
+    1461
+    1462        .dwattr $C$DW$T$41, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1463        .dwattr $C$DW$T$41, DW_AT_decl_line(0x6a)
+    1464        .dwattr $C$DW$T$41, DW_AT_decl_column(0x13)
+    1465$C$DW$T$84      .dwtag  DW_TAG_volatile_type
+    1466        .dwattr $C$DW$T$84, DW_AT_type(*$C$DW$T$41)
+    1467
+    1468$C$DW$T$42      .dwtag  DW_TAG_structure_type
+    1469        .dwattr $C$DW$T$42, DW_AT_byte_size(0x04)
+    1470$C$DW$119       .dwtag  DW_TAG_member
+    1471        .dwattr $C$DW$119, DW_AT_type(*$C$DW$T$11)
+    1472        .dwattr $C$DW$119, DW_AT_name("C26_BLK_IDX")
+    1473        .dwattr $C$DW$119, DW_AT_TI_symbol_name("C26_BLK_IDX")
+    1474        .dwattr $C$DW$119, DW_AT_bit_offset(0x18), DW_AT_bit_size(0x08)
+    1475        .dwattr $C$DW$119, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1476        .dwattr $C$DW$119, DW_AT_accessibility(DW_ACCESS_public)
+    1477        .dwattr $C$DW$119, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1478        .dwattr $C$DW$119, DW_AT_decl_line(0x78)
+    1479        .dwattr $C$DW$119, DW_AT_decl_column(0x0d)
+    1480$C$DW$120       .dwtag  DW_TAG_member
+    1481        .dwattr $C$DW$120, DW_AT_type(*$C$DW$T$11)
+    1482        .dwattr $C$DW$120, DW_AT_name("rsvd8")
+    1483        .dwattr $C$DW$120, DW_AT_TI_symbol_name("rsvd8")
+    1484        .dwattr $C$DW$120, DW_AT_bit_offset(0x10), DW_AT_bit_size(0x08)
+    1485        .dwattr $C$DW$120, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   28
+
+    1486        .dwattr $C$DW$120, DW_AT_accessibility(DW_ACCESS_public)
+    1487        .dwattr $C$DW$120, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1488        .dwattr $C$DW$120, DW_AT_decl_line(0x79)
+    1489        .dwattr $C$DW$120, DW_AT_decl_column(0x0d)
+    1490$C$DW$121       .dwtag  DW_TAG_member
+    1491        .dwattr $C$DW$121, DW_AT_type(*$C$DW$T$11)
+    1492        .dwattr $C$DW$121, DW_AT_name("C27_BLK_IDX")
+    1493        .dwattr $C$DW$121, DW_AT_TI_symbol_name("C27_BLK_IDX")
+    1494        .dwattr $C$DW$121, DW_AT_bit_offset(0x08), DW_AT_bit_size(0x08)
+    1495        .dwattr $C$DW$121, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1496        .dwattr $C$DW$121, DW_AT_accessibility(DW_ACCESS_public)
+    1497        .dwattr $C$DW$121, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1498        .dwattr $C$DW$121, DW_AT_decl_line(0x7a)
+    1499        .dwattr $C$DW$121, DW_AT_decl_column(0x0d)
+    1500$C$DW$122       .dwtag  DW_TAG_member
+    1501        .dwattr $C$DW$122, DW_AT_type(*$C$DW$T$11)
+    1502        .dwattr $C$DW$122, DW_AT_name("rsvd24")
+    1503        .dwattr $C$DW$122, DW_AT_TI_symbol_name("rsvd24")
+    1504        .dwattr $C$DW$122, DW_AT_bit_offset(0x00), DW_AT_bit_size(0x08)
+    1505        .dwattr $C$DW$122, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1506        .dwattr $C$DW$122, DW_AT_accessibility(DW_ACCESS_public)
+    1507        .dwattr $C$DW$122, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1508        .dwattr $C$DW$122, DW_AT_decl_line(0x7b)
+    1509        .dwattr $C$DW$122, DW_AT_decl_column(0x0d)
+    1510        .dwendtag $C$DW$T$42
+    1511
+    1512        .dwattr $C$DW$T$42, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1513        .dwattr $C$DW$T$42, DW_AT_decl_line(0x77)
+    1514        .dwattr $C$DW$T$42, DW_AT_decl_column(0x13)
+    1515$C$DW$T$86      .dwtag  DW_TAG_volatile_type
+    1516        .dwattr $C$DW$T$86, DW_AT_type(*$C$DW$T$42)
+    1517
+    1518$C$DW$T$43      .dwtag  DW_TAG_structure_type
+    1519        .dwattr $C$DW$T$43, DW_AT_byte_size(0x04)
+    1520$C$DW$123       .dwtag  DW_TAG_member
+    1521        .dwattr $C$DW$123, DW_AT_type(*$C$DW$T$11)
+    1522        .dwattr $C$DW$123, DW_AT_name("C28_BLK_POINTER")
+    1523        .dwattr $C$DW$123, DW_AT_TI_symbol_name("C28_BLK_POINTER")
+    1524        .dwattr $C$DW$123, DW_AT_bit_offset(0x10), DW_AT_bit_size(0x10)
+    1525        .dwattr $C$DW$123, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1526        .dwattr $C$DW$123, DW_AT_accessibility(DW_ACCESS_public)
+    1527        .dwattr $C$DW$123, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1528        .dwattr $C$DW$123, DW_AT_decl_line(0x85)
+    1529        .dwattr $C$DW$123, DW_AT_decl_column(0x0d)
+    1530$C$DW$124       .dwtag  DW_TAG_member
+    1531        .dwattr $C$DW$124, DW_AT_type(*$C$DW$T$11)
+    1532        .dwattr $C$DW$124, DW_AT_name("C29_BLK_POINTER")
+    1533        .dwattr $C$DW$124, DW_AT_TI_symbol_name("C29_BLK_POINTER")
+    1534        .dwattr $C$DW$124, DW_AT_bit_offset(0x00), DW_AT_bit_size(0x10)
+    1535        .dwattr $C$DW$124, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1536        .dwattr $C$DW$124, DW_AT_accessibility(DW_ACCESS_public)
+    1537        .dwattr $C$DW$124, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1538        .dwattr $C$DW$124, DW_AT_decl_line(0x86)
+    1539        .dwattr $C$DW$124, DW_AT_decl_column(0x0d)
+    1540        .dwendtag $C$DW$T$43
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   29
+
+    1541
+    1542        .dwattr $C$DW$T$43, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1543        .dwattr $C$DW$T$43, DW_AT_decl_line(0x84)
+    1544        .dwattr $C$DW$T$43, DW_AT_decl_column(0x13)
+    1545$C$DW$T$88      .dwtag  DW_TAG_volatile_type
+    1546        .dwattr $C$DW$T$88, DW_AT_type(*$C$DW$T$43)
+    1547
+    1548$C$DW$T$44      .dwtag  DW_TAG_structure_type
+    1549        .dwattr $C$DW$T$44, DW_AT_byte_size(0x04)
+    1550$C$DW$125       .dwtag  DW_TAG_member
+    1551        .dwattr $C$DW$125, DW_AT_type(*$C$DW$T$11)
+    1552        .dwattr $C$DW$125, DW_AT_name("C30_BLK_POINTER")
+    1553        .dwattr $C$DW$125, DW_AT_TI_symbol_name("C30_BLK_POINTER")
+    1554        .dwattr $C$DW$125, DW_AT_bit_offset(0x10), DW_AT_bit_size(0x10)
+    1555        .dwattr $C$DW$125, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1556        .dwattr $C$DW$125, DW_AT_accessibility(DW_ACCESS_public)
+    1557        .dwattr $C$DW$125, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1558        .dwattr $C$DW$125, DW_AT_decl_line(0x90)
+    1559        .dwattr $C$DW$125, DW_AT_decl_column(0x0d)
+    1560$C$DW$126       .dwtag  DW_TAG_member
+    1561        .dwattr $C$DW$126, DW_AT_type(*$C$DW$T$11)
+    1562        .dwattr $C$DW$126, DW_AT_name("C31_BLK_POINTER")
+    1563        .dwattr $C$DW$126, DW_AT_TI_symbol_name("C31_BLK_POINTER")
+    1564        .dwattr $C$DW$126, DW_AT_bit_offset(0x00), DW_AT_bit_size(0x10)
+    1565        .dwattr $C$DW$126, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1566        .dwattr $C$DW$126, DW_AT_accessibility(DW_ACCESS_public)
+    1567        .dwattr $C$DW$126, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1568        .dwattr $C$DW$126, DW_AT_decl_line(0x91)
+    1569        .dwattr $C$DW$126, DW_AT_decl_column(0x0d)
+    1570        .dwendtag $C$DW$T$44
+    1571
+    1572        .dwattr $C$DW$T$44, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1573        .dwattr $C$DW$T$44, DW_AT_decl_line(0x8f)
+    1574        .dwattr $C$DW$T$44, DW_AT_decl_column(0x13)
+    1575$C$DW$T$90      .dwtag  DW_TAG_volatile_type
+    1576        .dwattr $C$DW$T$90, DW_AT_type(*$C$DW$T$44)
+    1577
+    1578$C$DW$T$46      .dwtag  DW_TAG_structure_type
+    1579        .dwattr $C$DW$T$46, DW_AT_byte_size(0x30)
+    1580$C$DW$127       .dwtag  DW_TAG_member
+    1581        .dwattr $C$DW$127, DW_AT_type(*$C$DW$T$75)
+    1582        .dwattr $C$DW$127, DW_AT_name("$P$T13")
+    1583        .dwattr $C$DW$127, DW_AT_TI_symbol_name("$P$T13")
+    1584        .dwattr $C$DW$127, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1585        .dwattr $C$DW$127, DW_AT_accessibility(DW_ACCESS_public)
+    1586        .dwattr $C$DW$127, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1587        .dwattr $C$DW$127, DW_AT_decl_line(0x29)
+    1588        .dwattr $C$DW$127, DW_AT_decl_column(0x02)
+    1589$C$DW$128       .dwtag  DW_TAG_member
+    1590        .dwattr $C$DW$128, DW_AT_type(*$C$DW$T$77)
+    1591        .dwattr $C$DW$128, DW_AT_name("$P$T14")
+    1592        .dwattr $C$DW$128, DW_AT_TI_symbol_name("$P$T14")
+    1593        .dwattr $C$DW$128, DW_AT_data_member_location[DW_OP_plus_uconst 0x4]
+    1594        .dwattr $C$DW$128, DW_AT_accessibility(DW_ACCESS_public)
+    1595        .dwattr $C$DW$128, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   30
+
+    1596        .dwattr $C$DW$128, DW_AT_decl_line(0x3b)
+    1597        .dwattr $C$DW$128, DW_AT_decl_column(0x02)
+    1598$C$DW$129       .dwtag  DW_TAG_member
+    1599        .dwattr $C$DW$129, DW_AT_type(*$C$DW$T$79)
+    1600        .dwattr $C$DW$129, DW_AT_name("$P$T15")
+    1601        .dwattr $C$DW$129, DW_AT_TI_symbol_name("$P$T15")
+    1602        .dwattr $C$DW$129, DW_AT_data_member_location[DW_OP_plus_uconst 0x8]
+    1603        .dwattr $C$DW$129, DW_AT_accessibility(DW_ACCESS_public)
+    1604        .dwattr $C$DW$129, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1605        .dwattr $C$DW$129, DW_AT_decl_line(0x46)
+    1606        .dwattr $C$DW$129, DW_AT_decl_column(0x02)
+    1607$C$DW$130       .dwtag  DW_TAG_member
+    1608        .dwattr $C$DW$130, DW_AT_type(*$C$DW$T$81)
+    1609        .dwattr $C$DW$130, DW_AT_name("$P$T16")
+    1610        .dwattr $C$DW$130, DW_AT_TI_symbol_name("$P$T16")
+    1611        .dwattr $C$DW$130, DW_AT_data_member_location[DW_OP_plus_uconst 0xc]
+    1612        .dwattr $C$DW$130, DW_AT_accessibility(DW_ACCESS_public)
+    1613        .dwattr $C$DW$130, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1614        .dwattr $C$DW$130, DW_AT_decl_line(0x50)
+    1615        .dwattr $C$DW$130, DW_AT_decl_column(0x02)
+    1616$C$DW$131       .dwtag  DW_TAG_member
+    1617        .dwattr $C$DW$131, DW_AT_type(*$C$DW$T$83)
+    1618        .dwattr $C$DW$131, DW_AT_name("$P$T17")
+    1619        .dwattr $C$DW$131, DW_AT_TI_symbol_name("$P$T17")
+    1620        .dwattr $C$DW$131, DW_AT_data_member_location[DW_OP_plus_uconst 0x10]
+    1621        .dwattr $C$DW$131, DW_AT_accessibility(DW_ACCESS_public)
+    1622        .dwattr $C$DW$131, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1623        .dwattr $C$DW$131, DW_AT_decl_line(0x5a)
+    1624        .dwattr $C$DW$131, DW_AT_decl_column(0x02)
+    1625$C$DW$132       .dwtag  DW_TAG_member
+    1626        .dwattr $C$DW$132, DW_AT_type(*$C$DW$T$45)
+    1627        .dwattr $C$DW$132, DW_AT_name("rsvd14")
+    1628        .dwattr $C$DW$132, DW_AT_TI_symbol_name("rsvd14")
+    1629        .dwattr $C$DW$132, DW_AT_data_member_location[DW_OP_plus_uconst 0x14]
+    1630        .dwattr $C$DW$132, DW_AT_accessibility(DW_ACCESS_public)
+    1631        .dwattr $C$DW$132, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1632        .dwattr $C$DW$132, DW_AT_decl_line(0x63)
+    1633        .dwattr $C$DW$132, DW_AT_decl_column(0x0b)
+    1634$C$DW$133       .dwtag  DW_TAG_member
+    1635        .dwattr $C$DW$133, DW_AT_type(*$C$DW$T$85)
+    1636        .dwattr $C$DW$133, DW_AT_name("$P$T18")
+    1637        .dwattr $C$DW$133, DW_AT_TI_symbol_name("$P$T18")
+    1638        .dwattr $C$DW$133, DW_AT_data_member_location[DW_OP_plus_uconst 0x20]
+    1639        .dwattr $C$DW$133, DW_AT_accessibility(DW_ACCESS_public)
+    1640        .dwattr $C$DW$133, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1641        .dwattr $C$DW$133, DW_AT_decl_line(0x67)
+    1642        .dwattr $C$DW$133, DW_AT_decl_column(0x02)
+    1643$C$DW$134       .dwtag  DW_TAG_member
+    1644        .dwattr $C$DW$134, DW_AT_type(*$C$DW$T$87)
+    1645        .dwattr $C$DW$134, DW_AT_name("$P$T19")
+    1646        .dwattr $C$DW$134, DW_AT_TI_symbol_name("$P$T19")
+    1647        .dwattr $C$DW$134, DW_AT_data_member_location[DW_OP_plus_uconst 0x24]
+    1648        .dwattr $C$DW$134, DW_AT_accessibility(DW_ACCESS_public)
+    1649        .dwattr $C$DW$134, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1650        .dwattr $C$DW$134, DW_AT_decl_line(0x74)
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   31
+
+    1651        .dwattr $C$DW$134, DW_AT_decl_column(0x02)
+    1652$C$DW$135       .dwtag  DW_TAG_member
+    1653        .dwattr $C$DW$135, DW_AT_type(*$C$DW$T$89)
+    1654        .dwattr $C$DW$135, DW_AT_name("$P$T20")
+    1655        .dwattr $C$DW$135, DW_AT_TI_symbol_name("$P$T20")
+    1656        .dwattr $C$DW$135, DW_AT_data_member_location[DW_OP_plus_uconst 0x28]
+    1657        .dwattr $C$DW$135, DW_AT_accessibility(DW_ACCESS_public)
+    1658        .dwattr $C$DW$135, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1659        .dwattr $C$DW$135, DW_AT_decl_line(0x81)
+    1660        .dwattr $C$DW$135, DW_AT_decl_column(0x02)
+    1661$C$DW$136       .dwtag  DW_TAG_member
+    1662        .dwattr $C$DW$136, DW_AT_type(*$C$DW$T$91)
+    1663        .dwattr $C$DW$136, DW_AT_name("$P$T21")
+    1664        .dwattr $C$DW$136, DW_AT_TI_symbol_name("$P$T21")
+    1665        .dwattr $C$DW$136, DW_AT_data_member_location[DW_OP_plus_uconst 0x2c]
+    1666        .dwattr $C$DW$136, DW_AT_accessibility(DW_ACCESS_public)
+    1667        .dwattr $C$DW$136, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1668        .dwattr $C$DW$136, DW_AT_decl_line(0x8c)
+    1669        .dwattr $C$DW$136, DW_AT_decl_column(0x02)
+    1670        .dwendtag $C$DW$T$46
+    1671
+    1672        .dwattr $C$DW$T$46, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1673        .dwattr $C$DW$T$46, DW_AT_decl_line(0x26)
+    1674        .dwattr $C$DW$T$46, DW_AT_decl_column(0x10)
+    1675$C$DW$T$102     .dwtag  DW_TAG_typedef, DW_AT_name("pruCtrl")
+    1676        .dwattr $C$DW$T$102, DW_AT_type(*$C$DW$T$46)
+    1677        .dwattr $C$DW$T$102, DW_AT_language(DW_LANG_C)
+    1678        .dwattr $C$DW$T$102, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/
+    1679        .dwattr $C$DW$T$102, DW_AT_decl_line(0x95)
+    1680        .dwattr $C$DW$T$102, DW_AT_decl_column(0x03)
+    1681
+    1682$C$DW$T$49      .dwtag  DW_TAG_union_type
+    1683        .dwattr $C$DW$T$49, DW_AT_byte_size(0x04)
+    1684$C$DW$137       .dwtag  DW_TAG_member
+    1685        .dwattr $C$DW$137, DW_AT_type(*$C$DW$T$47)
+    1686        .dwattr $C$DW$137, DW_AT_name("REVID")
+    1687        .dwattr $C$DW$137, DW_AT_TI_symbol_name("REVID")
+    1688        .dwattr $C$DW$137, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1689        .dwattr $C$DW$137, DW_AT_accessibility(DW_ACCESS_public)
+    1690        .dwattr $C$DW$137, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1691        .dwattr $C$DW$137, DW_AT_decl_line(0x2a)
+    1692        .dwattr $C$DW$137, DW_AT_decl_column(0x15)
+    1693$C$DW$138       .dwtag  DW_TAG_member
+    1694        .dwattr $C$DW$138, DW_AT_type(*$C$DW$T$48)
+    1695        .dwattr $C$DW$138, DW_AT_name("REVID_bit")
+    1696        .dwattr $C$DW$138, DW_AT_TI_symbol_name("REVID_bit")
+    1697        .dwattr $C$DW$138, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1698        .dwattr $C$DW$138, DW_AT_accessibility(DW_ACCESS_public)
+    1699        .dwattr $C$DW$138, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1700        .dwattr $C$DW$138, DW_AT_decl_line(0x2e)
+    1701        .dwattr $C$DW$138, DW_AT_decl_column(0x05)
+    1702        .dwendtag $C$DW$T$49
+    1703
+    1704        .dwattr $C$DW$T$49, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1705        .dwattr $C$DW$T$49, DW_AT_decl_line(0x29)
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   32
+
+    1706        .dwattr $C$DW$T$49, DW_AT_decl_column(0x08)
+    1707
+    1708$C$DW$T$51      .dwtag  DW_TAG_union_type
+    1709        .dwattr $C$DW$T$51, DW_AT_byte_size(0x04)
+    1710$C$DW$139       .dwtag  DW_TAG_member
+    1711        .dwattr $C$DW$139, DW_AT_type(*$C$DW$T$47)
+    1712        .dwattr $C$DW$139, DW_AT_name("SYSCFG")
+    1713        .dwattr $C$DW$139, DW_AT_TI_symbol_name("SYSCFG")
+    1714        .dwattr $C$DW$139, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1715        .dwattr $C$DW$139, DW_AT_accessibility(DW_ACCESS_public)
+    1716        .dwattr $C$DW$139, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1717        .dwattr $C$DW$139, DW_AT_decl_line(0x34)
+    1718        .dwattr $C$DW$139, DW_AT_decl_column(0x15)
+    1719$C$DW$140       .dwtag  DW_TAG_member
+    1720        .dwattr $C$DW$140, DW_AT_type(*$C$DW$T$50)
+    1721        .dwattr $C$DW$140, DW_AT_name("SYSCFG_bit")
+    1722        .dwattr $C$DW$140, DW_AT_TI_symbol_name("SYSCFG_bit")
+    1723        .dwattr $C$DW$140, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1724        .dwattr $C$DW$140, DW_AT_accessibility(DW_ACCESS_public)
+    1725        .dwattr $C$DW$140, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1726        .dwattr $C$DW$140, DW_AT_decl_line(0x3c)
+    1727        .dwattr $C$DW$140, DW_AT_decl_column(0x05)
+    1728        .dwendtag $C$DW$T$51
+    1729
+    1730        .dwattr $C$DW$T$51, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1731        .dwattr $C$DW$T$51, DW_AT_decl_line(0x33)
+    1732        .dwattr $C$DW$T$51, DW_AT_decl_column(0x08)
+    1733
+    1734$C$DW$T$53      .dwtag  DW_TAG_union_type
+    1735        .dwattr $C$DW$T$53, DW_AT_byte_size(0x04)
+    1736$C$DW$141       .dwtag  DW_TAG_member
+    1737        .dwattr $C$DW$141, DW_AT_type(*$C$DW$T$47)
+    1738        .dwattr $C$DW$141, DW_AT_name("GPCFG0")
+    1739        .dwattr $C$DW$141, DW_AT_TI_symbol_name("GPCFG0")
+    1740        .dwattr $C$DW$141, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1741        .dwattr $C$DW$141, DW_AT_accessibility(DW_ACCESS_public)
+    1742        .dwattr $C$DW$141, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1743        .dwattr $C$DW$141, DW_AT_decl_line(0x42)
+    1744        .dwattr $C$DW$141, DW_AT_decl_column(0x15)
+    1745$C$DW$142       .dwtag  DW_TAG_member
+    1746        .dwattr $C$DW$142, DW_AT_type(*$C$DW$T$52)
+    1747        .dwattr $C$DW$142, DW_AT_name("GPCFG0_bit")
+    1748        .dwattr $C$DW$142, DW_AT_TI_symbol_name("GPCFG0_bit")
+    1749        .dwattr $C$DW$142, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1750        .dwattr $C$DW$142, DW_AT_accessibility(DW_ACCESS_public)
+    1751        .dwattr $C$DW$142, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1752        .dwattr $C$DW$142, DW_AT_decl_line(0x4f)
+    1753        .dwattr $C$DW$142, DW_AT_decl_column(0x05)
+    1754        .dwendtag $C$DW$T$53
+    1755
+    1756        .dwattr $C$DW$T$53, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1757        .dwattr $C$DW$T$53, DW_AT_decl_line(0x41)
+    1758        .dwattr $C$DW$T$53, DW_AT_decl_column(0x08)
+    1759
+    1760$C$DW$T$55      .dwtag  DW_TAG_union_type
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   33
+
+    1761        .dwattr $C$DW$T$55, DW_AT_byte_size(0x04)
+    1762$C$DW$143       .dwtag  DW_TAG_member
+    1763        .dwattr $C$DW$143, DW_AT_type(*$C$DW$T$47)
+    1764        .dwattr $C$DW$143, DW_AT_name("GPCFG1")
+    1765        .dwattr $C$DW$143, DW_AT_TI_symbol_name("GPCFG1")
+    1766        .dwattr $C$DW$143, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1767        .dwattr $C$DW$143, DW_AT_accessibility(DW_ACCESS_public)
+    1768        .dwattr $C$DW$143, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1769        .dwattr $C$DW$143, DW_AT_decl_line(0x55)
+    1770        .dwattr $C$DW$143, DW_AT_decl_column(0x15)
+    1771$C$DW$144       .dwtag  DW_TAG_member
+    1772        .dwattr $C$DW$144, DW_AT_type(*$C$DW$T$54)
+    1773        .dwattr $C$DW$144, DW_AT_name("GPCFG1_bit")
+    1774        .dwattr $C$DW$144, DW_AT_TI_symbol_name("GPCFG1_bit")
+    1775        .dwattr $C$DW$144, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1776        .dwattr $C$DW$144, DW_AT_accessibility(DW_ACCESS_public)
+    1777        .dwattr $C$DW$144, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1778        .dwattr $C$DW$144, DW_AT_decl_line(0x62)
+    1779        .dwattr $C$DW$144, DW_AT_decl_column(0x05)
+    1780        .dwendtag $C$DW$T$55
+    1781
+    1782        .dwattr $C$DW$T$55, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1783        .dwattr $C$DW$T$55, DW_AT_decl_line(0x54)
+    1784        .dwattr $C$DW$T$55, DW_AT_decl_column(0x08)
+    1785
+    1786$C$DW$T$57      .dwtag  DW_TAG_union_type
+    1787        .dwattr $C$DW$T$57, DW_AT_byte_size(0x04)
+    1788$C$DW$145       .dwtag  DW_TAG_member
+    1789        .dwattr $C$DW$145, DW_AT_type(*$C$DW$T$47)
+    1790        .dwattr $C$DW$145, DW_AT_name("CGR")
+    1791        .dwattr $C$DW$145, DW_AT_TI_symbol_name("CGR")
+    1792        .dwattr $C$DW$145, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1793        .dwattr $C$DW$145, DW_AT_accessibility(DW_ACCESS_public)
+    1794        .dwattr $C$DW$145, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1795        .dwattr $C$DW$145, DW_AT_decl_line(0x68)
+    1796        .dwattr $C$DW$145, DW_AT_decl_column(0x15)
+    1797$C$DW$146       .dwtag  DW_TAG_member
+    1798        .dwattr $C$DW$146, DW_AT_type(*$C$DW$T$56)
+    1799        .dwattr $C$DW$146, DW_AT_name("CGR_bit")
+    1800        .dwattr $C$DW$146, DW_AT_TI_symbol_name("CGR_bit")
+    1801        .dwattr $C$DW$146, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1802        .dwattr $C$DW$146, DW_AT_accessibility(DW_ACCESS_public)
+    1803        .dwattr $C$DW$146, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1804        .dwattr $C$DW$146, DW_AT_decl_line(0x7e)
+    1805        .dwattr $C$DW$146, DW_AT_decl_column(0x05)
+    1806        .dwendtag $C$DW$T$57
+    1807
+    1808        .dwattr $C$DW$T$57, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1809        .dwattr $C$DW$T$57, DW_AT_decl_line(0x67)
+    1810        .dwattr $C$DW$T$57, DW_AT_decl_column(0x08)
+    1811
+    1812$C$DW$T$59      .dwtag  DW_TAG_union_type
+    1813        .dwattr $C$DW$T$59, DW_AT_byte_size(0x04)
+    1814$C$DW$147       .dwtag  DW_TAG_member
+    1815        .dwattr $C$DW$147, DW_AT_type(*$C$DW$T$47)
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   34
+
+    1816        .dwattr $C$DW$147, DW_AT_name("ISRP")
+    1817        .dwattr $C$DW$147, DW_AT_TI_symbol_name("ISRP")
+    1818        .dwattr $C$DW$147, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1819        .dwattr $C$DW$147, DW_AT_accessibility(DW_ACCESS_public)
+    1820        .dwattr $C$DW$147, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1821        .dwattr $C$DW$147, DW_AT_decl_line(0x84)
+    1822        .dwattr $C$DW$147, DW_AT_decl_column(0x15)
+    1823$C$DW$148       .dwtag  DW_TAG_member
+    1824        .dwattr $C$DW$148, DW_AT_type(*$C$DW$T$58)
+    1825        .dwattr $C$DW$148, DW_AT_name("ISRP_bit")
+    1826        .dwattr $C$DW$148, DW_AT_TI_symbol_name("ISRP_bit")
+    1827        .dwattr $C$DW$148, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1828        .dwattr $C$DW$148, DW_AT_accessibility(DW_ACCESS_public)
+    1829        .dwattr $C$DW$148, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1830        .dwattr $C$DW$148, DW_AT_decl_line(0x8d)
+    1831        .dwattr $C$DW$148, DW_AT_decl_column(0x05)
+    1832        .dwendtag $C$DW$T$59
+    1833
+    1834        .dwattr $C$DW$T$59, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1835        .dwattr $C$DW$T$59, DW_AT_decl_line(0x83)
+    1836        .dwattr $C$DW$T$59, DW_AT_decl_column(0x08)
+    1837
+    1838$C$DW$T$61      .dwtag  DW_TAG_union_type
+    1839        .dwattr $C$DW$T$61, DW_AT_byte_size(0x04)
+    1840$C$DW$149       .dwtag  DW_TAG_member
+    1841        .dwattr $C$DW$149, DW_AT_type(*$C$DW$T$47)
+    1842        .dwattr $C$DW$149, DW_AT_name("ISP")
+    1843        .dwattr $C$DW$149, DW_AT_TI_symbol_name("ISP")
+    1844        .dwattr $C$DW$149, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1845        .dwattr $C$DW$149, DW_AT_accessibility(DW_ACCESS_public)
+    1846        .dwattr $C$DW$149, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1847        .dwattr $C$DW$149, DW_AT_decl_line(0x93)
+    1848        .dwattr $C$DW$149, DW_AT_decl_column(0x15)
+    1849$C$DW$150       .dwtag  DW_TAG_member
+    1850        .dwattr $C$DW$150, DW_AT_type(*$C$DW$T$60)
+    1851        .dwattr $C$DW$150, DW_AT_name("ISP_bit")
+    1852        .dwattr $C$DW$150, DW_AT_TI_symbol_name("ISP_bit")
+    1853        .dwattr $C$DW$150, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1854        .dwattr $C$DW$150, DW_AT_accessibility(DW_ACCESS_public)
+    1855        .dwattr $C$DW$150, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1856        .dwattr $C$DW$150, DW_AT_decl_line(0x9c)
+    1857        .dwattr $C$DW$150, DW_AT_decl_column(0x05)
+    1858        .dwendtag $C$DW$T$61
+    1859
+    1860        .dwattr $C$DW$T$61, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1861        .dwattr $C$DW$T$61, DW_AT_decl_line(0x92)
+    1862        .dwattr $C$DW$T$61, DW_AT_decl_column(0x08)
+    1863
+    1864$C$DW$T$63      .dwtag  DW_TAG_union_type
+    1865        .dwattr $C$DW$T$63, DW_AT_byte_size(0x04)
+    1866$C$DW$151       .dwtag  DW_TAG_member
+    1867        .dwattr $C$DW$151, DW_AT_type(*$C$DW$T$47)
+    1868        .dwattr $C$DW$151, DW_AT_name("IESP")
+    1869        .dwattr $C$DW$151, DW_AT_TI_symbol_name("IESP")
+    1870        .dwattr $C$DW$151, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   35
+
+    1871        .dwattr $C$DW$151, DW_AT_accessibility(DW_ACCESS_public)
+    1872        .dwattr $C$DW$151, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1873        .dwattr $C$DW$151, DW_AT_decl_line(0xa1)
+    1874        .dwattr $C$DW$151, DW_AT_decl_column(0x15)
+    1875$C$DW$152       .dwtag  DW_TAG_member
+    1876        .dwattr $C$DW$152, DW_AT_type(*$C$DW$T$62)
+    1877        .dwattr $C$DW$152, DW_AT_name("IESP_bit")
+    1878        .dwattr $C$DW$152, DW_AT_TI_symbol_name("IESP_bit")
+    1879        .dwattr $C$DW$152, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1880        .dwattr $C$DW$152, DW_AT_accessibility(DW_ACCESS_public)
+    1881        .dwattr $C$DW$152, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1882        .dwattr $C$DW$152, DW_AT_decl_line(0xaa)
+    1883        .dwattr $C$DW$152, DW_AT_decl_column(0x05)
+    1884        .dwendtag $C$DW$T$63
+    1885
+    1886        .dwattr $C$DW$T$63, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1887        .dwattr $C$DW$T$63, DW_AT_decl_line(0xa0)
+    1888        .dwattr $C$DW$T$63, DW_AT_decl_column(0x08)
+    1889
+    1890$C$DW$T$65      .dwtag  DW_TAG_union_type
+    1891        .dwattr $C$DW$T$65, DW_AT_byte_size(0x04)
+    1892$C$DW$153       .dwtag  DW_TAG_member
+    1893        .dwattr $C$DW$153, DW_AT_type(*$C$DW$T$47)
+    1894        .dwattr $C$DW$153, DW_AT_name("IECP")
+    1895        .dwattr $C$DW$153, DW_AT_TI_symbol_name("IECP")
+    1896        .dwattr $C$DW$153, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1897        .dwattr $C$DW$153, DW_AT_accessibility(DW_ACCESS_public)
+    1898        .dwattr $C$DW$153, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1899        .dwattr $C$DW$153, DW_AT_decl_line(0xb0)
+    1900        .dwattr $C$DW$153, DW_AT_decl_column(0x15)
+    1901$C$DW$154       .dwtag  DW_TAG_member
+    1902        .dwattr $C$DW$154, DW_AT_type(*$C$DW$T$64)
+    1903        .dwattr $C$DW$154, DW_AT_name("IECP_bit")
+    1904        .dwattr $C$DW$154, DW_AT_TI_symbol_name("IECP_bit")
+    1905        .dwattr $C$DW$154, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1906        .dwattr $C$DW$154, DW_AT_accessibility(DW_ACCESS_public)
+    1907        .dwattr $C$DW$154, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1908        .dwattr $C$DW$154, DW_AT_decl_line(0xb8)
+    1909        .dwattr $C$DW$154, DW_AT_decl_column(0x05)
+    1910        .dwendtag $C$DW$T$65
+    1911
+    1912        .dwattr $C$DW$T$65, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1913        .dwattr $C$DW$T$65, DW_AT_decl_line(0xaf)
+    1914        .dwattr $C$DW$T$65, DW_AT_decl_column(0x08)
+    1915
+    1916$C$DW$T$67      .dwtag  DW_TAG_union_type
+    1917        .dwattr $C$DW$T$67, DW_AT_byte_size(0x04)
+    1918$C$DW$155       .dwtag  DW_TAG_member
+    1919        .dwattr $C$DW$155, DW_AT_type(*$C$DW$T$47)
+    1920        .dwattr $C$DW$155, DW_AT_name("PMAO")
+    1921        .dwattr $C$DW$155, DW_AT_TI_symbol_name("PMAO")
+    1922        .dwattr $C$DW$155, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1923        .dwattr $C$DW$155, DW_AT_accessibility(DW_ACCESS_public)
+    1924        .dwattr $C$DW$155, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1925        .dwattr $C$DW$155, DW_AT_decl_line(0xc1)
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   36
+
+    1926        .dwattr $C$DW$155, DW_AT_decl_column(0x15)
+    1927$C$DW$156       .dwtag  DW_TAG_member
+    1928        .dwattr $C$DW$156, DW_AT_type(*$C$DW$T$66)
+    1929        .dwattr $C$DW$156, DW_AT_name("PMAO_bit")
+    1930        .dwattr $C$DW$156, DW_AT_TI_symbol_name("PMAO_bit")
+    1931        .dwattr $C$DW$156, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1932        .dwattr $C$DW$156, DW_AT_accessibility(DW_ACCESS_public)
+    1933        .dwattr $C$DW$156, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1934        .dwattr $C$DW$156, DW_AT_decl_line(0xc7)
+    1935        .dwattr $C$DW$156, DW_AT_decl_column(0x05)
+    1936        .dwendtag $C$DW$T$67
+    1937
+    1938        .dwattr $C$DW$T$67, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1939        .dwattr $C$DW$T$67, DW_AT_decl_line(0xc0)
+    1940        .dwattr $C$DW$T$67, DW_AT_decl_column(0x08)
+    1941
+    1942$C$DW$T$69      .dwtag  DW_TAG_union_type
+    1943        .dwattr $C$DW$T$69, DW_AT_byte_size(0x04)
+    1944$C$DW$157       .dwtag  DW_TAG_member
+    1945        .dwattr $C$DW$157, DW_AT_type(*$C$DW$T$47)
+    1946        .dwattr $C$DW$157, DW_AT_name("IEPCLK")
+    1947        .dwattr $C$DW$157, DW_AT_TI_symbol_name("IEPCLK")
+    1948        .dwattr $C$DW$157, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1949        .dwattr $C$DW$157, DW_AT_accessibility(DW_ACCESS_public)
+    1950        .dwattr $C$DW$157, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1951        .dwattr $C$DW$157, DW_AT_decl_line(0xd0)
+    1952        .dwattr $C$DW$157, DW_AT_decl_column(0x15)
+    1953$C$DW$158       .dwtag  DW_TAG_member
+    1954        .dwattr $C$DW$158, DW_AT_type(*$C$DW$T$68)
+    1955        .dwattr $C$DW$158, DW_AT_name("IEPCLK_bit")
+    1956        .dwattr $C$DW$158, DW_AT_TI_symbol_name("IEPCLK_bit")
+    1957        .dwattr $C$DW$158, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1958        .dwattr $C$DW$158, DW_AT_accessibility(DW_ACCESS_public)
+    1959        .dwattr $C$DW$158, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1960        .dwattr $C$DW$158, DW_AT_decl_line(0xd5)
+    1961        .dwattr $C$DW$158, DW_AT_decl_column(0x05)
+    1962        .dwendtag $C$DW$T$69
+    1963
+    1964        .dwattr $C$DW$T$69, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1965        .dwattr $C$DW$T$69, DW_AT_decl_line(0xcf)
+    1966        .dwattr $C$DW$T$69, DW_AT_decl_column(0x08)
+    1967
+    1968$C$DW$T$71      .dwtag  DW_TAG_union_type
+    1969        .dwattr $C$DW$T$71, DW_AT_byte_size(0x04)
+    1970$C$DW$159       .dwtag  DW_TAG_member
+    1971        .dwattr $C$DW$159, DW_AT_type(*$C$DW$T$47)
+    1972        .dwattr $C$DW$159, DW_AT_name("SPP")
+    1973        .dwattr $C$DW$159, DW_AT_TI_symbol_name("SPP")
+    1974        .dwattr $C$DW$159, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1975        .dwattr $C$DW$159, DW_AT_accessibility(DW_ACCESS_public)
+    1976        .dwattr $C$DW$159, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1977        .dwattr $C$DW$159, DW_AT_decl_line(0xdb)
+    1978        .dwattr $C$DW$159, DW_AT_decl_column(0x15)
+    1979$C$DW$160       .dwtag  DW_TAG_member
+    1980        .dwattr $C$DW$160, DW_AT_type(*$C$DW$T$70)
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   37
+
+    1981        .dwattr $C$DW$160, DW_AT_name("SPP_bit")
+    1982        .dwattr $C$DW$160, DW_AT_TI_symbol_name("SPP_bit")
+    1983        .dwattr $C$DW$160, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    1984        .dwattr $C$DW$160, DW_AT_accessibility(DW_ACCESS_public)
+    1985        .dwattr $C$DW$160, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    1986        .dwattr $C$DW$160, DW_AT_decl_line(0xe1)
+    1987        .dwattr $C$DW$160, DW_AT_decl_column(0x05)
+    1988        .dwendtag $C$DW$T$71
+    1989
+    1990        .dwattr $C$DW$T$71, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    1991        .dwattr $C$DW$T$71, DW_AT_decl_line(0xda)
+    1992        .dwattr $C$DW$T$71, DW_AT_decl_column(0x08)
+    1993
+    1994$C$DW$T$73      .dwtag  DW_TAG_union_type
+    1995        .dwattr $C$DW$T$73, DW_AT_byte_size(0x04)
+    1996$C$DW$161       .dwtag  DW_TAG_member
+    1997        .dwattr $C$DW$161, DW_AT_type(*$C$DW$T$47)
+    1998        .dwattr $C$DW$161, DW_AT_name("PIN_MX")
+    1999        .dwattr $C$DW$161, DW_AT_TI_symbol_name("PIN_MX")
+    2000        .dwattr $C$DW$161, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    2001        .dwattr $C$DW$161, DW_AT_accessibility(DW_ACCESS_public)
+    2002        .dwattr $C$DW$161, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    2003        .dwattr $C$DW$161, DW_AT_decl_line(0xe9)
+    2004        .dwattr $C$DW$161, DW_AT_decl_column(0x15)
+    2005$C$DW$162       .dwtag  DW_TAG_member
+    2006        .dwattr $C$DW$162, DW_AT_type(*$C$DW$T$72)
+    2007        .dwattr $C$DW$162, DW_AT_name("PIN_MX_bit")
+    2008        .dwattr $C$DW$162, DW_AT_TI_symbol_name("PIN_MX_bit")
+    2009        .dwattr $C$DW$162, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    2010        .dwattr $C$DW$162, DW_AT_accessibility(DW_ACCESS_public)
+    2011        .dwattr $C$DW$162, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    2012        .dwattr $C$DW$162, DW_AT_decl_line(0xee)
+    2013        .dwattr $C$DW$162, DW_AT_decl_column(0x05)
+    2014        .dwendtag $C$DW$T$73
+    2015
+    2016        .dwattr $C$DW$T$73, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    2017        .dwattr $C$DW$T$73, DW_AT_decl_line(0xe8)
+    2018        .dwattr $C$DW$T$73, DW_AT_decl_column(0x08)
+    2019
+    2020$C$DW$T$75      .dwtag  DW_TAG_union_type
+    2021        .dwattr $C$DW$T$75, DW_AT_byte_size(0x04)
+    2022$C$DW$163       .dwtag  DW_TAG_member
+    2023        .dwattr $C$DW$163, DW_AT_type(*$C$DW$T$47)
+    2024        .dwattr $C$DW$163, DW_AT_name("CTRL")
+    2025        .dwattr $C$DW$163, DW_AT_TI_symbol_name("CTRL")
+    2026        .dwattr $C$DW$163, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    2027        .dwattr $C$DW$163, DW_AT_accessibility(DW_ACCESS_public)
+    2028        .dwattr $C$DW$163, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    2029        .dwattr $C$DW$163, DW_AT_decl_line(0x2a)
+    2030        .dwattr $C$DW$163, DW_AT_decl_column(0x15)
+    2031$C$DW$164       .dwtag  DW_TAG_member
+    2032        .dwattr $C$DW$164, DW_AT_type(*$C$DW$T$74)
+    2033        .dwattr $C$DW$164, DW_AT_name("CTRL_bit")
+    2034        .dwattr $C$DW$164, DW_AT_TI_symbol_name("CTRL_bit")
+    2035        .dwattr $C$DW$164, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   38
+
+    2036        .dwattr $C$DW$164, DW_AT_accessibility(DW_ACCESS_public)
+    2037        .dwattr $C$DW$164, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    2038        .dwattr $C$DW$164, DW_AT_decl_line(0x36)
+    2039        .dwattr $C$DW$164, DW_AT_decl_column(0x05)
+    2040        .dwendtag $C$DW$T$75
+    2041
+    2042        .dwattr $C$DW$T$75, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    2043        .dwattr $C$DW$T$75, DW_AT_decl_line(0x29)
+    2044        .dwattr $C$DW$T$75, DW_AT_decl_column(0x08)
+    2045
+    2046$C$DW$T$77      .dwtag  DW_TAG_union_type
+    2047        .dwattr $C$DW$T$77, DW_AT_byte_size(0x04)
+    2048$C$DW$165       .dwtag  DW_TAG_member
+    2049        .dwattr $C$DW$165, DW_AT_type(*$C$DW$T$47)
+    2050        .dwattr $C$DW$165, DW_AT_name("STS")
+    2051        .dwattr $C$DW$165, DW_AT_TI_symbol_name("STS")
+    2052        .dwattr $C$DW$165, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    2053        .dwattr $C$DW$165, DW_AT_accessibility(DW_ACCESS_public)
+    2054        .dwattr $C$DW$165, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    2055        .dwattr $C$DW$165, DW_AT_decl_line(0x3c)
+    2056        .dwattr $C$DW$165, DW_AT_decl_column(0x15)
+    2057$C$DW$166       .dwtag  DW_TAG_member
+    2058        .dwattr $C$DW$166, DW_AT_type(*$C$DW$T$76)
+    2059        .dwattr $C$DW$166, DW_AT_name("STS_bit")
+    2060        .dwattr $C$DW$166, DW_AT_TI_symbol_name("STS_bit")
+    2061        .dwattr $C$DW$166, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    2062        .dwattr $C$DW$166, DW_AT_accessibility(DW_ACCESS_public)
+    2063        .dwattr $C$DW$166, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    2064        .dwattr $C$DW$166, DW_AT_decl_line(0x41)
+    2065        .dwattr $C$DW$166, DW_AT_decl_column(0x05)
+    2066        .dwendtag $C$DW$T$77
+    2067
+    2068        .dwattr $C$DW$T$77, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    2069        .dwattr $C$DW$T$77, DW_AT_decl_line(0x3b)
+    2070        .dwattr $C$DW$T$77, DW_AT_decl_column(0x08)
+    2071
+    2072$C$DW$T$79      .dwtag  DW_TAG_union_type
+    2073        .dwattr $C$DW$T$79, DW_AT_byte_size(0x04)
+    2074$C$DW$167       .dwtag  DW_TAG_member
+    2075        .dwattr $C$DW$167, DW_AT_type(*$C$DW$T$47)
+    2076        .dwattr $C$DW$167, DW_AT_name("WAKEUP_EN")
+    2077        .dwattr $C$DW$167, DW_AT_TI_symbol_name("WAKEUP_EN")
+    2078        .dwattr $C$DW$167, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    2079        .dwattr $C$DW$167, DW_AT_accessibility(DW_ACCESS_public)
+    2080        .dwattr $C$DW$167, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    2081        .dwattr $C$DW$167, DW_AT_decl_line(0x47)
+    2082        .dwattr $C$DW$167, DW_AT_decl_column(0x15)
+    2083$C$DW$168       .dwtag  DW_TAG_member
+    2084        .dwattr $C$DW$168, DW_AT_type(*$C$DW$T$78)
+    2085        .dwattr $C$DW$168, DW_AT_name("WAKEUP_EN_bit")
+    2086        .dwattr $C$DW$168, DW_AT_TI_symbol_name("WAKEUP_EN_bit")
+    2087        .dwattr $C$DW$168, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    2088        .dwattr $C$DW$168, DW_AT_accessibility(DW_ACCESS_public)
+    2089        .dwattr $C$DW$168, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    2090        .dwattr $C$DW$168, DW_AT_decl_line(0x4b)
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   39
+
+    2091        .dwattr $C$DW$168, DW_AT_decl_column(0x05)
+    2092        .dwendtag $C$DW$T$79
+    2093
+    2094        .dwattr $C$DW$T$79, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    2095        .dwattr $C$DW$T$79, DW_AT_decl_line(0x46)
+    2096        .dwattr $C$DW$T$79, DW_AT_decl_column(0x08)
+    2097
+    2098$C$DW$T$81      .dwtag  DW_TAG_union_type
+    2099        .dwattr $C$DW$T$81, DW_AT_byte_size(0x04)
+    2100$C$DW$169       .dwtag  DW_TAG_member
+    2101        .dwattr $C$DW$169, DW_AT_type(*$C$DW$T$47)
+    2102        .dwattr $C$DW$169, DW_AT_name("CYCLE")
+    2103        .dwattr $C$DW$169, DW_AT_TI_symbol_name("CYCLE")
+    2104        .dwattr $C$DW$169, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    2105        .dwattr $C$DW$169, DW_AT_accessibility(DW_ACCESS_public)
+    2106        .dwattr $C$DW$169, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    2107        .dwattr $C$DW$169, DW_AT_decl_line(0x51)
+    2108        .dwattr $C$DW$169, DW_AT_decl_column(0x15)
+    2109$C$DW$170       .dwtag  DW_TAG_member
+    2110        .dwattr $C$DW$170, DW_AT_type(*$C$DW$T$80)
+    2111        .dwattr $C$DW$170, DW_AT_name("CYCLE_bit")
+    2112        .dwattr $C$DW$170, DW_AT_TI_symbol_name("CYCLE_bit")
+    2113        .dwattr $C$DW$170, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    2114        .dwattr $C$DW$170, DW_AT_accessibility(DW_ACCESS_public)
+    2115        .dwattr $C$DW$170, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    2116        .dwattr $C$DW$170, DW_AT_decl_line(0x55)
+    2117        .dwattr $C$DW$170, DW_AT_decl_column(0x05)
+    2118        .dwendtag $C$DW$T$81
+    2119
+    2120        .dwattr $C$DW$T$81, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    2121        .dwattr $C$DW$T$81, DW_AT_decl_line(0x50)
+    2122        .dwattr $C$DW$T$81, DW_AT_decl_column(0x08)
+    2123
+    2124$C$DW$T$83      .dwtag  DW_TAG_union_type
+    2125        .dwattr $C$DW$T$83, DW_AT_byte_size(0x04)
+    2126$C$DW$171       .dwtag  DW_TAG_member
+    2127        .dwattr $C$DW$171, DW_AT_type(*$C$DW$T$47)
+    2128        .dwattr $C$DW$171, DW_AT_name("STALL")
+    2129        .dwattr $C$DW$171, DW_AT_TI_symbol_name("STALL")
+    2130        .dwattr $C$DW$171, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    2131        .dwattr $C$DW$171, DW_AT_accessibility(DW_ACCESS_public)
+    2132        .dwattr $C$DW$171, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    2133        .dwattr $C$DW$171, DW_AT_decl_line(0x5b)
+    2134        .dwattr $C$DW$171, DW_AT_decl_column(0x15)
+    2135$C$DW$172       .dwtag  DW_TAG_member
+    2136        .dwattr $C$DW$172, DW_AT_type(*$C$DW$T$82)
+    2137        .dwattr $C$DW$172, DW_AT_name("STALL_bit")
+    2138        .dwattr $C$DW$172, DW_AT_TI_symbol_name("STALL_bit")
+    2139        .dwattr $C$DW$172, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    2140        .dwattr $C$DW$172, DW_AT_accessibility(DW_ACCESS_public)
+    2141        .dwattr $C$DW$172, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    2142        .dwattr $C$DW$172, DW_AT_decl_line(0x5f)
+    2143        .dwattr $C$DW$172, DW_AT_decl_column(0x05)
+    2144        .dwendtag $C$DW$T$83
+    2145
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   40
+
+    2146        .dwattr $C$DW$T$83, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    2147        .dwattr $C$DW$T$83, DW_AT_decl_line(0x5a)
+    2148        .dwattr $C$DW$T$83, DW_AT_decl_column(0x08)
+    2149
+    2150$C$DW$T$85      .dwtag  DW_TAG_union_type
+    2151        .dwattr $C$DW$T$85, DW_AT_byte_size(0x04)
+    2152$C$DW$173       .dwtag  DW_TAG_member
+    2153        .dwattr $C$DW$173, DW_AT_type(*$C$DW$T$47)
+    2154        .dwattr $C$DW$173, DW_AT_name("CTBIR0")
+    2155        .dwattr $C$DW$173, DW_AT_TI_symbol_name("CTBIR0")
+    2156        .dwattr $C$DW$173, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    2157        .dwattr $C$DW$173, DW_AT_accessibility(DW_ACCESS_public)
+    2158        .dwattr $C$DW$173, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    2159        .dwattr $C$DW$173, DW_AT_decl_line(0x68)
+    2160        .dwattr $C$DW$173, DW_AT_decl_column(0x15)
+    2161$C$DW$174       .dwtag  DW_TAG_member
+    2162        .dwattr $C$DW$174, DW_AT_type(*$C$DW$T$84)
+    2163        .dwattr $C$DW$174, DW_AT_name("CTBIR0_bit")
+    2164        .dwattr $C$DW$174, DW_AT_TI_symbol_name("CTBIR0_bit")
+    2165        .dwattr $C$DW$174, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    2166        .dwattr $C$DW$174, DW_AT_accessibility(DW_ACCESS_public)
+    2167        .dwattr $C$DW$174, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    2168        .dwattr $C$DW$174, DW_AT_decl_line(0x6f)
+    2169        .dwattr $C$DW$174, DW_AT_decl_column(0x05)
+    2170        .dwendtag $C$DW$T$85
+    2171
+    2172        .dwattr $C$DW$T$85, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    2173        .dwattr $C$DW$T$85, DW_AT_decl_line(0x67)
+    2174        .dwattr $C$DW$T$85, DW_AT_decl_column(0x08)
+    2175
+    2176$C$DW$T$87      .dwtag  DW_TAG_union_type
+    2177        .dwattr $C$DW$T$87, DW_AT_byte_size(0x04)
+    2178$C$DW$175       .dwtag  DW_TAG_member
+    2179        .dwattr $C$DW$175, DW_AT_type(*$C$DW$T$47)
+    2180        .dwattr $C$DW$175, DW_AT_name("CTBIR1")
+    2181        .dwattr $C$DW$175, DW_AT_TI_symbol_name("CTBIR1")
+    2182        .dwattr $C$DW$175, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    2183        .dwattr $C$DW$175, DW_AT_accessibility(DW_ACCESS_public)
+    2184        .dwattr $C$DW$175, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    2185        .dwattr $C$DW$175, DW_AT_decl_line(0x75)
+    2186        .dwattr $C$DW$175, DW_AT_decl_column(0x15)
+    2187$C$DW$176       .dwtag  DW_TAG_member
+    2188        .dwattr $C$DW$176, DW_AT_type(*$C$DW$T$86)
+    2189        .dwattr $C$DW$176, DW_AT_name("CTBIR1_bit")
+    2190        .dwattr $C$DW$176, DW_AT_TI_symbol_name("CTBIR1_bit")
+    2191        .dwattr $C$DW$176, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    2192        .dwattr $C$DW$176, DW_AT_accessibility(DW_ACCESS_public)
+    2193        .dwattr $C$DW$176, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    2194        .dwattr $C$DW$176, DW_AT_decl_line(0x7c)
+    2195        .dwattr $C$DW$176, DW_AT_decl_column(0x05)
+    2196        .dwendtag $C$DW$T$87
+    2197
+    2198        .dwattr $C$DW$T$87, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    2199        .dwattr $C$DW$T$87, DW_AT_decl_line(0x74)
+    2200        .dwattr $C$DW$T$87, DW_AT_decl_column(0x08)
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   41
+
+    2201
+    2202$C$DW$T$89      .dwtag  DW_TAG_union_type
+    2203        .dwattr $C$DW$T$89, DW_AT_byte_size(0x04)
+    2204$C$DW$177       .dwtag  DW_TAG_member
+    2205        .dwattr $C$DW$177, DW_AT_type(*$C$DW$T$47)
+    2206        .dwattr $C$DW$177, DW_AT_name("CTPPR0")
+    2207        .dwattr $C$DW$177, DW_AT_TI_symbol_name("CTPPR0")
+    2208        .dwattr $C$DW$177, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    2209        .dwattr $C$DW$177, DW_AT_accessibility(DW_ACCESS_public)
+    2210        .dwattr $C$DW$177, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    2211        .dwattr $C$DW$177, DW_AT_decl_line(0x82)
+    2212        .dwattr $C$DW$177, DW_AT_decl_column(0x15)
+    2213$C$DW$178       .dwtag  DW_TAG_member
+    2214        .dwattr $C$DW$178, DW_AT_type(*$C$DW$T$88)
+    2215        .dwattr $C$DW$178, DW_AT_name("CTPPR0_bit")
+    2216        .dwattr $C$DW$178, DW_AT_TI_symbol_name("CTPPR0_bit")
+    2217        .dwattr $C$DW$178, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    2218        .dwattr $C$DW$178, DW_AT_accessibility(DW_ACCESS_public)
+    2219        .dwattr $C$DW$178, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    2220        .dwattr $C$DW$178, DW_AT_decl_line(0x87)
+    2221        .dwattr $C$DW$178, DW_AT_decl_column(0x05)
+    2222        .dwendtag $C$DW$T$89
+    2223
+    2224        .dwattr $C$DW$T$89, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    2225        .dwattr $C$DW$T$89, DW_AT_decl_line(0x81)
+    2226        .dwattr $C$DW$T$89, DW_AT_decl_column(0x08)
+    2227
+    2228$C$DW$T$91      .dwtag  DW_TAG_union_type
+    2229        .dwattr $C$DW$T$91, DW_AT_byte_size(0x04)
+    2230$C$DW$179       .dwtag  DW_TAG_member
+    2231        .dwattr $C$DW$179, DW_AT_type(*$C$DW$T$47)
+    2232        .dwattr $C$DW$179, DW_AT_name("CTPPR1")
+    2233        .dwattr $C$DW$179, DW_AT_TI_symbol_name("CTPPR1")
+    2234        .dwattr $C$DW$179, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    2235        .dwattr $C$DW$179, DW_AT_accessibility(DW_ACCESS_public)
+    2236        .dwattr $C$DW$179, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    2237        .dwattr $C$DW$179, DW_AT_decl_line(0x8d)
+    2238        .dwattr $C$DW$179, DW_AT_decl_column(0x15)
+    2239$C$DW$180       .dwtag  DW_TAG_member
+    2240        .dwattr $C$DW$180, DW_AT_type(*$C$DW$T$90)
+    2241        .dwattr $C$DW$180, DW_AT_name("CTPPR1_bit")
+    2242        .dwattr $C$DW$180, DW_AT_TI_symbol_name("CTPPR1_bit")
+    2243        .dwattr $C$DW$180, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    2244        .dwattr $C$DW$180, DW_AT_accessibility(DW_ACCESS_public)
+    2245        .dwattr $C$DW$180, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/pr
+    2246        .dwattr $C$DW$180, DW_AT_decl_line(0x92)
+    2247        .dwattr $C$DW$180, DW_AT_decl_column(0x05)
+    2248        .dwendtag $C$DW$T$91
+    2249
+    2250        .dwattr $C$DW$T$91, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/am335x/p
+    2251        .dwattr $C$DW$T$91, DW_AT_decl_line(0x8c)
+    2252        .dwattr $C$DW$T$91, DW_AT_decl_column(0x08)
+    2253$C$DW$T$2       .dwtag  DW_TAG_unspecified_type
+    2254        .dwattr $C$DW$T$2, DW_AT_name("void")
+    2255$C$DW$T$4       .dwtag  DW_TAG_base_type
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   42
+
+    2256        .dwattr $C$DW$T$4, DW_AT_encoding(DW_ATE_boolean)
+    2257        .dwattr $C$DW$T$4, DW_AT_name("bool")
+    2258        .dwattr $C$DW$T$4, DW_AT_byte_size(0x01)
+    2259$C$DW$T$5       .dwtag  DW_TAG_base_type
+    2260        .dwattr $C$DW$T$5, DW_AT_encoding(DW_ATE_signed_char)
+    2261        .dwattr $C$DW$T$5, DW_AT_name("signed char")
+    2262        .dwattr $C$DW$T$5, DW_AT_byte_size(0x01)
+    2263$C$DW$T$6       .dwtag  DW_TAG_base_type
+    2264        .dwattr $C$DW$T$6, DW_AT_encoding(DW_ATE_unsigned_char)
+    2265        .dwattr $C$DW$T$6, DW_AT_name("unsigned char")
+    2266        .dwattr $C$DW$T$6, DW_AT_byte_size(0x01)
+    2267$C$DW$T$7       .dwtag  DW_TAG_base_type
+    2268        .dwattr $C$DW$T$7, DW_AT_encoding(DW_ATE_signed_char)
+    2269        .dwattr $C$DW$T$7, DW_AT_name("wchar_t")
+    2270        .dwattr $C$DW$T$7, DW_AT_byte_size(0x04)
+    2271$C$DW$T$8       .dwtag  DW_TAG_base_type
+    2272        .dwattr $C$DW$T$8, DW_AT_encoding(DW_ATE_signed)
+    2273        .dwattr $C$DW$T$8, DW_AT_name("short")
+    2274        .dwattr $C$DW$T$8, DW_AT_byte_size(0x02)
+    2275$C$DW$T$9       .dwtag  DW_TAG_base_type
+    2276        .dwattr $C$DW$T$9, DW_AT_encoding(DW_ATE_unsigned)
+    2277        .dwattr $C$DW$T$9, DW_AT_name("unsigned short")
+    2278        .dwattr $C$DW$T$9, DW_AT_byte_size(0x02)
+    2279$C$DW$T$10      .dwtag  DW_TAG_base_type
+    2280        .dwattr $C$DW$T$10, DW_AT_encoding(DW_ATE_signed)
+    2281        .dwattr $C$DW$T$10, DW_AT_name("int")
+    2282        .dwattr $C$DW$T$10, DW_AT_byte_size(0x04)
+    2283$C$DW$T$11      .dwtag  DW_TAG_base_type
+    2284        .dwattr $C$DW$T$11, DW_AT_encoding(DW_ATE_unsigned)
+    2285        .dwattr $C$DW$T$11, DW_AT_name("unsigned int")
+    2286        .dwattr $C$DW$T$11, DW_AT_byte_size(0x04)
+    2287$C$DW$T$32      .dwtag  DW_TAG_typedef, DW_AT_name("uint32_t")
+    2288        .dwattr $C$DW$T$32, DW_AT_type(*$C$DW$T$11)
+    2289        .dwattr $C$DW$T$32, DW_AT_language(DW_LANG_C)
+    2290        .dwattr $C$DW$T$32, DW_AT_decl_file("/usr/share/ti/cgt-pru/include/stdint.h")
+    2291        .dwattr $C$DW$T$32, DW_AT_decl_line(0x2f)
+    2292        .dwattr $C$DW$T$32, DW_AT_decl_column(0x1c)
+    2293
+    2294$C$DW$T$33      .dwtag  DW_TAG_array_type
+    2295        .dwattr $C$DW$T$33, DW_AT_type(*$C$DW$T$32)
+    2296        .dwattr $C$DW$T$33, DW_AT_language(DW_LANG_C)
+    2297        .dwattr $C$DW$T$33, DW_AT_byte_size(0x04)
+    2298$C$DW$181       .dwtag  DW_TAG_subrange_type
+    2299        .dwattr $C$DW$181, DW_AT_upper_bound(0x00)
+    2300        .dwendtag $C$DW$T$33
+    2301
+    2302
+    2303$C$DW$T$34      .dwtag  DW_TAG_array_type
+    2304        .dwattr $C$DW$T$34, DW_AT_type(*$C$DW$T$32)
+    2305        .dwattr $C$DW$T$34, DW_AT_language(DW_LANG_C)
+    2306        .dwattr $C$DW$T$34, DW_AT_byte_size(0x08)
+    2307$C$DW$182       .dwtag  DW_TAG_subrange_type
+    2308        .dwattr $C$DW$182, DW_AT_upper_bound(0x01)
+    2309        .dwendtag $C$DW$T$34
+    2310
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   43
+
+    2311
+    2312$C$DW$T$45      .dwtag  DW_TAG_array_type
+    2313        .dwattr $C$DW$T$45, DW_AT_type(*$C$DW$T$32)
+    2314        .dwattr $C$DW$T$45, DW_AT_language(DW_LANG_C)
+    2315        .dwattr $C$DW$T$45, DW_AT_byte_size(0x0c)
+    2316$C$DW$183       .dwtag  DW_TAG_subrange_type
+    2317        .dwattr $C$DW$183, DW_AT_upper_bound(0x02)
+    2318        .dwendtag $C$DW$T$45
+    2319
+    2320$C$DW$T$47      .dwtag  DW_TAG_volatile_type
+    2321        .dwattr $C$DW$T$47, DW_AT_type(*$C$DW$T$32)
+    2322$C$DW$T$12      .dwtag  DW_TAG_base_type
+    2323        .dwattr $C$DW$T$12, DW_AT_encoding(DW_ATE_signed)
+    2324        .dwattr $C$DW$T$12, DW_AT_name("long")
+    2325        .dwattr $C$DW$T$12, DW_AT_byte_size(0x04)
+    2326$C$DW$T$13      .dwtag  DW_TAG_base_type
+    2327        .dwattr $C$DW$T$13, DW_AT_encoding(DW_ATE_unsigned)
+    2328        .dwattr $C$DW$T$13, DW_AT_name("unsigned long")
+    2329        .dwattr $C$DW$T$13, DW_AT_byte_size(0x04)
+    2330$C$DW$T$14      .dwtag  DW_TAG_base_type
+    2331        .dwattr $C$DW$T$14, DW_AT_encoding(DW_ATE_signed)
+    2332        .dwattr $C$DW$T$14, DW_AT_name("long long")
+    2333        .dwattr $C$DW$T$14, DW_AT_byte_size(0x08)
+    2334$C$DW$T$15      .dwtag  DW_TAG_base_type
+    2335        .dwattr $C$DW$T$15, DW_AT_encoding(DW_ATE_unsigned)
+    2336        .dwattr $C$DW$T$15, DW_AT_name("unsigned long long")
+    2337        .dwattr $C$DW$T$15, DW_AT_byte_size(0x08)
+    2338$C$DW$T$16      .dwtag  DW_TAG_base_type
+    2339        .dwattr $C$DW$T$16, DW_AT_encoding(DW_ATE_float)
+    2340        .dwattr $C$DW$T$16, DW_AT_name("float")
+    2341        .dwattr $C$DW$T$16, DW_AT_byte_size(0x04)
+    2342$C$DW$T$17      .dwtag  DW_TAG_base_type
+    2343        .dwattr $C$DW$T$17, DW_AT_encoding(DW_ATE_float)
+    2344        .dwattr $C$DW$T$17, DW_AT_name("double")
+    2345        .dwattr $C$DW$T$17, DW_AT_byte_size(0x08)
+    2346$C$DW$T$18      .dwtag  DW_TAG_base_type
+    2347        .dwattr $C$DW$T$18, DW_AT_encoding(DW_ATE_float)
+    2348        .dwattr $C$DW$T$18, DW_AT_name("long double")
+    2349        .dwattr $C$DW$T$18, DW_AT_byte_size(0x08)
+    2350
+    2351$C$DW$T$92      .dwtag  DW_TAG_structure_type
+    2352        .dwattr $C$DW$T$92, DW_AT_name("my_resource_table")
+    2353        .dwattr $C$DW$T$92, DW_AT_byte_size(0x14)
+    2354$C$DW$184       .dwtag  DW_TAG_member
+    2355        .dwattr $C$DW$184, DW_AT_type(*$C$DW$T$93)
+    2356        .dwattr $C$DW$184, DW_AT_name("base")
+    2357        .dwattr $C$DW$184, DW_AT_TI_symbol_name("base")
+    2358        .dwattr $C$DW$184, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    2359        .dwattr $C$DW$184, DW_AT_accessibility(DW_ACCESS_public)
+    2360        .dwattr $C$DW$184, DW_AT_decl_file("/var/lib/cloud9/common/resource_table_empty.h")
+    2361        .dwattr $C$DW$184, DW_AT_decl_line(0x18)
+    2362        .dwattr $C$DW$184, DW_AT_decl_column(0x18)
+    2363$C$DW$185       .dwtag  DW_TAG_member
+    2364        .dwattr $C$DW$185, DW_AT_type(*$C$DW$T$33)
+    2365        .dwattr $C$DW$185, DW_AT_name("offset")
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   44
+
+    2366        .dwattr $C$DW$185, DW_AT_TI_symbol_name("offset")
+    2367        .dwattr $C$DW$185, DW_AT_data_member_location[DW_OP_plus_uconst 0x10]
+    2368        .dwattr $C$DW$185, DW_AT_accessibility(DW_ACCESS_public)
+    2369        .dwattr $C$DW$185, DW_AT_decl_file("/var/lib/cloud9/common/resource_table_empty.h")
+    2370        .dwattr $C$DW$185, DW_AT_decl_line(0x1a)
+    2371        .dwattr $C$DW$185, DW_AT_decl_column(0x0b)
+    2372        .dwendtag $C$DW$T$92
+    2373
+    2374        .dwattr $C$DW$T$92, DW_AT_decl_file("/var/lib/cloud9/common/resource_table_empty.h")
+    2375        .dwattr $C$DW$T$92, DW_AT_decl_line(0x17)
+    2376        .dwattr $C$DW$T$92, DW_AT_decl_column(0x08)
+    2377
+    2378$C$DW$T$93      .dwtag  DW_TAG_structure_type
+    2379        .dwattr $C$DW$T$93, DW_AT_name("resource_table")
+    2380        .dwattr $C$DW$T$93, DW_AT_byte_size(0x10)
+    2381$C$DW$186       .dwtag  DW_TAG_member
+    2382        .dwattr $C$DW$186, DW_AT_type(*$C$DW$T$32)
+    2383        .dwattr $C$DW$186, DW_AT_name("ver")
+    2384        .dwattr $C$DW$186, DW_AT_TI_symbol_name("ver")
+    2385        .dwattr $C$DW$186, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+    2386        .dwattr $C$DW$186, DW_AT_accessibility(DW_ACCESS_public)
+    2387        .dwattr $C$DW$186, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/rsc_types
+    2388        .dwattr $C$DW$186, DW_AT_decl_line(0x59)
+    2389        .dwattr $C$DW$186, DW_AT_decl_column(0x0b)
+    2390$C$DW$187       .dwtag  DW_TAG_member
+    2391        .dwattr $C$DW$187, DW_AT_type(*$C$DW$T$32)
+    2392        .dwattr $C$DW$187, DW_AT_name("num")
+    2393        .dwattr $C$DW$187, DW_AT_TI_symbol_name("num")
+    2394        .dwattr $C$DW$187, DW_AT_data_member_location[DW_OP_plus_uconst 0x4]
+    2395        .dwattr $C$DW$187, DW_AT_accessibility(DW_ACCESS_public)
+    2396        .dwattr $C$DW$187, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/rsc_types
+    2397        .dwattr $C$DW$187, DW_AT_decl_line(0x5a)
+    2398        .dwattr $C$DW$187, DW_AT_decl_column(0x0b)
+    2399$C$DW$188       .dwtag  DW_TAG_member
+    2400        .dwattr $C$DW$188, DW_AT_type(*$C$DW$T$34)
+    2401        .dwattr $C$DW$188, DW_AT_name("reserved")
+    2402        .dwattr $C$DW$188, DW_AT_TI_symbol_name("reserved")
+    2403        .dwattr $C$DW$188, DW_AT_data_member_location[DW_OP_plus_uconst 0x8]
+    2404        .dwattr $C$DW$188, DW_AT_accessibility(DW_ACCESS_public)
+    2405        .dwattr $C$DW$188, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/rsc_types
+    2406        .dwattr $C$DW$188, DW_AT_decl_line(0x5b)
+    2407        .dwattr $C$DW$188, DW_AT_decl_column(0x0b)
+    2408        .dwendtag $C$DW$T$93
+    2409
+    2410        .dwattr $C$DW$T$93, DW_AT_decl_file("/usr/lib/ti/pru-software-support-package/include/rsc_type
+    2411        .dwattr $C$DW$T$93, DW_AT_decl_line(0x58)
+    2412        .dwattr $C$DW$T$93, DW_AT_decl_column(0x08)
+    2413        .dwattr $C$DW$CU, DW_AT_language(DW_LANG_C)
+    2414
+    2415;***************************************************************
+    2416;* DWARF CIE ENTRIES                                           *
+    2417;***************************************************************
+    2418
+    2419$C$DW$CIE       .dwcie 14
+    2420        .dwcfi  cfa_register, 8
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   45
+
+    2421        .dwcfi  cfa_offset, 0
+    2422        .dwcfi  undefined, 0
+    2423        .dwcfi  undefined, 1
+    2424        .dwcfi  undefined, 2
+    2425        .dwcfi  undefined, 3
+    2426        .dwcfi  undefined, 4
+    2427        .dwcfi  undefined, 5
+    2428        .dwcfi  undefined, 6
+    2429        .dwcfi  undefined, 7
+    2430        .dwcfi  same_value, 8
+    2431        .dwcfi  same_value, 9
+    2432        .dwcfi  same_value, 10
+    2433        .dwcfi  same_value, 11
+    2434        .dwcfi  undefined, 12
+    2435        .dwcfi  undefined, 13
+    2436        .dwcfi  undefined, 14
+    2437        .dwcfi  undefined, 15
+    2438        .dwcfi  same_value, 16
+    2439        .dwcfi  same_value, 17
+    2440        .dwcfi  same_value, 18
+    2441        .dwcfi  same_value, 19
+    2442        .dwcfi  same_value, 20
+    2443        .dwcfi  same_value, 21
+    2444        .dwcfi  same_value, 22
+    2445        .dwcfi  same_value, 23
+    2446        .dwcfi  same_value, 24
+    2447        .dwcfi  same_value, 25
+    2448        .dwcfi  same_value, 26
+    2449        .dwcfi  same_value, 27
+    2450        .dwcfi  same_value, 28
+    2451        .dwcfi  same_value, 29
+    2452        .dwcfi  same_value, 30
+    2453        .dwcfi  same_value, 31
+    2454        .dwcfi  same_value, 32
+    2455        .dwcfi  same_value, 33
+    2456        .dwcfi  same_value, 34
+    2457        .dwcfi  same_value, 35
+    2458        .dwcfi  same_value, 36
+    2459        .dwcfi  same_value, 37
+    2460        .dwcfi  same_value, 38
+    2461        .dwcfi  same_value, 39
+    2462        .dwcfi  same_value, 40
+    2463        .dwcfi  same_value, 41
+    2464        .dwcfi  same_value, 42
+    2465        .dwcfi  same_value, 43
+    2466        .dwcfi  same_value, 44
+    2467        .dwcfi  same_value, 45
+    2468        .dwcfi  same_value, 46
+    2469        .dwcfi  same_value, 47
+    2470        .dwcfi  same_value, 48
+    2471        .dwcfi  same_value, 49
+    2472        .dwcfi  same_value, 50
+    2473        .dwcfi  same_value, 51
+    2474        .dwcfi  same_value, 52
+    2475        .dwcfi  same_value, 53
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   46
+
+    2476        .dwcfi  same_value, 54
+    2477        .dwcfi  same_value, 55
+    2478        .dwcfi  undefined, 56
+    2479        .dwcfi  undefined, 57
+    2480        .dwcfi  undefined, 58
+    2481        .dwcfi  undefined, 59
+    2482        .dwcfi  undefined, 60
+    2483        .dwcfi  undefined, 61
+    2484        .dwcfi  undefined, 62
+    2485        .dwcfi  undefined, 63
+    2486        .dwcfi  undefined, 64
+    2487        .dwcfi  undefined, 65
+    2488        .dwcfi  undefined, 66
+    2489        .dwcfi  undefined, 67
+    2490        .dwcfi  undefined, 68
+    2491        .dwcfi  undefined, 69
+    2492        .dwcfi  undefined, 70
+    2493        .dwcfi  undefined, 71
+    2494        .dwcfi  undefined, 72
+    2495        .dwcfi  undefined, 73
+    2496        .dwcfi  undefined, 74
+    2497        .dwcfi  undefined, 75
+    2498        .dwcfi  undefined, 76
+    2499        .dwcfi  undefined, 77
+    2500        .dwcfi  undefined, 78
+    2501        .dwcfi  undefined, 79
+    2502        .dwcfi  undefined, 80
+    2503        .dwcfi  undefined, 81
+    2504        .dwcfi  undefined, 82
+    2505        .dwcfi  undefined, 83
+    2506        .dwcfi  undefined, 84
+    2507        .dwcfi  undefined, 85
+    2508        .dwcfi  undefined, 86
+    2509        .dwcfi  undefined, 87
+    2510        .dwcfi  undefined, 88
+    2511        .dwcfi  undefined, 89
+    2512        .dwcfi  undefined, 90
+    2513        .dwcfi  undefined, 91
+    2514        .dwcfi  undefined, 92
+    2515        .dwcfi  undefined, 93
+    2516        .dwcfi  undefined, 94
+    2517        .dwcfi  undefined, 95
+    2518        .dwcfi  undefined, 96
+    2519        .dwcfi  undefined, 97
+    2520        .dwcfi  undefined, 98
+    2521        .dwcfi  undefined, 99
+    2522        .dwcfi  undefined, 100
+    2523        .dwcfi  undefined, 101
+    2524        .dwcfi  undefined, 102
+    2525        .dwcfi  undefined, 103
+    2526        .dwcfi  undefined, 104
+    2527        .dwcfi  undefined, 105
+    2528        .dwcfi  undefined, 106
+    2529        .dwcfi  undefined, 107
+    2530        .dwcfi  undefined, 108
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   47
+
+    2531        .dwcfi  undefined, 109
+    2532        .dwcfi  undefined, 110
+    2533        .dwcfi  undefined, 111
+    2534        .dwcfi  undefined, 112
+    2535        .dwcfi  undefined, 113
+    2536        .dwcfi  undefined, 114
+    2537        .dwcfi  undefined, 115
+    2538        .dwcfi  undefined, 116
+    2539        .dwcfi  undefined, 117
+    2540        .dwcfi  undefined, 118
+    2541        .dwcfi  undefined, 119
+    2542        .dwcfi  undefined, 120
+    2543        .dwcfi  undefined, 121
+    2544        .dwcfi  undefined, 122
+    2545        .dwcfi  undefined, 123
+    2546        .dwcfi  undefined, 124
+    2547        .dwcfi  undefined, 125
+    2548        .dwcfi  undefined, 126
+    2549        .dwcfi  undefined, 127
+    2550        .dwcfi  undefined, 128
+    2551        .dwcfi  undefined, 129
+    2552        .dwcfi  undefined, 130
+    2553        .dwcfi  undefined, 131
+    2554        .dwcfi  undefined, 132
+    2555        .dwcfi  undefined, 133
+    2556        .dwcfi  undefined, 134
+    2557        .dwendentry
+    2558
+    2559;***************************************************************
+    2560;* DWARF REGISTER MAP                                          *
+    2561;***************************************************************
+    2562
+    2563$C$DW$189       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R0_b0")
+    2564        .dwattr $C$DW$189, DW_AT_location[DW_OP_reg0]
+    2565$C$DW$190       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R0_b1")
+    2566        .dwattr $C$DW$190, DW_AT_location[DW_OP_reg1]
+    2567$C$DW$191       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R0_b2")
+    2568        .dwattr $C$DW$191, DW_AT_location[DW_OP_reg2]
+    2569$C$DW$192       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R0_b3")
+    2570        .dwattr $C$DW$192, DW_AT_location[DW_OP_reg3]
+    2571$C$DW$193       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R1_b0")
+    2572        .dwattr $C$DW$193, DW_AT_location[DW_OP_reg4]
+    2573$C$DW$194       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R1_b1")
+    2574        .dwattr $C$DW$194, DW_AT_location[DW_OP_reg5]
+    2575$C$DW$195       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R1_b2")
+    2576        .dwattr $C$DW$195, DW_AT_location[DW_OP_reg6]
+    2577$C$DW$196       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R1_b3")
+    2578        .dwattr $C$DW$196, DW_AT_location[DW_OP_reg7]
+    2579$C$DW$197       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R2_b0")
+    2580        .dwattr $C$DW$197, DW_AT_location[DW_OP_reg8]
+    2581$C$DW$198       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R2_b1")
+    2582        .dwattr $C$DW$198, DW_AT_location[DW_OP_reg9]
+    2583$C$DW$199       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R2_b2")
+    2584        .dwattr $C$DW$199, DW_AT_location[DW_OP_reg10]
+    2585$C$DW$200       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R2_b3")
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   48
+
+    2586        .dwattr $C$DW$200, DW_AT_location[DW_OP_reg11]
+    2587$C$DW$201       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R3_b0")
+    2588        .dwattr $C$DW$201, DW_AT_location[DW_OP_reg12]
+    2589$C$DW$202       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R3_b1")
+    2590        .dwattr $C$DW$202, DW_AT_location[DW_OP_reg13]
+    2591$C$DW$203       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R3_b2")
+    2592        .dwattr $C$DW$203, DW_AT_location[DW_OP_reg14]
+    2593$C$DW$204       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R3_b3")
+    2594        .dwattr $C$DW$204, DW_AT_location[DW_OP_reg15]
+    2595$C$DW$205       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R4_b0")
+    2596        .dwattr $C$DW$205, DW_AT_location[DW_OP_reg16]
+    2597$C$DW$206       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R4_b1")
+    2598        .dwattr $C$DW$206, DW_AT_location[DW_OP_reg17]
+    2599$C$DW$207       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R4_b2")
+    2600        .dwattr $C$DW$207, DW_AT_location[DW_OP_reg18]
+    2601$C$DW$208       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R4_b3")
+    2602        .dwattr $C$DW$208, DW_AT_location[DW_OP_reg19]
+    2603$C$DW$209       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R5_b0")
+    2604        .dwattr $C$DW$209, DW_AT_location[DW_OP_reg20]
+    2605$C$DW$210       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R5_b1")
+    2606        .dwattr $C$DW$210, DW_AT_location[DW_OP_reg21]
+    2607$C$DW$211       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R5_b2")
+    2608        .dwattr $C$DW$211, DW_AT_location[DW_OP_reg22]
+    2609$C$DW$212       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R5_b3")
+    2610        .dwattr $C$DW$212, DW_AT_location[DW_OP_reg23]
+    2611$C$DW$213       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R6_b0")
+    2612        .dwattr $C$DW$213, DW_AT_location[DW_OP_reg24]
+    2613$C$DW$214       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R6_b1")
+    2614        .dwattr $C$DW$214, DW_AT_location[DW_OP_reg25]
+    2615$C$DW$215       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R6_b2")
+    2616        .dwattr $C$DW$215, DW_AT_location[DW_OP_reg26]
+    2617$C$DW$216       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R6_b3")
+    2618        .dwattr $C$DW$216, DW_AT_location[DW_OP_reg27]
+    2619$C$DW$217       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R7_b0")
+    2620        .dwattr $C$DW$217, DW_AT_location[DW_OP_reg28]
+    2621$C$DW$218       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R7_b1")
+    2622        .dwattr $C$DW$218, DW_AT_location[DW_OP_reg29]
+    2623$C$DW$219       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R7_b2")
+    2624        .dwattr $C$DW$219, DW_AT_location[DW_OP_reg30]
+    2625$C$DW$220       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R7_b3")
+    2626        .dwattr $C$DW$220, DW_AT_location[DW_OP_reg31]
+    2627$C$DW$221       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R8_b0")
+    2628        .dwattr $C$DW$221, DW_AT_location[DW_OP_regx 0x20]
+    2629$C$DW$222       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R8_b1")
+    2630        .dwattr $C$DW$222, DW_AT_location[DW_OP_regx 0x21]
+    2631$C$DW$223       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R8_b2")
+    2632        .dwattr $C$DW$223, DW_AT_location[DW_OP_regx 0x22]
+    2633$C$DW$224       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R8_b3")
+    2634        .dwattr $C$DW$224, DW_AT_location[DW_OP_regx 0x23]
+    2635$C$DW$225       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R9_b0")
+    2636        .dwattr $C$DW$225, DW_AT_location[DW_OP_regx 0x24]
+    2637$C$DW$226       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R9_b1")
+    2638        .dwattr $C$DW$226, DW_AT_location[DW_OP_regx 0x25]
+    2639$C$DW$227       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R9_b2")
+    2640        .dwattr $C$DW$227, DW_AT_location[DW_OP_regx 0x26]
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   49
+
+    2641$C$DW$228       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R9_b3")
+    2642        .dwattr $C$DW$228, DW_AT_location[DW_OP_regx 0x27]
+    2643$C$DW$229       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R10_b0")
+    2644        .dwattr $C$DW$229, DW_AT_location[DW_OP_regx 0x28]
+    2645$C$DW$230       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R10_b1")
+    2646        .dwattr $C$DW$230, DW_AT_location[DW_OP_regx 0x29]
+    2647$C$DW$231       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R10_b2")
+    2648        .dwattr $C$DW$231, DW_AT_location[DW_OP_regx 0x2a]
+    2649$C$DW$232       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R10_b3")
+    2650        .dwattr $C$DW$232, DW_AT_location[DW_OP_regx 0x2b]
+    2651$C$DW$233       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R11_b0")
+    2652        .dwattr $C$DW$233, DW_AT_location[DW_OP_regx 0x2c]
+    2653$C$DW$234       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R11_b1")
+    2654        .dwattr $C$DW$234, DW_AT_location[DW_OP_regx 0x2d]
+    2655$C$DW$235       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R11_b2")
+    2656        .dwattr $C$DW$235, DW_AT_location[DW_OP_regx 0x2e]
+    2657$C$DW$236       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R11_b3")
+    2658        .dwattr $C$DW$236, DW_AT_location[DW_OP_regx 0x2f]
+    2659$C$DW$237       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R12_b0")
+    2660        .dwattr $C$DW$237, DW_AT_location[DW_OP_regx 0x30]
+    2661$C$DW$238       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R12_b1")
+    2662        .dwattr $C$DW$238, DW_AT_location[DW_OP_regx 0x31]
+    2663$C$DW$239       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R12_b2")
+    2664        .dwattr $C$DW$239, DW_AT_location[DW_OP_regx 0x32]
+    2665$C$DW$240       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R12_b3")
+    2666        .dwattr $C$DW$240, DW_AT_location[DW_OP_regx 0x33]
+    2667$C$DW$241       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R13_b0")
+    2668        .dwattr $C$DW$241, DW_AT_location[DW_OP_regx 0x34]
+    2669$C$DW$242       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R13_b1")
+    2670        .dwattr $C$DW$242, DW_AT_location[DW_OP_regx 0x35]
+    2671$C$DW$243       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R13_b2")
+    2672        .dwattr $C$DW$243, DW_AT_location[DW_OP_regx 0x36]
+    2673$C$DW$244       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R13_b3")
+    2674        .dwattr $C$DW$244, DW_AT_location[DW_OP_regx 0x37]
+    2675$C$DW$245       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R14_b0")
+    2676        .dwattr $C$DW$245, DW_AT_location[DW_OP_regx 0x38]
+    2677$C$DW$246       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R14_b1")
+    2678        .dwattr $C$DW$246, DW_AT_location[DW_OP_regx 0x39]
+    2679$C$DW$247       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R14_b2")
+    2680        .dwattr $C$DW$247, DW_AT_location[DW_OP_regx 0x3a]
+    2681$C$DW$248       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R14_b3")
+    2682        .dwattr $C$DW$248, DW_AT_location[DW_OP_regx 0x3b]
+    2683$C$DW$249       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R15_b0")
+    2684        .dwattr $C$DW$249, DW_AT_location[DW_OP_regx 0x3c]
+    2685$C$DW$250       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R15_b1")
+    2686        .dwattr $C$DW$250, DW_AT_location[DW_OP_regx 0x3d]
+    2687$C$DW$251       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R15_b2")
+    2688        .dwattr $C$DW$251, DW_AT_location[DW_OP_regx 0x3e]
+    2689$C$DW$252       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R15_b3")
+    2690        .dwattr $C$DW$252, DW_AT_location[DW_OP_regx 0x3f]
+    2691$C$DW$253       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R16_b0")
+    2692        .dwattr $C$DW$253, DW_AT_location[DW_OP_regx 0x40]
+    2693$C$DW$254       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R16_b1")
+    2694        .dwattr $C$DW$254, DW_AT_location[DW_OP_regx 0x41]
+    2695$C$DW$255       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R16_b2")
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   50
+
+    2696        .dwattr $C$DW$255, DW_AT_location[DW_OP_regx 0x42]
+    2697$C$DW$256       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R16_b3")
+    2698        .dwattr $C$DW$256, DW_AT_location[DW_OP_regx 0x43]
+    2699$C$DW$257       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R17_b0")
+    2700        .dwattr $C$DW$257, DW_AT_location[DW_OP_regx 0x44]
+    2701$C$DW$258       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R17_b1")
+    2702        .dwattr $C$DW$258, DW_AT_location[DW_OP_regx 0x45]
+    2703$C$DW$259       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R17_b2")
+    2704        .dwattr $C$DW$259, DW_AT_location[DW_OP_regx 0x46]
+    2705$C$DW$260       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R17_b3")
+    2706        .dwattr $C$DW$260, DW_AT_location[DW_OP_regx 0x47]
+    2707$C$DW$261       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R18_b0")
+    2708        .dwattr $C$DW$261, DW_AT_location[DW_OP_regx 0x48]
+    2709$C$DW$262       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R18_b1")
+    2710        .dwattr $C$DW$262, DW_AT_location[DW_OP_regx 0x49]
+    2711$C$DW$263       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R18_b2")
+    2712        .dwattr $C$DW$263, DW_AT_location[DW_OP_regx 0x4a]
+    2713$C$DW$264       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R18_b3")
+    2714        .dwattr $C$DW$264, DW_AT_location[DW_OP_regx 0x4b]
+    2715$C$DW$265       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R19_b0")
+    2716        .dwattr $C$DW$265, DW_AT_location[DW_OP_regx 0x4c]
+    2717$C$DW$266       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R19_b1")
+    2718        .dwattr $C$DW$266, DW_AT_location[DW_OP_regx 0x4d]
+    2719$C$DW$267       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R19_b2")
+    2720        .dwattr $C$DW$267, DW_AT_location[DW_OP_regx 0x4e]
+    2721$C$DW$268       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R19_b3")
+    2722        .dwattr $C$DW$268, DW_AT_location[DW_OP_regx 0x4f]
+    2723$C$DW$269       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R20_b0")
+    2724        .dwattr $C$DW$269, DW_AT_location[DW_OP_regx 0x50]
+    2725$C$DW$270       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R20_b1")
+    2726        .dwattr $C$DW$270, DW_AT_location[DW_OP_regx 0x51]
+    2727$C$DW$271       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R20_b2")
+    2728        .dwattr $C$DW$271, DW_AT_location[DW_OP_regx 0x52]
+    2729$C$DW$272       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R20_b3")
+    2730        .dwattr $C$DW$272, DW_AT_location[DW_OP_regx 0x53]
+    2731$C$DW$273       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R21_b0")
+    2732        .dwattr $C$DW$273, DW_AT_location[DW_OP_regx 0x54]
+    2733$C$DW$274       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R21_b1")
+    2734        .dwattr $C$DW$274, DW_AT_location[DW_OP_regx 0x55]
+    2735$C$DW$275       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R21_b2")
+    2736        .dwattr $C$DW$275, DW_AT_location[DW_OP_regx 0x56]
+    2737$C$DW$276       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R21_b3")
+    2738        .dwattr $C$DW$276, DW_AT_location[DW_OP_regx 0x57]
+    2739$C$DW$277       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R22_b0")
+    2740        .dwattr $C$DW$277, DW_AT_location[DW_OP_regx 0x58]
+    2741$C$DW$278       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R22_b1")
+    2742        .dwattr $C$DW$278, DW_AT_location[DW_OP_regx 0x59]
+    2743$C$DW$279       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R22_b2")
+    2744        .dwattr $C$DW$279, DW_AT_location[DW_OP_regx 0x5a]
+    2745$C$DW$280       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R22_b3")
+    2746        .dwattr $C$DW$280, DW_AT_location[DW_OP_regx 0x5b]
+    2747$C$DW$281       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R23_b0")
+    2748        .dwattr $C$DW$281, DW_AT_location[DW_OP_regx 0x5c]
+    2749$C$DW$282       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R23_b1")
+    2750        .dwattr $C$DW$282, DW_AT_location[DW_OP_regx 0x5d]
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   51
+
+    2751$C$DW$283       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R23_b2")
+    2752        .dwattr $C$DW$283, DW_AT_location[DW_OP_regx 0x5e]
+    2753$C$DW$284       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R23_b3")
+    2754        .dwattr $C$DW$284, DW_AT_location[DW_OP_regx 0x5f]
+    2755$C$DW$285       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R24_b0")
+    2756        .dwattr $C$DW$285, DW_AT_location[DW_OP_regx 0x60]
+    2757$C$DW$286       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R24_b1")
+    2758        .dwattr $C$DW$286, DW_AT_location[DW_OP_regx 0x61]
+    2759$C$DW$287       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R24_b2")
+    2760        .dwattr $C$DW$287, DW_AT_location[DW_OP_regx 0x62]
+    2761$C$DW$288       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R24_b3")
+    2762        .dwattr $C$DW$288, DW_AT_location[DW_OP_regx 0x63]
+    2763$C$DW$289       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R25_b0")
+    2764        .dwattr $C$DW$289, DW_AT_location[DW_OP_regx 0x64]
+    2765$C$DW$290       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R25_b1")
+    2766        .dwattr $C$DW$290, DW_AT_location[DW_OP_regx 0x65]
+    2767$C$DW$291       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R25_b2")
+    2768        .dwattr $C$DW$291, DW_AT_location[DW_OP_regx 0x66]
+    2769$C$DW$292       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R25_b3")
+    2770        .dwattr $C$DW$292, DW_AT_location[DW_OP_regx 0x67]
+    2771$C$DW$293       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R26_b0")
+    2772        .dwattr $C$DW$293, DW_AT_location[DW_OP_regx 0x68]
+    2773$C$DW$294       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R26_b1")
+    2774        .dwattr $C$DW$294, DW_AT_location[DW_OP_regx 0x69]
+    2775$C$DW$295       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R26_b2")
+    2776        .dwattr $C$DW$295, DW_AT_location[DW_OP_regx 0x6a]
+    2777$C$DW$296       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R26_b3")
+    2778        .dwattr $C$DW$296, DW_AT_location[DW_OP_regx 0x6b]
+    2779$C$DW$297       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R27_b0")
+    2780        .dwattr $C$DW$297, DW_AT_location[DW_OP_regx 0x6c]
+    2781$C$DW$298       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R27_b1")
+    2782        .dwattr $C$DW$298, DW_AT_location[DW_OP_regx 0x6d]
+    2783$C$DW$299       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R27_b2")
+    2784        .dwattr $C$DW$299, DW_AT_location[DW_OP_regx 0x6e]
+    2785$C$DW$300       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R27_b3")
+    2786        .dwattr $C$DW$300, DW_AT_location[DW_OP_regx 0x6f]
+    2787$C$DW$301       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R28_b0")
+    2788        .dwattr $C$DW$301, DW_AT_location[DW_OP_regx 0x70]
+    2789$C$DW$302       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R28_b1")
+    2790        .dwattr $C$DW$302, DW_AT_location[DW_OP_regx 0x71]
+    2791$C$DW$303       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R28_b2")
+    2792        .dwattr $C$DW$303, DW_AT_location[DW_OP_regx 0x72]
+    2793$C$DW$304       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R28_b3")
+    2794        .dwattr $C$DW$304, DW_AT_location[DW_OP_regx 0x73]
+    2795$C$DW$305       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R29_b0")
+    2796        .dwattr $C$DW$305, DW_AT_location[DW_OP_regx 0x74]
+    2797$C$DW$306       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R29_b1")
+    2798        .dwattr $C$DW$306, DW_AT_location[DW_OP_regx 0x75]
+    2799$C$DW$307       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R29_b2")
+    2800        .dwattr $C$DW$307, DW_AT_location[DW_OP_regx 0x76]
+    2801$C$DW$308       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R29_b3")
+    2802        .dwattr $C$DW$308, DW_AT_location[DW_OP_regx 0x77]
+    2803$C$DW$309       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R30_b0")
+    2804        .dwattr $C$DW$309, DW_AT_location[DW_OP_regx 0x78]
+    2805$C$DW$310       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R30_b1")
+PRU Assembler Unix v2.1.5 Fri Jun  5 14:14:07 2020
+
+Tools Copyright (c) 2012-2017 Texas Instruments Incorporated
+/tmp/cloud9-examples/cycle.pru0.asm                                  PAGE   52
+
+    2806        .dwattr $C$DW$310, DW_AT_location[DW_OP_regx 0x79]
+    2807$C$DW$311       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R30_b2")
+    2808        .dwattr $C$DW$311, DW_AT_location[DW_OP_regx 0x7a]
+    2809$C$DW$312       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R30_b3")
+    2810        .dwattr $C$DW$312, DW_AT_location[DW_OP_regx 0x7b]
+    2811$C$DW$313       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R31_b0")
+    2812        .dwattr $C$DW$313, DW_AT_location[DW_OP_regx 0x7c]
+    2813$C$DW$314       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R31_b1")
+    2814        .dwattr $C$DW$314, DW_AT_location[DW_OP_regx 0x7d]
+    2815$C$DW$315       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R31_b2")
+    2816        .dwattr $C$DW$315, DW_AT_location[DW_OP_regx 0x7e]
+    2817$C$DW$316       .dwtag  DW_TAG_TI_assign_register, DW_AT_name("R31_b3")
+    2818        .dwattr $C$DW$316, DW_AT_location[DW_OP_regx 0x7f]
+    2819        .dwendtag $C$DW$CU
+    2820
+
+No Assembly Errors, No Assembly Warnings
