@@ -29,32 +29,68 @@ to include it. For example, let's write our own `my_delay_cycles` routine in
 in assembly.  The intrinsic `pass:[__]delay_cycles` must be passed a compile time
 constant.  Our new `delay_cycles` can take a runtime delay value.
 
-<<more_delay-test>> is much like our other c code, but on line 9 we declare `my_delay_cycles` and then on line 23 and 25 well call it with an argument
+<<more_delay-test>> is much like our other c code, but on line 10 we declare 
+`my_delay_cycles` and then on lines 24 and 26 we'll call it with an argument
 of 1.
 [[more_delay-test]]
-.test-delay.c
+.delay-test..pru0.c
 [source,c,linenums]
 [subs=+quotes]
 ----
-include::code/delay-test.c[]
+include::code/delay-test.pru0.c[]
 ----
 
 <<more_delay>> is the assembly code.
 [[more_delay]]
-.delay.asm
+.delay.pru0.asm
 [source,c,linenums]
 [subs=+quotes]
 ----
-include::code/delay.asm[]
+include::code/delay.pru0.asm[]
 ----
 
-You then need to compile with <<more_makefile>>.
+The `Makefile` has one addition that needs to be made to compile both <<more_delay-test>>
+and <<more_delay>>.
+If you look in the local `Makefile` you'll see:
 [[more_makefile]]
 .Makefile
-[source,makefile,linenums]
-[subs=+quotes]
+[source,makefile]
 ----
 include::code/Makefile[]
+----
+
+This Makefle includes a common Makfile at  `/var/lib/cloud9/common/Makefile`,
+this the Makefile you need to edit. 
+Edit `/var/lib/cloud9/common/Makefile` and go to line 197.
+
+[source,makefile]
+[subs=+quotes]
+----
+$(GEN_DIR)/%.out: $(GEN_DIR)/%.o *$(GEN_DIR)/$(TARGETasm).o*
+	@mkdir -p $(GEN_DIR)
+	@echo 'LD	$^'
+	$(eval $(call target-to-proc,$@))
+	$(eval $(call proc-to-build-vars,$@))
+	@$(LD) $@ $^ $(LDFLAGS) 
+----
+Add `*(GEN_DIR)/$(TARGETasm).o* as show in bold above.  You will want to remove
+this addition once you are done with this example since it will break the other examples.
+
+The following will compile and run everything.
+[source,bash]
+[subs=+quotes]
+----
+bone$ *config-pin P9_31 pruout*
+bone$ *make TARGET=delay-test.pru0 TARGETasm=delay.pru0*
+/var/lib/cloud9/common/Makefile:29: MODEL=TI_AM335x_BeagleBone_Black,TARGET=delay-test.pru0
+-    Stopping PRU 0
+-	copying firmware file /tmp/cloud9-examples/delay-test.pru0.out to /lib/firmware/am335x-pru0-fw
+write_init_pins.sh
+-    Starting PRU 0
+MODEL   = TI_AM335x_BeagleBone_Black
+PROC    = pru
+PRUN    = 0
+PRU_DIR = /sys/class/remoteproc/remoteproc1
 ----
 
 The resulting output is shown in <<more_my_delay_cycles>>.
@@ -89,52 +125,10 @@ hit the jump.  The upper bits of register `r3` has the return address,
 therefore we return to the c code.
 |===
 
-The `<<more_makefile>>` has just a couple of additions.  First
-`TARGETasm` is the name of the assembler file.  Generally this is set
-outside with `Makefil`e with `export TARGETasm=delay`.  Line 53 has the
-bold part shown below, added so the assmbler output is also linked in.
-
-[source,bash]
-[subs=+quotes]
-----
-$(GEN_DIR)/$(TARGET).out: $(GEN_DIR)/$(TARGET).obj *$(GEN_DIR)/$(TARGETasm).obj*
-
-----
-
-Finally lines 63-66 are added to assemble the `TARGETasm` file.
-
-[source,bash]
-[subs=+quotes]
-----
-$(GEN_DIR)/$(TARGETasm).obj: $(TARGETasm).asm
-	@mkdir -p $(GEN_DIR)
-	@echo 'CC	$<'
-	@clpru --include_path=$(PRU_CGT)/include $(INCLUDE) $(CFLAGS) -D=PRUN=$(PRUN) -fe $@ $<
-----
-
-The following will compile and run everything.
-[source,bash]
-[subs=+quotes]
-----
-bone$ *export PRUN=0*
-bone$ *export TARGET=delay-test*
-bone$ *export TARGETasm=delay*
-bone$ *config-pin $pin pruout*
-bone$ *make*
--    Stopping PRU 0
-stop
-CC	delay-test.c
-CC	delay.asm
-LD	/tmp/pru0-gen/delay-test.obj /tmp/pru0-gen/delay.obj
--	copying firmware file /tmp/pru0-gen/delay-test.out to /lib/firmware/am335x-pru0-fw
--    Starting PRU 0
-start
-----
-
 <<more_my_delay_cycles>> shows the _on_ time is 35ns and the off time is 30ns.
-With 5ns/cycle this give 7 cycles on and 6 off. These times make sense 
+With 5ns/cycle this gives 7 cycles on and 6 off. These times make sense 
 because each instruction takes a cycle and you have, set `R30`, jump to
-`my_delay_cycles`, sub, qbne, jmp. Plus the instruction (not seen) that
+`my_delay_cycles`, `sub`, `qbne`, `jmp`. Plus the instruction (not seen) that
 initilizes `r14` to the passed value.  That's a total of six instructions.
 The extra instruction is the branch at the bottom of the `while` loop.
 
