@@ -10,7 +10,8 @@ The following are resources used in this chapter.
 .Resources
 * https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP8HeaderTable.pdf[P8 Header Table]
 * https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf[P9 Header Table]
-* https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual]
+* http://www.ti.com/lit/pdf/spruhz6l[AM572x Technical Reference Manual] (AI)
+* http://www.ti.com/lit/pdf/spruh73[AM335x Technical Reference Manual] (All others)
 * http://www.ti.com/lit/ug/spruhv6a/spruhv6a.pdf[PRU Assembly Language Tools]
 
 === Editing /boot/uEnv.txt to Access the P8 Header on the Black
@@ -75,17 +76,17 @@ The figure above shows we've been using the _Enhanced GPIO_ interface when using
 `pass:[__]R30`, but it also shows you can use the OCP.  You get access to many more
 GPIO pins, but it's a slower access.
 
-.gpio1.c
+.gpio.pru0.c
 [source,c,linenums]
 ----
-include::code/gpio1.c[gpio1.c]
+include::code/gpio.pru0.c[gpio.pru0.c]
 ----
 This code will toggle `P9_11` on and off. Here's the setup file.
 
-.gpio_setup.sh
+.setup.sh
 [source,bash,linenums]
 ----
-include::code/gpio_setup.sh[gpio_setup.sh]
+include::code/setup.sh[setup.sh]
 ----
 Notice in the code `config-pin` set `P9_11` to `gpio`, not `pruout`. This is because
 are are using the OCP interface to the pin, not the usual PRU interface.
@@ -94,54 +95,63 @@ Set your exports and make.
 [source,bash] 
 [subs=+quotes]
 ----
-bone$ *export PRUN=0*
-bone$ *export TARGET=gpio1*
+bone$ *source setup.sh*
+TARGET=gpio.pru0
+...
 bone$ *make*
+/var/lib/cloud9/common/Makefile:29: MODEL=TI_AM335x_BeagleBone_Black,TARGET=gpio.pru0
 -    Stopping PRU 0
-stop
--	copying firmware file /tmp/pru0-gen/gpio1.out to /lib/firmware/am335x-pru0-fw
+-	copying firmware file /tmp/cloud9-examples/gpio.pru0.out to /lib/firmware/am335x-pru0-fw
+write_init_pins.sh
 -    Starting PRU 0
-start
+MODEL   = TI_AM335x_BeagleBone_Black
+PROC    = pru
+PRUN    = 0
+PRU_DIR = /sys/class/remoteproc/remoteproc1
 ----
 
 ==== Discussion
 When you run the code you see `P9_11` toggling on and off.  Let's go through
 the code line-by-line to see what's happening.
 
-.gpio1 line-by-line
+.gpio.pru0.c line-by-line
 [cols="1,9"]
 |===
 |Line|Explanation
 
-|2-4 |Standard includes
-|6-9 |The AM335x has four 32-bit GPIO ports.  These lines define the addresses
+|2-5 |Standard includes
+|5   |The AM335x has four 32-bit GPIO ports.  Lines 55-58 of `prugpio.h` define the addresses
 for each of the ports.  You can find these in Table 2-2 page 180 of the
 https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[AM335x Technical Reference Manual].
 Look up `P9_11` in the https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf[P9 Header Table].
 Under the _Mode7_ column you see `gpio0[30]`.  This means `P9_11` is bit 30
-on GPIO port 0.  Therefore we will use `GPIO0` in this code.
-|10   |Here we define the address offset from `GIO0` that will allow us to clear
+on GPIO port 0.  Therefore we will use `GPIO0` in this code. 
+
+You can also run 
+`gpioinfo` and look for P9_11.
+|5    |Line 103 of `prugpio.h` defines the address offset from `GIO0` that will 
+allow us to _clear_
 any (or all) bits in GPIO port 0. Other architectures require you to read a port,
 then change some bit, then write it out again, three steps.  Here we can do the same by writing to one location, just one step.
-|11   |This is like above, but for setting bits.
-|12   |Using this offset lets us just read the bits without changing them.
-|13   |This shifts `0x1` to the 30^th^ bit position, which is the one corresponding
+|5    |Line 104 of `prugpio.h` is like above, but for _setting_ bits.
+|5    |Using this offset  of line 105 of `prugpio.h` lets us just read the bits
+without changing them.
+|7    |This shifts `0x1` to the 30^th^ bit position, which is the one corresponding
 to `P9_11`.
-|20   |Here we initialize `gpio0` to point to the start of GPIO port 0's control
+|14   |Here we initialize `gpio0` to point to the start of GPIO port 0's control
 registers.
-|23   |`gpio0[GPIO_SETDATAOUT/4]` refers to the `SETDATAOUT` register of port 0.
-The `/4` is since `gpio0[]` expects a _word_ index and `GPIO_SETDATAOUT` is
-a _byte_ index. Writing to this register turns on the bits where 1's are written,
+|17   |`gpio0[GPIO_SETDATAOUT]` refers to the `SETDATAOUT` register of port 0.
+Writing to this register turns on the bits where 1's are written,
 but leaves alone the bits where 0's are.
-|24   |Wait 100,000,000 cycles, which is 0.5 seconds.
-|25   |This is like like line 23, but the output bit is set to 0 where 1's are written.
+|18   |Wait 100,000,000 cycles, which is 0.5 seconds.
+|19   |This is line 17, but the output bit is set to 0 where 1's are written.
 |===
 
 ===== How fast can it go?
 This approach to GPIO goes through the slower OCP interface.  If you set `pass:[__]delay_cycles(0)` you can see how fast it is.
 
-.gpio1.c with pass:[__]delay_cycles(0)
-image:figures/gpio0delay.png[gpio1.c with pass:[__]delay_cycles(0)]
+.gpio.pru0.c with pass:[__]delay_cycles(0)
+image:figures/gpio0delay.png[gpio.pru0.c with pass:[__]delay_cycles(0)]
 
 The period is 80ns which is 12.MHz.  That's about one forth the speed of the
 `pass:[__]R30` method, but still not bad.
