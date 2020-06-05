@@ -13,7 +13,7 @@ void main(void)
 	/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
 
-	while (1) {
+	while(1) {
 		__R30 |= gpio;		// Set the GPIO pin to 1
 		__delay_cycles(100000000);
 		__R30 &= ~gpio;		// Clear the GPIO pin
