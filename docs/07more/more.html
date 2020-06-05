@@ -630,7 +630,7 @@ Edit <code>/var/lib/cloud9/common/Makefile</code> and go to line 197.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Add `<strong>(GEN_DIR)/$(TARGETasm).o</strong> as show in bold above.  You will want to remove
+<p>Add <code><strong>(GEN_DIR)/$(TARGETasm).o</strong></code> as shown in bold above.  You will want to remove
 this addition once you are done with this example since it will break the other examples.</p>
 </div>
 <div class="paragraph">
@@ -910,8 +910,6 @@ many times the PRU stalled fetching an instruction.
 30
 31
 32
-33
-34
 </pre></td>
   <td class="code"><pre><span class="comment">// Access the CYCLE and STALL registers</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
@@ -919,8 +917,6 @@ many times the PRU stalled fetching an instruction.
 <span class="preprocessor">#include</span> <span class="include">&lt;pru_ctrl.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
 <span class="preprocessor">#include</span> <span class="include">&quot;prugpio.h&quot;</span>
-
-<span class="preprocessor">#define</span> out <span class="integer">1</span>       <span class="comment">// Bit number to output on</span>
 
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t <em>R30;
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t </em>R31;
@@ -974,26 +970,26 @@ we can read using prudebug.
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Needed to reference <code>CYCLE</code> and <code>STALL</code>.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Include needed to reference <code>CYCLE</code> and <code>STALL</code>.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">15</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">16</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Declaring <code>cycle</code> and <code>stall</code>.  The compiler will optimize these and just
 keep them in registers.  We&#8217;ll have to look at the <code>cycle.pru0.lst</code> file to see where
 they are stored.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">21</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enables <code>CYCLE</code>.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">25</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">26</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Reset <code>CYCLE</code>. It ignores the value assigned to it and always sets it
 to 0.  <code>cycle</code> is on the right hand side to make the compiler give it it&#8217;s own
 register.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">27, 28</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">28, 29</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Reads the <code>CYCLE</code> and <code>STALL</code> values into registers.</p></td>
 </tr>
 </tbody>
@@ -1093,7 +1089,7 @@ It&#8217;s interesting there are 5 <code>stall</code> cycles.</p>
 </div>
 <div class="paragraph">
 <p>If you switch the order of
-lines 27 and 28 you&#8217;ll see <code>cycle</code> is 7 and <code>stall</code> is 2. <code>cycle</code> now
+lines 30 and 31 you&#8217;ll see <code>cycle</code> is 7 and <code>stall</code> is 2. <code>cycle</code> now
 includes the time needed to read <code>stall</code> and <code>stall</code> no longer includes
 the time to read <code>cycle</code>.</p>
 </div>
@@ -1111,11 +1107,11 @@ the time to read <code>cycle</code>.</p>
 <h4 id="_solution_4"><a class="link" href="#_solution_4">Solution</a></h4>
 <div class="paragraph">
 <p>The <code>__xout()</code> and <code>__xin()</code> intrinsics are able to transfer up to 30 registers between
-PRU 0 and PRU 1 quickly.  <a href="#more_xout">xout.c</a> shows how <code>xout()</code> running on PRU 0
+PRU 0 and PRU 1 quickly.  <a href="#more_xout">xout.pru0.c</a> shows how <code>xout()</code> running on PRU 0
 transfers six registers to PRU 1.</p>
 </div>
 <div id="more_xout" class="listingblock">
-<div class="title">xout.c</div>
+<div class="title">xout.pru0.c</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -1170,14 +1166,12 @@ transfers six registers to PRU 1.</p>
 50
 51
 52
-53
 </pre></td>
   <td class="code"><pre><span class="comment">// From: http://git.ti.com/pru-software-support-package/pru-software-support-package/trees/master/examples/am335x/PRU_Direct_Connect0</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;pru_intc.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&quot;resource_table_pru0.h&quot;</span>
 
-<span class="preprocessor">#define</span> PRU0
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t <em>R30;
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t </em>R31;
 
@@ -1229,11 +1223,11 @@ bufferData dmemBuf;
 </div>
 </div>
 <div class="paragraph">
-<p>PRU 1 waits at line 42 until PRU 0 signals it.  <a href="#more_xin">xin.c</a> sends sends an
+<p>PRU 1 waits at line 42 until PRU 0 signals it.  <a href="#more_xin">xin.pru1.c</a> sends sends an
 interupt to PRU 0 and waits for it to send the data.</p>
 </div>
 <div id="more_xin" class="listingblock">
-<div class="title">xin.c</div>
+<div class="title">xin.pru1.c</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -1270,13 +1264,11 @@ interupt to PRU 0 and waits for it to send the data.</p>
 32
 33
 34
-35
 </pre></td>
   <td class="code"><pre><span class="comment">// From: http://git.ti.com/pru-software-support-package/pru-software-support-package/trees/master/examples/am335x/PRU_Direct_Connect1</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
 
-<span class="preprocessor">#define</span> PRU1
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t <em>R30;
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t </em>R31;
 
@@ -1401,10 +1393,10 @@ Register info <span class="keyword">for</span> PRU1
 <div class="sect3">
 <h4 id="_discussion"><a class="link" href="#_discussion">Discussion</a></h4>
 <div class="paragraph">
-<p><a href="#more_zout_lines">xout.c Line-by-line</a> shows the line-by-line for <code>xout.c</code></p>
+<p><a href="#more_zout_lines">xout.pru0.c Line-by-line</a> shows the line-by-line for <code>xout.pru0.c</code></p>
 </div>
 <table id="more_zout_lines" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. xout.c Line-by-line</caption>
+<caption class="title">Table 3. xout.pru0.c Line-by-line</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 90%;">
@@ -1421,28 +1413,28 @@ Register info <span class="keyword">for</span> PRU1
 <td class="tableblock halign-left valign-top"><p class="tableblock">A different resource so PRU 0 can receive a signal from PRU 1.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">11-20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9-16</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>dmemBuf</code> holds the data to be sent to PRU 1.  Each will be transfered
 to its corresponding register by <code>xout()</code>.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">23-24</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">21-22</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Define the interupts we&#8217;re using.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">29-30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">27-28</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Clear the interrupts.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">33-38</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">31-36</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Initialize dmemBuf with easy to recognize values.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">42</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">40</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Wait for PRU 1 to signal.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">47</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">45</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>__xout()</code> does a direct transfer to PRU 1.
 Page 92 of
 <a href="http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf">PRU Optimizing C/C++ Compiler, v2.2, User&#8217;s Guide</a>
@@ -1458,16 +1450,16 @@ details.)</p>
 <p class="tableblock">The final argument is the data to be transfered.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">50</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">48</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Clear the interupt so it can go again.</p></td>
 </tr>
 </tbody>
 </table>
 <div class="paragraph">
-<p><a href="#more_xin_lines">xin.c Line-by-line</a> shows the line-by-line for <code>xin.c</code>.</p>
+<p><a href="#more_xin_lines">xin.pru1.c Line-by-line</a> shows the line-by-line for <code>xin.pru1.c</code>.</p>
 </div>
 <table id="more_xin_lines" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. xin.c Line-by-line</caption>
+<caption class="title">Table 4. xin.pru1.c Line-by-line</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 90%;">
@@ -1480,15 +1472,15 @@ details.)</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10-17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8-15</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Place to put the received data.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">28</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">26</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Signal PRU 0</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">32</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Receive the data. The arguments are the same as <code>xout()</code>,
 14 says to get the data directly from PRU 0.
 5 says to start with register <code>r5</code>.
@@ -1583,7 +1575,7 @@ details.)</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-05 14:23:14 -0400
+Last updated 2020-06-05 15:16:51 -0400
 </div>
 </div>
 <style>

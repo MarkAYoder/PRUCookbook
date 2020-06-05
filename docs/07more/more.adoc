@@ -73,7 +73,7 @@ $(GEN_DIR)/%.out: $(GEN_DIR)/%.o *$(GEN_DIR)/$(TARGETasm).o*
 	$(eval $(call proc-to-build-vars,$@))
 	@$(LD) $@ $^ $(LDFLAGS) 
 ----
-Add `*(GEN_DIR)/$(TARGETasm).o* as show in bold above.  You will want to remove
+Add `*(GEN_DIR)/$(TARGETasm).o*` as shown in bold above.  You will want to remove
 this addition once you are done with this example since it will break the other examples.
 
 The following will compile and run everything.
@@ -194,15 +194,15 @@ we can read using prudebug.
 |===
 |Line|Explanation
 
-|4   |Needed to reference `CYCLE` and `STALL`. 
-|15  |Declaring `cycle` and `stall`.  The compiler will optimize these and just
+|4   |Include needed to reference `CYCLE` and `STALL`. 
+|16  |Declaring `cycle` and `stall`.  The compiler will optimize these and just
 keep them in registers.  We'll have to look at the `cycle.pru0.lst` file to see where
 they are stored.
-|20  |Enables `CYCLE`.
-|25  |Reset `CYCLE`. It ignores the value assigned to it and always sets it
+|21  |Enables `CYCLE`.
+|26  |Reset `CYCLE`. It ignores the value assigned to it and always sets it
 to 0.  `cycle` is on the right hand side to make the compiler give it it's own
 register.
-|27, 28|Reads the `CYCLE` and `STALL` values into registers.
+|28, 29|Reads the `CYCLE` and `STALL` values into registers.
 |===
 
 You can see where `cycle` and `stall` are stored by looking into 
@@ -278,22 +278,22 @@ PRU 0 and PRU 1 quickly.  <<more_xout>> shows how `xout()` running on PRU 0
 transfers six registers to PRU 1.
 
 [[more_xout]]
-.xout.c
+.xout.pru0.c
 [source,c,linenums]
 [subs=+quotes]
 ----
-include::code/xout.c[]
+include::code/xout.pru0.c[]
 ----
 
 PRU 1 waits at line 42 until PRU 0 signals it.  <<more_xin>> sends sends an
 interupt to PRU 0 and waits for it to send the data.
 
 [[more_xin]]
-.xin.c
+.xin.pru1.c
 [source,c,linenums]
 [subs=+quotes]
 ----
-include::code/xin.c[]
+include::code/xin.pru1.c[]
 ----
 
 Use `prudebug` to see registers R5-R10 are transfered from PRU 0 to PRU 1.
@@ -343,22 +343,22 @@ Register info for PRU1
 ----
 
 ==== Discussion
-<<more_zout_lines>> shows the line-by-line for `xout.c`
+<<more_zout_lines>> shows the line-by-line for `xout.pru0.c`
 
 [[more_zout_lines]]
-.xout.c Line-by-line
+.xout.pru0.c Line-by-line
 [cols="1,9"]
 |===
 |Line |Explanation
 
 |3    |A different resource so PRU 0 can receive a signal from PRU 1.
-|11-20|`dmemBuf` holds the data to be sent to PRU 1.  Each will be transfered
+|9-16 |`dmemBuf` holds the data to be sent to PRU 1.  Each will be transfered
 to its corresponding register by `xout()`.
-|23-24|Define the interupts we're using.
-|29-30|Clear the interrupts.
-|33-38|Initialize dmemBuf with easy to recognize values.
-|42   |Wait for PRU 1 to signal.
-|47   |`pass:[__]xout()` does a direct transfer to PRU 1. 
+|21-22|Define the interupts we're using.
+|27-28|Clear the interrupts.
+|31-36|Initialize dmemBuf with easy to recognize values.
+|40   |Wait for PRU 1 to signal.
+|45   |`pass:[__]xout()` does a direct transfer to PRU 1. 
 Page 92 of 
 http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler, v2.2, User's Guide]
 shows how to use `xout()`. The first argument, 14, says to do a direct 
@@ -374,20 +374,20 @@ The third argument, 0, says to not use remapping. (See the User's Guide for
 details.)
 
 The final argument is the data to be transfered.
-|50   |Clear the interupt so it can go again.
+|48   |Clear the interupt so it can go again.
 |===
 
-<<more_xin_lines>> shows the line-by-line for `xin.c`.
+<<more_xin_lines>> shows the line-by-line for `xin.pru1.c`.
 
 [[more_xin_lines]]
-.xin.c Line-by-line
+.xin.pru1.c Line-by-line
 [cols="1,9"]
 |===
 |Line |Explanation
 
-|10-17|Place to put the received data.
-|28   |Signal PRU 0
-|32   |Receive the data. The arguments are the same as `xout()`,  
+|8-15 |Place to put the received data.
+|26   |Signal PRU 0
+|30   |Receive the data. The arguments are the same as `xout()`,  
 14 says to get the data directly from PRU 0. 
 5 says to start with register `r5`.  
 `dmemBuf` is where to put the data.

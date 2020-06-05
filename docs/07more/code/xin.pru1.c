@@ -2,7 +2,6 @@
 #include <stdint.h>
 #include "resource_table_empty.h"
 
-#define PRU1
 volatile register uint32_t __R30;
 volatile register uint32_t __R31;
 
