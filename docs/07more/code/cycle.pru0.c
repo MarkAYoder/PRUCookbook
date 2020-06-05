@@ -5,8 +5,6 @@
 #include "resource_table_empty.h"
 #include "prugpio.h"
 
-#define out 1		// Bit number to output on
-
 volatile register uint32_t __R30;
 volatile register uint32_t __R31;
 
