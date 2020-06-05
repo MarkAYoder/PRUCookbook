@@ -26,7 +26,7 @@ bufferData dmemBuf;
 
 void main(void)
 {
-	uint32_t cycle;
+	uint32_t cycleXX;		// Use a name that's easy to search
 	/* Clear the status of all interrupts */
 	CT_INTC.SECR0 = 0xFFFFFFFF;
 	CT_INTC.SECR1 = 0xFFFFFFFF;
@@ -49,13 +49,13 @@ void main(void)
 	PRU0_CTRL.CTRL_bit.CTR_EN = 1;	// Enable cycle counter
 
 	__xout(14, 5, 0, dmemBuf);
-
-	cycle = PRU0_CTRL.CYCLE;	// Read cycle and store in a register
+	
+	cycleXX = PRU0_CTRL.CYCLE;	// Read cycle and store in a register
 
 	/* Clear the status of the interrupt */
 	CT_INTC.SICR = PRU1_PRU0_INTERRUPT;
 
-	dmemBuf.reg5 = cycle;
+	dmemBuf.reg5 = cycleXX;
 
 	/* Halt the PRU core */
 	__halt();
