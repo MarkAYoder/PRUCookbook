@@ -1,7 +1,7 @@
 ; This is an example of how to call an assembly routine from C with a retun value.
 ;	Mark A. Yoder, 9-July-2018
 
-	.cdecls "delay-test2.c"
+	.cdecls "delay-test2.pru0.c"
 
 	.global my_delay_cycles
 my_delay_cycles:

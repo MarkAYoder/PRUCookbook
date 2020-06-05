@@ -142,24 +142,24 @@ Your assembly code needs to return a value.
 code.
 
 [[more_test2]]
-.test-delay2.c
+.delay-test2.pru0.c
 [source,c,linenums]
 [subs=+quotes]
 ----
-include::code/delay-test2.c[]
+include::code/delay-test2.pru0.c[]
 ----
 
 <<more_delay2>> is the assembly code.
 [[more_delay2]]
-.delay2.asm
+.delay2.pru0.asm
 [source,c,linenums]
 [subs=+quotes]
 ----
-include::code/delay2.asm[]
+include::code/delay2.pru0.asm[]
 ----
 
 An additional feature is shown in line 4 of <<more_delay2>>.  The
-`.cdecls "delay-test2.c"` says to include any defines from `delay-test2.c`
+`.cdecls "delay-test2.pru0.c"` says to include any defines from `delay-test2.pru0.c`
 In this example, line 6 of <<more_test2>> `#defines` TEST and line 12 of 
 <<more_delay2>> reference it.
 

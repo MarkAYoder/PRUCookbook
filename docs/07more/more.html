@@ -734,11 +734,11 @@ The extra instruction is the branch at the bottom of the <code>while</code> loop
 <div class="sect3">
 <h4 id="_solution_2"><a class="link" href="#_solution_2">Solution</a></h4>
 <div class="paragraph">
-<p><code>R14</code> is how the return value is passed back.  <a href="#more_test2">test-delay2.c</a> shows the c
+<p><code>R14</code> is how the return value is passed back.  <a href="#more_test2">delay-test2.pru0.c</a> shows the c
 code.</p>
 </div>
 <div id="more_test2" class="listingblock">
-<div class="title">test-delay2.c</div>
+<div class="title">delay-test2.pru0.c</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -773,12 +773,12 @@ code.</p>
 30
 31
 32
-33
 </pre></td>
   <td class="code"><pre><span class="comment">// Shows how to call an assembly routine with a return value</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;prugpio.h&quot;</span>
 
 <span class="preprocessor">#define</span> TEST    <span class="integer">100</span>
 
@@ -789,22 +789,20 @@ code.</p>
 
 uint32_t ret;
 
-<span class="preprocessor">#define</span> out <span class="integer">1</span>       <span class="comment">// Bit number to output on</span>
-
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t <em>R30;
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t </em>R31;
 
 <span class="directive">void</span> main(<span class="directive">void</span>)
 {
+    uint32_t gpio = P9_31;  <span class="comment">// Select which pin to toggle.;</span>
+
     <span class="comment">/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */</span>
     CT_CFG.SYSCFG_bit.STANDBY_INIT = <span class="integer">0</span>;
 
-
-
     <span class="keyword">while</span>(<span class="integer">1</span>) {
-        <em>R30 |= <span class="hex">0x1</span>&lt;&lt;out;      <span class="comment">// Set the GPIO pin to 1</span>
+        <em>R30 |= gpio;      <span class="comment">// Set the GPIO pin to 1</span>
         ret = my_delay_cycles(<span class="integer">1</span>);
-        </em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;out);   <span class="comment">// Clear the GPIO pin</span>
+        </em>R30 &amp;= ~gpio;     <span class="comment">// Clear the GPIO pin</span>
         ret = my_delay_cycles(<span class="integer">1</span>);
     }
 }</pre></td>
@@ -812,10 +810,10 @@ uint32_t ret;
 </div>
 </div>
 <div class="paragraph">
-<p><a href="#more_delay2">delay2.asm</a> is the assembly code.</p>
+<p><a href="#more_delay2">delay2.pru0.asm</a> is the assembly code.</p>
 </div>
 <div id="more_delay2" class="listingblock">
-<div class="title">delay2.asm</div>
+<div class="title">delay2.pru0.asm</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -837,7 +835,7 @@ uint32_t ret;
   <td class="code"><pre>; This is an example of how to call an assembly routine from C with a retun value.
 ;   Mark A. Yoder, <span class="integer">9</span>-July-<span class="integer">2018</span>
 
-    .cdecls <span class="string"><span class="delimiter">&quot;</span><span class="content">delay-test2.c</span><span class="delimiter">&quot;</span></span>
+    .cdecls <span class="string"><span class="delimiter">&quot;</span><span class="content">delay-test2.pru0.c</span><span class="delimiter">&quot;</span></span>
 
     .global my_delay_cycles
 my_delay_cycles:
@@ -853,10 +851,10 @@ delay:
 </div>
 </div>
 <div class="paragraph">
-<p>An additional feature is shown in line 4 of <a href="#more_delay2">delay2.asm</a>.  The
-<code>.cdecls "delay-test2.c"</code> says to include any defines from <code>delay-test2.c</code>
-In this example, line 6 of <a href="#more_test2">test-delay2.c</a> <code>#defines</code> TEST and line 12 of
-<a href="#more_delay2">delay2.asm</a> reference it.</p>
+<p>An additional feature is shown in line 4 of <a href="#more_delay2">delay2.pru0.asm</a>.  The
+<code>.cdecls "delay-test2.pru0.c"</code> says to include any defines from <code>delay-test2.pru0.c</code>
+In this example, line 6 of <a href="#more_test2">delay-test2.pru0.c</a> <code>#defines</code> TEST and line 12 of
+<a href="#more_delay2">delay2.pru0.asm</a> reference it.</p>
 </div>
 </div>
 </div>
@@ -1579,7 +1577,7 @@ details.)</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-05 13:46:07 -0400
+Last updated 2020-06-05 14:06:05 -0400
 </div>
 </div>
 <style>
