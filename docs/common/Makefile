@@ -45,33 +45,34 @@ $(warning MODEL=$(MODEL),TARGET=$(TARGET))
 #   LDFLAGS - 
 #   CFLAGS -
 #
+# Depends on udev rules: https://github.com/beagleboard/customizations/blob/master/etc/udev/rules.d/86-remoteproc-noroot.rules
 # Check which model
 define target-to-proc =
  ifeq ($(suffix $(basename $(1))),.pru1_0)
   CHIP=am57xx
   CHIP_REV=am572x_2_0
-  PRU_DIR=/sys/class/remoteproc/remoteproc0
+  PRU_DIR=/dev/remoteproc/pruss1-core0
   PRUN=1_0
   PROC=pru
   EXE=.out
  else ifeq ($(suffix $(basename $(1))),.pru1_1)
   CHIP=am57xx
   CHIP_REV=am572x_2_0
-  PRU_DIR=/sys/class/remoteproc/remoteproc1
+  PRU_DIR=/dev/remoteproc/pruss1-core1
   PRUN=1_1
   PROC=pru
   EXE=.out
  else ifeq ($(suffix $(basename $(1))),.pru2_0)
   CHIP=am57xx
   CHIP_REV=am572x_2_0
-  PRU_DIR=/sys/class/remoteproc/remoteproc2
+  PRU_DIR=/dev/remoteproc/pruss2-core0
   PRUN=2_0
   PROC=pru
   EXE=.out
  else ifeq ($(suffix $(basename $(1))),.pru2_1)
   CHIP=am57xx
   CHIP_REV=am572x_2_0
-  PRU_DIR=/sys/class/remoteproc/remoteproc3
+  PRU_DIR=/dev/remoteproc/pruss2-core1
   PRUN=2_1
   PROC=pru
   EXE=.out
@@ -207,6 +208,13 @@ $(GEN_DIR)/%.so: $(GEN_DIR)/%.o
 	$(eval $(call target-to-proc,$@))
 	$(eval $(call proc-to-build-vars,$@))
 	@$(LD) $@ -shared $^ $(LDFLAGS) 
+
+$(GEN_DIR)/%.o: %.asm
+	@mkdir -p $(GEN_DIR)
+	@echo 'CC	$^'
+	$(eval $(call target-to-proc,$@))
+	$(eval $(call proc-to-build-vars,$@))
+	@$(CC) $@ $^ $(CFLAGS)
 
 $(GEN_DIR)/%.o: %.c
 	@mkdir -p $(GEN_DIR)
