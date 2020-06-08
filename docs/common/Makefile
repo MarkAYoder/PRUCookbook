@@ -79,14 +79,14 @@ define target-to-proc =
  else ifeq ($(suffix $(basename $(1))),.pru0)
   CHIP=am335x
   CHIP_REV=am335x
-  PRU_DIR=/sys/class/remoteproc/remoteproc1
+  PRU_DIR=/dev/remoteproc/pruss-core0
   PRUN=0
   PROC=pru
   EXE=.out
  else ifeq ($(suffix $(basename $(1))),.pru1)
   CHIP=am335x
   CHIP_REV=am335x
-  PRU_DIR=/sys/class/remoteproc/remoteproc2
+  PRU_DIR=/dev/remoteproc/pruss-core1
   PRUN=1
   PROC=pru
   EXE=.out
