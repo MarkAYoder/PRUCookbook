@@ -1,0 +1,90 @@
+include::header.adoc[]
+
+== PRU Projects
+Users of TI processors with PRU-ICSS have created application for many different uses. A list of a few are shared below. For additional support resources, software and documentation visit the PRU-ICSS wiki.
+
+.PRU projects
+[width=100%, cols="^1,5,^1,5"]
+|===
+|Project    |Description    |Type    |Link
+
+| LEDscape    |BeagleBone Black cape and firmware for driving a large number of WS281x LED strips   
+
+| Code Library    |https://github.com/osresearch/LEDscape
+
+||| Documentation and example projects    |http://trmm.net/LEDscape
+
+|LDGraphy    |Laser direct lithography for printing PCBs    |Code library and example project    |https://github.com/hzeller/ldgraphy/blob/master/README.md
+|PRdUino    |This is a port of the Energia platform based on the Arduino framework allowing you to use Arduino software libraries on PRU.    |Code Library    |https://github.com/lucas-ti/PRdUino
+|DMX Lighting    |Controlling professional lighting systems |Project    |http://beagleboard.org/CapeContest/entries/BeagleBone+DMX+Cape/
+|||Tutorial    |http://blog.boxysean.com/2012/08/12/first-steps-with-the-beaglebone-pru/
+|||Code Library    |https://github.com/boxysean/beaglebone-DMX
+|Interacto    |A cape making BeagleBone interactive with a triple-axis accelerometer, 
+gyroscope and magnetometer plus a 640 x 480/30 fps camera. 
+All sensors are digital and communicate via I²C to the BeagleBone. 
+The camera frames are captured using the PRU-ICSS. The sensors on this cape 
+give hobbyists and students a starting point to easily build robots and flying drones. |Project 1    |http://beagleboard.org/CapeContest/entries/Interacto/
+|||Project 2    |http://www.hitchhikeree.org/beaglebone_capes/interacto/
+|||code library    |https://github.com/cclark2/interacto_bbone_cape
+|Replicape: 3D Printer    |Replicape is a high end 3D-printer electronics package in the form of a Cape that can be placed on a BeagleBone Black. It has five high power stepper motors with cool running MosFets and it has been designed to fit in small spaces without active cooling. For a Replicape Daemon that processes G-code, see the Redeem Project    |Project    |http://www.thing-printer.com/product/replicape/
+|||Code Library    |https://bitbucket.org/intelligentagent/replicape/
+|PyPRUSS: Python library    |PyPRUSS is a Python library for programming the PRUs on BeagleBone (Black)    |Code Library    |http://hipstercircuits.com/pypruss-a-simple-pru-python-binding-for-beaglebone/
+
+|Geiger    |The Geiger Cape, created by Matt Ranostay, is a design that measures radiation counts from background and test sources by utilising multiple Geiger tubes. The cape can be used to detect low-level radiation, which is needed in certain industries such as security and medical.    |Project 1    |http://beagleboard.org/CapeContest/entries/Geiger+Cape/
+|||Project 2    |http://elinux.org/BeagleBone/GeigerCapePrototype
+|||Code library    |https://github.com/mranostay/beaglebone-telemetry-presentation
+
+|Servo Controller Foosball Table    |Used for ball tracking and motor control    |Project    |http://www.element14.com/community/community/knode/single-board_computers/next-gen_beaglebone/blog/2013/07/17/hackerspace-challenge--leeds-only-pru-can-make-the-leds-bright
+|||Tutorial    |https://docs.google.com/spreadsheet/pub?key=0AmI_ryMKXUGJdDQ3LXB4X3VBWlpxQTFWbGh6RGJHUEE&output=html
+|||Code library    |https://github.com/pbrook/pypruss
+
+|Imaging with connected camera    |Low resolution imaging ideal for machine vision use-cases, robotics and movement detection    |Project    |http://www.element14.com/community/community/knode/single-board_computers/next-gen_beaglebone/blog/2013/08/18/bbb--imaging-with-a-pru-connected-camera
+|||Code library |
+
+|Computer Numerical Control (CNC) Translator    |Smooth stepper motor control; real embedded version of LinuxCNC    |Tutorial    |http://www.buildlog.net/blog/2013/09/cnc-translator-for-beaglebone/
+|||Tutorial    |http://bb-lcnc.blogspot.com/p/machinekit_16.html
+
+|Robotic Control    |Chubby    |Project    |http://www.youtube.com/watch?v=dEes9k7-DYY
+|||Code library    |https://github.com/cagdasc/Chubby1_v1
+||SpiderBot    |Project    |http://www.youtube.com/watch?v=JXyewd98e9Q
+|||Reference    |http://www.ti.com/lit/wp/spry235/spry235.pdf
+
+|Software UART    |Soft-UART implementation on the PRU of AM335x    |Code library    |http://processors.wiki.ti.com/index.php/Soft-UART_Implementation_on_AM335X_PRU_-_Software_Users_Guide
+|||Reference    |
+
+|Deviant LCD    |PRU bit-banged LCD interface @ 240x320    |Project    |http://www.beagleboard.org/CapeContest/entries/DeviantLCD/
+|||Code library    |https://github.com/cclark2/deviantlcd_bbone_cape
+
+|Nixie tube interface    |    |code library    |https://github.com/mranostay/beagle-nixie
+
+|Thermal imaging camera    |Thermal camera using Beaglebone Black, a small LCD, and a thermal array sensor    |project    |https://element14.com/community/community/knode/single-board_computers/next-gen_beaglebone/blog/2013/06/07/bbb--building-a-thermal-imaging-camera
+|||Code library |
+
+|Sine wave generator using PWMs    |Simulation of a pulse width modulation    |Project    |http://elinux.org/ECE497_BeagleBone_PRU
+|||Reference    |
+|||Code library    |https://github.com/millerap/AM335x_PRU_BeagleBone
+
+|Emulated memory interface    |ABX loads amovie into the Beaglebone's memory and then launches the memory emulator on the PRU sub-processor of the Beaglebone's ARM AM335x    |Project    |https://github.com/lybrown/abx
+
+|6502 memory interface    |System permitting communication between Linux and 6502 processor    |Project    |http://elinux.org/images/a/ac/What's_Old_Is_New-_A_6502-based_Remote_Processor.pdf
+|||Code library    |https://github.com/lybrown/abx
+
+|JTAG/Debug    |Investigating the fastest way to program using JTAG and provide for debugging facilities built into the Beaglebone    |Project    |http://beagleboard.org/project/PRUJTAG/
+
+|High Speed Data Acquistion    |Reading data at high speeds    |Reference    |http://www.element14.com/community/community/knode/single-board_computers/next-gen_beaglebone/blog/2013/08/04/bbb--high-speed-data-acquisition-and-web-based-ui
+
+|Prufh (PRU Forth)    |Forth Programming Language and Compiler. It consists of a compiler, the forth system itself, and an
+optional program for loading and communicating with the forth code proper.
+|Compiler    |https://github.com/biocode3D/prufh
+
+|VisualPRU    |VisualPRU is a minimal browser-based editor and debugger for the Beaglebone PRUs. The app runs from a local server on the Beaglebone.    |Editor and Debugger    |https://github.com/mmcdan/visualpru
+
+|libpruio    |Library for easy configuration and data handling at high speeds. This library can configure and control the devices from single source (no need for further overlays or the device tree compiler)    |Documentation    |http://users.freebasic-portal.de/tjf/Projekte/libpruio/doc/html/index.html
+Library     http://www.freebasic-portal.de/downloads/fb-on-arm/libpruio-325.html[(German)]
+
+|BeagleLogic    |100MHz 14channel logic analyzer using both PRUs (one to capture and one to transfer the data)    |Project    |http://beaglelogic.net
+
+|BeaglePilot    |Uses PRUs as part of code for a BeagleBone based autopilot    |Code Library    |https://github.com/BeaglePilot/beaglepilot
+
+|PRU Speak    |Implements BotSpeak, a platform independent interpreter for tools like Labview, on the PRUs    |Code Library    |https://github.com/deepakkarki/pruspeak
+|===
