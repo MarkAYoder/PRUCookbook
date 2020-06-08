@@ -39,7 +39,7 @@ void main(void) {
 		gpio8[GPIO_CLEARDATAOUT] = P8_17;
 		gpio6[GPIO_CLEARDATAOUT] = P9_25;
 		
-		__R30 &= ~gpio;		// Clearn the GPIO pin
+		__R30 &= ~gpio;		// Clear the GPIO pin
 
 		__delay_cycles(500000000/5); 
 		
