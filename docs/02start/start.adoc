@@ -105,7 +105,21 @@ image:figures/BB_AI_BeautyAngle_800px.jpg[BeableBone AI]
 
 The AI has:
 
-* TODO
+* Dual Arm® Cortex®-A15 microprocessor subsystem
+* 2 C66x floating-point VLIW DSPs
+* 2.5MB of on-chip L3 RAM
+* 2x dual Arm® Cortex®-M4 co-processors
+* 4x Embedded Vision Engines (EVEs)
+* 2x dual-core Programmable Real-Time Unit and Industrial Communication SubSystem (PRU-ICSS)
+* 2D-graphics accelerator (BB2D) subsystem
+* Dual-core PowerVR® SGX544™ 3D GPU
+* IVA-HD subsystem (4K @ 15fps encode and decode support for H.264, 1080p60 for others)
+* BeagleBone Black mechanical and header compatibility
+* 1GB RAM and 16GB on-board eMMC flash with high-speed interface
+* USB type-C for power and superspeed dual-role controller; and USB type-A host
+* Gigabit Ethernet, 2.4/5GHz WiFi, and Bluetooth
+* microHDMI
+* Zero-download out-of-box software experience with Debian GNU/Linux
 
 
 === Installing the Latest OS on Your Bone
