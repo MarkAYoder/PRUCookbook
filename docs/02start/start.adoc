@@ -193,7 +193,7 @@ code.
 ----
 bone$ *cd 02start/code/*
 bone$ *ls*
-AM335x_PRU.cmd  hello.c  Makefile  resource_table_empty.h  setup.sh
+hello.pru0.c  hello.pru1_1.c  Makefile  setup.sh
 ----
 
 Go and explore.
@@ -219,16 +219,19 @@ include::code/hello.pru0.c[]
 Later chapters will go into details of how this code works, but if you want 
 to run it right now do the following.
 
-[[start_running_code]]
-.Running Code
 [source]
 [subs=+quotes]
 ----
 bone$ *git clone https://github.com/MarkAYoder/PRUCookbook.git*
 bone$ *cd PRUCookbook/docs/02start/code*
-bone$ *source setup.sh*
-TARGET=hello.pru0
-bone$ *make*
+----
+
+[[start_running_code]]
+.Running Code on the Black or Pocket
+[source]
+[subs=+quotes]
+----
+bone$ *make TARGET=hello.pru0*
 /var/lib/cloud9/common/Makefile:28: MODEL=TI_AM335x_BeagleBone_Black,TARGET=hello.pru0,COMMON=/var/lib/cloud9/common
 /var/lib/cloud9/common/Makefile:147: GEN_DIR=/tmp/cloud9-examples,CHIP=am335x,PROC=pru,PRUN=0,PRU_DIR=/sys/class/remoteproc/remoteproc1,EXE=.out
 -    Stopping PRU 0
@@ -240,6 +243,28 @@ MODEL   = TI_AM335x_BeagleBone_Black
 PROC    = pru
 PRUN    = 0
 PRU_DIR = /sys/class/remoteproc/remoteproc1
+----
+
+
+.Running Code on the AI
+[source]
+[subs=+quotes]
+----
+bone$ *make TARGET=hello.pru1_1*
+/var/lib/cloud9/common/Makefile:28: MODEL=BeagleBoard.org_BeagleBone_AI,TARGET=hello.pru1_1
+-    Stopping PRU 1_1
+CC	hello.pru1_1.c
+"/var/lib/cloud9/common/prugpio.h", line 4: warning #1181-D: #warning directive: "Found AI"
+LD	/tmp/cloud9-examples/hello.pru1_1.o
+-	copying firmware file /tmp/cloud9-examples/hello.pru1_1.out to /lib/firmware/am57xx-pru1_1-fw
+write_init_pins.sh
+writing "none" to "/sys/class/leds/beaglebone:green:usr3/trigger"
+-    Starting PRU 1_1
+MODEL   = BeagleBoard.org_BeagleBone_AI
+PROC    = pru
+PRUN    = 1_1
+PRU_DIR = /dev/remoteproc/pruss1-core1
+rm /tmp/cloud9-examples/hello.pru1_1.o
 ----
 
 Look quickly and you will see the `USR3` LED blinking.  
