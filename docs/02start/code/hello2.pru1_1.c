@@ -19,7 +19,7 @@ void main(void) {
 	uint32_t *gpio8 = (uint32_t *)GPIO8;
 	
 	// Select which pins to toggle.  These are all on pru1_1
-	uint32_t gpio = P9_14 | P9_16 | P8_15 | P8_16 | P8_26;
+	uint32_t gpio = P9_16 | P8_15 | P8_16 | P8_26;
 
 	/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
