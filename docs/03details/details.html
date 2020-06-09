@@ -608,13 +608,6 @@ bone$ <strong>make TARGET=gpio.pru1</strong></pre>
 <p>The setup file also contains instructions to figure out which Beagle you are running
 and then configure the pins acordingly.</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>TODO - Fix config-pin</p>
-</li>
-</ul>
-</div>
 <div class="listingblock">
 <div class="title">setup.sh</div>
 <div class="content">
@@ -678,6 +671,21 @@ done</code></pre>
 </tr>
 </tbody>
 </table>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The BeagleBone AI has it&#8217;s pins preconfigured at boot time, so there&#8217;s no
+need to use <code>config-pin</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>The <code>Makefile</code> stops the PRU, compiles the file and moves it where it will
 be loaded, and then restarts the PRU.</p>
@@ -695,7 +703,7 @@ be loaded, and then restarts the PRU.</p>
 <div class="sect3">
 <h4 id="_solution_3"><a class="link" href="#_solution_3">Solution</a></h4>
 <div class="paragraph">
-<p>It&#8217;s easy.</p>
+<p>It&#8217;s easy, if you already have <code>TARGET</code> set up:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -727,13 +735,6 @@ bone$ <strong>make TARGET=gpio.pru1 start</strong></code></pre>
 </div>
 <div class="sect2">
 <h3 id="details_makefile"><a class="link" href="#details_makefile">1.4. The Standard Makefile</a></h3>
-<div class="ulist">
-<ul>
-<li>
-<p>TODO - Make this into how to use the standard Makefile</p>
-</li>
-</ul>
-</div>
 <div class="sect3">
 <h4 id="_problem_4"><a class="link" href="#_problem_4">Problem</a></h4>
 <div class="paragraph">
@@ -753,10 +754,10 @@ standard <code>Makefile</code>.</p>
 <div class="paragraph">
 <p>It&#8217;s assumed you already know how Makefiles work.  If not, there are
 many resources online that can bring you up to speed.
-Here is the stardard <code>Makefile</code> used throughout this book.</p>
+Here is the local <code>Makefile</code> used throughout this book.</p>
 </div>
 <div class="listingblock">
-<div class="title">Standard Makefile</div>
+<div class="title">Local Makefile</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="makefile"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -766,118 +767,9 @@ Here is the stardard <code>Makefile</code> used throughout this book.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Here&#8217;s an highlevel overview of the Makefile</p>
+<p>Each of the local Makefiles refer to the same standard Makefile.  The details
+of how the Makefile works is beyond the scope of this cookbook.</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Makefile Overview</caption>
-<colgroup>
-<col style="width: 10%;">
-<col style="width: 90%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Line</th>
-<th class="tableblock halign-left valign-top">Explanation</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6,7</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">You need to define <code>TARGET</code> and <code>PRU</code> before running the Makefile.
-This is done in a <code>setup.sh</code>. <code>TARGET</code> is the name of the c source file, without
-the <code>.c</code>.  <code>PRUN</code> is the number of the PRU for which you are compiling.
-In our case it&#8217;s either 0 or 1.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">12,13</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">These tell where to find the PRU compiler and the support libraries.
-These files are already installed on the standard Beagle images.
-If they aren&#8217;t installed you can find them at
-<a href="http://software-dl.ti.com/codegen/esd/cgt_public_sw/PRU/2.1.5/ti_cgt_pru_2.1.5_armlinuxa8hf_busybox_installer.sh">PRU Code Generation Tools - Compiler</a> and
-<a href="http://git.ti.com/pru-software-support-package">PRU Software Support Package</a>.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">14</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">This is where all the generated files are stored. <code>/tmp</code> is used since
-these files aren&#8217;t needed once the PRU is running. Running <code>make clean</code> removes
-these files for the given PRUN.  If you look in the directory you&#8217;ll find:<br>
-<code>bone$ <strong>ls /tmp/pru0-gen/</strong><br>
-file.map  gpio1.asm  gpio1.lst  gpio1.obj  gpio1.out  gpio1.pp</code><br>
-<code>file.map</code> shows what addresses the symbols are mapped to and <code>.lst</code>
-is the assembly code output by the compiler.  It might be useful to see
-what your code is being compiled to.
-The <code>.out</code> file is the generated code.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">16</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">This points to the file that tells the linker where in memory to
-put things.  It will be covered in <a href="#detail_linker">The Linker Command File - am335x_pru.cmd</a>.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">17,18</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tells where to find the PRU libraries and include files.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">20,21</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">This gives the stack and heap sizes.
-<code>STACK_SIZE</code> is the size of section <code>.stack</code> and
-<code>HEAP_SIZE</code> is the size of the <code>.bss</code> section.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">23,27</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Flags for the c compiler and the linker</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">30-36</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Here we map the PRU number to its physical address. This is needed later
-when loading the PRU. These addresses are fixed, no matter which Beagle you
-are using.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">38</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">This computes the path to the given PRU. If you look in this directory
-you will find <code>state</code> and <code>firmware</code> (among other things).  <code>state</code> tells you
-if the PRU is running or not.<br>
-<code>bone$ <strong>cat state</strong></code><br>
-<code>running</code><br>
-<code>firmware</code> is the name of the file in
-<code>/lib/firmware</code> to copy the <code>.out</code> file to that the PRU is to run.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">41</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Since this is the first rule, it&#8217;s the one that&#8217;s run what you enter
-<code>make</code> without a target. So here we stop the PRU, install the code and then
-start the PRU.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">43-45</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">This rule stops the current PRU by writing the command <code>stop</code> into the
-<code>state</code> file noted above.  It&#8217;s a bit complicated since you have to have
-root permission to write to the file.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">47-49</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">This does a simular thing for starting the PRU.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">51-54</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The PRU code is installed by simply copying the generated <code>.out</code> file
-to <code>/lib/firmware/am335x-pru<em>X</em>-fw</code> where <em>X</em> is either 0 or 1 depending
-on the PRU being used.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">56-64</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Rules for compiling and linking. Notice the <code>clpru</code> command has <code>-D=PRUN=$(PRUN)</code>.
-This will define <code>PRUN</code> to equal the PRU number in the code being compiled. This
-way the code can have conditional compilation based on which PRU it&#8217;s being
-compiled for.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">66-68</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Rule for removing the generated files.</p></td>
-</tr>
-</tbody>
-</table>
 <div class="paragraph">
 <p>Fortunately you shouldn&#8217;t have to modify the <code>Makefile</code>.</p>
 </div>
@@ -917,7 +809,7 @@ They are called <code>clpru</code> and <code>lnkpru</code>.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>IN fact there are PRU versions of many of the standard code generation tools.</p>
+<p>In fact there are PRU versions of many of the standard code generation tools.</p>
 </div>
 <div class="listingblock">
 <div class="title">code tools</div>
@@ -947,7 +839,9 @@ They are called <code>clpru</code> and <code>lnkpru</code>.</p>
 <h4 id="_solution_6"><a class="link" href="#_solution_6">Solution</a></h4>
 <div class="paragraph">
 <p><code>am335x_pru.cmd</code> is the standard linker command file that tells the linker
-where to put what.</p>
+where to put what for the BeagleBone Black and Blue, and the Pocket.
+The <code>am57xx_pru.cmd</code> does the same for the AI.
+Both files can be found in <code>/var/lib/cloud9/common</code>.</p>
 </div>
 <div class="listingblock">
 <div class="title">am335x_pru.cmd</div>
@@ -1131,6 +1025,9 @@ SECTIONS {
 </tr></table></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>The cmd file for the AI is about the same, with appropriate addresses for the AI.</p>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_discussion_3"><a class="link" href="#_discussion_3">Discussion</a></h4>
@@ -1138,7 +1035,7 @@ SECTIONS {
 <p>The important things to notice in the file are given in the following table.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. AM335x_PRU.cmd important things</caption>
+<caption class="title">Table 1. AM335x_PRU.cmd important things</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 90%;">
@@ -1153,7 +1050,9 @@ SECTIONS {
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">16</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">This is where the instructions are stored. See page 206 of the
-<a href="https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf">AM335x Technical Reference Manual</a></p></td>
+<a href="https://www.ti.com/lit/ug/spruh73p/spruh73p.pdf">AM335x Technical Reference Manual</a>
+Or see page 417 of
+<a href="http://www.ti.com/lit/pdf/spruhz6l">AM572x Technical Reference Manual</a> for the AI.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">22</p></td>
@@ -1223,34 +1122,39 @@ the heap are in the locations below 0x0200.</p>
 </div>
 <div class="sect3">
 <h4 id="_discussion_4"><a class="link" href="#_discussion_4">Discussion</a></h4>
-<div class="ulist">
-<ul>
-<li>
-<p>TODO - update for AI</p>
-</li>
-</ul>
-</div>
 <div class="paragraph">
-<p>The PRUs appear in the Linux file space at
-<code>/sys/devices/platform/ocp/4a32600*.pruss-soc-bus/4a300000.pruss</code>.</p>
+<p>The PRUs appear in the Linux file space at <code>/dev/remoteproc/</code>.</p>
 </div>
 <div class="listingblock">
 <div class="title">Finding the PRUs</div>
 <div class="content">
-<pre class="CodeRay highlight"><code>bone$ <strong>cd /sys/devices/platform/ocp/4a326000.pruss-soc-bus/4a300000.pruss</strong>
+<pre class="CodeRay highlight"><code>bone$ <strong>cd /dev/remoteproc/</strong>
 bone$ <strong>ls</strong>
-4a320000.intc  4a338000.<strong>pru1</strong>  driver_override  of_node  subsystem
-4a334000.<strong>pru0</strong>  driver         modalias         power    uevent</code></pre>
+pruss-core0  pruss-core1</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>Or if you are on the AI:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>bone$ <strong>cd /dev/remoteproc/</strong>
+bone$ <strong>ls</strong>
+dsp1  dsp2  ipu1  ipu2  pruss1-core0  pruss1-core1  pruss2-core0  pruss2-core1</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You see there that the AI has two pairs of PRUs, plus a couple of DSPs and other
+goodies.</p>
 </div>
 <div class="paragraph">
 <p>Here we see PRU 0 and PRU 1 in the path.  Let&#8217;s follow PRU 0.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>bone$ <strong>cd 4a334000.pru0/remoteproc/remoteproc1</strong>
+<pre class="CodeRay highlight"><code>bone$ <strong>cd pruss-core0</strong>
 bone$ <strong>ls</strong>
-device  firmware  power  state  subsystem  uevent</code></pre>
+device  firmware  name  power  state  subsystem  uevent</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1402,7 +1306,7 @@ to the hardware eQEPs and other to the PRU inputs.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-03 19:43:39 -0400
+Last updated 2020-06-09 16:23:55 -0400
 </div>
 </div>
 <style>

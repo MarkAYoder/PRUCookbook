@@ -14,7 +14,7 @@ void main(void)
 	uint32_t *gpio0 = (uint32_t *)GPIO0;
 	
 	while(1) {
-		gpio0[GPIO_SETDATAOUT] = P9_11;
+		gpio0[GPIO_SETDATAOUT]   = P9_11;
 		__delay_cycles(100000000);
 		gpio0[GPIO_CLEARDATAOUT] = P9_11;
 		__delay_cycles(100000000);
