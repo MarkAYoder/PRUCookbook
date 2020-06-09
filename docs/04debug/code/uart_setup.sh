@@ -1,6 +1,4 @@
-export PRUN=0
-export TARGET=uart1
-echo PRUN=$PRUN
+export TARGET=uart1.pru0
 echo TARGET=$TARGET
 
 # Configure tx

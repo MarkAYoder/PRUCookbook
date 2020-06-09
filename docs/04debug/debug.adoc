@@ -266,6 +266,7 @@ https://www.adafruit.com/product/70[Adafruit].
 image::figures/FTDIcable.jpg[FDTI cable]
 
 ==== Discussion
+===== BeagleBone Black
 The Beagle side of the FTDI cable has a small triangle on it as shown in 
 <<debug_ftdi_connector>>.  
 
@@ -281,6 +282,18 @@ the connector as viewed in the figure.
 .FTDI pins for the FTDI connector
 image::figures/FTDIPins.png[FTDI pins for the FTDI connector]
 
+===== BeagleBone AI
+
+The BBAI has a 3 pin JST connector for attaching to the UART as shown in
+<<debug_AI_uart>>
+
+[[debug_AI_uart]]
+.AI uart connector
+image::figures/BB_AI_uart.jpg[AI uart  connector]
+https://www.element14.com/community/community/designcenter/single-board-computers/next-genbeaglebone/blog/2019/10/06/beaglebone-ai-bb-ai-getting-started#jive_content_id_Serial_Console_Cable[BeagleBone AI (BB-AI) - Getting Started]
+gives details on how to use it.
+
+===== Details
 Two examples of using the UART are presented here.  The first 
 (<<debug_uart1>>) sends
 a character out the serial port then waits for a character to come in.  Once
@@ -302,7 +315,7 @@ bone$ *config-pin P9_24 pru_uart*
 bone$ *config-pin P9_26 pru_uart*
 ----
 
-// TODO:  Add code for Blue and Pocket
+* TODO - Add code for Blue and Pocket and AI
 
 ===== uart1.c
 Set the following variables so `make` will know what to compile.
