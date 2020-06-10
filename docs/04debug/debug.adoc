@@ -274,6 +274,8 @@ The Beagle side of the FTDI cable has a small triangle on it as shown in
 .FTDI connector
 image::figures/FTDIconnector.jpg[FTDI connector]
 
+* TODO - Should this connect to P9_24 and P9_26?
+
 The connector attaches to the Black on the FTDI pins, shown in <<debug_ftdi_pins>>,
 with the triangle connecting near pin *P9_20* which is the right side of 
 the connector as viewed in the figure.
