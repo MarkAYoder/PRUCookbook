@@ -1047,6 +1047,21 @@ for details on making it work.</p>
 <div class="paragraph">
 <p><a href="#blocks_pwm1">pwm1.pru0.c</a> shows the code.</p>
 </div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This code is for the BeagleBone Black.  See <code>pwm1.pru1_1.c</code> for an example
+that works on the AI.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 <div id="blocks_pwm1" class="listingblock">
 <div class="title">pwm1.pru0.c</div>
 <div class="content">
@@ -1089,7 +1104,7 @@ for details on making it work.</p>
     <span class="comment">/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */</span>
     CT_CFG.SYSCFG_bit.STANDBY_INIT = <span class="integer">0</span>;
 
-    <span class="keyword">while</span> (<span class="integer">1</span>) {
+    <span class="keyword">while</span>(<span class="integer">1</span>) {
         __R30 |= gpio;      <span class="comment">// Set the GPIO pin to 1</span>
         __delay_cycles(<span class="integer">100000000</span>);
         __R30 &amp;= ~gpio;     <span class="comment">// Clear the GPIO pin</span>
@@ -4832,6 +4847,13 @@ the last number, or you numbers will get blurred together.</p>
 </div>
 <div class="sect2">
 <h3 id="_rgb_led_matrix_no_integrated_drivers"><a class="link" href="#_rgb_led_matrix_no_integrated_drivers">1.15. RGB LED Matrix - No Integrated Drivers</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p>TODO - update</p>
+</li>
+</ul>
+</div>
 <div class="sect3">
 <h4 id="_problem_15"><a class="link" href="#_problem_15">Problem</a></h4>
 <div class="paragraph">
@@ -5694,7 +5716,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-04 16:51:07 -0400
+Last updated 2020-06-10 13:37:35 -0400
 </div>
 </div>
 <style>

@@ -324,6 +324,12 @@ for details on making it work.
 
 <<blocks_pwm1>> shows the code.
 
+[WARNING]
+====
+This code is for the BeagleBone Black.  See `pwm1.pru1_1.c` for an example
+that works on the AI.
+====
+
 [[blocks_pwm1]]
 .pwm1.pru0.c
 [source,c,linenums] 
