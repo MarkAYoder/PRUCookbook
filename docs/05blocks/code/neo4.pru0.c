@@ -8,6 +8,7 @@
 #include <rsc_types.h>
 #include <pru_rpmsg.h>
 #include "resource_table_0.h"
+#include "prugpio.h"
 
 volatile register uint32_t __R30;
 volatile register uint32_t __R31;
@@ -44,7 +45,7 @@ char payload[RPMSG_BUF_SIZE];
 #define zeroCyclesOn	350/5
 #define zeroCyclesOff	800/5
 #define resetCycles		51000/5	// Must be at least 50u, use 51u
-#define out 1					// Bit number to output on
+#define out P9_29				// Bit number to output on
 
 #define SPEED 20000000/5		// Time to wait between updates
 
@@ -70,7 +71,11 @@ void main(void)
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
 
 	/* Clear the status of the PRU-ICSS system event that the ARM will use to 'kick' us */
+#ifdef CHIP_IS_am57xx
+	CT_INTC.SICR_bit.STATUS_CLR_INDEX = FROM_ARM_HOST;
+#else
 	CT_INTC.SICR_bit.STS_CLR_IDX = FROM_ARM_HOST;
+#endif
 
 	/* Make sure the Linux drivers are ready for RPMsg communication */
 	status = &resourceTable.rpmsg_vdev.status;
@@ -85,7 +90,11 @@ void main(void)
 		/* Check bit 30 of register R31 to see if the ARM has kicked us */
 		if (__R31 & HOST_INT) {
 			/* Clear the event status */
+#ifdef CHIP_IS_am57xx
+			CT_INTC.SICR_bit.STATUS_CLR_INDEX = FROM_ARM_HOST;
+#else
 			CT_INTC.SICR_bit.STS_CLR_IDX = FROM_ARM_HOST;
+#endif
 			/* Receive all available messages, multiple messages can be sent per kick */
 			while (pru_rpmsg_receive(&transport, &src, &dst, payload, &len) == PRU_RPMSG_SUCCESS) {
 			    char *ret;	// rest of payload after front character is removed
@@ -110,20 +119,20 @@ void main(void)
 						// Cycle through each bit
 						for(i=23; i>=0; i--) {
 							if(color[j] & (0x1<<i)) {
-								__R30 |= 0x1<<out;		// Set the GPIO pin to 1
+								__R30 |= out;		// Set the GPIO pin to 1
 								__delay_cycles(oneCyclesOn-1);
-								__R30 &= ~(0x1<<out);	// Clear the GPIO pin
+								__R30 &= ~out;	// Clear the GPIO pin
 								__delay_cycles(oneCyclesOff-14);
 							} else {
-								__R30 |= 0x1<<out;		// Set the GPIO pin to 1
+								__R30 |= out;		// Set the GPIO pin to 1
 								__delay_cycles(zeroCyclesOn-1);
-								__R30 &= ~(0x1<<out);	// Clear the GPIO pin
+								__R30 &= ~(out);	// Clear the GPIO pin
 								__delay_cycles(zeroCyclesOff-14);
 							}
 						}
 					}
 					// Send Reset
-					__R30 &= ~(0x1<<out);	// Clear the GPIO pin
+					__R30 &= ~out;	// Clear the GPIO pin
 					__delay_cycles(resetCycles);
 		
 					// Wait
