@@ -283,6 +283,12 @@ the connector as viewed in the figure.
 image::figures/FTDIPins.png[FTDI pins for the FTDI connector]
 
 ===== BeagleBone AI
+[WARNING]
+====
+Unfortunatley https://git.ti.com/cgit/pru-software-support-package/pru-software-support-package/tree/examples/am572x
+doesn't have a PRU UART example, therefore there's no example for the PRU UART 
+on the AI.
+====
 
 The BBAI has a 3 pin JST connector for attaching to the UART as shown in
 <<debug_AI_uart>>
@@ -291,7 +297,7 @@ The BBAI has a 3 pin JST connector for attaching to the UART as shown in
 .AI uart connector
 image::figures/BB_AI_uart.jpg[AI uart  connector]
 https://www.element14.com/community/community/designcenter/single-board-computers/next-genbeaglebone/blog/2019/10/06/beaglebone-ai-bb-ai-getting-started#jive_content_id_Serial_Console_Cable[BeagleBone AI (BB-AI) - Getting Started]
-gives details on how to use it.
+gives details on how to use it from the ARM.
 
 ===== Details
 Two examples of using the UART are presented here.  The first 
@@ -315,9 +321,9 @@ bone$ *config-pin P9_24 pru_uart*
 bone$ *config-pin P9_26 pru_uart*
 ----
 
-* TODO - Add code for Blue and Pocket and AI
+* TODO - Add code for Blue and Pocket.
 
-===== uart1.c
+===== uart1.pru0.c
 Set the following variables so `make` will know what to compile.
 
 .make
@@ -325,16 +331,16 @@ Set the following variables so `make` will know what to compile.
 [subs=+quotes]
 ----
 bone$ *export PRUN=0*
-bone$ *export TARGET=uart1*
+bone$ *export TARGET=uart1.pru0*
 bone$ *make*
 -    Stopping PRU 0
 [sudo] password for debian: 
 stop
-CC	uart1.c
-"uart1.c", line 87: warning #112-D: statement is unreachable
-"uart1.c", line 15: warning #552-D: variable "rx" was set but never used
-LD	/tmp/pru0-gen/uart1.obj
--	copying firmware file /tmp/pru0-gen/uart1.out to /lib/firmware/am335x-pru0-fw
+CC	uart1.pru0.c
+"uart1.pru0.c", line 87: warning #112-D: statement is unreachable
+"uart1.pru0.c", line 15: warning #552-D: variable "rx" was set but never used
+LD	/tmp/pru0-gen/uart1.pru0.obj
+-	copying firmware file /tmp/pru0-gen/uart1.pru0.out to /lib/firmware/am335x-pru0-fw
 -    Starting PRU 0
 start
 ----
@@ -349,16 +355,16 @@ host *screen /dev/ttyUSB0 115200*
 It will initially display the first charters (`H`) and then as you enter
 characters on the keyboard, the rest of the message will appear.
 
-.uart1.c output
-image:figures/uart1.png[uart1.c output]
+.uart1.pru0.c output
+image:figures/uart1.pru0.png[uart1.pru0.c output]
 
-Here's the code (`uart1.c`) that does it.
+Here's the code (`uart1.pru0.c`) that does it.
 
 [[debug_uart1]]
-.uart1.c
+.uart1.pru0.c
 [source,c,linenums]
 ----
-include::code/uart1.c[uart1.c]
+include::code/uart1.pru0.c[uart1.pru0.c]
 ----
 The first part of the code initializes the UART. Then the line `CT_UART.THR = tx;`
 takes a character in `tx` and sends it to the transmit buffer on the UART.

@@ -833,6 +833,22 @@ the connector as viewed in the figure.</p>
 </div>
 <div class="sect4">
 <h5 id="_beaglebone_ai"><a class="link" href="#_beaglebone_ai">BeagleBone AI</a></h5>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Unfortunatley <a href="https://git.ti.com/cgit/pru-software-support-package/pru-software-support-package/tree/examples/am572x" class="bare">https://git.ti.com/cgit/pru-software-support-package/pru-software-support-package/tree/examples/am572x</a>
+doesn&#8217;t have a PRU UART example, therefore there&#8217;s no example for the PRU UART
+on the AI.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>The BBAI has a 3 pin JST connector for attaching to the UART as shown in
 <a href="#debug_AI_uart">AI uart connector</a></p>
@@ -845,14 +861,14 @@ the connector as viewed in the figure.</p>
 </div>
 <div class="paragraph">
 <p><a href="https://www.element14.com/community/community/designcenter/single-board-computers/next-genbeaglebone/blog/2019/10/06/beaglebone-ai-bb-ai-getting-started#jive_content_id_Serial_Console_Cable">BeagleBone AI (BB-AI) - Getting Started</a>
-gives details on how to use it.</p>
+gives details on how to use it from the ARM.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_details"><a class="link" href="#_details">Details</a></h5>
 <div class="paragraph">
 <p>Two examples of using the UART are presented here.  The first
-(<a href="#debug_uart1">uart1.c</a>) sends
+(<a href="#debug_uart1">uart1.pru0.c</a>) sends
 a character out the serial port then waits for a character to come in.  Once
 the new character arrives another character is output.</p>
 </div>
@@ -876,13 +892,13 @@ bone$ <strong>config-pin P9_26 pru_uart</strong></code></pre>
 <div class="ulist">
 <ul>
 <li>
-<p>TODO - Add code for Blue and Pocket and AI</p>
+<p>TODO - Add code for Blue and Pocket.</p>
 </li>
 </ul>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_uart1_c"><a class="link" href="#_uart1_c">uart1.c</a></h5>
+<h5 id="_uart1_pru0_c"><a class="link" href="#_uart1_pru0_c">uart1.pru0.c</a></h5>
 <div class="paragraph">
 <p>Set the following variables so <code>make</code> will know what to compile.</p>
 </div>
@@ -890,16 +906,16 @@ bone$ <strong>config-pin P9_26 pru_uart</strong></code></pre>
 <div class="title">make</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="linenums">bone$ <strong>export PRUN=0</strong>
-bone$ <strong>export TARGET=uart1</strong>
+bone$ <strong>export TARGET=uart1.pru0</strong>
 bone$ <strong>make</strong>
 -    Stopping PRU 0
 [sudo] password for debian:
 stop
-CC  uart1.c
-&quot;uart1.c&quot;, line 87: warning #112-D: statement is unreachable
-&quot;uart1.c&quot;, line 15: warning #552-D: variable &quot;rx&quot; was set but never used
-LD  /tmp/pru0-gen/uart1.obj
--   copying firmware file /tmp/pru0-gen/uart1.out to /lib/firmware/am335x-pru0-fw
+CC  uart1.pru0.c
+&quot;uart1.pru0.c&quot;, line 87: warning #112-D: statement is unreachable
+&quot;uart1.pru0.c&quot;, line 15: warning #552-D: variable &quot;rx&quot; was set but never used
+LD  /tmp/pru0-gen/uart1.pru0.obj
+-   copying firmware file /tmp/pru0-gen/uart1.pru0.out to /lib/firmware/am335x-pru0-fw
 -    Starting PRU 0
 start</code></pre>
 </div>
@@ -918,14 +934,14 @@ on your host computer run</p>
 characters on the keyboard, the rest of the message will appear.</p>
 </div>
 <div class="paragraph">
-<div class="title">uart1.c output</div>
-<p><span class="image"><img src="figures/uart1.png" alt="uart1.c output"></span></p>
+<div class="title">uart1.pru0.c output</div>
+<p><span class="image"><img src="figures/uart1.pru0.png" alt="uart1.pru0.c output"></span></p>
 </div>
 <div class="paragraph">
-<p>Here&#8217;s the code (<code>uart1.c</code>) that does it.</p>
+<p>Here&#8217;s the code (<code>uart1.pru0.c</code>) that does it.</p>
 </div>
 <div id="debug_uart1" class="listingblock">
-<div class="title">uart1.c</div>
+<div class="title">uart1.pru0.c</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -1176,258 +1192,8 @@ wait for the FIFO to empty, which may cause your code to miss something.</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126
 </pre></td>
-  <td class="code"><pre><span class="comment">// From: http://git.ti.com/pru-software-support-package/pru-software-support-package/trees/master/pru_cape/pru_fw/PRU_Hardware_UART</span>
-
-<span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
-<span class="preprocessor">#include</span> <span class="include">&lt;pru_uart.h&gt;</span>
-<span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
-
-<span class="comment">/* The FIFO size on the PRU UART is 16 bytes; however, we are (arbitrarily)
- * only going to send 8 at a time */</span>
-<span class="preprocessor">#define</span> FIFO_SIZE   <span class="integer">16</span>
-<span class="preprocessor">#define</span> MAX_CHARS   <span class="integer">8</span>
-<span class="preprocessor">#define</span> BUFFER      <span class="integer">40</span>
-
-<span class="comment">//******************************************************************************</span>
-<span class="comment">//    Print Message Out</span>
-<span class="comment">//      This function take in a string literal of any size and then fill the</span>
-<span class="comment">//      TX FIFO when it's empty and waits until there is info in the RX FIFO</span>
-<span class="comment">//      before returning.</span>
-<span class="comment">//******************************************************************************</span>
-<span class="directive">void</span> PrintMessageOut(<span class="directive">volatile</span> <span class="predefined-type">char</span>* Message)
-{
-    uint8_t cnt, index = <span class="integer">0</span>;
-
-    <span class="keyword">while</span> (<span class="integer">1</span>) {
-        cnt = <span class="integer">0</span>;
-
-        <span class="comment">/* Wait until the TX FIFO and the TX SR are completely empty */</span>
-        <span class="keyword">while</span> (!CT_UART.LSR_bit.TEMT);
-
-        <span class="keyword">while</span> (Message[index] != <span class="predefined-constant">NULL</span> &amp;&amp; cnt &lt; MAX_CHARS) {
-            CT_UART.THR = Message[index];
-            index++;
-            cnt++;
-        }
-        <span class="keyword">if</span> (Message[index] == <span class="predefined-constant">NULL</span>)
-            <span class="keyword">break</span>;
-    }
-
-    <span class="comment">/* Wait until the TX FIFO and the TX SR are completely empty */</span>
-    <span class="keyword">while</span> (!CT_UART.LSR_bit.TEMT);
-
-}
-
-<span class="comment">//******************************************************************************</span>
-<span class="comment">//    IEP Timer Config</span>
-<span class="comment">//      This function waits until there is info in the RX FIFO and then returns</span>
-<span class="comment">//      the first character entered.</span>
-<span class="comment">//******************************************************************************</span>
-<span class="predefined-type">char</span> ReadMessageIn(<span class="directive">void</span>)
-{
-    <span class="keyword">while</span> (!CT_UART.LSR_bit.DR);
-
-    <span class="keyword">return</span> CT_UART.RBR_bit.DATA;
-}
-
-<span class="directive">void</span> main(<span class="directive">void</span>)
-{
-    uint32_t i;
-    <span class="directive">volatile</span> uint32_t not_done = <span class="integer">1</span>;
-
-    <span class="predefined-type">char</span> rxBuffer[BUFFER];
-    rxBuffer[BUFFER-<span class="integer">1</span>] = <span class="predefined-constant">NULL</span>; <span class="comment">// null terminate the string</span>
-
-    <span class="comment">/*** INITIALIZATION ***/</span>
-
-    <span class="comment">/* Set up UART to function at 115200 baud - DLL divisor is 104 at 16x oversample
-     * 192MHz / 104 / 16 = ~115200 */</span>
-    CT_UART.DLL = <span class="integer">104</span>;
-    CT_UART.DLH = <span class="integer">0</span>;
-    CT_UART.MDR_bit.OSM_SEL = <span class="hex">0x0</span>;
-
-    <span class="comment">/* Enable Interrupts in UART module. This allows the main thread to poll for
-     * Receive Data Available and Transmit Holding Register Empty */</span>
-    CT_UART.IER = <span class="hex">0x7</span>;
-
-    <span class="comment">/* If FIFOs are to be used, select desired trigger level and enable
-     * FIFOs by writing to FCR. FIFOEN bit in FCR must be set first before
-     * other bits are configured */</span>
-    <span class="comment">/* Enable FIFOs for now at 1-byte, and flush them */</span>
-    CT_UART.FCR = (<span class="hex">0x80</span>) | (<span class="hex">0x8</span>) | (<span class="hex">0x4</span>) | (<span class="hex">0x2</span>) | (<span class="hex">0x01</span>); <span class="comment">// 8-byte RX FIFO trigger</span>
-
-    <span class="comment">/* Choose desired protocol settings by writing to LCR */</span>
-    <span class="comment">/* 8-bit word, 1 stop bit, no parity, no break control and no divisor latch */</span>
-    CT_UART.LCR = <span class="integer">3</span>;
-
-    <span class="comment">/* If flow control is desired write appropriate values to MCR. */</span>
-    <span class="comment">/* No flow control for now, but enable loopback for test */</span>
-    CT_UART.MCR = <span class="hex">0x00</span>;
-
-    <span class="comment">/* Choose desired response to emulation suspend events by configuring
-     * FREE bit and enable UART by setting UTRST and URRST in PWREMU_MGMT */</span>
-    <span class="comment">/* Allow UART to run free, enable UART TX/RX */</span>
-    CT_UART.PWREMU_MGMT_bit.FREE = <span class="hex">0x1</span>;
-    CT_UART.PWREMU_MGMT_bit.URRST = <span class="hex">0x1</span>;
-    CT_UART.PWREMU_MGMT_bit.UTRST = <span class="hex">0x1</span>;
-
-    <span class="comment">/* Turn off RTS and CTS functionality */</span>
-    CT_UART.MCR_bit.AFE = <span class="hex">0x0</span>;
-    CT_UART.MCR_bit.RTS = <span class="hex">0x0</span>;
-
-    <span class="comment">/*** END INITIALIZATION ***/</span>
-
-    <span class="keyword">while</span>(<span class="integer">1</span>) {
-        <span class="comment">/* Print out greeting message */</span>
-        PrintMessageOut(<span class="string"><span class="delimiter">&quot;</span><span class="content">Hello you are in the PRU UART demo test please enter some characters</span><span class="char">\r</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
-
-        <span class="comment">/* Read in characters from user, then echo them back out */</span>
-        <span class="keyword">for</span> (i = <span class="integer">0</span>; i &lt; BUFFER-<span class="integer">1</span> ; i++) {
-            rxBuffer[i] = ReadMessageIn();
-            <span class="keyword">if</span>(rxBuffer[i] == <span class="char">'\r'</span>) {   <span class="comment">// Quit early if ENTER is hit.</span>
-                rxBuffer[i+<span class="integer">1</span>] = <span class="predefined-constant">NULL</span>;
-                <span class="keyword">break</span>;
-            }
-        }
-
-        PrintMessageOut(<span class="string"><span class="delimiter">&quot;</span><span class="content">you typed:</span><span class="char">\r</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
-        PrintMessageOut(rxBuffer);
-        PrintMessageOut(<span class="string"><span class="delimiter">&quot;</span><span class="char">\r</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
-    }
-
-    <span class="comment">/*** DONE SENDING DATA ***/</span>
-    <span class="comment">/* Disable UART before halting */</span>
-    CT_UART.PWREMU_MGMT = <span class="hex">0x0</span>;
-
-    <span class="comment">/* Halt PRU core */</span>
-    __halt();
-}</pre></td>
+  <td class="code"><pre>Unresolved directive in debug.adoc - include::code/uart2.c[uart2.c]</pre></td>
 </tr></table></code></pre>
 </div>
 </div>
@@ -1518,7 +1284,7 @@ examples.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-09 17:17:16 -0400
+Last updated 2020-06-10 11:31:01 -0400
 </div>
 </div>
 <style>
