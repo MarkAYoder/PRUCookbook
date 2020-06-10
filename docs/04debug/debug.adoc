@@ -330,26 +330,24 @@ Set the following variables so `make` will know what to compile.
 [source,linenums] 
 [subs=+quotes]
 ----
-bone$ *export PRUN=0*
-bone$ *export TARGET=uart1.pru0*
-bone$ *make*
+bone$ *make TARGET=uart1.pru0*
+/var/lib/cloud9/common/Makefile:29: MODEL=TI_AM335x_BeagleBone_Black,TARGET=uart1.pru0
 -    Stopping PRU 0
-[sudo] password for debian: 
-stop
-CC	uart1.pru0.c
-"uart1.pru0.c", line 87: warning #112-D: statement is unreachable
-"uart1.pru0.c", line 15: warning #552-D: variable "rx" was set but never used
-LD	/tmp/pru0-gen/uart1.pru0.obj
--	copying firmware file /tmp/pru0-gen/uart1.pru0.out to /lib/firmware/am335x-pru0-fw
+-	copying firmware file /tmp/cloud9-examples/uart1.pru0.out to /lib/firmware/am335x-pru0-fw
+write_init_pins.sh
 -    Starting PRU 0
-start
+MODEL   = TI_AM335x_BeagleBone_Black
+PROC    = pru
+PRUN    = 0
+PRU_DIR = /dev/remoteproc/pruss-core0
+
 ----
 Now `make` will compile, load PRU0 and start it.  In a terminal window 
 on your host computer run
 [source,linenums] 
 [subs=+quotes]
 ----
-host *screen /dev/ttyUSB0 115200*
+host$ *screen /dev/ttyUSB0 115200*
 ----
 
 It will initially display the first charters (`H`) and then as you enter
@@ -371,7 +369,7 @@ takes a character in `tx` and sends it to the transmit buffer on the UART.
 Think of this as the UART version of the `printf()`. 
 
 Later the line `while (!((CT_UART.FCR & 0x2) == 0x2));`
-waits for the transmit FIFO to be empty.  This makes sure later characters
+waits for the transmitter FIFO to be empty.  This makes sure later characters
 won't overwrite the buffer before they can be sent.  The downside is, this will
 cause your code to wait on the buffer and it might miss an important 
 real-time event.
@@ -383,35 +381,34 @@ receive register on the UART.
 These simple lines should be enough to place in your code to print out
 debugging information.
 
-===== uart2.c
-If you want to try `uart2.c`, run the following:
+===== uart2.pru0.c
+If you want to try `uart2.pru0.c`, run the following:
 
 .make
 [source,linenums]
 [subs=+quotes]
 ----
-bone$ *export PRUN=0*
-bone$ *export TARGET=uart2*
-bone$ *make*
+bone$ *make TARGET=uart2.pru0*
+/var/lib/cloud9/common/Makefile:29: MODEL=TI_AM335x_BeagleBone_Black,TARGET=uart2.pru0
 -    Stopping PRU 0
-stop
-CC	uart2.c
-"uart2.c", line 122: warning #112-D: statement is unreachable
-LD	/tmp/pru0-gen/uart2.obj
--	copying firmware file /tmp/pru0-gen/uart2.out to /lib/firmware/am335x-pru0-fw
+-	copying firmware file /tmp/cloud9-examples/uart2.pru0.out to /lib/firmware/am335x-pru0-fw
+write_init_pins.sh
 -    Starting PRU 0
-start
+MODEL   = TI_AM335x_BeagleBone_Black
+PROC    = pru
+PRUN    = 0
+PRU_DIR = /dev/remoteproc/pruss-core0
 ----
 
 You will see:
 
-.uart2.c output
-image:figures/uart2.png[uart2.c output]
+.uart2.pru0.c output
+image:figures/uart2.pru0.png[uart2.pru0.c output]
 
 Type a few characters and hit ENTER.  The PRU will playback what you typed,
 but it won't echo it as you type.
 
-`uart2.c` defines `PrintMessageOut()` which is passed a string that is
+`uart2.pru0.c` defines `PrintMessageOut()` which is passed a string that is
 sent to the UART. It takes advantage of the eight character FIFO on the UART.
 Be careful using it because it also uses `while (!CT_UART.LSR_bit.TEMT);` to
 wait for the FIFO to empty, which may cause your code to miss something.
@@ -419,10 +416,10 @@ wait for the FIFO to empty, which may cause your code to miss something.
 <<debug_uart2>> is the code that does it.
 
 [[debug_uart2]]
-.uart2.c
+.uart2.pru0.c
 [source,c,linenums]
 ----
-include::code/uart2.c[uart2.c]
+include::code/uart2.pru0.c[uart2.pru0.c]
 ----
 
 More complex examples can be built using the principles shown in these
