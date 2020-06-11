@@ -648,8 +648,8 @@ table may be easier to use.</p>
 </table>
 </div>
 <div class="paragraph">
-<p>We see that when <code>P8.12</code> is set to <code>MODE13</code> it will be a PRU out pin.
-<code>MODE12</code> makes it a PRU in pin.  It appears at bit 3 on PRU1_1.</p>
+<p>We see that when <code>P8.12</code> is set to <code>MODE13</code> it will be a PRU <em>out</em> pin.
+<code>MODE12</code> makes it a PRU <em>in</em> pin.  It appears at bit 3 on PRU1_0.</p>
 </div>
 <div class="paragraph">
 <p>Next, find which kernel you are running.</p>
@@ -657,7 +657,7 @@ table may be easier to use.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>bone$ <strong>uname -a</strong>
-Linux ai 4.14.108-ti-r131 #1buster SMP PREEMPT Tue Mar 24 19:18:36 UTC 2020 armv7l GNU/Linux</code></pre>
+Linux ai <strong>4.14</strong>.108-ti-r131 #1buster SMP PREEMPT Tue Mar 24 19:18:36 UTC 2020 armv7l GNU/Linux</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -701,11 +701,27 @@ the dts files.</p>
   <strong>DTC     src/arm/am5729-beagleboneai.dtb</strong>
   DTC     src/arm/am335x-nano.dtb
 ...
-bone$ <strong>sudo amek install</strong>
+bone$ <strong>sudo make install</strong>
 ...
 'src/arm/am5729-beagleboneai.dtb' -&gt; '/boot/dtbs/4.14.108-ti-r131/am5729-beagleboneai.dtb'
-...</pre>
+...
+bone$ <strong>reboot</strong>
+...
+bone$ <strong>show-pins.pl -v | sort | grep -i pru</strong>
+<strong>P8.12                     67  AG6 d fast    down pr1_pru0_gpo3</strong>
+P8.13                    100   D3 c fast rx      pr1_pru1_gpi7
+P8.15b                   109   A3 d fast    down pr1_pru1_gpo16
+P8.16                    111   B4 d fast    down pr1_pru1_gpo18
+P8.18                     98   F5 c fast rx      pr1_pru1_gpi5
+P8.19                     99   E6 c fast rx      pr1_pru1_gpi6
+P8.26                    110   B3 d fast    down pr1_pru1_gpo17
+P9.16                    108   C5 d fast    down pr1_pru1_gpo15
+P9.19b                    95   F4 c fast rx  up  pr1_pru1_gpi2
+P9.20b                    94   D2 c fast rx  up  pr1_pru1_gpi1</pre>
 </div>
+</div>
+<div class="paragraph">
+<p>There it is.  <code>P8.12</code> is now a PRU output pin on PRU1_0, bit 3.</p>
 </div>
 </div>
 </div>
@@ -714,7 +730,7 @@ bone$ <strong>sudo amek install</strong>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-11 09:44:03 -0400
+Last updated 2020-06-11 10:29:45 -0400
 </div>
 </div>
 <style>

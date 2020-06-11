@@ -134,15 +134,15 @@ The https://docs.google.com/spreadsheets/d/1dFSBVem86vAUD7MLXvqdS-N0Efi8_g_O1iTq
 table may be easier to use.
 ====
 
-We see that when `P8.12` is set to `MODE13` it will be a PRU out pin.  
-`MODE12` makes it a PRU in pin.  It appears at bit 3 on PRU1_1.
+We see that when `P8.12` is set to `MODE13` it will be a PRU _out_ pin.  
+`MODE12` makes it a PRU _in_ pin.  It appears at bit 3 on PRU1_0.
 
 Next, find which kernel you are running.
 [source] 
 [subs=+quotes]
 ----
 bone$ *uname -a*
-Linux ai 4.14.108-ti-r131 #1buster SMP PREEMPT Tue Mar 24 19:18:36 UTC 2020 armv7l GNU/Linux
+Linux ai *4.14*.108-ti-r131 #1buster SMP PREEMPT Tue Mar 24 19:18:36 UTC 2020 armv7l GNU/Linux
 ----
 I'm running the 4.14 version. Now look in `/opt/source` for your kernel.
 
@@ -180,8 +180,22 @@ bone$ *make*
   *DTC     src/arm/am5729-beagleboneai.dtb*
   DTC     src/arm/am335x-nano.dtb
 ...
-bone$ *sudo amek install*
+bone$ *sudo make install*
 ...
 'src/arm/am5729-beagleboneai.dtb' -> '/boot/dtbs/4.14.108-ti-r131/am5729-beagleboneai.dtb'
 ...
+bone$ *reboot*
+...
+bone$ *show-pins.pl -v | sort | grep -i pru*
+*P8.12                     67  AG6 d fast    down pr1_pru0_gpo3*
+P8.13                    100   D3 c fast rx      pr1_pru1_gpi7
+P8.15b                   109   A3 d fast    down pr1_pru1_gpo16
+P8.16                    111   B4 d fast    down pr1_pru1_gpo18
+P8.18                     98   F5 c fast rx      pr1_pru1_gpi5
+P8.19                     99   E6 c fast rx      pr1_pru1_gpi6
+P8.26                    110   B3 d fast    down pr1_pru1_gpo17
+P9.16                    108   C5 d fast    down pr1_pru1_gpo15
+P9.19b                    95   F4 c fast rx  up  pr1_pru1_gpi2
+P9.20b                    94   D2 c fast rx  up  pr1_pru1_gpi1
 ----
+There it is.  `P8.12` is now a PRU output pin on PRU1_0, bit 3.
