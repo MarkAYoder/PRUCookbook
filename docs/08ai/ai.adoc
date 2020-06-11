@@ -40,39 +40,56 @@ Here the tables are combined into one to make it easier to see what goes where.
 |===
 |PRU|Bit|Black pin|AI PRU1 pin|AI PRU2 pin|Pocket pin
 
-|0  |0  |P9_31    |  TODO     |P8_44      |P1.36     
+|0  |0  |P9_31    |           |P8_44      |P1.36     
 |0  |1  |P9_29    |           |P8_41      |P1.33     
-|0  |2  |P9_30    |           |P8_42      |P2.32     
-|0  |3  |P9_28    |P8_12      |P8_39      |P2.30     
-|0  |4  |P9_92    |P8_11      |P8_40      |P1.31     
-|0  |5  |P9_27    |P9_15      |P8_37      |P2.34     
-|0  |6  |P9_91    |           |P8_38      |P2.28     
-|0  |7  |P9_25    |           |P8_36      |P1.29     
-|0  |14 |P8_12(out) P8_16(in)    |           | TODO      |P2.24     
-|0  |15 |P8_11(out) P8_15(in)    |           |           |P2.33     
-|0  |16 |         |P9_41(in) P9_26(in)      |           |     
+|0  |2  |P9_30    |           |P8_42/P8_21|P2.32     
+|0  |3  |P9_28    |P8_12      |P8_39/P8_20|P2.30     
+|0  |4  |P9_92    |P8_11      |P8_40/P8_25|P1.31     
+|0  |5  |P9_27    |P9_15      |P8_37/P8_24|P2.34     
+|0  |6  |P9_91    |           |P8_38/P8_5 |P2.28     
+|0  |7  |P9_25    |           |P8_36/P8_6 |P1.29     
+|0  |8  |         |           |P8_34/P8_23|     
+|0  |9  |         |           |P8_35/P8_22|     
+|0  |19 |         |           |P8_33/P8_3 |     
+|0  |11 |         |           |P8_31/P8_4 |     
+|0  |12 |         |           |P8_32      |     
+|0  |13 |         |           |P8_45      |     
+|0  |14 |P8_12(out) P8_16(in)||P9_11      |P2.24     
+|0  |15 |P8_11(out) P8_15(in)||P8_17/P9_13|P2.33     
+|0  |16 |P9_41(in) P9_26(in)| |P8_27|   
+|0  |17 |         |P9_26      |P8_28      |
+|0  |18 |         |           |P8_29      |
+|0  |19 |         |           |P8_30      |
+|0  |20 |         |           |P8_46/P8_8 |
 |---|---|---------|-----------|-----------|-----
-|1  |0  |P8_45    |           |           |          
-|1  |1  |P8_46    |P9_20      |           |          
-|1  |2  |P8_43    |P9_19      |           |          
+|1  |0  |P8_45    |           |P8_32      |          
+|1  |1  |P8_46    |*P9_20*    |           |          
+|1  |2  |P8_43    |*P9_19*    |           |          
 |1  |3  |P8_44    |P9_41      |           |          
 |1  |4  |P8_41    |           |           |          
-|1  |5  |P8_42    |P8_18      |           |          
-|1  |6  |P8_39    |P8_19      |           |          
-|1  |7  |P8_40    |P8_13      |           |          
-|1  |8  |P8_27    |           |           |P2.35     
-|1  |9  |P8_29    |P8_14      |           |P2.01     
-|1  |10 |P8_28    |P9_42      |           |P1.35     
-|1  |11 |P8_30    |P9_27      |           |P1.04     
-|1  |12 |P8_21    |           |           |          
-|1  |13 |P8_20    |           |           |          
-|1  |14 |         |P9_14      |           |P1.32     
-|1  |15 |         |P9_16      |           |P1.30     
-|1  |16 |P9_26(in)         |P8_15      |           |     
-|1  |17 |         |P8_26      |           |     
-|1  |18 |         |P8_16      |           |     
+|1  |5  |P8_42    |*P8_18*    |P9_25      |          
+|1  |6  |P8_39    |*P8_19*    |P8_9       |          
+|1  |7  |P8_40    |*P8_13*    |P9_31      |          
+|1  |8  |P8_27    |           |P9_18      |P2.35     
+|1  |9  |P8_29    |P8_14      |P9_17      |P2.01     
+|1  |10 |P8_28    |P9_42      |P9_31      |P1.35     
+|1  |11 |P8_30    |P9_27      |P9_29      |P1.04     
+|1  |12 |P8_21    |           |P9_30      |          
+|1  |13 |P8_20    |           |P9_26      |          
+|1  |14 |         |P9_14      |P9_42      |P1.32     
+|1  |15 |         |*P9_16*    |P8_10      |P1.30     
+|1  |16 |P9_26(in)|*P8_15*    |P8_7       |     
+|1  |17 |         |*P8_26*    |P8_27      |     
+|1  |18 |         |*P8_16*    |P8_45      |     
+|1  |19 |         |           |P8_46      |     
+|1  |19 |         |           |P8_43      |     
 |===
 
+The pins in *bold* are already configured as pru pins.  See <<ai_config>> to
+see what's currently configured as what.  See <<ai_device_tree>> to 
+configure pins.
+
+[[ai_config]]
 === Seeing how pins are configured
 ==== Problem
 You want to know how the pins are currently configured.
@@ -157,14 +174,15 @@ P9.20b                    94   D2 c fast rx  up  pr1_pru1_gpi1
 Here we have nine pins configured for the PRU registers `R30` and `R31`.
 Five are input pins and four are out.
 
+[[ai_device_tree]]
 === Configuring pins on the AI via device trees
 ==== Problem
 I want to configure another pin for the PRU, but I get an error.
 [source] 
 [subs=+quotes]
 ----
-bone$ *config-pin P8.12 pruout*
-ERROR: open() for /sys/devices/platform/ocp/ocp:P8_12_pinmux/state failed, No such file or directory
+bone$ *config-pin P9_31 pruout*
+ERROR: open() for /sys/devices/platform/ocp/ocp:P9_31_pinmux/state failed, No such file or directory
 ----
 
 ==== Solution
@@ -172,17 +190,19 @@ The pins on the AI must be configure at boot time and therefor cannot be
 configured with `config-pin`.  Instead you must edit the device tree.
 
 ==== Discission
-Suppose you want to make `P8.12` a PRU output pin. First go to the
+Suppose you want to make `P9_31` a PRU output pin. First go to the
 https://github.com/beagleboard/beaglebone-ai/wiki/System-Reference-Manual#p8.10-p8.13[am5729 System Reference Manual]
-and look up `P8.12`.  
+and look up `P9_31`.  
 [TIP]
 ====
 The https://docs.google.com/spreadsheets/d/1dFSBVem86vAUD7MLXvqdS-N0Efi8_g_O1iTqzql8DAo/edit#gid=0[BeagleBone AI PRU pins]
 table may be easier to use.
 ====
 
-We see that when `P8.12` is set to `MODE13` it will be a PRU _out_ pin.  
-`MODE12` makes it a PRU _in_ pin.  It appears at bit 3 on PRU1_0.
+`P9_31` appears twice, as `P9_31a` and `P9_31b`. Either should work, let's pick
+`P9_31a`.  
+We see that when `P9_31a` is set to `MODE13` it will be a PRU _out_ pin.  
+`MODE12` makes it a PRU _in_ pin.  It appears at bit 10 on PRU2_1.
 
 Next, find which kernel you are running.
 [source] 
@@ -205,13 +225,13 @@ bone$ *cd dtb-4.14-ti/src/arm/*
 bone$ *ls am5729**
 am5729-beagleboneai.dts  am5729-beagleboneai-roboticscape.dts
 ----
-`am5729-beagleboneai.dts` is the file we need to edit.  Search for `P8.12`.
+`am5729-beagleboneai.dts` is the file we need to edit.  Search for `P9_31`.
 You'l see:
 [subs=+quotes]
 ----
-DRA7XX_CORE_IOPAD(0x3510, MUX_MODE14) // AH4: P8.11: vin1a_d7.off 
-DRA7XX_CORE_IOPAD(0x350C, *MUX_MODE14*) // AG6: *P8.12*: vin1a_d6.off 
-DRA7XX_CORE_IOPAD(0x3590, PIN_INPUT | MUX_MODE12) // D3: P8.13: vin2a_d10.off 
+DRA7XX_CORE_IOPAD(0x36DC, MUX_MODE14) // B13: P9.30: mcasp1_axr10.off //
+DRA7XX_CORE_IOPAD(0x36D4, *MUX_MODE13*) // B12: *P9.31a*: mcasp1_axr8.off //
+DRA7XX_CORE_IOPAD(0x36A4, MUX_MODE14) // C14: P9.31b: mcasp1_aclkx.off //
 ----
 
 Change the `MUX_MODE14` to `MUX_MODE13` for output, or `MUX_MODE12` for input.
@@ -223,9 +243,9 @@ the dts files.
 ----
 bone$ *make*
 ...
-  DTC     src/arm/am335x-sl50.dtb
-  *DTC     src/arm/am5729-beagleboneai.dtb*
-  DTC     src/arm/am335x-nano.dtb
+DTC     src/arm/am335x-sl50.dtb
+*DTC     src/arm/am5729-beagleboneai.dtb*
+DTC     src/arm/am335x-nano.dtb
 ...
 bone$ *sudo make install*
 ...
@@ -245,4 +265,4 @@ P9.16                    108   C5 d fast    down pr1_pru1_gpo15
 P9.19b                    95   F4 c fast rx  up  pr1_pru1_gpi2
 P9.20b                    94   D2 c fast rx  up  pr1_pru1_gpi1
 ----
-There it is.  `P8.12` is now a PRU output pin on PRU1_0, bit 3.
+There it is.  `P9_31` is now a PRU output pin on PRU1_0, bit 3.

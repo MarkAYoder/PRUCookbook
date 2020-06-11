@@ -444,8 +444,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_moving_to_the_beaglebone_ai">1. Moving to the BeagleBone AI</a>
 <ul class="sectlevel2">
 <li><a href="#_moving_from_two_to_four_prus">1.1. Moving from two to four PRUs</a></li>
-<li><a href="#_seeing_how_pins_are_configured">1.2. Seeing how pins are configured</a></li>
-<li><a href="#_configuring_pins_on_the_ai_via_device_trees">1.3. Configuring pins on the AI via device trees</a></li>
+<li><a href="#ai_config">1.2. Seeing how pins are configured</a></li>
+<li><a href="#ai_device_tree">1.3. Configuring pins on the AI via device trees</a></li>
 </ul>
 </li>
 </ul>
@@ -500,15 +500,405 @@ am5729 on the AI.</p>
 </div>
 <div class="sect3">
 <h4 id="_solution"><a class="link" href="#_solution">Solution</a></h4>
-
+<div class="paragraph">
+<p>Things to consider when moving to the AI are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Which pins are you going to use</p>
+</li>
+<li>
+<p>Which PRU are you going to run on</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Knowing which pins to use impacts the PRU you&#8217;ll use.</p>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_discission"><a class="link" href="#_discission">Discission</a></h4>
-
+<div class="paragraph">
+<p>The various System Reference Manuals (SRM&#8217;s) list which pins go to the PRUs.
+Here the tables are combined into one to make it easier to see what goes where.</p>
+</div>
+<table id="aimapping_bits" class="tableblock frame-all grid-all" style="width: 50%;">
+<caption class="title">Table 1. Mapping bit positions to pin names</caption>
+<colgroup>
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 21.4285%;">
+<col style="width: 21.4285%;">
+<col style="width: 21.4285%;">
+<col style="width: 21.4289%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">PRU</th>
+<th class="tableblock halign-left valign-top">Bit</th>
+<th class="tableblock halign-left valign-top">Black pin</th>
+<th class="tableblock halign-left valign-top">AI PRU1 pin</th>
+<th class="tableblock halign-left valign-top">AI PRU2 pin</th>
+<th class="tableblock halign-left valign-top">Pocket pin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_31</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_44</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P1.36</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_29</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_41</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P1.33</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_30</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_42/P8_21</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P2.32</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_28</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_39/P8_20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P2.30</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_92</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_40/P8_25</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P1.31</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_27</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_15</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_37/P8_24</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P2.34</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_91</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_38/P8_5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P2.28</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_25</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_36/P8_6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P1.29</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_34/P8_23</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_35/P8_22</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_33/P8_3</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_31/P8_4</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_32</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">13</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_45</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">14</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_12(out) P8_16(in)</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P2.24</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">15</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_11(out) P8_15(in)</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_17/P9_13</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P2.33</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_41(in) P9_26(in)</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_27</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_26</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_28</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">18</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_29</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_30</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_46/P8_8</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">---</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">---</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">---------</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-----------</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-----------</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-----</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_45</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_32</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_46</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>P9_20</strong></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_43</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>P9_19</strong></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_44</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_41</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_41</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_42</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>P8_18</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_25</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_39</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>P8_19</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_9</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_40</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>P8_13</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_31</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_27</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_18</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P2.35</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_29</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_14</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P2.01</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_28</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_42</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_31</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P1.35</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_27</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_29</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P1.04</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_21</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_30</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">13</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_20</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_26</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">14</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_14</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_42</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P1.32</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">15</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>P9_16</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P1.30</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_26(in)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>P8_15</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_7</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>P8_26</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_27</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">18</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>P8_16</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_45</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_46</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_43</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The pins in <strong>bold</strong> are already configured as pru pins.  See <a href="#ai_config">Seeing how pins are configured</a> to
+see what&#8217;s currently configured as what.  See <a href="#ai_device_tree">Configuring pins on the AI via device trees</a> to
+configure pins.</p>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_seeing_how_pins_are_configured"><a class="link" href="#_seeing_how_pins_are_configured">1.2. Seeing how pins are configured</a></h3>
+<h3 id="ai_config"><a class="link" href="#ai_config">1.2. Seeing how pins are configured</a></h3>
 <div class="sect3">
 <h4 id="_problem_2"><a class="link" href="#_problem_2">Problem</a></h4>
 <div class="paragraph">
@@ -605,7 +995,7 @@ Five are input pins and four are out.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_configuring_pins_on_the_ai_via_device_trees"><a class="link" href="#_configuring_pins_on_the_ai_via_device_trees">1.3. Configuring pins on the AI via device trees</a></h3>
+<h3 id="ai_device_tree"><a class="link" href="#ai_device_tree">1.3. Configuring pins on the AI via device trees</a></h3>
 <div class="sect3">
 <h4 id="_problem_3"><a class="link" href="#_problem_3">Problem</a></h4>
 <div class="paragraph">
@@ -613,8 +1003,8 @@ Five are input pins and four are out.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>bone$ <strong>config-pin P8.12 pruout</strong>
-ERROR: open() for /sys/devices/platform/ocp/ocp:P8_12_pinmux/state failed, No such file or directory</code></pre>
+<pre class="CodeRay highlight"><code>bone$ <strong>config-pin P9_31 pruout</strong>
+ERROR: open() for /sys/devices/platform/ocp/ocp:P9_31_pinmux/state failed, No such file or directory</code></pre>
 </div>
 </div>
 </div>
@@ -628,9 +1018,9 @@ configured with <code>config-pin</code>.  Instead you must edit the device tree.
 <div class="sect3">
 <h4 id="_discission_2"><a class="link" href="#_discission_2">Discission</a></h4>
 <div class="paragraph">
-<p>Suppose you want to make <code>P8.12</code> a PRU output pin. First go to the
+<p>Suppose you want to make <code>P9_31</code> a PRU output pin. First go to the
 <a href="https://github.com/beagleboard/beaglebone-ai/wiki/System-Reference-Manual#p8.10-p8.13">am5729 System Reference Manual</a>
-and look up <code>P8.12</code>.</p>
+and look up <code>P9_31</code>.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -648,8 +1038,10 @@ table may be easier to use.</p>
 </table>
 </div>
 <div class="paragraph">
-<p>We see that when <code>P8.12</code> is set to <code>MODE13</code> it will be a PRU <em>out</em> pin.
-<code>MODE12</code> makes it a PRU <em>in</em> pin.  It appears at bit 3 on PRU1_0.</p>
+<p><code>P9_31</code> appears twice, as <code>P9_31a</code> and <code>P9_31b</code>. Either should work, let&#8217;s pick
+<code>P9_31a</code>.
+We see that when <code>P9_31a</code> is set to <code>MODE13</code> it will be a PRU <em>out</em> pin.
+<code>MODE12</code> makes it a PRU <em>in</em> pin.  It appears at bit 10 on PRU2_1.</p>
 </div>
 <div class="paragraph">
 <p>Next, find which kernel you are running.</p>
@@ -676,14 +1068,14 @@ am5729-beagleboneai.dts  am5729-beagleboneai-roboticscape.dts</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>am5729-beagleboneai.dts</code> is the file we need to edit.  Search for <code>P8.12</code>.
+<p><code>am5729-beagleboneai.dts</code> is the file we need to edit.  Search for <code>P9_31</code>.
 You&#8217;l see:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>DRA7XX_CORE_IOPAD(0x3510, MUX_MODE14) // AH4: P8.11: vin1a_d7.off
-DRA7XX_CORE_IOPAD(0x350C, <strong>MUX_MODE14</strong>) // AG6: <strong>P8.12</strong>: vin1a_d6.off
-DRA7XX_CORE_IOPAD(0x3590, PIN_INPUT | MUX_MODE12) // D3: P8.13: vin2a_d10.off</pre>
+<pre>DRA7XX_CORE_IOPAD(0x36DC, MUX_MODE14) // B13: P9.30: mcasp1_axr10.off //
+DRA7XX_CORE_IOPAD(0x36D4, <strong>MUX_MODE13</strong>) // B12: <strong>P9.31a</strong>: mcasp1_axr8.off //
+DRA7XX_CORE_IOPAD(0x36A4, MUX_MODE14) // C14: P9.31b: mcasp1_aclkx.off //</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -721,7 +1113,7 @@ P9.20b                    94   D2 c fast rx  up  pr1_pru1_gpi1</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>There it is.  <code>P8.12</code> is now a PRU output pin on PRU1_0, bit 3.</p>
+<p>There it is.  <code>P9_31</code> is now a PRU output pin on PRU1_0, bit 3.</p>
 </div>
 </div>
 </div>
@@ -730,7 +1122,7 @@ P9.20b                    94   D2 c fast rx  up  pr1_pru1_gpi1</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-11 10:29:45 -0400
+Last updated 2020-06-11 14:15:36 -0400
 </div>
 </div>
 <style>
