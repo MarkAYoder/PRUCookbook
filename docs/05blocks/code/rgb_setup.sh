@@ -1,8 +1,6 @@
 #!/bin/bash
 # Setup for 64x32 RGB Matrix
-export PRUN=0
-export TARGET=rgb1
-echo PRUN=$PRUN
+export TARGET=rgb1.pru0
 echo TARGET=$TARGET
 
 # Configure the PRU pins based on which Beagle is running

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import Adafruit_BBIO.GPIO as GPIO
 
 # Define which functions are connect to which pins
