@@ -174,6 +174,7 @@ P9.20b                    94   D2 c fast rx  up  pr1_pru1_gpi1
 Here we have nine pins configured for the PRU registers `R30` and `R31`.
 Five are input pins and four are out.
 
+
 [[ai_device_tree]]
 === Configuring pins on the AI via device trees
 ==== Problem
@@ -200,7 +201,13 @@ table may be easier to use.
 ====
 
 `P9_31` appears twice, as `P9_31a` and `P9_31b`. Either should work, let's pick
-`P9_31a`.  
+`P9_31a`.
+[WARNING]
+====
+When you have two internal pins attached to the same header (either P8 or P9)
+make sure only one is configured as an output.  If both are outputs, you could
+damage the AI.
+====
 We see that when `P9_31a` is set to `MODE13` it will be a PRU _out_ pin.  
 `MODE12` makes it a PRU _in_ pin.  It appears at bit 10 on PRU2_1.
 
@@ -254,7 +261,6 @@ bone$ *sudo make install*
 bone$ *reboot*
 ...
 bone$ *show-pins.pl -v | sort | grep -i pru*
-*P8.12                     67  AG6 d fast    down pr1_pru0_gpo3*
 P8.13                    100   D3 c fast rx      pr1_pru1_gpi7
 P8.15b                   109   A3 d fast    down pr1_pru1_gpo16
 P8.16                    111   B4 d fast    down pr1_pru1_gpo18
@@ -264,5 +270,41 @@ P8.26                    110   B3 d fast    down pr1_pru1_gpo17
 P9.16                    108   C5 d fast    down pr1_pru1_gpo15
 P9.19b                    95   F4 c fast rx  up  pr1_pru1_gpi2
 P9.20b                    94   D2 c fast rx  up  pr1_pru1_gpi1
+*P9.31a                   181  B12 d fast    down pr2_pru1_gpo10*
 ----
 There it is.  `P9_31` is now a PRU output pin on PRU1_0, bit 3.
+
+
+[[ai_using_pru_pins]]
+=== Using the PRU pins
+==== Problem
+Once I have the PRU pins configured on the AI how do I use them?
+
+==== Solution
+In <<ai_device_tree>> we configured `P9_31a` to be a PRU pin.  `show-pins.pl` showed
+that it appears at `pr2_pru1_gpo10`, which means pru2_1 accesses it using
+bit 10 of register `R30`.
+
+==== Discission
+It's easy to modify the pwm example from <<blocks_pwm>> to use this pin.
+First copy the example you want to modify to `pwm1.pru2_1.c`.  The `pru2_1` in
+the file name tells the Makefile to run the code on pru2_1.  <<ai_pwm1>> shows
+the adapted code.
+
+[[ai_pwm1]]
+.pwm1.pru2_1.c
+[source,c,linenums] 
+----
+include::code/pwm1.pru2_1.c[]
+----
+
+One line 6 `P9_31` is defined as `(0x1<<10)`, which means shift `1` over by 10 bits.
+That's the only change needed.  Copy the local Makefile to the same directory and
+compile and run.
+
+[subs=+quotes]
+----
+bone$ *make TARGET=pwm1.pru2_1*
+----
+
+Attach an LED to `P9_31` and it should be blinking.
