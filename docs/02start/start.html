@@ -779,7 +779,30 @@ a web-based intergrated development environment (IDE) as shown in
 </div>
 <div class="paragraph">
 <p>Just point the browswer on your host computer to <a href="http://192.168.7.2" class="bare">http://192.168.7.2</a>
-and start exploring.</p>
+and start exploring.  If you wnat the files in your home directory to appear
+in the tree structure click the settings gear and select <strong>Show Home in Favorites</strong>
+as shown in <a href="#start_c9_show_home">Cloud9 Showing Home files</a>.</p>
+</div>
+<div id="start_c9_show_home" class="paragraph">
+<div class="title">Cloud9 Showing Home files</div>
+<p><span class="image"><img src="figures/c9ShowHome.png" alt="Cloud9 showing home files"></span></p>
+</div>
+<div class="paragraph">
+<p>If you want to edit files beyond your home directory you can link to the root file
+system by:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>bone$ <strong>cd</strong>
+bone$ <strong>ln -s / root</strong>
+bone$ <strong>cd root</strong>
+bone$ <strong>ls</strong>
+bbb-uEnv.txt  boot  etc   ID.txt  lost+found  mnt           opt   root  sbin  sys  usr
+bin           dev   home  lib     media       nfs-uEnv.txt  proc  run   srv   tmp  var</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now you can reach all the files from Cloud9.</p>
 </div>
 </div>
 </div>
@@ -978,7 +1001,7 @@ rm /tmp/cloud9-examples/hello.pru1_1.o</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-09 15:47:49 -0400
+Last updated 2020-06-11 10:27:04 -0400
 </div>
 </div>
 <style>

@@ -175,7 +175,28 @@ a web-based intergrated development environment (IDE) as shown in
 image:figures/c9.png[The Cloud9 IDE]
 
 Just point the browswer on your host computer to <http://192.168.7.2> 
-and start exploring.
+and start exploring.  If you wnat the files in your home directory to appear
+in the tree structure click the settings gear and select *Show Home in Favorites* 
+as shown in <<start_c9_show_home>>.
+
+[[start_c9_show_home]]
+.Cloud9 Showing Home files
+image:figures/c9ShowHome.png[Cloud9 showing home files]
+
+
+If you want to edit files beyond your home directory you can link to the root file
+system by:
+[source] 
+[subs=+quotes]
+----
+bone$ *cd*
+bone$ *ln -s / root*
+bone$ *cd root*
+bone$ *ls*
+bbb-uEnv.txt  boot  etc   ID.txt  lost+found  mnt           opt   root  sbin  sys  usr
+bin           dev   home  lib     media       nfs-uEnv.txt  proc  run   srv   tmp  var
+----
+Now you can reach all the files from Cloud9.
 
 === Getting Example Code
 ==== Problem
