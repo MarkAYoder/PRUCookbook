@@ -1,0 +1,42 @@
+include::../header.adoc[]
+
+== Moving to the BeagleBone AI
+
+So far all our examples have focussed on the BeagleBone Black and Pocket Beagle.
+These are both based on the am335x chip.  The new kid on the black in the BeagleBone AI
+which is based on the am5729. The new chip brings with it new capabilities one of
+which is four PRUs.  This chapter details what changes when moving from two to
+four PRUs.
+
+The following are resources used in this chapter.
+
+* TODO - check these
+
+.Resources
+* http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler, v2.2, User's Guide]
+* http://www.ti.com/lit/ug/spruhv6b/spruhv6b.pdf[PRU Assembly Language Tools User's Guide]
+* http://www.ti.com/lit/ug/spruij2/spruij2.pdf[PRU Assembly Instruction User Guide]
+
+=== Moving from two to four PRUs
+==== Problem
+You have code that works on the am335x PRUs and you want to move it to the 
+am5729 on the AI.
+
+==== Solution
+
+==== Discission
+
+=== Configuring pins on the AI via device trees
+==== Problem
+
+==== Solution
+
+==== Discission
+
+
+=== Copyright
+[source,c,linenums]
+.copyright.c
+----
+include::code/copyright.c[copyright.c]
+----
