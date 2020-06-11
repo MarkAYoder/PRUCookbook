@@ -26,17 +26,162 @@ am5729 on the AI.
 
 ==== Discission
 
-=== Configuring pins on the AI via device trees
+=== Seeing how pins are configured
 ==== Problem
+You want to know how the pins are currently configured.
 
 ==== Solution
+The `show-pins.pl` command does what you want, but you have to set it up first.
+
+[source] 
+[subs=+quotes]
+----
+bone$ *cd ~/bin*
+bone$ *ln -s /opt/scripts/device/bone/show-pins.pl .*
+----
+
+This creates a symbolic link to the `show-pins.pl` command that is rather hidden
+away.  The link is put in the `bin` directory which is in the default command
+`$PATH`.  Now you can run `show-pins.pl` from anywhere.
+
+[source] 
+[subs=+quotes]
+----
+bone$ *show-pins.pl*
+P9.19a                    16   R6 7 fast rx  up  i2c4_scl
+P9.20a                    17   T9 7 fast rx  up  i2c4_sda
+P8.35b                    57  AD9 e fast    down gpio3_0
+P8.33b                    58  AF9 e fast    down gpio3_1
+...
+----
+Here you see `P9.19a` and `P9.20a` are configured for i2c with pull up resistors.
+The `P8` pins are configured as gpio with pull down resistors. They are 
+both on gpio port 3.  `P8.35b` is bit 0 while `P8.33b` is bit 1. You can find
+which direction they are set by using `gpioinfo` and the chip number.  
+Unfortunately you subtract one from the port number to get the chip number.
+So `P8.35b` is on chip number 2.
+
+[source] 
+[subs=+quotes]
+----
+bone$ *gpioinfo 2*
+	line   0:      unnamed       unused   *input*  active-high 
+	line   1:      unnamed       unused   *input*  active-high 
+	line   2:      unnamed       unused   input  active-high 
+	line   3:      unnamed       unused   input  active-high 
+	line   4:      unnamed       unused   input  active-high 
+...
+----
+Here we see both (lines 0 and 1) are set to input.
+
+Adding `-v` gives more details.
+[source] 
+[subs=+quotes]
+----
+bone$ *show-pins.pl -v*
+...
+sysboot 14                14   H2 f fast    down sysboot14
+sysboot 15                15   H3 f fast    down sysboot15
+P9.19a                    16   R6 7 fast rx  up  i2c4_scl
+P9.20a                    17   T9 7 fast rx  up  i2c4_sda
+                          18   T6 f fast    down Driver off
+                          19   T7 f fast    down Driver off
+bluetooth in              20   P6 8 fast rx      uart6_rxd        mmc@480d1000 (wifibt_extra_pins_default)
+bluetooth out             21   R9 8 fast rx      uart6_txd        mmc@480d1000 (wifibt_extra_pins_default)
+...
+----
+
+The best way to use `show-pins.pl` is with `grep`.  To see all the pru pins try:
+[source] 
+[subs=+quotes]
+----
+bone$ *show-pins.pl  | grep -i pru | sort*
+P8.13                    100   D3 c fast rx      pr1_pru1_gpi7
+P8.15b                   109   A3 d fast    down pr1_pru1_gpo16
+P8.16                    111   B4 d fast    down pr1_pru1_gpo18
+P8.18                     98   F5 c fast rx      pr1_pru1_gpi5
+P8.19                     99   E6 c fast rx      pr1_pru1_gpi6
+P8.26                    110   B3 d fast    down pr1_pru1_gpo17
+P9.16                    108   C5 d fast    down pr1_pru1_gpo15
+P9.19b                    95   F4 c fast rx  up  pr1_pru1_gpi2
+P9.20b                    94   D2 c fast rx  up  pr1_pru1_gpi1
+----
+
+Here we have nine pins configured for the PRU registers `R30` and `R31`.
+Five are input pins and four are out.
+
+=== Configuring pins on the AI via device trees
+==== Problem
+I want to configure another pin for the PRU, but I get an error.
+[source] 
+[subs=+quotes]
+----
+bone$ *config-pin P8.12 pruout*
+ERROR: open() for /sys/devices/platform/ocp/ocp:P8_12_pinmux/state failed, No such file or directory
+----
+
+==== Solution
+The pins on the AI must be configure at boot time and therefor cannot be
+configured with `config-pin`.  Instead you must edit the device tree.
 
 ==== Discission
+Suppose you want to make `P8.12` a PRU output pin. First go to the
+https://github.com/beagleboard/beaglebone-ai/wiki/System-Reference-Manual#p8.10-p8.13[am5729 System Reference Manual]
+and look up `P8.12`.  
+[TIP]
+====
+The https://docs.google.com/spreadsheets/d/1dFSBVem86vAUD7MLXvqdS-N0Efi8_g_O1iTqzql8DAo/edit#gid=0[BeagleBone AI PRU pins]
+table may be easier to use.
+====
 
+We see that when `P8.12` is set to `MODE13` it will be a PRU out pin.  
+`MODE12` makes it a PRU in pin.  It appears at bit 3 on PRU1_1.
 
-=== Copyright
-[source,c,linenums]
-.copyright.c
+Next, find which kernel you are running.
+[source] 
+[subs=+quotes]
 ----
-include::code/copyright.c[copyright.c]
+bone$ *uname -a*
+Linux ai 4.14.108-ti-r131 #1buster SMP PREEMPT Tue Mar 24 19:18:36 UTC 2020 armv7l GNU/Linux
+----
+I'm running the 4.14 version. Now look in `/opt/source` for your kernel.
+
+[source] 
+[subs=+quotes]
+----
+bone$ *cd /opt/source/*
+bone$ *ls*
+adafruit-beaglebone-io-python  *dtb-4.14-ti*  librobotcontrol  py-uio           u-boot_v2019.07-rc4
+BBIOConfig                     dtb-4.19-ti  list.txt         rcpy
+bb.org-overlays                dtb-5.4-ti   pyctrl           u-boot_v2019.04
+bone$ *cd dtb-4.14-ti/src/arm/*
+bone$ *ls am5729**
+am5729-beagleboneai.dts  am5729-beagleboneai-roboticscape.dts
+----
+`am5729-beagleboneai.dts` is the file we need to edit.  Search for `P8.12`.
+You'l see:
+[subs=+quotes]
+----
+DRA7XX_CORE_IOPAD(0x3510, MUX_MODE14) // AH4: P8.11: vin1a_d7.off 
+DRA7XX_CORE_IOPAD(0x350C, *MUX_MODE14*) // AG6: *P8.12*: vin1a_d6.off 
+DRA7XX_CORE_IOPAD(0x3590, PIN_INPUT | MUX_MODE12) // D3: P8.13: vin2a_d10.off 
+----
+
+Change the `MUX_MODE14` to `MUX_MODE13` for output, or `MUX_MODE12` for input.
+
+Compile and install.  The first time will take a while since it recompiles all
+the dts files.
+
+[subs=+quotes]
+----
+bone$ *make*
+...
+  DTC     src/arm/am335x-sl50.dtb
+  *DTC     src/arm/am5729-beagleboneai.dtb*
+  DTC     src/arm/am335x-nano.dtb
+...
+bone$ *sudo amek install*
+...
+'src/arm/am5729-beagleboneai.dtb' -> '/boot/dtbs/4.14.108-ti-r131/am5729-beagleboneai.dtb'
+...
 ----
