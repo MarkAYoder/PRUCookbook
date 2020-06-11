@@ -421,8 +421,11 @@ Bit 0 is the LSB.
 
 //  TODO fill in Blue
 
+* TODO - Removed AI pins and reference table in AI chapter.
+
 [[blocks_mapping_bits]]
 .Mapping bit positions to pin names
+[width="50%", cols="1,1,3, 3, 3, 3"]
 |===
 |PRU|Bit|Black pin|AI PRU1 pin|AI PRU2 pin|Pocket pin
 
@@ -434,9 +437,9 @@ Bit 0 is the LSB.
 |0  |5  |P9_27    |P9_15      |P8_37      |P2.34     
 |0  |6  |P9_91    |           |P8_38      |P2.28     
 |0  |7  |P9_25    |           |P8_36      |P1.29     
-|0  |14 |P8_12    |           | TODO      |P2.24     
-|0  |15 |P8_11    |           |           |P2.33     
-|0  |17 |         |P9_26      |           |     
+|0  |14 |P8_12(out) P8_16(in)    |           | TODO      |P2.24     
+|0  |15 |P8_11(out) P8_15(in)    |           |           |P2.33     
+|0  |16 |         |P9_41(in) P9_26(in)      |           |     
 |---|---|---------|-----------|-----------|-----
 |1  |0  |P8_45    |           |           |          
 |1  |1  |P8_46    |P9_20      |           |          
@@ -454,7 +457,7 @@ Bit 0 is the LSB.
 |1  |13 |P8_20    |           |           |          
 |1  |14 |         |P9_14      |           |P1.32     
 |1  |15 |         |P9_16      |           |P1.30     
-|1  |16 |         |P8_15      |           |     
+|1  |16 |P9_26(in)         |P8_15      |           |     
 |1  |17 |         |P8_26      |           |     
 |1  |18 |         |P8_16      |           |     
 |===

@@ -1330,15 +1330,22 @@ gives more details.</p></td>
 <div class="paragraph">
 <p></p>
 </div>
-<table id="blocks_mapping_bits" class="tableblock frame-all grid-all stretch">
+<div class="ulist">
+<ul>
+<li>
+<p>TODO - Removed AI pins and reference table in AI chapter.</p>
+</li>
+</ul>
+</div>
+<table id="blocks_mapping_bits" class="tableblock frame-all grid-all" style="width: 50%;">
 <caption class="title">Table 4. Mapping bit positions to pin names</caption>
 <colgroup>
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.667%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 21.4285%;">
+<col style="width: 21.4285%;">
+<col style="width: 21.4285%;">
+<col style="width: 21.4289%;">
 </colgroup>
 <thead>
 <tr>
@@ -1418,7 +1425,7 @@ gives more details.</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">14</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">P8_12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_12(out) P8_16(in)</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">P2.24</p></td>
@@ -1426,16 +1433,16 @@ gives more details.</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">15</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">P8_11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_11(out) P8_15(in)</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">P2.33</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">16</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">P9_26</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_41(in) P9_26(in)</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -1578,7 +1585,7 @@ gives more details.</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">16</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_26(in)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">P8_15</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
@@ -3840,11 +3847,13 @@ which to turns all pixels white.</p>
 41
 42
 43
+44
 </pre></td>
   <td class="code"><pre><span class="comment">// Control a ws2812 (NeoPixel) display, All on or all off</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;prugpio.h&quot;</span>
 
 <span class="preprocessor">#define</span> STR_LEN <span class="integer">24</span>
 <span class="preprocessor">#define</span> oneCyclesOn     <span class="integer">700</span>/<span class="integer">5</span>   <span class="comment">// Stay on 700ns</span>
@@ -3852,7 +3861,7 @@ which to turns all pixels white.</p>
 <span class="preprocessor">#define</span> zeroCyclesOn    <span class="integer">350</span>/<span class="integer">5</span>
 <span class="preprocessor">#define</span> zeroCyclesOff   <span class="integer">600</span>/<span class="integer">5</span>
 <span class="preprocessor">#define</span> resetCycles     <span class="integer">60000</span>/<span class="integer">5</span> <span class="comment">// Must be at least 50u, use 60u</span>
-<span class="preprocessor">#define</span> out <span class="integer">1</span>       <span class="comment">// Bit number to output one</span>
+<span class="preprocessor">#define</span> gpio P9_29              <span class="comment">// output pin</span>
 
 <span class="preprocessor">#define</span> ONE
 
@@ -3867,19 +3876,19 @@ which to turns all pixels white.</p>
     uint32_t i;
     <span class="keyword">for</span>(i=<span class="integer">0</span>; i&lt;STR_LEN</strong><span class="integer">3</span>*<span class="integer">8</span>; i++) {
 <span class="preprocessor">#ifdef</span> ONE
-        <em>R30 |= <span class="hex">0x1</span>&lt;&lt;out;      <span class="comment">// Set the GPIO pin to 1</span>
+        <em>R30 |= gpio;      <span class="comment">// Set the GPIO pin to 1</span>
         </em>delay_cycles(oneCyclesOn-<span class="integer">1</span>);
-        <em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;out);   <span class="comment">// Clear the GPIO pin</span>
+        <em>R30 &amp;= ~gpio;     <span class="comment">// Clear the GPIO pin</span>
         </em>delay_cycles(oneCyclesOff-<span class="integer">2</span>);
 <span class="preprocessor">#else</span>
-        <em>R30 |= <span class="hex">0x1</span>&lt;&lt;out;      <span class="comment">// Set the GPIO pin to 1</span>
+        <em>R30 |= gpio;      <span class="comment">// Set the GPIO pin to 1</span>
         </em>delay_cycles(zeroCyclesOn-<span class="integer">1</span>);
-        <em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;out);   <span class="comment">// Clear the GPIO pin</span>
+        <em>R30 &amp;= ~gpio;     <span class="comment">// Clear the GPIO pin</span>
         </em>delay_cycles(zeroCyclesOff-<span class="integer">2</span>);
 <span class="preprocessor">#endif</span>
     }
     <span class="comment">// Send Reset</span>
-    <em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;out);   <span class="comment">// Clear the GPIO pin</span>
+    <em>R30 &amp;= ~gpio; <span class="comment">// Clear the GPIO pin</span>
     </em>delay_cycles(resetCycles);
 
     __halt();
@@ -4024,11 +4033,13 @@ grab the next value for itself and start over again.</p>
 43
 44
 45
+46
 </pre></td>
   <td class="code"><pre><span class="comment">// Control a ws2812 (neo pixel) display, green, red, blue, green, ...</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;prugpio.h&quot;</span>
 
 <span class="preprocessor">#define</span> STR_LEN <span class="integer">3</span>
 <span class="preprocessor">#define</span> oneCyclesOn     <span class="integer">700</span>/<span class="integer">5</span>   <span class="comment">// Stay on 700ns</span>
@@ -4036,7 +4047,7 @@ grab the next value for itself and start over again.</p>
 <span class="preprocessor">#define</span> zeroCyclesOn    <span class="integer">350</span>/<span class="integer">5</span>
 <span class="preprocessor">#define</span> zeroCyclesOff   <span class="integer">600</span>/<span class="integer">5</span>
 <span class="preprocessor">#define</span> resetCycles     <span class="integer">60000</span>/<span class="integer">5</span> <span class="comment">// Must be at least 50u, use 60u</span>
-<span class="preprocessor">#define</span> out <span class="integer">1</span>       <span class="comment">// Bit number to output one</span>
+<span class="preprocessor">#define</span> gpio P9_29              <span class="comment">// output pin</span>
 
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t <em>R30;
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t </em>R31;
@@ -4052,20 +4063,20 @@ grab the next value for itself and start over again.</p>
     <span class="keyword">for</span>(j=<span class="integer">0</span>; j&lt;STR_LEN; j++) {
         <span class="keyword">for</span>(i=<span class="integer">23</span>; i&gt;=<span class="integer">0</span>; i--) {
             <span class="keyword">if</span>(color[j] &amp; (<span class="hex">0x1</span>&lt;&lt;i)) {
-                <em>R30 |= <span class="hex">0x1</span>&lt;&lt;out;      <span class="comment">// Set the GPIO pin to 1</span>
+                <em>R30 |= gpio;      <span class="comment">// Set the GPIO pin to 1</span>
                 </em>delay_cycles(oneCyclesOn-<span class="integer">1</span>);
-                <em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;out);   <span class="comment">// Clear the GPIO pin</span>
+                <em>R30 &amp;= ~gpio;     <span class="comment">// Clear the GPIO pin</span>
                 </em>delay_cycles(oneCyclesOff-<span class="integer">2</span>);
             } <span class="keyword">else</span> {
-                <em>R30 |= <span class="hex">0x1</span>&lt;&lt;out;      <span class="comment">// Set the GPIO pin to 1</span>
+                <em>R30 |= gpio;      <span class="comment">// Set the GPIO pin to 1</span>
                 </em>delay_cycles(zeroCyclesOn-<span class="integer">1</span>);
-                <em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;out);   <span class="comment">// Clear the GPIO pin</span>
+                <em>R30 &amp;= ~gpio;     <span class="comment">// Clear the GPIO pin</span>
                 </em>delay_cycles(zeroCyclesOff-<span class="integer">2</span>);
             }
         }
     }
     <span class="comment">// Send Reset</span>
-    <em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;out);   <span class="comment">// Clear the GPIO pin</span>
+    <em>R30 &amp;= ~gpio; <span class="comment">// Clear the GPIO pin</span>
     </em>delay_cycles(resetCycles);
 
     __halt();
@@ -4266,11 +4277,13 @@ Your browser does not support the video tag.
 64
 65
 66
+67
 </pre></td>
   <td class="code"><pre><span class="comment">// Control a ws2812 (neo pixel) display, green, red, blue, green, ...</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;prugpio.h&quot;</span>
 
 <span class="preprocessor">#define</span> STR_LEN <span class="integer">24</span>
 <span class="preprocessor">#define</span> oneCyclesOn     <span class="integer">700</span>/<span class="integer">5</span>   <span class="comment">// Stay on 700ns</span>
@@ -4278,9 +4291,9 @@ Your browser does not support the video tag.
 <span class="preprocessor">#define</span> zeroCyclesOn    <span class="integer">350</span>/<span class="integer">5</span>
 <span class="preprocessor">#define</span> zeroCyclesOff   <span class="integer">600</span>/<span class="integer">5</span>
 <span class="preprocessor">#define</span> resetCycles     <span class="integer">60000</span>/<span class="integer">5</span> <span class="comment">// Must be at least 50u, use 60u</span>
-<span class="preprocessor">#define</span> out <span class="integer">1</span>       <span class="comment">// Bit number to output one</span>
+<span class="preprocessor">#define</span> gpio P9_29              <span class="comment">// output pin</span>
 
-<span class="preprocessor">#define</span> SPEED <span class="integer">20000000</span>/<span class="integer">5</span>    <span class="comment">// Time to wait between updates</span>
+<span class="preprocessor">#define</span> SPEED <span class="integer">20000000</span>/<span class="integer">5</span>        <span class="comment">// Time to wait between updates</span>
 
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t <em>R30;
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t </em>R31;
@@ -4312,20 +4325,20 @@ Your browser does not support the video tag.
             <span class="keyword">for</span>(j=<span class="integer">0</span>; j&lt;STR_LEN; j++) {
                 <span class="keyword">for</span>(i=<span class="integer">23</span>; i&gt;=<span class="integer">0</span>; i--) {
                     <span class="keyword">if</span>(color[j] &amp; (<span class="hex">0x1</span>&lt;&lt;i)) {
-                        <em>R30 |= <span class="hex">0x1</span>&lt;&lt;out;      <span class="comment">// Set the GPIO pin to 1</span>
+                        <em>R30 |= gpio;      <span class="comment">// Set the GPIO pin to 1</span>
                         </em>delay_cycles(oneCyclesOn-<span class="integer">1</span>);
-                        <em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;out);   <span class="comment">// Clear the GPIO pin</span>
+                        <em>R30 &amp;= ~gpio;     <span class="comment">// Clear the GPIO pin</span>
                         </em>delay_cycles(oneCyclesOff-<span class="integer">2</span>);
                     } <span class="keyword">else</span> {
-                        <em>R30 |= <span class="hex">0x1</span>&lt;&lt;out;      <span class="comment">// Set the GPIO pin to 1</span>
+                        <em>R30 |= gpio;      <span class="comment">// Set the GPIO pin to 1</span>
                         </em>delay_cycles(zeroCyclesOn-<span class="integer">1</span>);
-                        <em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;out);   <span class="comment">// Clear the GPIO pin</span>
+                        <em>R30 &amp;= ~gpio;     <span class="comment">// Clear the GPIO pin</span>
                         </em>delay_cycles(zeroCyclesOff-<span class="integer">2</span>);
                     }
                 }
             }
             <span class="comment">// Send Reset</span>
-            <em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;out);   <span class="comment">// Clear the GPIO pin</span>
+            <em>R30 &amp;= ~gpio; <span class="comment">// Clear the GPIO pin</span>
             </em>delay_cycles(resetCycles);
 
             <span class="comment">// Wait</span>
@@ -4535,6 +4548,15 @@ an example.</p>
 134
 135
 136
+137
+138
+139
+140
+141
+142
+143
+144
+145
 </pre></td>
   <td class="code"><pre><span class="comment">// Use rpmsg to control the NeoPixels via /dev/rpmsg_pru30</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
@@ -4546,6 +4568,7 @@ an example.</p>
 <span class="preprocessor">#include</span> <span class="include">&lt;rsc_types.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;pru_rpmsg.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&quot;resource_table_0.h&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;prugpio.h&quot;</span>
 
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t <em>R30;
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t </em>R31;
@@ -4582,7 +4605,7 @@ an example.</p>
 <span class="preprocessor">#define</span> zeroCyclesOn    <span class="integer">350</span>/<span class="integer">5</span>
 <span class="preprocessor">#define</span> zeroCyclesOff   <span class="integer">800</span>/<span class="integer">5</span>
 <span class="preprocessor">#define</span> resetCycles     <span class="integer">51000</span>/<span class="integer">5</span> <span class="comment">// Must be at least 50u, use 51u</span>
-<span class="preprocessor">#define</span> out <span class="integer">1</span>                   <span class="comment">// Bit number to output on</span>
+<span class="preprocessor">#define</span> out P9_29               <span class="comment">// Bit number to output on</span>
 
 <span class="preprocessor">#define</span> SPEED <span class="integer">20000000</span>/<span class="integer">5</span>        <span class="comment">// Time to wait between updates</span>
 
@@ -4608,7 +4631,11 @@ uint32_t color[STR_LEN];    <span class="comment">// green, red, blue</span>
     CT_CFG.SYSCFG_bit.STANDBY_INIT = <span class="integer">0</span>;
 
     <span class="comment">/</strong> Clear the status of the PRU-ICSS system event that the ARM will use to 'kick' us <strong>/</span>
+<span class="preprocessor">#ifdef</span> CHIP_IS_am57xx
+    CT_INTC.SICR_bit.STATUS_CLR_INDEX = FROM_ARM_HOST;
+<span class="preprocessor">#else</span>
     CT_INTC.SICR_bit.STS_CLR_IDX = FROM_ARM_HOST;
+<span class="preprocessor">#endif</span>
 
     <span class="comment">/</strong> Make sure the Linux drivers are ready for RPMsg communication <strong>/</span>
     status = &amp;resourceTable.rpmsg_vdev.status;
@@ -4623,7 +4650,11 @@ uint32_t color[STR_LEN];    <span class="comment">// green, red, blue</span>
         <span class="comment">/</strong> Check bit 30 of register R31 to see if the ARM has kicked us <strong>/</span>
         <span class="keyword">if</span> (<em>R31 &amp; HOST_INT) {
             <span class="comment">/</strong> Clear the event status <strong>/</span>
+<span class="preprocessor">#ifdef</span> CHIP_IS_am57xx
+            CT_INTC.SICR_bit.STATUS_CLR_INDEX = FROM_ARM_HOST;
+<span class="preprocessor">#else</span>
             CT_INTC.SICR_bit.STS_CLR_IDX = FROM_ARM_HOST;
+<span class="preprocessor">#endif</span>
             <span class="comment">/</strong> Receive all available messages, multiple messages can be sent per kick */</span>
             <span class="keyword">while</span> (pru_rpmsg_receive(&amp;transport, &amp;src, &amp;dst, payload, &amp;len) == PRU_RPMSG_SUCCESS) {
                 <span class="predefined-type">char</span> *ret;  <span class="comment">// rest of payload after front character is removed</span>
@@ -4648,20 +4679,20 @@ uint32_t color[STR_LEN];    <span class="comment">// green, red, blue</span>
                         <span class="comment">// Cycle through each bit</span>
                         <span class="keyword">for</span>(i=<span class="integer">23</span>; i&gt;=<span class="integer">0</span>; i--) {
                             <span class="keyword">if</span>(color[j] &amp; (<span class="hex">0x1</span>&lt;&lt;i)) {
-                                </em>R30 |= <span class="hex">0x1</span>&lt;&lt;out;      <span class="comment">// Set the GPIO pin to 1</span>
+                                </em>R30 |= out;       <span class="comment">// Set the GPIO pin to 1</span>
                                 <em>delay_cycles(oneCyclesOn-<span class="integer">1</span>);
-                                </em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;out);   <span class="comment">// Clear the GPIO pin</span>
+                                </em>R30 &amp;= ~out;  <span class="comment">// Clear the GPIO pin</span>
                                 <em>delay_cycles(oneCyclesOff-<span class="integer">14</span>);
                             } <span class="keyword">else</span> {
-                                </em>R30 |= <span class="hex">0x1</span>&lt;&lt;out;      <span class="comment">// Set the GPIO pin to 1</span>
+                                </em>R30 |= out;       <span class="comment">// Set the GPIO pin to 1</span>
                                 <em>delay_cycles(zeroCyclesOn-<span class="integer">1</span>);
-                                </em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;out);   <span class="comment">// Clear the GPIO pin</span>
+                                </em>R30 &amp;= ~(out);    <span class="comment">// Clear the GPIO pin</span>
                                 <em>delay_cycles(zeroCyclesOff-<span class="integer">14</span>);
                             }
                         }
                     }
                     <span class="comment">// Send Reset</span>
-                    </em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;out);   <span class="comment">// Clear the GPIO pin</span>
+                    </em>R30 &amp;= ~out;  <span class="comment">// Clear the GPIO pin</span>
                     <em>delay_cycles(resetCycles);
 
                     <span class="comment">// Wait</span>
@@ -4820,7 +4851,7 @@ shift = <span class="integer">3</span>
 phase = <span class="integer">0</span>
 
 <span class="comment"></mark> Open a file</span>
-fo = <span class="predefined">open</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/dev/rpmsg_pru30</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">w</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>)
+fo = <span class="predefined">open</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/dev/rpmsg_pru31</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">w</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>)
 
 <span class="keyword">while</span> <span class="predefined-constant">True</span>:
     <span class="keyword">for</span> i <span class="keyword">in</span> <span class="predefined">range</span>(<span class="integer">0</span>, <span class="predefined">len</span>):
@@ -5716,7 +5747,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-10 13:37:35 -0400
+Last updated 2020-06-11 11:38:18 -0400
 </div>
 </div>
 <style>
