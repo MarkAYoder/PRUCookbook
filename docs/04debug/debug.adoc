@@ -266,12 +266,6 @@ https://www.adafruit.com/product/70[Adafruit].
 image::figures/FTDIcable.jpg[FTDI cable]
 
 ==== Discussion
-[WARNING]
-====
-Unfortunatley https://git.ti.com/cgit/pru-software-support-package/pru-software-support-package/tree/examples/am572x
-doesn't have a PRU UART example, therefore there's no example for the PRU UART 
-on the AI.
-====
 
 The Beagle side of the FTDI cable has a small triangle on it as shown in 
 <<debug_ftdi_connector>> which marks the ground pin, pin 1.  
@@ -281,22 +275,22 @@ The Beagle side of the FTDI cable has a small triangle on it as shown in
 image::figures/FTDIconnector.jpg[FTDI connector]
 
 The <<debug_FTDI>> table shows which pins connect where and <<debug_ftdi_pins>>
-is a wiring diagram.
+is a wiring diagram for the BeagleBone Black.
 
 [[debug_FTDI]]
 .Wriing for FTDI cable to Beagle
 [width=35%, cols="1,4,4,4,4,4"]
 |===
-|FTDI pin|Color |Black pin|AI 1 pin|AI 2 pin|Function
+|FTDI pin|Color |Black pin|AI 1 pin     |AI 2 pin|Function
 
-|0       |black |P9_1     |P9_1    |P9_1    |ground
-|4       |orange|P9_24    |P8_43/ P8_36b   |P8_31a   |tx
-|5       |yellow|P9_26    |P8_44   |P8_33a   |rx
+|0       |black |P9_1     |P8_1         |P8_1     |ground
+|4       |orange|P9_24    |P8_43        |P8_33a   |rx
+|5       |yellow|P9_26    |P8_44        |P8_31a   |tx
 |===
 
 [[debug_ftdi_pins]]
-.FTDI pins for the FTDI connector
-image::figures/FTDIhookup_bb.png[FTDI pins for the FTDI connector]
+.FTDI to BB Black
+image::figures/FTDIhookup_bb.png[FTDI to BB Black]
 
 ===== Details
 Two examples of using the UART are presented here.  The first 
@@ -310,10 +304,10 @@ Once an ENTER appears the string is sent back.
 
 [TIP]
 ====
-Either PRU0 and PRU1 can run this code.  Both have access to the same UART.
+On the Black, ither PRU0 and PRU1 can run this code.  Both have access to the same UART.
 ====
 
-For either of these you will need to set the pin muxes.
+On the Black, for either of these you will need to set the pin muxes.
 
 .config-pin
 [source,linenums] 
@@ -325,9 +319,20 @@ bone$ *config-pin P9_24 pru_uart*
 bone$ *config-pin P9_26 pru_uart*
 ----
 
+[NOTE]
+====
+See <<08ai/ai.html#, Configuring pins on the AI via device trees>> for configuring 
+pins on the AI. Make sure your `rx` pins are configured as input pins in the device tree.
+For example 
+[subs=+quotes]
+----
+DRA7XX_CORE_IOPAD(0x3610, *PIN_INPUT* | MUX_MODE10) // C6: P8.33a:
+----
+====
+
 * TODO - Add code for Blue and Pocket.
 
-===== uart1.pru0.c
+===== uart1.pru1_0.c
 Set the following variables so `make` will know what to compile.
 
 .make
@@ -366,20 +371,27 @@ Here's the code (`uart1.pru0.c`) that does it.
 .uart1.pru0.c
 [source,c,linenums]
 ----
-include::code/uart1.pru0.c[uart1.pru0.c]
+include::code/uart1.pru1_0.c[uart1.pru1_0.c]
 ----
-The first part of the code initializes the UART. Then the line `CT_UART.THR = tx;`
+[NOTE]
+====
+I'm using the AI version of the code since it uses variables with more desciptive
+names.
+====
+The first part of the code initializes the UART. Then the line 
+`CT_UART.RBR_THR_REGISTERS = tx;`
 takes a character in `tx` and sends it to the transmit buffer on the UART.
 Think of this as the UART version of the `printf()`. 
 
-Later the line `while (!((CT_UART.FCR & 0x2) == 0x2));`
+Later the line 
+`while (!((CT_UART.INTERRUPT_IDENTIFICATION_REGISTER_FIFO_CONTROL_REGISTER & 0x2) == 0x2));`
 waits for the transmitter FIFO to be empty.  This makes sure later characters
 won't overwrite the buffer before they can be sent.  The downside is, this will
 cause your code to wait on the buffer and it might miss an important 
 real-time event.
 
-The line `while ((CT_UART.LSR & 0x1) == 0x0);` waits for an input from the 
-UART (possibly missing something) and `rx = CT_UART.RBR;` reads from the
+The line `while ((CT_UART.LINE_STATUS_REGISTER & 0x1) == 0x0);` waits for an input from the 
+UART (possibly missing something) and `rx = CT_UART.RBR_THR_REGISTERS;` reads from the
 receive register on the UART.
 
 These simple lines should be enough to place in your code to print out

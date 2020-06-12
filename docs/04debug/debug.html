@@ -806,22 +806,6 @@ You can get such a cable from places such as
 </div>
 <div class="sect3">
 <h4 id="_discussion_3"><a class="link" href="#_discussion_3">Discussion</a></h4>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Warning</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Unfortunatley <a href="https://git.ti.com/cgit/pru-software-support-package/pru-software-support-package/tree/examples/am572x" class="bare">https://git.ti.com/cgit/pru-software-support-package/pru-software-support-package/tree/examples/am572x</a>
-doesn&#8217;t have a PRU UART example, therefore there&#8217;s no example for the PRU UART
-on the AI.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
 <p>The Beagle side of the FTDI cable has a small triangle on it as shown in
 <a href="#debug_ftdi_connector">FTDI connector</a> which marks the ground pin, pin 1.</p>
@@ -833,8 +817,8 @@ on the AI.</p>
 <div class="title">Figure 3. FTDI connector</div>
 </div>
 <div class="paragraph">
-<p>The <a href="#debug_FTDI">Wriing for FTDI cable to Beagle</a> table shows which pins connect where and <a href="#debug_ftdi_pins">FTDI pins for the FTDI connector</a>
-is a wiring diagram.</p>
+<p>The <a href="#debug_FTDI">Wriing for FTDI cable to Beagle</a> table shows which pins connect where and <a href="#debug_ftdi_pins">FTDI to BB Black</a>
+is a wiring diagram for the BeagleBone Black.</p>
 </div>
 <table id="debug_FTDI" class="tableblock frame-all grid-all" style="width: 35%;">
 <caption class="title">Table 2. Wriing for FTDI cable to Beagle</caption>
@@ -861,33 +845,33 @@ is a wiring diagram.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">black</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">P9_1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">P9_1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">P9_1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ground</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">orange</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">P9_24</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">P8_43/ P8_36b</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">P8_31a</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">tx</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_43</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_33a</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rx</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yellow</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">P9_26</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">P8_44</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">P8_33a</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">rx</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_31a</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tx</p></td>
 </tr>
 </tbody>
 </table>
 <div id="debug_ftdi_pins" class="imageblock">
 <div class="content">
-<img src="figures/FTDIhookup_bb.png" alt="FTDI pins for the FTDI connector">
+<img src="figures/FTDIhookup_bb.png" alt="FTDI to BB Black">
 </div>
-<div class="title">Figure 4. FTDI pins for the FTDI connector</div>
+<div class="title">Figure 4. FTDI to BB Black</div>
 </div>
 <div class="sect4">
 <h5 id="_details"><a class="link" href="#_details">Details</a></h5>
@@ -910,14 +894,14 @@ Once an ENTER appears the string is sent back.</p>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>Either PRU0 and PRU1 can run this code.  Both have access to the same UART.</p>
+<p>On the Black, ither PRU0 and PRU1 can run this code.  Both have access to the same UART.</p>
 </div>
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>For either of these you will need to set the pin muxes.</p>
+<p>On the Black, for either of these you will need to set the pin muxes.</p>
 </div>
 <div class="listingblock">
 <div class="title">config-pin</div>
@@ -928,6 +912,27 @@ bone$ <strong>config-pin P9_24 pru_uart</strong>
 bone$ <strong>config-pin P9_26 pru_uart</strong></code></pre>
 </div>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>See <a href="08ai/ai.html.html">Configuring pins on the AI via device trees</a> for configuring
+pins on the AI. Make sure your <code>rx</code> pins are configured as input pins in the device tree.
+For example</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>DRA7XX_CORE_IOPAD(0x3610, <strong>PIN_INPUT</strong> | MUX_MODE10) // C6: P8.33a:</pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
 <div class="ulist">
 <ul>
 <li>
@@ -937,7 +942,7 @@ bone$ <strong>config-pin P9_26 pru_uart</strong></code></pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_uart1_pru0_c"><a class="link" href="#_uart1_pru0_c">uart1.pru0.c</a></h5>
+<h5 id="_uart1_pru1_0_c"><a class="link" href="#_uart1_pru1_0_c">uart1.pru1_0.c</a></h5>
 <div class="paragraph">
 <p>Set the following variables so <code>make</code> will know what to compile.</p>
 </div>
@@ -1068,9 +1073,13 @@ characters on the keyboard, the rest of the message will appear.</p>
 86
 87
 88
+89
+90
 </pre></td>
   <td class="code"><pre><span class="comment">// From: http://git.ti.com/pru-software-support-package/pru-software-support-package/trees/master/examples/am335x/PRU_Hardware_UART</span>
-
+<span class="comment">// This example was converted to the am5729 by changing the names in pru_uart.h</span>
+<span class="comment">// for the am335x to the more descriptive names for the am5729.</span>
+<span class="comment">// For example  DLL convertes to DIVISOR_REGISTER_LSB_</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;pru_uart.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
@@ -1093,32 +1102,32 @@ characters on the keyboard, the rest of the message will appear.</p>
 
     <span class="comment">/* Set up UART to function at 115200 baud - DLL divisor is 104 at 16x oversample
      * 192MHz / 104 / 16 = ~115200 */</span>
-    CT_UART.DLL = <span class="integer">104</span>;
-    CT_UART.DLH = <span class="integer">0</span>;
-    CT_UART.MDR = <span class="hex">0x0</span>;
+    CT_UART.DIVISOR_REGISTER_LSB_ = <span class="integer">104</span>;
+    CT_UART.DIVISOR_REGISTER_MSB_ = <span class="integer">0</span>;
+    CT_UART.MODE_DEFINITION_REGISTER = <span class="hex">0x0</span>;
 
     <span class="comment">/* Enable Interrupts in UART module. This allows the main thread to poll for
      * Receive Data Available and Transmit Holding Register Empty */</span>
-    CT_UART.IER = <span class="hex">0x7</span>;
+    CT_UART.INTERRUPT_ENABLE_REGISTER = <span class="hex">0x7</span>;
 
     <span class="comment">/* If FIFOs are to be used, select desired trigger level and enable
      * FIFOs by writing to FCR. FIFOEN bit in FCR must be set first before
      * other bits are configured */</span>
     <span class="comment">/* Enable FIFOs for now at 1-byte, and flush them */</span>
-    CT_UART.FCR = (<span class="hex">0x8</span>) | (<span class="hex">0x4</span>) | (<span class="hex">0x2</span>) | (<span class="hex">0x1</span>);
+    CT_UART.INTERRUPT_IDENTIFICATION_REGISTER_FIFO_CONTROL_REGISTER = (<span class="hex">0x8</span>) | (<span class="hex">0x4</span>) | (<span class="hex">0x2</span>) | (<span class="hex">0x1</span>);
     <span class="comment">//CT_UART.FCR = (0x80) | (0x4) | (0x2) | (0x01); // 8-byte RX FIFO trigger</span>
 
     <span class="comment">/* Choose desired protocol settings by writing to LCR */</span>
     <span class="comment">/* 8-bit word, 1 stop bit, no parity, no break control and no divisor latch */</span>
-    CT_UART.LCR = <span class="integer">3</span>;
+    CT_UART.LINE_CONTROL_REGISTER = <span class="integer">3</span>;
 
     <span class="comment">/* Enable loopback for test */</span>
-    CT_UART.MCR = <span class="hex">0x00</span>;
+    CT_UART.MODEM_CONTROL_REGISTER = <span class="hex">0x00</span>;
 
     <span class="comment">/* Choose desired response to emulation suspend events by configuring
      * FREE bit and enable UART by setting UTRST and URRST in PWREMU_MGMT */</span>
     <span class="comment">/* Allow UART to run free, enable UART TX/RX */</span>
-    CT_UART.PWREMU_MGMT = <span class="hex">0x6001</span>;
+    CT_UART.POWERMANAGEMENT_AND_EMULATION_REGISTER = <span class="hex">0x6001</span>;
 
     <span class="comment">/*** END INITIALIZATION ***/</span>
 
@@ -1135,24 +1144,24 @@ characters on the keyboard, the rest of the message will appear.</p>
             <span class="keyword">if</span> ((tx = hostBuffer[cnt]) == <span class="char">'\0'</span>)
                 <span class="keyword">break</span>;
             cnt++;
-            CT_UART.THR = tx;
+            CT_UART.RBR_THR_REGISTERS = tx;
 
             <span class="comment">/* Because we are doing loopback, wait until LSR.DR == 1
              * indicating there is data in the RX FIFO */</span>
-            <span class="keyword">while</span> ((CT_UART.LSR &amp; <span class="hex">0x1</span>) == <span class="hex">0x0</span>);
+            <span class="keyword">while</span> ((CT_UART.LINE_STATUS_REGISTER &amp; <span class="hex">0x1</span>) == <span class="hex">0x0</span>);
 
             <span class="comment">/* Read the value from RBR */</span>
-            rx = CT_UART.RBR;
+            rx = CT_UART.RBR_THR_REGISTERS;
 
             <span class="comment">/* Wait for TX FIFO to be empty */</span>
-            <span class="keyword">while</span> (!((CT_UART.FCR &amp; <span class="hex">0x2</span>) == <span class="hex">0x2</span>));
+            <span class="keyword">while</span> (!((CT_UART.INTERRUPT_IDENTIFICATION_REGISTER_FIFO_CONTROL_REGISTER &amp; <span class="hex">0x2</span>) == <span class="hex">0x2</span>));
         }
     }
 
     <span class="comment">/*** DONE SENDING DATA ***/</span>
 
     <span class="comment">/* Disable UART before halting */</span>
-    CT_UART.PWREMU_MGMT = <span class="hex">0x0</span>;
+    CT_UART.POWERMANAGEMENT_AND_EMULATION_REGISTER = <span class="hex">0x0</span>;
 
     <span class="comment">/* Halt PRU core */</span>
     __halt();
@@ -1160,21 +1169,38 @@ characters on the keyboard, the rest of the message will appear.</p>
 </tr></table></code></pre>
 </div>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
 <div class="paragraph">
-<p>The first part of the code initializes the UART. Then the line <code>CT_UART.THR = tx;</code>
+<p>I&#8217;m using the AI version of the code since it uses variables with more desciptive
+names.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The first part of the code initializes the UART. Then the line
+<code>CT_UART.RBR_THR_REGISTERS = tx;</code>
 takes a character in <code>tx</code> and sends it to the transmit buffer on the UART.
 Think of this as the UART version of the <code>printf()</code>.</p>
 </div>
 <div class="paragraph">
-<p>Later the line <code>while (!CT_UART.FCR &amp; 0x2) == 0x2;</code>
+<p>Later the line
+<code>while (!CT_UART.INTERRUPT_IDENTIFICATION_REGISTER_FIFO_CONTROL_REGISTER &amp; 0x2) == 0x2;</code>
 waits for the transmitter FIFO to be empty.  This makes sure later characters
 won&#8217;t overwrite the buffer before they can be sent.  The downside is, this will
 cause your code to wait on the buffer and it might miss an important
 real-time event.</p>
 </div>
 <div class="paragraph">
-<p>The line <code>while ((CT_UART.LSR &amp; 0x1) == 0x0);</code> waits for an input from the
-UART (possibly missing something) and <code>rx = CT_UART.RBR;</code> reads from the
+<p>The line <code>while ((CT_UART.LINE_STATUS_REGISTER &amp; 0x1) == 0x0);</code> waits for an input from the
+UART (possibly missing something) and <code>rx = CT_UART.RBR_THR_REGISTERS;</code> reads from the
 receive register on the UART.</p>
 </div>
 <div class="paragraph">
@@ -1575,7 +1601,7 @@ examples.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-12 11:03:30 -0400
+Last updated 2020-06-12 12:18:48 -0400
 </div>
 </div>
 <style>
