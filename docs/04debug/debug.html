@@ -839,16 +839,20 @@ is a wiring diagram.</p>
 <table id="debug_FTDI" class="tableblock frame-all grid-all" style="width: 35%;">
 <caption class="title">Table 2. Wriing for FTDI cable to Beagle</caption>
 <colgroup>
-<col style="width: 7.6923%;">
-<col style="width: 30.7692%;">
-<col style="width: 30.7692%;">
-<col style="width: 30.7693%;">
+<col style="width: 4.7619%;">
+<col style="width: 19.0476%;">
+<col style="width: 19.0476%;">
+<col style="width: 19.0476%;">
+<col style="width: 19.0476%;">
+<col style="width: 19.0477%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">FTDI pin</th>
 <th class="tableblock halign-left valign-top">Color</th>
-<th class="tableblock halign-left valign-top">Beagle pin</th>
+<th class="tableblock halign-left valign-top">Black pin</th>
+<th class="tableblock halign-left valign-top">AI 1 pin</th>
+<th class="tableblock halign-left valign-top">AI 2 pin</th>
 <th class="tableblock halign-left valign-top">Function</th>
 </tr>
 </thead>
@@ -857,18 +861,24 @@ is a wiring diagram.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">black</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">P9_1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ground</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">orange</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">P9_24</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_43/ P8_36b</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_31a</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">tx</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yellow</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">P9_26</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_44</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8_33a</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">rx</p></td>
 </tr>
 </tbody>
@@ -891,6 +901,20 @@ the new character arrives another character is output.</p>
 <p>The second example (<a href="#debug_uart2">uart2.pru0.c</a>) prints out a string and then
 waits for characters to arrive.
 Once an ENTER appears the string is sent back.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Either PRU0 and PRU1 can run this code.  Both have access to the same UART.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>For either of these you will need to set the pin muxes.</p>
@@ -1551,7 +1575,7 @@ examples.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-12 09:26:37 -0400
+Last updated 2020-06-12 11:03:30 -0400
 </div>
 </div>
 <style>

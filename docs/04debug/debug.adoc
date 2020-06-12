@@ -290,8 +290,8 @@ is a wiring diagram.
 |FTDI pin|Color |Black pin|AI 1 pin|AI 2 pin|Function
 
 |0       |black |P9_1     |P9_1    |P9_1    |ground
-|4       |orange|P9_24    |P8_44   |P8_31   |tx
-|5       |yellow|P9_26    |P8_34/P8_36   |P8_33   |rx
+|4       |orange|P9_24    |P8_43/ P8_36b   |P8_31a   |tx
+|5       |yellow|P9_26    |P8_44   |P8_33a   |rx
 |===
 
 [[debug_ftdi_pins]]
