@@ -285,13 +285,13 @@ is a wiring diagram.
 
 [[debug_FTDI]]
 .Wriing for FTDI cable to Beagle
-[width=35%, cols="1, 4, 4, 4"]
+[width=35%, cols="1,4,4,4,4,4"]
 |===
-|FTDI pin|Color |Beagle pin|Function
+|FTDI pin|Color |Black pin|AI 1 pin|AI 2 pin|Function
 
-|0       |black |P9_1|ground
-|4       |orange|P9_24|tx
-|5       |yellow|P9_26|rx
+|0       |black |P9_1     |P9_1    |P9_1    |ground
+|4       |orange|P9_24    |P8_44   |P8_31   |tx
+|5       |yellow|P9_26    |P8_34/P8_36   |P8_33   |rx
 |===
 
 [[debug_ftdi_pins]]
@@ -307,6 +307,11 @@ the new character arrives another character is output.
 The second example (<<debug_uart2>>) prints out a string and then 
 waits for characters to arrive.
 Once an ENTER appears the string is sent back.
+
+[TIP]
+====
+Either PRU0 and PRU1 can run this code.  Both have access to the same UART.
+====
 
 For either of these you will need to set the pin muxes.
 
