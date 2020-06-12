@@ -255,36 +255,17 @@ use the UART (serial port) to output debug information.  The PRU has it's
 own UART that can send characters to a serial port.
 
 You'll need a 3.3V FTDI cable to go between your Beagle and the USB port 
-on your host computer as shown in <<debug_ftdi>>.[FTDI images are from the
+on your host computer as shown in <<debug_ftdi>>.footnote:[FTDI images are from the
 BeagleBone Cookbook http://shop.oreilly.com/product/0636920033899.do] 
 You can get such a cable from places such as 
 https://www.sparkfun.com/products/9717[Sparkfun] or 
 https://www.adafruit.com/product/70[Adafruit].  
 
 [[debug_ftdi]]
-.FDTI cable
-image::figures/FTDIcable.jpg[FDTI cable]
+.FTDI cable
+image::figures/FTDIcable.jpg[FTDI cable]
 
 ==== Discussion
-===== BeagleBone Black
-The Beagle side of the FTDI cable has a small triangle on it as shown in 
-<<debug_ftdi_connector>>.  
-
-[[debug_ftdi_connector]]
-.FTDI connector
-image::figures/FTDIconnector.jpg[FTDI connector]
-
-* TODO - Should this connect to P9_24 and P9_26?
-
-The connector attaches to the Black on the FTDI pins, shown in <<debug_ftdi_pins>>,
-with the triangle connecting near pin *P9_20* which is the right side of 
-the connector as viewed in the figure.
-
-[[debug_ftdi_pins]]
-.FTDI pins for the FTDI connector
-image::figures/FTDIPins.png[FTDI pins for the FTDI connector]
-
-===== BeagleBone AI
 [WARNING]
 ====
 Unfortunatley https://git.ti.com/cgit/pru-software-support-package/pru-software-support-package/tree/examples/am572x
@@ -292,14 +273,30 @@ doesn't have a PRU UART example, therefore there's no example for the PRU UART
 on the AI.
 ====
 
-The BBAI has a 3 pin JST connector for attaching to the UART as shown in
-<<debug_AI_uart>>
+The Beagle side of the FTDI cable has a small triangle on it as shown in 
+<<debug_ftdi_connector>> which marks the ground pin, pin 1.  
 
-[[debug_AI_uart]]
-.AI uart connector
-image::figures/BB_AI_uart.jpg[AI uart  connector]
-https://www.element14.com/community/community/designcenter/single-board-computers/next-genbeaglebone/blog/2019/10/06/beaglebone-ai-bb-ai-getting-started#jive_content_id_Serial_Console_Cable[BeagleBone AI (BB-AI) - Getting Started]
-gives details on how to use it from the ARM.
+[[debug_ftdi_connector]]
+.FTDI connector
+image::figures/FTDIconnector.jpg[FTDI connector]
+
+The <<debug_FTDI>> table shows which pins connect where and <<debug_ftdi_pins>>
+is a wiring diagram.
+
+[[debug_FTDI]]
+.Wriing for FTDI cable to Beagle
+[width=35%, cols="1, 4, 4, 4"]
+|===
+|FTDI pin|Color |Beagle pin|Function
+
+|0       |black |P9_1|ground
+|4       |orange|P9_24|tx
+|5       |yellow|P9_26|rx
+|===
+
+[[debug_ftdi_pins]]
+.FTDI pins for the FTDI connector
+image::figures/FTDIhookup_bb.png[FTDI pins for the FTDI connector]
 
 ===== Details
 Two examples of using the UART are presented here.  The first 

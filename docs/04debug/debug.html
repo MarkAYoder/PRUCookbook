@@ -792,54 +792,20 @@ own UART that can send characters to a serial port.</p>
 </div>
 <div class="paragraph">
 <p>You&#8217;ll need a 3.3V FTDI cable to go between your Beagle and the USB port
-on your host computer as shown in <a href="#debug_ftdi">FDTI cable</a>.[FTDI images are from the
-BeagleBone Cookbook <a href="http://shop.oreilly.com/product/0636920033899.do" class="bare">http://shop.oreilly.com/product/0636920033899.do</a>]
+on your host computer as shown in <a href="#debug_ftdi">FTDI cable</a>.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup>
 You can get such a cable from places such as
 <a href="https://www.sparkfun.com/products/9717">Sparkfun</a> or
 <a href="https://www.adafruit.com/product/70">Adafruit</a>.</p>
 </div>
 <div id="debug_ftdi" class="imageblock">
 <div class="content">
-<img src="figures/FTDIcable.jpg" alt="FDTI cable">
+<img src="figures/FTDIcable.jpg" alt="FTDI cable">
 </div>
-<div class="title">Figure 2. FDTI cable</div>
+<div class="title">Figure 2. FTDI cable</div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_discussion_3"><a class="link" href="#_discussion_3">Discussion</a></h4>
-<div class="sect4">
-<h5 id="_beaglebone_black"><a class="link" href="#_beaglebone_black">BeagleBone Black</a></h5>
-<div class="paragraph">
-<p>The Beagle side of the FTDI cable has a small triangle on it as shown in
-<a href="#debug_ftdi_connector">FTDI connector</a>.</p>
-</div>
-<div id="debug_ftdi_connector" class="imageblock">
-<div class="content">
-<img src="figures/FTDIconnector.jpg" alt="FTDI connector">
-</div>
-<div class="title">Figure 3. FTDI connector</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>TODO - Should this connect to P9_24 and P9_26?</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>The connector attaches to the Black on the FTDI pins, shown in <a href="#debug_ftdi_pins">FTDI pins for the FTDI connector</a>,
-with the triangle connecting near pin <strong>P9_20</strong> which is the right side of
-the connector as viewed in the figure.</p>
-</div>
-<div id="debug_ftdi_pins" class="imageblock">
-<div class="content">
-<img src="figures/FTDIPins.png" alt="FTDI pins for the FTDI connector">
-</div>
-<div class="title">Figure 4. FTDI pins for the FTDI connector</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_beaglebone_ai"><a class="link" href="#_beaglebone_ai">BeagleBone AI</a></h5>
 <div class="admonitionblock warning">
 <table>
 <tr>
@@ -857,19 +823,61 @@ on the AI.</p>
 </table>
 </div>
 <div class="paragraph">
-<p>The BBAI has a 3 pin JST connector for attaching to the UART as shown in
-<a href="#debug_AI_uart">AI uart connector</a></p>
+<p>The Beagle side of the FTDI cable has a small triangle on it as shown in
+<a href="#debug_ftdi_connector">FTDI connector</a> which marks the ground pin, pin 1.</p>
 </div>
-<div id="debug_AI_uart" class="imageblock">
+<div id="debug_ftdi_connector" class="imageblock">
 <div class="content">
-<img src="figures/BB_AI_uart.jpg" alt="AI uart  connector">
+<img src="figures/FTDIconnector.jpg" alt="FTDI connector">
 </div>
-<div class="title">Figure 5. AI uart connector</div>
+<div class="title">Figure 3. FTDI connector</div>
 </div>
 <div class="paragraph">
-<p><a href="https://www.element14.com/community/community/designcenter/single-board-computers/next-genbeaglebone/blog/2019/10/06/beaglebone-ai-bb-ai-getting-started#jive_content_id_Serial_Console_Cable">BeagleBone AI (BB-AI) - Getting Started</a>
-gives details on how to use it from the ARM.</p>
+<p>The <a href="#debug_FTDI">Wriing for FTDI cable to Beagle</a> table shows which pins connect where and <a href="#debug_ftdi_pins">FTDI pins for the FTDI connector</a>
+is a wiring diagram.</p>
 </div>
+<table id="debug_FTDI" class="tableblock frame-all grid-all" style="width: 35%;">
+<caption class="title">Table 2. Wriing for FTDI cable to Beagle</caption>
+<colgroup>
+<col style="width: 7.6923%;">
+<col style="width: 30.7692%;">
+<col style="width: 30.7692%;">
+<col style="width: 30.7693%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">FTDI pin</th>
+<th class="tableblock halign-left valign-top">Color</th>
+<th class="tableblock halign-left valign-top">Beagle pin</th>
+<th class="tableblock halign-left valign-top">Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">black</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ground</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">orange</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_24</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tx</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yellow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9_26</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rx</p></td>
+</tr>
+</tbody>
+</table>
+<div id="debug_ftdi_pins" class="imageblock">
+<div class="content">
+<img src="figures/FTDIhookup_bb.png" alt="FTDI pins for the FTDI connector">
+</div>
+<div class="title">Figure 4. FTDI pins for the FTDI connector</div>
 </div>
 <div class="sect4">
 <h5 id="_details"><a class="link" href="#_details">Details</a></h5>
@@ -1535,9 +1543,15 @@ examples.</p>
 </div>
 </div>
 </div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnotedef_1">
+<a href="#_footnoteref_1">1</a>. FTDI images are from the BeagleBone Cookbook <a href="http://shop.oreilly.com/product/0636920033899.do" class="bare">http://shop.oreilly.com/product/0636920033899.do</a>
+</div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-10 11:53:31 -0400
+Last updated 2020-06-12 09:26:37 -0400
 </div>
 </div>
 <style>
