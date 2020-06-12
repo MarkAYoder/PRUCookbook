@@ -365,10 +365,10 @@ characters on the keyboard, the rest of the message will appear.
 .uart1.pru0.c output
 image:figures/uart1.pru0.png[uart1.pru0.c output]
 
-Here's the code (`uart1.pru0.c`) that does it.
+Here's the code (`uart1.pru1_0.c`) that does it.
 
 [[debug_uart1]]
-.uart1.pru0.c
+.uart1.pru1_0.c
 [source,c,linenums]
 ----
 include::code/uart1.pru1_0.c[uart1.pru1_0.c]
@@ -432,10 +432,10 @@ wait for the FIFO to empty, which may cause your code to miss something.
 <<debug_uart2>> is the code that does it.
 
 [[debug_uart2]]
-.uart2.pru0.c
+.uart2.pru1_0.c
 [source,c,linenums]
 ----
-include::code/uart2.pru0.c[uart2.pru0.c]
+include::code/uart2.pru1_0.c[uart2.pru1_0.c]
 ----
 
 More complex examples can be built using the principles shown in these
