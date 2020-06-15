@@ -279,13 +279,13 @@ is a wiring diagram for the BeagleBone Black.
 
 [[debug_FTDI]]
 .Wriing for FTDI cable to Beagle
-[width=35%, cols="1,4,4,4,4,4"]
+[width=35%, cols="1,4,4,4,4,4,4"]
 |===
-|FTDI pin|Color |Black pin|AI 1 pin     |AI 2 pin|Function
+|FTDI pin|Color |Black pin|AI 1 pin     |AI 2 pin|Pocket|Function
 
-|0       |black |P9_1     |P8_1         |P8_1     |ground
-|4       |orange|P9_24    |P8_43        |P8_33a   |rx
-|5       |yellow|P9_26    |P8_44        |P8_31a   |tx
+|0       |black |P9_1     |P8_1         |P8_1    |P1_16 |ground
+|4       |orange|P9_24    |P8_43        |P8_33a  |P1_12 |rx
+|5       |yellow|P9_26    |P8_44        |P8_31a  |P1_06 |tx
 |===
 
 [[debug_ftdi_pins]]
@@ -307,16 +307,21 @@ Once an ENTER appears the string is sent back.
 On the Black, ither PRU0 and PRU1 can run this code.  Both have access to the same UART.
 ====
 
-On the Black, for either of these you will need to set the pin muxes.
+You need to set the pin muxes.
 
 .config-pin
 [source,linenums] 
 [subs=+quotes]
 ----
-# Configure tx
+# Configure tx Black
 bone$ *config-pin P9_24 pru_uart*
-# Configure rx
+# Configure rx Black
 bone$ *config-pin P9_26 pru_uart*
+
+# Configure tx Pocket
+bone$ *config-pin P1_06 pru_uart*
+# Configure rx Pocket
+bone$ *config-pin P1_12 pru_uart*
 ----
 
 [NOTE]
@@ -330,7 +335,7 @@ DRA7XX_CORE_IOPAD(0x3610, *PIN_INPUT* | MUX_MODE10) // C6: P8.33a:
 ----
 ====
 
-* TODO - Add code for Blue and Pocket.
+* TODO - Add code for Blue.
 
 ===== uart1.pru1_0.c
 Set the following variables so `make` will know what to compile.

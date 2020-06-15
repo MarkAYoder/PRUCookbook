@@ -823,12 +823,13 @@ is a wiring diagram for the BeagleBone Black.</p>
 <table id="debug_FTDI" class="tableblock frame-all grid-all" style="width: 35%;">
 <caption class="title">Table 2. Wriing for FTDI cable to Beagle</caption>
 <colgroup>
-<col style="width: 4.7619%;">
-<col style="width: 19.0476%;">
-<col style="width: 19.0476%;">
-<col style="width: 19.0476%;">
-<col style="width: 19.0476%;">
-<col style="width: 19.0477%;">
+<col style="width: 4%;">
+<col style="width: 16%;">
+<col style="width: 16%;">
+<col style="width: 16%;">
+<col style="width: 16%;">
+<col style="width: 16%;">
+<col style="width: 16%;">
 </colgroup>
 <thead>
 <tr>
@@ -837,6 +838,7 @@ is a wiring diagram for the BeagleBone Black.</p>
 <th class="tableblock halign-left valign-top">Black pin</th>
 <th class="tableblock halign-left valign-top">AI 1 pin</th>
 <th class="tableblock halign-left valign-top">AI 2 pin</th>
+<th class="tableblock halign-left valign-top">Pocket</th>
 <th class="tableblock halign-left valign-top">Function</th>
 </tr>
 </thead>
@@ -847,6 +849,7 @@ is a wiring diagram for the BeagleBone Black.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">P9_1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">P8_1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">P8_1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P1_16</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ground</p></td>
 </tr>
 <tr>
@@ -855,6 +858,7 @@ is a wiring diagram for the BeagleBone Black.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">P9_24</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">P8_43</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">P8_33a</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P1_12</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">rx</p></td>
 </tr>
 <tr>
@@ -863,6 +867,7 @@ is a wiring diagram for the BeagleBone Black.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">P9_26</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">P8_44</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">P8_31a</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P1_06</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">tx</p></td>
 </tr>
 </tbody>
@@ -906,10 +911,15 @@ Once an ENTER appears the string is sent back.</p>
 <div class="listingblock">
 <div class="title">config-pin</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="linenums"># Configure tx
+<pre class="CodeRay highlight"><code data-lang="linenums"># Configure tx Black
 bone$ <strong>config-pin P9_24 pru_uart</strong>
-# Configure rx
-bone$ <strong>config-pin P9_26 pru_uart</strong></code></pre>
+# Configure rx Black
+bone$ <strong>config-pin P9_26 pru_uart</strong>
+
+# Configure tx Pocket
+bone$ <strong>config-pin P1_06 pru_uart</strong>
+# Configure rx Pocket
+bone$ <strong>config-pin P1_12 pru_uart</strong></code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -1601,7 +1611,7 @@ examples.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-12 14:33:43 -0400
+Last updated 2020-06-15 16:08:50 -0400
 </div>
 </div>
 <style>
