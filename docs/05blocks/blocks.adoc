@@ -337,8 +337,6 @@ that works on the AI.
 include::code/pwm1.pru0.c[]
 ----
 
-* TODO - Add AI
-
 To run this code you need to configure the pin muxes to output the PRU.  If you are on the Black run
 [source] 
 [subs=+quotes]
@@ -351,6 +349,13 @@ On the Pocket run
 ----
 bone$ *config-pin P1_36 pruout*
 ----
+
+[NOTE]
+====
+See <<08ai/ai.html#, Configuring pins on the AI via device trees>> for configuring 
+pins on the AI.
+====
+
 Then, tell `Makefile` which PRU you are compiling for and what your target file is
 [source]
 [subs=+quotes]
@@ -421,8 +426,6 @@ Bit 0 is the LSB.
 
 //  TODO fill in Blue
 
-* TODO - Removed AI pins and reference table in AI chapter.
-
 [[blocks_mapping_bits]]
 .Mapping bit positions to pin names
 [width="35%", cols="1,1,4,4"]
@@ -458,6 +461,12 @@ Bit 0 is the LSB.
 |1  |15 |         |P1.30     
 |1  |16 |P9_26(in)|   
 |===
+
+[NOTE]
+====
+See <<08ai/ai.html#, Configuring pins on the AI via device trees>> for all
+the PRU pins on the AI.
+====
 
 Since we are running on PRU 0, and we're using `0x0001`, that is bit 0, 
 we'll be toggling `P9_31`.
@@ -961,7 +970,6 @@ image::figures/filter_bb.png[Low-Pass Filter Wiring Diagram]
 [NOTE]
 ====
 
-* TODO - fix figure
 I used a 10K&Omega; variable resistor and a 0.022&mu;F capacitor. (The figure
 has the wrong value.) Probe the circuit between the resistor and the capacitor and adjust the resistor until you get a good looking waveform.
 ====
@@ -1296,8 +1304,6 @@ the last number, or you numbers will get blurred together.
 
 === RGB LED Matrix - No Integrated Drivers
 
-* TODO - update
-
 ==== Problem
 You have a RGB LED matrix 
 (<<../01case/case.html#case_rgb_matrix, 1.4. RGB LED Matrix - No Integrated Drivers>>) and want to know
@@ -1466,10 +1472,7 @@ ____
 The only downside of this technique is that despite being very simple and fast, it has no PWM control built-in! The controller can only set the LEDs on or off. So what do you do when you want full color? You actually need to draw the entire matrix over and over again at very high speeds to PWM the matrix manually. For that reason, you need to have a very fast controller (50 MHz is a minimum) if you want to do a lot of colors and motion video and have it look good.
 ____
 
-This is what FPP does, so our next step is to do our own PWMing on the LEDs 
-to get more colors.
-
-// TODO Sounds like a fun project.
+This is what FPP does, but it's beyond the scope of this project.
 
 === Compiling and Inserting rpmsg_pru
 ==== Problem

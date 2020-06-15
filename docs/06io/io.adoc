@@ -23,10 +23,8 @@ When I try to configure some pins on the `P8` header of the Black I get an error
 [subs=+quotes]
 ----
 bone$ *config-pin P8_28 pruout*
-P8_27 pinmux file not found!
-Pin has no cape: P8_27
+ERROR: open() for /sys/devices/platform/ocp/ocp:P8_28_pinmux/state failed, No such file or directory
 ----
-// TODO:  I made up the output.  Make sure it is correct.
 
 ==== Solution
 On the images for the BeagleBone Black, the HDMI display driver is enabled by
@@ -62,7 +60,6 @@ I've used up all the GPIO in `pass:[__]R30`, where can I get more?
 So far we have focused on using PRU 0.  
 <<../05blocks/blocks.html#blocks_mapping_bits,Mapping bit positions to pin names
 PRU>> shows 
-// TODO Put a tag on Table 3
 that PRU 0 can access ten GPIO pins on the BeagleBone Black.  If you use
 PRU 1 you can get to an additional 14 pins (if they aren't in use for other things.)
 
@@ -208,8 +205,6 @@ You are now ready to run the legacy PRU code.
 
 // ==== Discussion
 
-// ToDo, is there anything to discuss?
-
 === Converting pasm Assembly Code to clpru
 ==== Problem
 You have some legacy assembly code written in pasm and it won't assemble 
@@ -223,6 +218,3 @@ https://elinux.org/EBC_Exercise_30_PRU_porting_pasm_to_clpru[eLinux.org site].
 
 ==== Discussion
 The clpru assembly can be found in http://www.ti.com/lit/ug/spruhv6a/spruhv6a.pdf[PRU Assembly Language Tools].
-
-
-// ToDo === ECAP/PWM?

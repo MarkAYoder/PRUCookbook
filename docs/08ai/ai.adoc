@@ -10,8 +10,6 @@ four PRUs.
 
 The following are resources used in this chapter.
 
-* TODO - check these
-
 .Resources
 * http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler, v2.2, User's Guide]
 * http://www.ti.com/lit/ug/spruhv6b/spruhv6b.pdf[PRU Assembly Language Tools User's Guide]
@@ -225,12 +223,11 @@ I'm running the 4.14 version. Now look in `/opt/source` for your kernel.
 ----
 bone$ *cd /opt/source/*
 bone$ *ls*
-adafruit-beaglebone-io-python  *dtb-4.14-ti*  librobotcontrol  py-uio           u-boot_v2019.07-rc4
-BBIOConfig                     dtb-4.19-ti  list.txt         rcpy
-bb.org-overlays                dtb-5.4-ti   pyctrl           u-boot_v2019.04
-bone$ *cd dtb-4.14-ti/src/arm/*
-bone$ *ls am5729**
-am5729-beagleboneai.dts  am5729-beagleboneai-roboticscape.dts
+adafruit-beaglebone-io-python  dtb-5.4-ti       rcpy
+BBIOConfig                     librobotcontrol  u-boot_v2019.04
+bb.org-overlays                list.txt         u-boot_v2019.07-rc4
+*dtb-4.14-ti*                    pyctrl
+dtb-4.19-ti                    py-uio
 ----
 `am5729-beagleboneai.dts` is the file we need to edit.  Search for `P9_31`.
 You'l see:

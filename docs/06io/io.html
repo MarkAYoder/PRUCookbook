@@ -498,8 +498,7 @@ can be accessed.</p>
 <div class="title">config-pin</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>config-pin P8_28 pruout</strong>
-P8_27 pinmux file not found!
-Pin has no cape: P8_27</code></pre>
+ERROR: open() for /sys/devices/platform/ocp/ocp:P8_28_pinmux/state failed, No such file or directory</code></pre>
 </div>
 </div>
 </div>
@@ -620,7 +619,7 @@ GPIO pins, but it&#8217;s a slower access.</p>
     uint32_t *gpio0 = (uint32_t *)GPIO0;
 
     <span class="keyword">while</span>(<span class="integer">1</span>) {
-        gpio0[GPIO_SETDATAOUT] = P9_11;
+        gpio0[GPIO_SETDATAOUT]   = P9_11;
         __delay_cycles(<span class="integer">100000000</span>);
         gpio0[GPIO_CLEARDATAOUT] = P9_11;
         __delay_cycles(<span class="integer">100000000</span>);
@@ -910,7 +909,7 @@ notes what needs to be changed. I have a less complete version on my
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-05 09:22:51 -0400
+Last updated 2020-06-15 16:48:40 -0400
 </div>
 </div>
 <style>

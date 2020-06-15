@@ -165,8 +165,7 @@ servos.  All you have to do is run the command.
 `rc_test_servos` is nice, but I need to control the servos individually.
 
 ===== Solution
-You can modify `rc_test_servos.c`.  You'll find it on the bone at
-`/opt/source/Robotics_Cape_Installer/examples/src/rc_test_servos.c`, or online at
+You can modify `rc_test_servos.c`.  You'll find it on the bone online at
 <https://github.com/StrawsonDesign/Robotics_Cape_Installer/blob/master/examples/src/rc_test_servos.c>.
 
 Just past line 250 you'll find a `while` loop that has calls to `rc_servo_send_pulse_normalized(ch,servo_pos)` and
@@ -180,8 +179,6 @@ I need more than eight PWM channels, or I need less jitter on the off time.
 ===== Solution
 This is a more advanced problem and required reprograming the PRUs.  See 
 <<../05blocks/blocks.html#blocks_pwm, PWM Generator>> for an example.
-// ToDo, fill in XXXXX
-
 
 ==== Reading Hardware Encoders
 ===== Problem
@@ -291,8 +288,6 @@ bone$ *sudo update-initramfs -u -k \`uname -r`*
 bone$ *sudo reboot*
 ----
 
-// TODO <strong> is showing up here
-
 Once the Bone has rebooted, browse to 192.168.7.2:4000 where you'll see
 <<case_beaglelogic_capture>>.  Here you can easily select the sample
 rate, number of samples, and which pins to sample. 
@@ -359,11 +354,6 @@ bone$ *dmesg -Hw*
 BeagleLogic uses the two PRUs to sample at 100Msps.  Getting a PRU running at 200Hz to sample at 100Msps is a slick trick.
 http://theembeddedkitchen.net/beaglelogic-building-a-logic-analyzer-with-the-prus-part-1/449[The Embedded Kitchen] has a nice article 
 explaining how the PRUs get this type of performance.   
-
-// In section 
-// <<../05blocks/blocks.html#blocks_ws2812, Building Blocks>> we'll give an overview of the technique.
-
-// Todo:  Fill in XXXXX
 
 
 === NeoPixels - 5050 RGB LEDs with Integrated Drivers (LEDScape)

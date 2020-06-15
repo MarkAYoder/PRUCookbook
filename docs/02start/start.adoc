@@ -31,7 +31,6 @@ http://beagleboard.org/black[BeagleBone Black].  It's the most popular member of
 [[start_black]]
 .BeagleBone Black
 image:figures/product_detail_black_sm.jpg[BeableBone Black]
-// TODO:  Remove magnifying glass.
 
 The Black has:
 

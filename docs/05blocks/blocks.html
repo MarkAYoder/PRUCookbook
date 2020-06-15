@@ -1114,13 +1114,6 @@ that works on the AI.</p>
 </tr></table></code></pre>
 </div>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>TODO - Add AI</p>
-</li>
-</ul>
-</div>
 <div class="paragraph">
 <p>To run this code you need to configure the pin muxes to output the PRU.  If you are on the Black run</p>
 </div>
@@ -1136,6 +1129,21 @@ that works on the AI.</p>
 <div class="content">
 <pre class="CodeRay highlight"><code>bone$ <strong>config-pin P1_36 pruout</strong></code></pre>
 </div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>See <a href="08ai/ai.html.html">Configuring pins on the AI via device trees</a> for configuring
+pins on the AI.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Then, tell <code>Makefile</code> which PRU you are compiling for and what your target file is</p>
@@ -1330,13 +1338,6 @@ gives more details.</p></td>
 <div class="paragraph">
 <p></p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>TODO - Removed AI pins and reference table in AI chapter.</p>
-</li>
-</ul>
-</div>
 <table id="blocks_mapping_bits" class="tableblock frame-all grid-all" style="width: 35%;">
 <caption class="title">Table 4. Mapping bit positions to pin names</caption>
 <colgroup>
@@ -1524,6 +1525,21 @@ gives more details.</p></td>
 </tr>
 </tbody>
 </table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>See <a href="08ai/ai.html.html">Configuring pins on the AI via device trees</a> for all
+the PRU pins on the AI.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>Since we are running on PRU 0, and we&#8217;re using <code>0x0001</code>, that is bit 0,
 we&#8217;ll be toggling <code>P9_31</code>.</p>
@@ -3550,14 +3566,9 @@ which is what you want for the start of the sawtooth.</p>
 <div class="title">Note</div>
 </td>
 <td class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>TODO - fix figure
-I used a 10K&Omega; variable resistor and a 0.022&mu;F capacitor. (The figure
+<div class="paragraph">
+<p>I used a 10K&Omega; variable resistor and a 0.022&mu;F capacitor. (The figure
 has the wrong value.) Probe the circuit between the resistor and the capacitor and adjust the resistor until you get a good looking waveform.</p>
-</li>
-</ul>
 </div>
 </td>
 </tr>
@@ -4767,7 +4778,7 @@ shift = <span class="integer">3</span>
 phase = <span class="integer">0</span>
 
 <span class="comment"></mark> Open a file</span>
-fo = <span class="predefined">open</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/dev/rpmsg_pru31</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">w</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>)
+fo = <span class="predefined">open</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/dev/rpmsg_pru30</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">w</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>)
 
 <span class="keyword">while</span> <span class="predefined-constant">True</span>:
     <span class="keyword">for</span> i <span class="keyword">in</span> <span class="predefined">range</span>(<span class="integer">0</span>, <span class="predefined">len</span>):
@@ -4794,13 +4805,6 @@ the last number, or you numbers will get blurred together.</p>
 </div>
 <div class="sect2">
 <h3 id="_rgb_led_matrix_no_integrated_drivers"><a class="link" href="#_rgb_led_matrix_no_integrated_drivers">1.15. RGB LED Matrix - No Integrated Drivers</a></h3>
-<div class="ulist">
-<ul>
-<li>
-<p>TODO - update</p>
-</li>
-</ul>
-</div>
 <div class="sect3">
 <h4 id="_problem_15"><a class="link" href="#_problem_15">Problem</a></h4>
 <div class="paragraph">
@@ -4916,7 +4920,7 @@ high-level view of how to drive the display.</p>
 77
 78
 </pre></td>
-  <td class="code"><pre><span class="comment"><mark>!/usr/bin/env python</span>
+  <td class="code"><pre><span class="comment"><mark>!/usr/bin/env python3</span>
 <span class="keyword">import</span> <span class="include">Adafruit_BBIO.GPIO</span> <span class="keyword">as</span> GPIO
 
 <span class="comment"></mark> Define which functions are connect to which pins</span>
@@ -4998,10 +5002,10 @@ GPIO.output(LAT, <span class="integer">0</span>)     <span class="comment"># Set
 </div>
 </div>
 <div class="paragraph">
-<p>Be sure to run the <a href="#blocks_rgb_setup">rgb_setup.sh</a> script before running the python code.</p>
+<p>Be sure to run the <a href="#blocks_rgb_setup">rgb_python_setup.sh</a> script before running the python code.</p>
 </div>
 <div id="blocks_rgb_setup" class="listingblock">
-<div class="title">rgb_setup.sh</div>
+<div class="title">rgb_python_setup.sh</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="python"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -5043,12 +5047,12 @@ GPIO.output(LAT, <span class="integer">0</span>)     <span class="comment"># Set
 37
 38
 39
+40
+41
 </pre></td>
   <td class="code"><pre><span class="comment"><mark>!/bin/bash</span>
 <span class="comment"></mark> Setup for 64x32 RGB Matrix</span>
-export PRUN=<span class="integer">0</span>
-export TARGET=rgb1
-echo PRUN=<span class="error">$</span>PRUN
+export TARGET=rgb1.pru0
 echo TARGET=<span class="error">$</span>TARGET
 
 <span class="comment"># Configure the PRU pins based on which Beagle is running</span>
@@ -5064,6 +5068,8 @@ echo -n <span class="error">$</span>machine
     echo <span class="string"><span class="delimiter">&quot;</span><span class="content"> Found</span><span class="delimiter">&quot;</span></span>
     prupins=<span class="string"><span class="delimiter">&quot;</span><span class="content">P2_32 P1_31 P1_33 P1_29 P2_30 P2_34 P1_36</span><span class="delimiter">&quot;</span></span>
     gpiopins=<span class="string"><span class="delimiter">&quot;</span><span class="content">P2_10 P2_06 P2_04 P2_01 P2_08 P2_02</span><span class="delimiter">&quot;</span></span>
+    <span class="comment"># Uncomment for J2</span>
+    <span class="comment"># gpiopins=&quot;$gpiopins P2_27 P2_25 P2_05 P2_24 P2_22 P2_18&quot;</span>
 <span class="keyword">else</span>
     echo <span class="string"><span class="delimiter">&quot;</span><span class="content"> Not Found</span><span class="delimiter">&quot;</span></span>
     pins=<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>
@@ -5072,14 +5078,16 @@ fi
 <span class="keyword">for</span> pin <span class="keyword">in</span> <span class="error">$</span>prupins
 do
     echo <span class="error">$</span>pin
-    config-pin <span class="error">$</span>pin pruout
-    <span class="comment"># config-pin $pin out</span>
+    <span class="comment"># config-pin $pin pruout</span>
+    config-pin <span class="error">$</span>pin gpio
+    config-pin <span class="error">$</span>pin out
     config-pin -q <span class="error">$</span>pin
 done
 
 <span class="keyword">for</span> pin <span class="keyword">in</span> <span class="error">$</span>gpiopins
 do
     echo <span class="error">$</span>pin
+    config-pin <span class="error">$</span>pin gpio
     config-pin <span class="error">$</span>pin out
     config-pin -q <span class="error">$</span>pin
 done</pre></td>
@@ -5114,7 +5122,8 @@ lines.  Unfortunately, python is too slow to make the display appear
 all at once.  Here&#8217;s where the PRU comes in.</p>
 </div>
 <div class="paragraph">
-<p><a href="#blocks_rgb1">PRU code for driving the RGB LED matrix</a> is the PRU code to drive the RGB LED matrix.</p>
+<p><a href="#blocks_rgb1">PRU code for driving the RGB LED matrix</a> is the PRU code to drive the RGB LED matrix.   Be sure to run
+<code>bone$ source rgb_setup.sh</code> first.</p>
 </div>
 <div id="blocks_rgb1" class="listingblock">
 <div class="title">PRU code for driving the RGB LED matrix</div>
@@ -5200,29 +5209,13 @@ all at once.  Here&#8217;s where the PRU comes in.</p>
 78
 79
 80
-81
-82
-83
-84
-85
-86
-87
-88
-89
 </pre></td>
-  <td class="code"><pre><span class="comment">// This code drives the RGB LED Matrix</span>
+  <td class="code"><pre><span class="comment">// This code drives the RGB LED Matrix on the 1st Connector</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;prugpio.h&quot;</span>
 <span class="preprocessor">#include</span> <span class="include">&quot;rgb_pocket.h&quot;</span>
-
-<span class="preprocessor">#define</span> GPIO0   <span class="hex">0x44e07000</span>      <span class="comment">// GPIO Bank 0  See Table 2.2 of TRM</span>
-<span class="preprocessor">#define</span> GPIO1   <span class="hex">0x4804c000</span>      <span class="comment">// GPIO Bank 1</span>
-<span class="preprocessor">#define</span> GPIO2   <span class="hex">0x481ac000</span>      <span class="comment">// GPIO Bank 2</span>
-<span class="preprocessor">#define</span> GPIO3   <span class="hex">0x481ae000</span>      <span class="comment">// GPIO Bank 3</span>
-<span class="preprocessor">#define</span> GPIO_CLEARDATAOUT   <span class="hex">0x190</span>   <span class="comment">// For clearing the GPIO registers</span>
-<span class="preprocessor">#define</span> GPIO_SETDATAOUT     <span class="hex">0x194</span>   <span class="comment">// For setting the GPIO registers</span>
-<span class="preprocessor">#define</span> GPIO_DATAOUT        <span class="hex">0x138</span>   <span class="comment">// For reading the GPIO registers</span>
 
 <span class="preprocessor">#define</span> DELAY <span class="integer">10</span>    <span class="comment">// Number of cycles (5ns each) to wait after a write</span>
 
@@ -5257,44 +5250,42 @@ all at once.  Here&#8217;s where the PRU comes in.</p>
                 <span class="comment">// Top row white</span>
                 <span class="comment">// Combining these to one write works because they are all in</span>
                 <span class="comment">// the same gpio port</span>
-                gpio[r11_gpio][GPIO_SETDATAOUT/<span class="integer">4</span>] = (<span class="hex">0x1</span>&lt;&lt;r11_pin)
-                        |(<span class="hex">0x1</span>&lt;&lt;g11_pin)|(<span class="hex">0x1</span>&lt;&lt;b11_pin);
+                gpio[r11_gpio][GPIO_SETDATAOUT] = r11_pin | g11_pin | b11_pin;
                 <em>delay_cycles(DELAY);;
 
                 <span class="comment">// Bottom row red</span>
-                gpio[r12_gpio][GPIO_SETDATAOUT/<span class="integer">4</span>]   = (<span class="hex">0x1</span>&lt;&lt;r12_pin);
+                gpio[r12_gpio][GPIO_SETDATAOUT]   = r12_pin;
                 </em>delay_cycles(DELAY);
-                gpio[r12_gpio][GPIO_CLEARDATAOUT/<span class="integer">4</span>] = (<span class="hex">0x1</span>&lt;&lt;g12_pin)|(<span class="hex">0x1</span>&lt;&lt;b12_pin);
+                gpio[r12_gpio][GPIO_CLEARDATAOUT] = g12_pin | b12_pin;
                 <em>delay_cycles(DELAY);
 
-                </em>R30 |=  (<span class="hex">0x1</span>&lt;&lt;pru_clock); <span class="comment">// Toggle clock</span>
+                </em>R30 |=  pru_clock;    <span class="comment">// Toggle clock</span>
                 <em>delay_cycles(DELAY);
-                </em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;pru_clock);
+                </em>R30 &amp;= ~pru_clock;
                 <em>delay_cycles(DELAY);
 
                 <span class="comment">// Top row black</span>
-                gpio[r11_gpio][GPIO_CLEARDATAOUT/<span class="integer">4</span>] = (<span class="hex">0x1</span>&lt;&lt;r11_pin)
-                        |(<span class="hex">0x1</span>&lt;&lt;g11_pin)|(<span class="hex">0x1</span>&lt;&lt;b11_pin);
+                gpio[r11_gpio][GPIO_CLEARDATAOUT] = r11_pin | g11_pin | b11_pin;
                 </em>delay_cycles(DELAY);
 
                 <span class="comment">// Bottom row green</span>
-                gpio[r12_gpio][GPIO_CLEARDATAOUT/<span class="integer">4</span>] = (<span class="hex">0x1</span>&lt;&lt;r12_pin)|(<span class="hex">0x1</span>&lt;&lt;b12_pin);
+                gpio[r12_gpio][GPIO_CLEARDATAOUT] = r12_pin | b12_pin;
                 <em>delay_cycles(DELAY);
-                gpio[r11_gpio][GPIO_SETDATAOUT/<span class="integer">4</span>]   = (<span class="hex">0x1</span>&lt;&lt;g12_pin);
+                gpio[r12_gpio][GPIO_SETDATAOUT]   = g12_pin;
                 </em>delay_cycles(DELAY);
 
-                <em>R30 |=  (<span class="hex">0x1</span>&lt;&lt;pru_clock); <span class="comment">// Toggle clock</span>
+                <em>R30 |=  pru_clock;    <span class="comment">// Toggle clock</span>
                 </em>delay_cycles(DELAY);
-                <em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;pru_clock);
+                <em>R30 &amp;= ~pru_clock;
                 </em>delay_cycles(DELAY);
             }
-            <em>R30 |=  (<span class="hex">0x1</span>&lt;&lt;pru_oe);        <span class="comment">// Disable display</span>
+            <em>R30 |=  pru_oe;        <span class="comment">// Disable display</span>
             </em>delay_cycles(DELAY);
-            <em>R30 |=  (<span class="hex">0x1</span>&lt;&lt;pru_latch);     <span class="comment">// Toggle latch</span>
+            <em>R30 |=  pru_latch;     <span class="comment">// Toggle latch</span>
             </em>delay_cycles(DELAY);
-            <em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;pru_latch);
+            <em>R30 &amp;= ~pru_latch;
             </em>delay_cycles(DELAY);
-            <em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;pru_oe);        <span class="comment">// Enable display</span>
+            <em>R30 &amp;= ~pru_oe;        <span class="comment">// Enable display</span>
             </em>delay_cycles(DELAY);
         }
     }
@@ -5303,20 +5294,11 @@ all at once.  Here&#8217;s where the PRU comes in.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Don&#8217;t forget the switch with comment on lines 29 and 30 of <strong>rgb_setup.sh</strong>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>    config-pin $pin pruout
-    # config-pin $pin out</code></pre>
-</div>
-</div>
-<div class="paragraph">
 <p>The results are shown in <a href="#blocks_rgb_pru">Display running rgb1.c on PRU 0</a>.</p>
 </div>
 <div id="blocks_rgb_pru" class="imageblock">
 <div class="content">
-<img src="figures/rgb_pru.jpg" alt="Display running rgb1.c on PRU 0">
+<img src="figures/rgb_pru.jpg" alt="Display running rgb1.pru0.c on PRU 0">
 </div>
 <div class="title">Figure 26. Display running rgb1.c on PRU 0</div>
 </div>
@@ -5534,8 +5516,7 @@ comparision.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>This is what FPP does, so our next step is to do our own PWMing on the LEDs
-to get more colors.</p>
+<p>This is what FPP does, but it&#8217;s beyond the scope of this project.</p>
 </div>
 </div>
 </div>
@@ -5663,7 +5644,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-11 11:51:37 -0400
+Last updated 2020-06-15 16:38:14 -0400
 </div>
 </div>
 <style>
