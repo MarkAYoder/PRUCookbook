@@ -3,17 +3,10 @@
 #include <stdint.h>
 #include <pru_cfg.h>
 #include "resource_table_empty.h"
+#include "prugpio.h"
 #include "rgb_pocket.h"
 
-#define GPIO0	0x44e07000		// GPIO Bank 0  See Table 2.2 of TRM
-#define GPIO1	0x4804c000		// GPIO Bank 1
-#define GPIO2	0x481ac000		// GPIO Bank 2
-#define GPIO3	0x481ae000		// GPIO Bank 3
-#define GPIO_CLEARDATAOUT	0x190	// For clearing the GPIO registers
-#define GPIO_SETDATAOUT		0x194	// For setting the GPIO registers
-#define GPIO_DATAOUT		0x138	// For reading the GPIO registers
-
-#define DELAY 10	// Number of cycles (5ns each) to wait after a write
+#define DELAY 10					// Number of cycles (5ns each) to wait after a write
 
 volatile register uint32_t __R30;
 volatile register uint32_t __R31;
@@ -46,12 +39,12 @@ void main(void)
     	    	// Top row white
     	    	// Combining these to one write works because they are all in 
     	    	// the same gpio port
-    	      	gpio[r11_gpio][GPIO_SETDATAOUT/4] = (0x1<<r11_pin)
+    	      	gpio[r11_gpio][GPIO_SETDATAOUT] = (0x1<<r11_pin)
     	      			|(0x1<<g11_pin)|(0x1<<b11_pin);
     	    	__delay_cycles(DELAY);;
     	      	
     	      	// Bottom row white
-    	      	gpio[r12_gpio][GPIO_SETDATAOUT/4] = (0x1<<r12_pin)
+    	      	gpio[r12_gpio][GPIO_SETDATAOUT] = (0x1<<r12_pin)
     	      			|(0x1<<g12_pin)|(0x1<<b12_pin);
     	    	__delay_cycles(DELAY);
     	      	
