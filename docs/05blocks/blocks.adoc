@@ -1334,11 +1334,11 @@ include::code/rgb_python.py[]
 Be sure to run the <<blocks_rgb_setup>> script before running the python code.
 
 [[blocks_rgb_setup]]
-.rgb_setup.sh
+.rgb_python_setup.sh
 [source,python,linenums]
 [subs=+quotes]
 ----
-include::code/rgb_setup.sh[]
+include::code/rgb_python_setup.sh[]
 ----
 
 Make sure line 29 is commented out and line 30 is uncommented. 
@@ -1363,29 +1363,22 @@ The display can only display two lines at a time, so it cycles through all the
 lines.  Unfortunately, python is too slow to make the display appear 
 all at once.  Here's where the PRU comes in.
 
-<<blocks_rgb1>> is the PRU code to drive the RGB LED matrix.
+<<blocks_rgb1>> is the PRU code to drive the RGB LED matrix.   Be sure to run
+`bone$ source rgb_setup.sh` first.
 
 [[blocks_rgb1]]
 .PRU code for driving the RGB LED matrix
 [source,c,linenums]
 [subs=+quotes]
 ----
-include::code/rgb1.c[]
-----
-
-Don't forget the switch with comment on lines 29 and 30 of *rgb_setup.sh*. 
-[source]
-[subs=+quotes]
-----
-    config-pin $pin pruout
-    # config-pin $pin out
+include::code/rgb1.pru0.c[]
 ----
 
 The results are shown in <<blocks_rgb_pru>>.
 
 [[blocks_rgb_pru]]
 .Display running rgb1.c on PRU 0
-image::figures/rgb_pru.jpg[Display running rgb1.c on PRU 0]
+image::figures/rgb_pru.jpg[Display running rgb1.pru0.c on PRU 0]
 
 The PRU is fast enough to quickly write to the display so that it appears 
 as if all the LEDs are on at once.
