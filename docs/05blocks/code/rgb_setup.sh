@@ -25,6 +25,7 @@ for pin in $prupins
 do
     echo $pin
     config-pin $pin pruout
+    # config-pin $pin gpio
     # config-pin $pin out
     config-pin -q $pin
 done
@@ -32,6 +33,7 @@ done
 for pin in $gpiopins
 do
     echo $pin
+    config-pin $pin gpio
     config-pin $pin out
     config-pin -q $pin
 done

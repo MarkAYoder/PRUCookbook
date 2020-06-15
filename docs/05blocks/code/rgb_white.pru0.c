@@ -39,27 +39,25 @@ void main(void)
     	    	// Top row white
     	    	// Combining these to one write works because they are all in 
     	    	// the same gpio port
-    	      	gpio[r11_gpio][GPIO_SETDATAOUT] = (0x1<<r11_pin)
-    	      			|(0x1<<g11_pin)|(0x1<<b11_pin);
+    	      	gpio[r11_gpio][GPIO_SETDATAOUT] = r11_pin | g11_pin | b11_pin;
     	    	__delay_cycles(DELAY);;
     	      	
     	      	// Bottom row white
-    	      	gpio[r12_gpio][GPIO_SETDATAOUT] = (0x1<<r12_pin)
-    	      			|(0x1<<g12_pin)|(0x1<<b12_pin);
+    	      	gpio[r12_gpio][GPIO_SETDATAOUT] = r12_pin | g12_pin | b12_pin;
     	    	__delay_cycles(DELAY);
     	      	
-                __R30 |=  (0x1<<pru_clock);	// Toggle clock
+                __R30 |=  pru_clock;	// Toggle clock
     	    	__delay_cycles(DELAY);
-        		__R30 &= ~(0x1<<pru_clock);
+        		__R30 &= ~pru_clock;
     	    	__delay_cycles(DELAY);
     	    }
-    	    __R30 |=  (0x1<<pru_oe);        // Disable display
+    	    __R30 |=  pru_oe;        // Disable display
     	   	__delay_cycles(DELAY);
-    	    __R30 |=  (0x1<<pru_latch);     // Toggle latch
+    	    __R30 |=  pru_latch;     // Toggle latch
     	   	__delay_cycles(DELAY);
-    	    __R30 &= ~(0x1<<pru_latch);
+    	    __R30 &= ~pru_latch;
     	   	__delay_cycles(DELAY);
-    	    __R30 &= ~(0x1<<pru_oe);        // Enable display
+    	    __R30 &= ~pru_oe;        // Enable display
     	    __delay_cycles(DELAY);
 	    }
 	}
