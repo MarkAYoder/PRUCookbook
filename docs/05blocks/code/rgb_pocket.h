@@ -4,23 +4,40 @@
 // The first 1 in r11 is for the J1 connector
 // See the githuub file for the other connectors
 
+// J1
 #define r11_gpio 1
-#define r11_pin 20
+#define r11_pin (0x1<<20)
 #define g11_gpio 1
-#define g11_pin 28
+#define g11_pin (0x1<<28)
 #define b11_gpio 1
-#define b11_pin 25
+#define b11_pin (0x1<<25)
 
 #define r12_gpio 1
-#define r12_pin 26
+#define r12_pin (0x1<<26)
 #define g12_gpio 1
-#define g12_pin 27
+#define g12_pin (0x1<<27)
 #define b12_gpio 1
-#define b12_pin 18
+#define b12_pin (0x1<<18)
 
-#define pru_latch  0	// These are the bit positions in R30
-#define pru_oe     7
-#define pru_clock  1
+// J2
+#define r21_gpio 1
+#define r21_pin (0x1<<8)
+#define g21_gpio 1
+#define g21_pin (0x1<<9)
+#define b21_gpio 0
+#define b21_pin (0x1<<30)
+
+#define r22_gpio 1
+#define r22_pin (0x1<<12)
+#define g22_gpio 1
+#define g22_pin (0x1<<14)
+#define b22_gpio 1
+#define b22_pin (0x1<<15)
+
+// All connectors
+#define pru_latch  (0x1<<0)	// These are the bit positions in R30
+#define pru_oe     (0x1<<7)
+#define pru_clock  (0x1<<1)
 
 #define pru_sel0   2	// These are called LA, LB, LC and LD in the python code
 #define pru_sel1   3	// Also bit positions

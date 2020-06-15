@@ -1,5 +1,4 @@
 // This code drives the RGB LED Matrix on the 2nd Connector
-// Isn't working right.  Seems to be very dependant on timing.
 #include <stdint.h>
 #include <pru_cfg.h>
 #include "resource_table_empty.h"
@@ -40,15 +39,15 @@ void main(void)
     	    	// Combining these to one write works because they are all in 
     	    	// the same gpio port except b12
     	      	gpio[r21_gpio][GPIO_SETDATAOUT] = r21_pin | g21_pin;
-    	    	__delay_cycles(DELAY);;
+    	    	__delay_cycles(DELAY);
     	      	gpio[b21_gpio][GPIO_SETDATAOUT] =  b21_pin;
-    	    	__delay_cycles(DELAY);;
+    	    	__delay_cycles(DELAY);
     	      	
     	      	// Bottom row red
     	      	gpio[r22_gpio][GPIO_SETDATAOUT]   = r22_pin;
     	    	__delay_cycles(DELAY);
     	      	gpio[g22_gpio][GPIO_CLEARDATAOUT] = g22_pin | b22_pin;
-    	    	__delay_cycles(DELAY);
+    	    	__delay_cycles(2*DELAY);
     	      	
                 __R30 |=  pru_clock;	// Toggle clock
     	    	__delay_cycles(DELAY);
@@ -65,7 +64,7 @@ void main(void)
     	    	gpio[r22_gpio][GPIO_CLEARDATAOUT] = r22_pin | b22_pin;
     	    	__delay_cycles(DELAY);
     	      	gpio[g22_gpio][GPIO_SETDATAOUT]   = g22_pin;
-    	    	__delay_cycles(DELAY);
+    	    	__delay_cycles(2*DELAY);
     	      	
                 __R30 |=  pru_clock;	// Toggle clock
     	    	__delay_cycles(DELAY);

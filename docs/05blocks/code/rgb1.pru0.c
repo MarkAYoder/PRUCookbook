@@ -1,4 +1,4 @@
-// This code drives the RGB LED Matrix
+// This code drives the RGB LED Matrix on the 1st Connector
 #include <stdint.h>
 #include <pru_cfg.h>
 #include "resource_table_empty.h"
@@ -59,7 +59,7 @@ void main(void)
     	      	// Bottom row green
     	    	gpio[r12_gpio][GPIO_CLEARDATAOUT] = r12_pin | b12_pin;
     	    	__delay_cycles(DELAY);
-    	      	gpio[r11_gpio][GPIO_SETDATAOUT]   = g12_pin;
+    	      	gpio[r12_gpio][GPIO_SETDATAOUT]   = g12_pin;
     	    	__delay_cycles(DELAY);
     	      	
                 __R30 |=  pru_clock;	// Toggle clock

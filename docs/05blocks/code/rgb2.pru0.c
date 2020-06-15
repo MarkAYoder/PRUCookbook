@@ -1,4 +1,4 @@
-// This code drives the RGB LED Matrix
+// This code drives the RGB LED Matrix on J1 connector
 #include <stdint.h>
 #include <pru_cfg.h>
 #include "resource_table_empty.h"
@@ -34,11 +34,13 @@ void main(void)
 	        __delay_cycles(DELAY);
 	        
     	    for(i=0; i<64; i++) {
+    	    	// red
     	      	gpio[r11_gpio][GPIO_SETDATAOUT]   = r11_pin;
     	    	__delay_cycles(DELAY);
     	      	gpio[r11_gpio][GPIO_CLEARDATAOUT] = g11_pin | b11_pin;
     	    	__delay_cycles(DELAY);
 
+				// green
     	      	gpio[r11_gpio][GPIO_CLEARDATAOUT] = r12_pin |  b12_pin;
     	    	__delay_cycles(DELAY);
     	      	gpio[r11_gpio][GPIO_SETDATAOUT]   = g12_pin;
@@ -49,11 +51,13 @@ void main(void)
         		__R30 &= ~pru_clock;
     	    	__delay_cycles(DELAY);
     	    	
+    	    	// blue
     	    	gpio[r11_gpio][GPIO_CLEARDATAOUT] = r11_pin | g11_pin;
     	    	__delay_cycles(DELAY);
     	      	gpio[r11_gpio][GPIO_SETDATAOUT]   = b11_pin;
     	    	__delay_cycles(DELAY);
     	      	
+    	      	//blue
     	    	gpio[r11_gpio][GPIO_CLEARDATAOUT] = r12_pin | g12_pin;
     	    	__delay_cycles(DELAY);
     	      	gpio[r11_gpio][GPIO_SETDATAOUT]   = b12_pin;
