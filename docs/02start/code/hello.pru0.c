@@ -15,9 +15,9 @@ void main(void) {
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
 
 	for(i=0; i<10; i++) {
-		gpio1[GPIO_SETDATAOUT]   = USR3;			// The the USR3 LED on
+		gpio1[GPIO_SETDATAOUT]   = USR3;	// The the USR3 LED on
 
-		__delay_cycles(500000000/5);    // Wait 1/2 second
+		__delay_cycles(500000000/5);    	// Wait 1/2 second
 
 		gpio1[GPIO_CLEARDATAOUT] = USR3;
 
