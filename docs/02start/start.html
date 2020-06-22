@@ -486,9 +486,9 @@ code (and the whole book) on the PRU Cookbook github site:
 <p><a href="http://beagleboard.org/boards" class="bare">http://beagleboard.org/boards</a> lists the many Beagles from which to choose.
 Here we&#8217;ll
 give examples for the venerable <a href="http://beagleboard.org/black">BeagleBone Black</a>,
-the robotics <a href="http://beagleboard.org/blue">BeagleBone Blue</a> and
-tiny <a href="http://beagleboard.org/pocket">PockeBeagle</a>.  All the examples should also
-run on the other Beagles too.</p>
+the robotics <a href="http://beagleboard.org/blue">BeagleBone Blue</a>,
+tiny <a href="http://beagleboard.org/pocket">PockeBeagle</a> and the powerful <a href="http://beagleboard.org/ai">AI</a>.
+All the examples should also run on the other Beagles too.</p>
 </div>
 </div>
 <div class="sect3">
@@ -604,7 +604,7 @@ shows how to assemble the robot and control it from
 <div class="sect4">
 <h5 id="_pocketbeagle"><a class="link" href="#_pocketbeagle">PocketBeagle</a></h5>
 <div class="paragraph">
-<p>The <a href="http://beagleboard.org/pocket">PocketBeagle</a> is the newest member of the
+<p>The <a href="http://beagleboard.org/pocket">PocketBeagle</a> is the smallest member of the
 Beagle family.  It is an ultra-tiny-yet-complete Beagle that is software
 compatible with the other Beagles.</p>
 </div>
@@ -920,9 +920,9 @@ is some code that blinks the <code>USR3</code> LED ten times using the PRU.</p>
     CT_CFG.SYSCFG_bit.STANDBY_INIT = <span class="integer">0</span>;
 
     <span class="keyword">for</span>(i=<span class="integer">0</span>; i&lt;<span class="integer">10</span>; i++) {
-        gpio1[GPIO_SETDATAOUT]   = USR3;            <span class="comment">// The the USR3 LED on</span>
+        gpio1[GPIO_SETDATAOUT]   = USR3;    <span class="comment">// The the USR3 LED on</span>
 
-        <em>delay_cycles(<span class="integer">500000000</span>/<span class="integer">5</span>);    <span class="comment">// Wait 1/2 second</span>
+        <em>delay_cycles(<span class="integer">500000000</span>/<span class="integer">5</span>);        <span class="comment">// Wait 1/2 second</span>
 
         gpio1[GPIO_CLEARDATAOUT] = USR3;
 
@@ -1001,7 +1001,7 @@ rm /tmp/cloud9-examples/hello.pru1_1.o</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-15 15:36:51 -0400
+Last updated 2020-06-22 14:44:26 -0400
 </div>
 </div>
 <style>

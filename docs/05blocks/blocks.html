@@ -685,35 +685,35 @@ PRU_DMEM1 <span class="directive">volatile</span> uint32_t shared_3;
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>PRU_SRAM</code> is defined here.  It will be used later to declare variables
 in the <code>Shared RAM</code> location of memory.  Section 5.5.2 on page 75 of the
 <a href="http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf">PRU Optimizing C/C++ Compiler, v2.2, User&#8217;s Guide</a> gives details of the command.  The <code>PRU_SHAREDMEM</code>
 refers to the memory section defined in <code>am335x_pru.cmd</code> on line 26.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9, 10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8 9</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">These are like the previous line except for the DMEM sections.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">16</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Variables declared outside of <code>main()</code> are put on the heap.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">18</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Adding <code>PRU_SRAM</code> has the variable stored in the shared memory.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">19, 20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">18, 19</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">These are stored in the PRU&#8217;s local RAM.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">21, 22</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20, 21</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">These lines are for storing in the <code>.bss</code> section as declared on
 line 74 of <code>am335x_pru.cmd</code>.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">29-32</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">28-31</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">All the previous examples direct the compiler to an area in memory
 and the compilers figures out what to put where.  With these lines we
 specify the exact location.  Here are start with the PRU_DRAM starting address and add 0x200 to it to avoid
@@ -721,7 +721,7 @@ the stack and the heap.  The advantage of this technique is you can
 easily share these variables between the ARM and the two PRUs.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">37, 38</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">36, 37</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Variable declared inside <code>main()</code> go on the stack.</p></td>
 </tr>
 </tbody>
@@ -734,7 +734,7 @@ easily share these variables between the ARM and the two PRUs.</p></td>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>Using the technique of line 29-32 you can put variables anywhere,
+<p>Using the technique of line 28-31 you can put variables anywhere,
 even where the compiler has put them.
 Be careful, it&#8217;s easy to overwrite what the compiler has done</p>
 </div>
@@ -984,7 +984,7 @@ unused.</p>
 <div class="paragraph">
 <p>The above code stores this array in the <code>.out</code> file thats created, but that&#8217;s not
 enough. You need to run <a href="#blocks_write_init_pins">write_init_pins.sh</a> on the <code>.out</code> file to make
-the code work.</p>
+the code work.  Fortunately the Makefile always runs it.</p>
 </div>
 <div id="blocks_write_init_pins" class="listingblock">
 <div class="title">write_init_pins.sh</div>
@@ -1209,13 +1209,18 @@ PRU_DIR = /sys/class/remoteproc/remoteproc1</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The file <code>resource_table_empty.h</code> is used by the PRU loader.  Generally we&#8217;ll use the same file, and don&#8217;t need to modify it.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This include has addresses for the GPIO ports and some bit positions for some
+of the headers.</p></td>
+</tr>
 </tbody>
 </table>
 <div class="paragraph">
-<p>Here&#8217;s what&#8217;s in <code>resource_table_empty.h</code>
-.resource_table_empty.c</p>
+<p>Here&#8217;s what&#8217;s in <code>resource_table_empty.h</code></p>
 </div>
 <div class="listingblock">
+<div class="title">resource_table_empty.c</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -1567,7 +1572,7 @@ we&#8217;ll be toggling <code>P9_31</code>.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">19</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">This is like line 18, but <code>~gpio</code> inverts all the bits in <code>gpio</code> so that where we had a 1, there is now a 0.  This 0 is then ANDed with <code>__R30</code> setting the corresponding bit to 0.  Thus we are clearing the bit we selected.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This is like line 17, but <code>~gpio</code> inverts all the bits in <code>gpio</code> so that where we had a 1, there is now a 0.  This 0 is then ANDed with <code>__R30</code> setting the corresponding bit to 0.  Thus we are clearing the bit we selected.</p></td>
 </tr>
 </tbody>
 </table>
@@ -3567,8 +3572,9 @@ which is what you want for the start of the sawtooth.</p>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>I used a 10K&Omega; variable resistor and a 0.022&mu;F capacitor. (The figure
-has the wrong value.) Probe the circuit between the resistor and the capacitor and adjust the resistor until you get a good looking waveform.</p>
+<p>I used a 10K&Omega; variable resistor and a 0.022&mu;F capacitor.
+Probe the circuit between the resistor and the capacitor and adjust the resistor
+until you get a good looking waveform.</p>
 </div>
 </td>
 </tr>
@@ -4059,35 +4065,35 @@ GRB (green, red, blue).</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">22</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">23</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Define the string of colors to be output.  Here the ordering of the
 bits is the same as <a href="#blocks_new_data_seq">NeoPixel data sequence</a>, GRB.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">25</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">26</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Loop for each color to output.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">26</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">27</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Loop for each bit in an GRB color.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">27</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">28</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Get the j<sup>th</sup> color and mask off all but the i<sup>th</sup> bit.  <code>(0x1&lt;&lt;i)</code> takes
 the value <code>0x1</code> and shifts it left <code>i</code> bits.  When anded (&amp;) with <code>color[j]</code>
 it will zero out all but the i<sup>th</sup> bit.  If the result of the operation is
 1, the <code>if</code> is done, otherwise the <code>else</code> is done.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">28-31</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">29-32</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Send a 1.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">33-36</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">34-37</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Send a 0.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">40-32</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">42-43</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Send a reset pulse once all the colors have been sent.</p></td>
 </tr>
 </tbody>
@@ -4295,23 +4301,23 @@ Your browser does not support the video tag.
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">31, 32</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">32,33</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Initiallize the array of colors.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">37-40</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">38-41</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Update the array.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">43-57</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">44-58</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Send the array to the LEDs.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">58-60</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60-61</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Send a reset.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">62, 63</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">64</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Wait a bit.</p></td>
 </tr>
 </tbody>
@@ -4660,10 +4666,10 @@ LEDs.  You 0<sup>th</sup> LED should now be lit.</p>
 <div class="sect3">
 <h4 id="_discussion_13"><a class="link" href="#_discussion_13">Discussion</a></h4>
 <div class="paragraph">
-<p>There&#8217;s a lot here.  I&#8217;ll just hit some of the highlights in <a href="#blocks_neo4_lines">Line-by-line for neo4.c</a>.</p>
+<p>There&#8217;s a lot here.  I&#8217;ll just hit some of the highlights in <a href="#blocks_neo4_lines">Line-by-line for neo4.pru0.c</a>.</p>
 </div>
 <table id="blocks_neo4_lines" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 11. Line-by-line for neo4.c</caption>
+<caption class="title">Table 11. Line-by-line for neo4.pru0.c</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 90%;">
@@ -4676,56 +4682,56 @@ LEDs.  You 0<sup>th</sup> LED should now be lit.</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">29</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The <code>CHAN_NAME</code> of <code>rpmsg-pru</code> matches that <code>prmsg_pru</code> driver that is
 is already installed.  This connects this PRU to the driver.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">31</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">32</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The <code>CHAN_PORT</code> tells it to use port 30.  That&#8217;s why we use
 <code>/dev/rpmsg_pru30</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">39</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">40</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>payload[]</code> is the buffer that receives the data from the ARM.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">41-47</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">42-48</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Same as the previous NeoPixel examples.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">51</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">52</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>color[]</code> is the state to be sent to the LEDs.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">65-67</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">66-68</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>color[]</code> is initialized.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">69-84</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">70-85</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Here are a number of details needed to set up the channel between
 the PRU and the ARM.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">87</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">88</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Here we wait until the ARM sends us some numbers.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">90</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">99</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Receive all the data from the ARM, store it in <code>payload[]</code>.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">94-102</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">101-111</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The data sent is:  index red green blue.  Pull off the index.  If it&#8217;s
 in the right range, pull off the red, green and blue values.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">104</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">113</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The NeoPixels want the data in GRB order.  Shift and OR everything
 together.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">107-130</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">116-133</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If the <code>index</code> = -1, send the contents of <code>color</code> to the LEDs.  This
 code is same as before.</p></td>
 </tr>
@@ -4767,7 +4773,7 @@ code is same as before.</p></td>
 26
 27
 </pre></td>
-  <td class="code"><pre><span class="comment"><mark>!/usr/bin/python</span>
+  <td class="code"><pre><span class="comment"><mark>!/usr/bin/python3</span>
 <span class="keyword">from</span> <span class="include">time</span> <span class="keyword">import</span> <span class="include">sleep</span>
 <span class="keyword">import</span> <span class="include">math</span>
 
@@ -5644,7 +5650,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-15 16:38:14 -0400
+Last updated 2020-06-22 16:21:12 -0400
 </div>
 </div>
 <style>

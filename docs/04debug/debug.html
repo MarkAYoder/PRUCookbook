@@ -528,9 +528,10 @@ when I load my code, but don&#8217;t know what&#8217;s causing it.</p>
 <h4 id="_solution_2"><a class="link" href="#_solution_2">Solution</a></h4>
 <div class="paragraph">
 <p>The command <code>dmesg</code> outputs useful information when dealing with the kernel.
-Simplying running <code>dmesg -H</code> can tell you a lot.  The <code>-H</code> flag puts the
-dates in the human readable form.  Often I&#8217;ll have a window open running <code>dmesg -Hw</code>;
-the <code>-w</code> tells it to wait for more information.</p>
+Simplying running <code>dmesg -Hw</code> can tell you a lot.  The <code>-H</code> flag puts the
+dates in the human readable form, the <code>-w</code> tells it to wait for more information.
+Often I&#8217;ll have a window open running <code>dmesg -Hw</code>.
+.</p>
 </div>
 <div class="paragraph">
 <p>Here&#8217;s what <code>dmesg</code> said for the example above.</p>
@@ -575,6 +576,20 @@ assembler output. You can find it in my GitHub BeagleBoard repo
 <h4 id="_discussion_2"><a class="link" href="#_discussion_2">Discussion</a></h4>
 <div class="paragraph">
 <p>Once <code>prudebug</code> is installed is rather easy to use.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>prudebug</code> hasn&#8217;t been ported to the AI.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -899,7 +914,7 @@ Once an ENTER appears the string is sent back.</p>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>On the Black, ither PRU0 and PRU1 can run this code.  Both have access to the same UART.</p>
+<p>On the Black, either PRU0 and PRU1 can run this code.  Both have access to the same UART.</p>
 </div>
 </td>
 </tr>
@@ -1611,7 +1626,7 @@ examples.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-15 16:10:10 -0400
+Last updated 2020-06-22 15:14:58 -0400
 </div>
 </div>
 <style>

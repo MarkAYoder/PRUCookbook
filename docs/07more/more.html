@@ -513,15 +513,16 @@ of 1.</p>
 <div id="more_delay-test" class="listingblock">
 <div class="title">delay-test..pru0.c</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="c"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
 10
 11
 12
@@ -541,35 +542,36 @@ of 1.</p>
 26
 27
 28
-</pre></td><td class="code"><pre><span class="c1">// Shows how to call an assembly routine with one parameter</span>
-<span class="cp">#include &lt;stdint.h&gt;
-#include &lt;pru_cfg.h&gt;
-#include "resource_table_empty.h"
-#include "prugpio.h"
-</span>
-<span class="c1">// The function is defined in delay.asm in same dir</span>
-<span class="c1">// We just need to add a declaration here, the defination can be</span>
-<span class="c1">// seperately linked</span>
-<span class="k">extern</span> <span class="kt">void</span> <span class="nf">my_delay_cycles</span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">);</span>
+</pre></td>
+  <td class="code"><pre><span class="comment">// Shows how to call an assembly routine with one parameter</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;prugpio.h&quot;</span>
 
-<span class="k">volatile</span> <span class="k">register</span> <span class="kt">uint32_t</span> <span class="n"><em>R30</span><span class="p">;</span>
-<span class="k">volatile</span> <span class="k">register</span> <span class="kt">uint32_t</span> <span class="n"></em>R31</span><span class="p">;</span>
+<span class="comment">// The function is defined in delay.asm in same dir</span>
+<span class="comment">// We just need to add a declaration here, the defination can be</span>
+<span class="comment">// seperately linked</span>
+<span class="directive">extern</span> <span class="directive">void</span> my_delay_cycles(uint32_t);
 
-<span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="kt">uint32_t</span> <span class="n">gpio</span> <span class="o">=</span> <span class="n">P9_31</span><span class="p">;</span>  <span class="c1">// Select which pin to toggle.;</span>
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t <em>R30;
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t </em>R31;
 
-    <span class="cm">/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */</span>
-    <span class="n">CT_CFG</span><span class="p">.</span><span class="n">SYSCFG_bit</span><span class="p">.</span><span class="n">STANDBY_INIT</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="directive">void</span> main(<span class="directive">void</span>)
+{
+    uint32_t gpio = P9_31;  <span class="comment">// Select which pin to toggle.;</span>
 
-    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n"><em>R30</span> <span class="o">|=</span> <span class="n">gpio</span><span class="p">;</span>      <span class="c1">// Set the GPIO pin to 1</span>
-        <span class="n">my_delay_cycles</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-        <span class="n"></em>R30</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">gpio</span><span class="p">;</span>     <span class="c1">// Clear the GPIO pin</span>
-        <span class="n">my_delay_cycles</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></td></tr></tbody></table></code></pre>
+    <span class="comment">/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */</span>
+    CT_CFG.SYSCFG_bit.STANDBY_INIT = <span class="integer">0</span>;
+
+    <span class="keyword">while</span>(<span class="integer">1</span>) {
+        <em>R30 |= gpio;      <span class="comment">// Set the GPIO pin to 1</span>
+        my_delay_cycles(<span class="integer">1</span>);
+        </em>R30 &amp;= ~gpio;     <span class="comment">// Clear the GPIO pin</span>
+        my_delay_cycles(<span class="integer">1</span>);
+    }
+}</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -578,7 +580,8 @@ of 1.</p>
 <div id="more_delay" class="listingblock">
 <div class="title">delay.pru0.asm</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="c"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
 2
 3
 4
@@ -587,16 +590,17 @@ of 1.</p>
 7
 8
 9
-</pre></td><td class="code"><pre><span class="p">;</span> <span class="n">This</span> <span class="n">is</span> <span class="n">an</span> <span class="n">example</span> <span class="n">of</span> <span class="n">how</span> <span class="n">to</span> <span class="n">call</span> <span class="n">an</span> <span class="n">assembly</span> <span class="n">routine</span> <span class="n">from</span> <span class="n">C</span><span class="p">.</span>
-<span class="p">;</span>   <span class="n">Mark</span> <span class="n">A</span><span class="p">.</span> <span class="n">Yoder</span><span class="p">,</span> <span class="mi">9</span><span class="o">-</span><span class="n">July</span><span class="o">-</span><span class="mi">2018</span>
-    <span class="p">.</span><span class="n">global</span> <span class="n">my_delay_cycles</span>
-<span class="n">my_delay_cycles</span><span class="o">:</span>
-<span class="n">delay</span><span class="o">:</span>
-    <span class="n">sub</span>     <span class="n">r14</span><span class="p">,</span>   <span class="n">r14</span><span class="p">,</span> <span class="mi">1</span>       <span class="p">;</span> <span class="n">The</span> <span class="n">first</span> <span class="n">argument</span> <span class="n">is</span> <span class="n">passed</span> <span class="n">in</span> <span class="n">r14</span>
-    <span class="n">qbne</span>    <span class="n">delay</span><span class="p">,</span> <span class="n">r14</span><span class="p">,</span> <span class="mi">0</span>
+</pre></td>
+  <td class="code"><pre>; This is an example of how to call an assembly routine from C.
+;   Mark A. Yoder, <span class="integer">9</span>-July-<span class="integer">2018</span>
+    .global my_delay_cycles
+my_delay_cycles:
+delay:
+    sub     r14,   r14, <span class="integer">1</span>       ; The first argument is passed in r14
+    qbne    delay, r14, <span class="integer">0</span>
 
-    <span class="n">jmp</span>     <span class="n">r3</span><span class="p">.</span><span class="n">w2</span>           <span class="p">;</span> <span class="n">r3</span> <span class="n">contains</span> <span class="n">the</span> <span class="k">return</span> <span class="n">address</span>
-</pre></td></tr></tbody></table></code></pre>
+    jmp     r3.w2           ; r3 contains the <span class="keyword">return</span> address</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -607,7 +611,7 @@ If you look in the local <code>Makefile</code> you&#8217;ll see:</p>
 <div id="more_makefile" class="listingblock">
 <div class="title">Makefile</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="makefile"><span class="err">include</span> <span class="err">/var/lib/cloud9/common/Makefile</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="makefile">include /var/lib/cloud9/common/Makefile</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -617,12 +621,12 @@ Edit <code>/var/lib/cloud9/common/Makefile</code> and go to line 197.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="rouge highlight"><code data-lang="makefile"><span class="nl">$(GEN_DIR)/%.out</span><span class="o">:</span> <span class="nf">$(GEN_DIR)/%.o <strong>$(GEN_DIR)/$(TARGETasm).o</strong></span>
-    <span class="err">@mkdir</span> <span class="err">-p</span> <span class="err">$(GEN_DIR)</span>
-    <span class="err">@echo</span> <span class="s1">'LD   $^'</span>
-    <span class="err">$(eval</span> <span class="err">$(call</span> <span class="err">target-to-proc,$@))</span>
-    <span class="err">$(eval</span> <span class="err">$(call</span> <span class="err">proc-to-build-vars,$@))</span>
-    <span class="err">@$(LD)</span> <span class="err">$@</span> <span class="err">$^</span> <span class="err">$(LDFLAGS)</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="makefile">$(GEN_DIR)/%.out: $(GEN_DIR)/%.o <strong>$(GEN_DIR)/$(TARGETasm).o</strong>
+    @mkdir -p $(GEN_DIR)
+    @echo 'LD   $^'
+    $(eval $(call target-to-proc,$@))
+    $(eval $(call proc-to-build-vars,$@))
+    @$(LD) $@ $^ $(LDFLAGS)</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -634,17 +638,17 @@ this addition once you are done with this example since it will break the other 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="rouge highlight"><code data-lang="bash">bone<span class="nv">$ </span><span class="k"><strong></span>config-pin P9_31 pruout<span class="k"></strong></span>
-bone<span class="nv">$ </span><span class="k"><strong></span>make <span class="nv">TARGET</span><span class="o">=</span>delay-test.pru0 <span class="nv">TARGETasm</span><span class="o">=</span>delay.pru0<span class="k"></strong></span>
-/var/lib/cloud9/common/Makefile:29: <span class="nv">MODEL</span><span class="o">=</span>TI_AM335x_BeagleBone_Black,TARGET<span class="o">=</span>delay-test.pru0
+<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>config-pin P9_31 pruout</strong>
+bone$ <strong>make TARGET=delay-test.pru0 TARGETasm=delay.pru0</strong>
+/var/lib/cloud9/common/Makefile:29: MODEL=TI_AM335x_BeagleBone_Black,TARGET=delay-test.pru0
 -    Stopping PRU 0
 -   copying firmware file /tmp/cloud9-examples/delay-test.pru0.out to /lib/firmware/am335x-pru0-fw
 write_init_pins.sh
 -    Starting PRU 0
-MODEL   <span class="o">=</span> TI_AM335x_BeagleBone_Black
-PROC    <span class="o">=</span> pru
-PRUN    <span class="o">=</span> 0
-PRU_DIR <span class="o">=</span> /sys/class/remoteproc/remoteproc1</code></pre>
+MODEL   = TI_AM335x_BeagleBone_Black
+PROC    = pru
+PRUN    = 0
+PRU_DIR = /sys/class/remoteproc/remoteproc1</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -664,7 +668,7 @@ PRU_DIR <span class="o">=</span> /sys/class/remoteproc/remoteproc1</code></pre>
 <p>There is much to explain here.  Let&#8217;s start with <a href="#more_delay">delay.pru0.asm</a>.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Line-by-line of delays.asm</caption>
+<caption class="title">Table 1. Line-by-line of delay.pru0.asm</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 90%;">
@@ -736,15 +740,16 @@ code.</p>
 <div id="more_test2" class="listingblock">
 <div class="title">delay-test2.pru0.c</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="c"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
 10
 11
 12
@@ -768,39 +773,40 @@ code.</p>
 30
 31
 32
-</pre></td><td class="code"><pre><span class="c1">// Shows how to call an assembly routine with a return value</span>
-<span class="cp">#include &lt;stdint.h&gt;
-#include &lt;pru_cfg.h&gt;
-#include "resource_table_empty.h"
-#include "prugpio.h"
-</span>
-<span class="cp">#define TEST    100
-</span>
-<span class="c1">// The function is defined in delay.asm in same dir</span>
-<span class="c1">// We just need to add a declaration here, the defination can be</span>
-<span class="c1">// seperately linked</span>
-<span class="k">extern</span> <span class="kt">uint32_t</span> <span class="nf">my_delay_cycles</span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">);</span>
+</pre></td>
+  <td class="code"><pre><span class="comment">// Shows how to call an assembly routine with a return value</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;prugpio.h&quot;</span>
 
-<span class="kt">uint32_t</span> <span class="n">ret</span><span class="p">;</span>
+<span class="preprocessor">#define</span> TEST    <span class="integer">100</span>
 
-<span class="k">volatile</span> <span class="k">register</span> <span class="kt">uint32_t</span> <span class="n"><em>R30</span><span class="p">;</span>
-<span class="k">volatile</span> <span class="k">register</span> <span class="kt">uint32_t</span> <span class="n"></em>R31</span><span class="p">;</span>
+<span class="comment">// The function is defined in delay.asm in same dir</span>
+<span class="comment">// We just need to add a declaration here, the defination can be</span>
+<span class="comment">// seperately linked</span>
+<span class="directive">extern</span> uint32_t my_delay_cycles(uint32_t);
 
-<span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="kt">uint32_t</span> <span class="n">gpio</span> <span class="o">=</span> <span class="n">P9_31</span><span class="p">;</span>  <span class="c1">// Select which pin to toggle.;</span>
+uint32_t ret;
 
-    <span class="cm">/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */</span>
-    <span class="n">CT_CFG</span><span class="p">.</span><span class="n">SYSCFG_bit</span><span class="p">.</span><span class="n">STANDBY_INIT</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t <em>R30;
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t </em>R31;
 
-    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n"><em>R30</span> <span class="o">|=</span> <span class="n">gpio</span><span class="p">;</span>      <span class="c1">// Set the GPIO pin to 1</span>
-        <span class="n">ret</span> <span class="o">=</span> <span class="n">my_delay_cycles</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-        <span class="n"></em>R30</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">gpio</span><span class="p">;</span>     <span class="c1">// Clear the GPIO pin</span>
-        <span class="n">ret</span> <span class="o">=</span> <span class="n">my_delay_cycles</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></td></tr></tbody></table></code></pre>
+<span class="directive">void</span> main(<span class="directive">void</span>)
+{
+    uint32_t gpio = P9_31;  <span class="comment">// Select which pin to toggle.;</span>
+
+    <span class="comment">/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */</span>
+    CT_CFG.SYSCFG_bit.STANDBY_INIT = <span class="integer">0</span>;
+
+    <span class="keyword">while</span>(<span class="integer">1</span>) {
+        <em>R30 |= gpio;      <span class="comment">// Set the GPIO pin to 1</span>
+        ret = my_delay_cycles(<span class="integer">1</span>);
+        </em>R30 &amp;= ~gpio;     <span class="comment">// Clear the GPIO pin</span>
+        ret = my_delay_cycles(<span class="integer">1</span>);
+    }
+}</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -809,37 +815,39 @@ code.</p>
 <div id="more_delay2" class="listingblock">
 <div class="title">delay2.pru0.asm</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="c"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
 10
 11
 12
 13
 14
 15
-</pre></td><td class="code"><pre><span class="p">;</span> <span class="n">This</span> <span class="n">is</span> <span class="n">an</span> <span class="n">example</span> <span class="n">of</span> <span class="n">how</span> <span class="n">to</span> <span class="n">call</span> <span class="n">an</span> <span class="n">assembly</span> <span class="n">routine</span> <span class="n">from</span> <span class="n">C</span> <span class="n">with</span> <span class="n">a</span> <span class="n">retun</span> <span class="n">value</span><span class="p">.</span>
-<span class="p">;</span>   <span class="n">Mark</span> <span class="n">A</span><span class="p">.</span> <span class="n">Yoder</span><span class="p">,</span> <span class="mi">9</span><span class="o">-</span><span class="n">July</span><span class="o">-</span><span class="mi">2018</span>
+</pre></td>
+  <td class="code"><pre>; This is an example of how to call an assembly routine from C with a retun value.
+;   Mark A. Yoder, <span class="integer">9</span>-July-<span class="integer">2018</span>
 
-    <span class="p">.</span><span class="n">cdecls</span> <span class="s">"delay-test2.pru0.c"</span>
+    .cdecls <span class="string"><span class="delimiter">&quot;</span><span class="content">delay-test2.pru0.c</span><span class="delimiter">&quot;</span></span>
 
-    <span class="p">.</span><span class="n">global</span> <span class="n">my_delay_cycles</span>
-<span class="n">my_delay_cycles</span><span class="o">:</span>
-<span class="n">delay</span><span class="o">:</span>
-    <span class="n">sub</span>     <span class="n">r14</span><span class="p">,</span>   <span class="n">r14</span><span class="p">,</span> <span class="mi">1</span>       <span class="p">;</span> <span class="n">The</span> <span class="n">first</span> <span class="n">argument</span> <span class="n">is</span> <span class="n">passed</span> <span class="n">in</span> <span class="n">r14</span>
-    <span class="n">qbne</span>    <span class="n">delay</span><span class="p">,</span> <span class="n">r14</span><span class="p">,</span> <span class="mi">0</span>
+    .global my_delay_cycles
+my_delay_cycles:
+delay:
+    sub     r14,   r14, <span class="integer">1</span>       ; The first argument is passed in r14
+    qbne    delay, r14, <span class="integer">0</span>
 
-    <span class="n">ldi</span>     <span class="n">r14</span><span class="p">,</span> <span class="n">TEST</span>       <span class="p">;</span> <span class="n">TEST</span> <span class="n">is</span> <span class="n">defined</span> <span class="n">in</span> <span class="n">delay</span><span class="o">-</span><span class="n">test2</span><span class="p">.</span><span class="n">c</span>
-                            <span class="p">;</span> <span class="n">r14</span> <span class="n">is</span> <span class="n">the</span> <span class="k">return</span> <span class="k">register</span>
+    ldi     r14, TEST       ; TEST is defined in delay-test2.c
+                            ; r14 is the <span class="keyword">return</span> <span class="directive">register</span>
 
-    <span class="n">jmp</span>     <span class="n">r3</span><span class="p">.</span><span class="n">w2</span>           <span class="p">;</span> <span class="n">r3</span> <span class="n">contains</span> <span class="n">the</span> <span class="k">return</span> <span class="n">address</span>
-</pre></td></tr></tbody></table></code></pre>
+    jmp     r3.w2           ; r3 contains the <span class="keyword">return</span> address</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -869,15 +877,16 @@ many times the PRU stalled fetching an instruction.
 <div id="more_cycle" class="listingblock">
 <div class="title">cycle.pru0.c - Code to count cycles.</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="c"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
 10
 11
 12
@@ -901,39 +910,40 @@ many times the PRU stalled fetching an instruction.
 30
 31
 32
-</pre></td><td class="code"><pre><span class="c1">// Access the CYCLE and STALL registers</span>
-<span class="cp">#include &lt;stdint.h&gt;
-#include &lt;pru_cfg.h&gt;
-#include &lt;pru_ctrl.h&gt;
-#include "resource_table_empty.h"
-#include "prugpio.h"
-</span>
-<span class="k">volatile</span> <span class="k">register</span> <span class="kt">uint32_t</span> <span class="n"><em>R30</span><span class="p">;</span>
-<span class="k">volatile</span> <span class="k">register</span> <span class="kt">uint32_t</span> <span class="n"></em>R31</span><span class="p">;</span>
+</pre></td>
+  <td class="code"><pre><span class="comment">// Access the CYCLE and STALL registers</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;pru_cfg.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;pru_ctrl.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;prugpio.h&quot;</span>
 
-<span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="kt">uint32_t</span> <span class="n">gpio</span> <span class="o">=</span> <span class="n">P9_31</span><span class="p">;</span>  <span class="c1">// Select which pin to toggle.;</span>
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t <em>R30;
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t </em>R31;
 
-    <span class="c1">// These will be kept in registers and never witten to DRAM</span>
-    <span class="kt">uint32_t</span> <span class="n">cycle</span><span class="p">,</span> <span class="n">stall</span><span class="p">;</span>
+<span class="directive">void</span> main(<span class="directive">void</span>)
+{
+    uint32_t gpio = P9_31;  <span class="comment">// Select which pin to toggle.;</span>
 
-    <span class="c1">// Clear SYSCFG[STANDBY_INIT] to enable OCP master port</span>
-    <span class="n">CT_CFG</span><span class="p">.</span><span class="n">SYSCFG_bit</span><span class="p">.</span><span class="n">STANDBY_INIT</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="comment">// These will be kept in registers and never witten to DRAM</span>
+    uint32_t cycle, stall;
 
-    <span class="n">PRU0_CTRL</span><span class="p">.</span><span class="n">CTRL_bit</span><span class="p">.</span><span class="n">CTR_EN</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>  <span class="c1">// Enable cycle counter</span>
+    <span class="comment">// Clear SYSCFG[STANDBY_INIT] to enable OCP master port</span>
+    CT_CFG.SYSCFG_bit.STANDBY_INIT = <span class="integer">0</span>;
 
-    <span class="n"><em>R30</span> <span class="o">|=</span> <span class="n">gpio</span><span class="p">;</span>              <span class="c1">// Set the GPIO pin to 1</span>
-    <span class="c1">// Reset cycle counter, cycle is on the right side to force the compiler</span>
-    <span class="c1">// to put it in it's own register</span>
-    <span class="n">PRU0_CTRL</span><span class="p">.</span><span class="n">CYCLE</span> <span class="o">=</span> <span class="n">cycle</span><span class="p">;</span>
-    <span class="n"></em>R30</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">gpio</span><span class="p">;</span>             <span class="c1">// Clear the GPIO pin</span>
-    <span class="n">cycle</span> <span class="o">=</span> <span class="n">PRU0_CTRL</span><span class="p">.</span><span class="n">CYCLE</span><span class="p">;</span>    <span class="c1">// Read cycle and store in a register</span>
-    <span class="n">stall</span> <span class="o">=</span> <span class="n">PRU0_CTRL</span><span class="p">.</span><span class="n">STALL</span><span class="p">;</span>    <span class="c1">// Ditto for stall</span>
+    PRU0_CTRL.CTRL_bit.CTR_EN = <span class="integer">1</span>;  <span class="comment">// Enable cycle counter</span>
 
-    <span class="n">__halt</span><span class="p">();</span>
-<span class="p">}</span>
-</pre></td></tr></tbody></table></code></pre>
+    <em>R30 |= gpio;              <span class="comment">// Set the GPIO pin to 1</span>
+    <span class="comment">// Reset cycle counter, cycle is on the right side to force the compiler</span>
+    <span class="comment">// to put it in it's own register</span>
+    PRU0_CTRL.CYCLE = cycle;
+    </em>R30 &amp;= ~gpio;             <span class="comment">// Clear the GPIO pin</span>
+    cycle = PRU0_CTRL.CYCLE;    <span class="comment">// Read cycle and store in a register</span>
+    stall = PRU0_CTRL.STALL;    <span class="comment">// Ditto for stall</span>
+
+    __halt();
+}</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 </div>
@@ -991,21 +1001,23 @@ register.</p></td>
 <div id="more_cycle_list0" class="listingblock">
 <div class="title">/tmp/cloud9-examples/cycle.pru0.lst Lines 113..119</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="asm"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+<pre class="CodeRay highlight"><code data-lang="asm"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
 2
 3
 4
 5
 6
 7
-</pre></td><td class="code"><pre>     103;----------------------------------------------------------------------
+</pre></td>
+  <td class="code"><pre>     103;----------------------------------------------------------------------
      104;  23 | PRU0_CTRL.CTRL_bit.CTR_EN = 1;  // Enable cycle counter
      105;----------------------------------------------------------------------
      106 0000000c 200080240002C0          LDI32     r0, 0x00022000        ; [ALU_PRU] |23| $O$C1
      107 00000014 000000F1002081          LBBO      &amp;r1, r0, 0, 4         ; [ALU_PRU] |23|
      108 00000018 0000001F03E1E1          SET       r1, r1, 0x00000003    ; [ALU_PRU] |23|
-     109 0000001c 000000E1002081          SBBO      &amp;r1, r0, 0, 4         ; [ALU_PRU] |23|
-</pre></td></tr></tbody></table></code></pre>
+     109 0000001c 000000E1002081          SBBO      &amp;r1, r0, 0, 4         ; [ALU_PRU] |23|</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1016,21 +1028,23 @@ This is the offset to the <code>CTRL</code> registers.
 <div id="more_cycle_list1" class="listingblock">
 <div class="title">/tmp/cloud9-examples/cycle.pru0.lst Lines 146..152</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="asm"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+<pre class="CodeRay highlight"><code data-lang="asm"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
 2
 3
 4
 5
 6
 7
-</pre></td><td class="code"><pre>     131;----------------------------------------------------------------------
+</pre></td>
+  <td class="code"><pre>     131;----------------------------------------------------------------------
      132 0000002c 000000F10C2081          LBBO      &amp;r1, r0, 12, 4        ; [ALU_PRU] |30| $O$C1
-     133        .dwpsn  file "cycle.pru0.c",line 31,column 2,is_stmt,isa 0
+     133        .dwpsn  file &quot;cycle.pru0.c&quot;,line 31,column 2,is_stmt,isa 0
      134;----------------------------------------------------------------------
      135;  31 | stall = PRU0_CTRL.STALL;        // Ditto for stall
      136;----------------------------------------------------------------------
-     137 00000030 000000F1102080          LBBO      &amp;r0, r0, 16, 4        ; [ALU_PRU] |31| $O$C1
-</pre></td></tr></tbody></table></code></pre>
+     137 00000030 000000F1102080          LBBO      &amp;r0, r0, 16, 4        ; [ALU_PRU] |31| $O$C1</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1047,19 +1061,19 @@ thus <code>STALL</code> is now  in <code>r0</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="rouge highlight"><code data-lang="bash">bone<span class="nv">$ </span><span class="k"><strong></span><span class="nb">sudo </span>prudebug<span class="k"></strong></span>
-PRU0&gt; <span class="k"><strong></span>r<span class="k"></strong></span>
+<pre class="CodeRay highlight"><code data-lang="bash">bone$ <strong>sudo prudebug</strong>
+PRU0&gt; <strong>r</strong>
 r
 r
-Register info <span class="k">for </span>PRU0
+Register info for PRU0
     Control register: 0x00000009
       Reset PC:0x0000  STOPPED, FREE_RUN, COUNTER_ENABLED, NOT_SLEEPING, PROC_DISABLED
 
     Program counter: 0x0012
       Current instruction: HALT
 
-    R00: <span class="k"><strong></span>0x00000005<span class="k"></strong></span>    R08: 0x00000200    R16: 0x000003c6    R24: 0x00110210
-    R01: <span class="k"><strong></span>0x00000003<span class="k"></strong></span>    R09: 0x00000000    R17: 0x00000000    R25: 0x00000000
+    R00: <strong>0x00000005</strong>    R08: 0x00000200    R16: 0x000003c6    R24: 0x00110210
+    R01: <strong>0x00000003</strong>    R09: 0x00000000    R17: 0x00000000    R25: 0x00000000
     R02: 0x000000fc    R10: 0xfff4ea57    R18: 0x000003e6    R26: 0x6e616843
     R03: 0x0004272c    R11: 0x5fac6373    R19: 0x30203020    R27: 0x206c656e
     R04: 0xffffffff    R12: 0x59bfeafc    R20: 0x0000000a    R28: 0x00003033
@@ -1099,15 +1113,16 @@ transfers six registers to PRU 1.</p>
 <div id="more_xout" class="listingblock">
 <div class="title">xout.pru0.c</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="c"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
 10
 11
 12
@@ -1151,59 +1166,60 @@ transfers six registers to PRU 1.</p>
 50
 51
 52
-</pre></td><td class="code"><pre><span class="c1">// From: http://git.ti.com/pru-software-support-package/pru-software-support-package/trees/master/examples/am335x/PRU_Direct_Connect0</span>
-<span class="cp">#include &lt;stdint.h&gt;
-#include &lt;pru_intc.h&gt;
-#include "resource_table_pru0.h"
-</span>
-<span class="k">volatile</span> <span class="k">register</span> <span class="kt">uint32_t</span> <span class="n"><em>R30</span><span class="p">;</span>
-<span class="k">volatile</span> <span class="k">register</span> <span class="kt">uint32_t</span> <span class="n"></em>R31</span><span class="p">;</span>
+</pre></td>
+  <td class="code"><pre><span class="comment">// From: http://git.ti.com/pru-software-support-package/pru-software-support-package/trees/master/examples/am335x/PRU_Direct_Connect0</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;pru_intc.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;resource_table_pru0.h&quot;</span>
 
-<span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
-    <span class="kt">uint32_t</span> <span class="n">reg5</span><span class="p">;</span>
-    <span class="kt">uint32_t</span> <span class="n">reg6</span><span class="p">;</span>
-    <span class="kt">uint32_t</span> <span class="n">reg7</span><span class="p">;</span>
-    <span class="kt">uint32_t</span> <span class="n">reg8</span><span class="p">;</span>
-    <span class="kt">uint32_t</span> <span class="n">reg9</span><span class="p">;</span>
-    <span class="kt">uint32_t</span> <span class="n">reg10</span><span class="p">;</span>
-<span class="p">}</span> <span class="n">bufferData</span><span class="p">;</span>
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t <em>R30;
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t </em>R31;
 
-<span class="n">bufferData</span> <span class="n">dmemBuf</span><span class="p">;</span>
+<span class="keyword">typedef</span> <span class="keyword">struct</span> {
+    uint32_t reg5;
+    uint32_t reg6;
+    uint32_t reg7;
+    uint32_t reg8;
+    uint32_t reg9;
+    uint32_t reg10;
+} bufferData;
 
-<span class="cm">/* PRU-to-ARM interrupt <strong>/</span>
-<span class="cp">#define PRU1_PRU0_INTERRUPT (18)
-#define PRU0_ARM_INTERRUPT (19+16)
-</span>
-<span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="cm">/</strong> Clear the status of all interrupts <strong>/</span>
-    <span class="n">CT_INTC</span><span class="p">.</span><span class="n">SECR0</span> <span class="o">=</span> <span class="mh">0xFFFFFFFF</span><span class="p">;</span>
-    <span class="n">CT_INTC</span><span class="p">.</span><span class="n">SECR1</span> <span class="o">=</span> <span class="mh">0xFFFFFFFF</span><span class="p">;</span>
+bufferData dmemBuf;
 
-    <span class="cm">/</strong> Load the buffer with default values to transfer <strong>/</span>
-    <span class="n">dmemBuf</span><span class="p">.</span><span class="n">reg5</span> <span class="o">=</span> <span class="mh">0xDEADBEEF</span><span class="p">;</span>
-    <span class="n">dmemBuf</span><span class="p">.</span><span class="n">reg6</span> <span class="o">=</span> <span class="mh">0xAAAAAAAA</span><span class="p">;</span>
-    <span class="n">dmemBuf</span><span class="p">.</span><span class="n">reg7</span> <span class="o">=</span> <span class="mh">0x12345678</span><span class="p">;</span>
-    <span class="n">dmemBuf</span><span class="p">.</span><span class="n">reg8</span> <span class="o">=</span> <span class="mh">0xBBBBBBBB</span><span class="p">;</span>
-    <span class="n">dmemBuf</span><span class="p">.</span><span class="n">reg9</span> <span class="o">=</span> <span class="mh">0x87654321</span><span class="p">;</span>
-    <span class="n">dmemBuf</span><span class="p">.</span><span class="n">reg10</span> <span class="o">=</span> <span class="mh">0xCCCCCCCC</span><span class="p">;</span>
+<span class="comment">/* PRU-to-ARM interrupt <strong>/</span>
+<span class="preprocessor">#define</span> PRU1_PRU0_INTERRUPT (<span class="integer">18</span>)
+<span class="preprocessor">#define</span> PRU0_ARM_INTERRUPT (<span class="integer">19</span>+<span class="integer">16</span>)
 
-    <span class="cm">/</strong> Poll until R31.30 (PRU0 interrupt) is set
+<span class="directive">void</span> main(<span class="directive">void</span>)
+{
+    <span class="comment">/</strong> Clear the status of all interrupts <strong>/</span>
+    CT_INTC.SECR0 = <span class="hex">0xFFFFFFFF</span>;
+    CT_INTC.SECR1 = <span class="hex">0xFFFFFFFF</span>;
+
+    <span class="comment">/</strong> Load the buffer with default values to transfer <strong>/</span>
+    dmemBuf.reg5 = <span class="hex">0xDEADBEEF</span>;
+    dmemBuf.reg6 = <span class="hex">0xAAAAAAAA</span>;
+    dmemBuf.reg7 = <span class="hex">0x12345678</span>;
+    dmemBuf.reg8 = <span class="hex">0xBBBBBBBB</span>;
+    dmemBuf.reg9 = <span class="hex">0x87654321</span>;
+    dmemBuf.reg10 = <span class="hex">0xCCCCCCCC</span>;
+
+    <span class="comment">/</strong> Poll until R31.30 (PRU0 interrupt) is set
      * This signals PRU1 is initialized <strong>/</span>
-    <span class="k">while</span> <span class="p">((</span><span class="n"><em>R31</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">30</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="p">}</span>
+    <span class="keyword">while</span> ((<em>R31 &amp; (<span class="integer">1</span>&lt;&lt;<span class="integer">30</span>)) == <span class="integer">0</span>) {
+    }
 
-    <span class="cm">/</strong> XFR registers R5-R10 from PRU0 to PRU1 <strong>/</span>
-    <span class="cm">/</strong> 14 is the device_id that signifies a PRU to PRU transfer <strong>/</span>
-    <span class="n"></em>xout</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dmemBuf</span><span class="p">);</span>
+    <span class="comment">/</strong> XFR registers R5-R10 from PRU0 to PRU1 <strong>/</span>
+    <span class="comment">/</strong> 14 is the device_id that signifies a PRU to PRU transfer <strong>/</span>
+    </em>xout(<span class="integer">14</span>, <span class="integer">5</span>, <span class="integer">0</span>, dmemBuf);
 
-    <span class="cm">/</strong> Clear the status of the interrupt <strong>/</span>
-    <span class="n">CT_INTC</span><span class="p">.</span><span class="n">SICR</span> <span class="o">=</span> <span class="n">PRU1_PRU0_INTERRUPT</span><span class="p">;</span>
+    <span class="comment">/</strong> Clear the status of the interrupt <strong>/</span>
+    CT_INTC.SICR = PRU1_PRU0_INTERRUPT;
 
-    <span class="cm">/</strong> Halt the PRU core */</span>
-    <span class="n">__halt</span><span class="p">();</span>
-<span class="p">}</span>
-</pre></td></tr></tbody></table></code></pre>
+    <span class="comment">/</strong> Halt the PRU core */</span>
+    __halt();
+}</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1213,15 +1229,16 @@ interupt to PRU 0 and waits for it to send the data.</p>
 <div id="more_xin" class="listingblock">
 <div class="title">xin.pru1.c</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="c"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
 10
 11
 12
@@ -1247,41 +1264,42 @@ interupt to PRU 0 and waits for it to send the data.</p>
 32
 33
 34
-</pre></td><td class="code"><pre><span class="c1">// From: http://git.ti.com/pru-software-support-package/pru-software-support-package/trees/master/examples/am335x/PRU_Direct_Connect1</span>
-<span class="cp">#include &lt;stdint.h&gt;
-#include "resource_table_empty.h"
-</span>
-<span class="k">volatile</span> <span class="k">register</span> <span class="kt">uint32_t</span> <span class="n"><em>R30</span><span class="p">;</span>
-<span class="k">volatile</span> <span class="k">register</span> <span class="kt">uint32_t</span> <span class="n"></em>R31</span><span class="p">;</span>
+</pre></td>
+  <td class="code"><pre><span class="comment">// From: http://git.ti.com/pru-software-support-package/pru-software-support-package/trees/master/examples/am335x/PRU_Direct_Connect1</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
 
-<span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
-    <span class="kt">uint32_t</span> <span class="n">reg5</span><span class="p">;</span>
-    <span class="kt">uint32_t</span> <span class="n">reg6</span><span class="p">;</span>
-    <span class="kt">uint32_t</span> <span class="n">reg7</span><span class="p">;</span>
-    <span class="kt">uint32_t</span> <span class="n">reg8</span><span class="p">;</span>
-    <span class="kt">uint32_t</span> <span class="n">reg9</span><span class="p">;</span>
-    <span class="kt">uint32_t</span> <span class="n">reg10</span><span class="p">;</span>
-<span class="p">}</span> <span class="n">bufferData</span><span class="p">;</span>
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t <em>R30;
+<span class="directive">volatile</span> <span class="directive">register</span> uint32_t </em>R31;
 
-<span class="n">bufferData</span> <span class="n">dmemBuf</span><span class="p">;</span>
+<span class="keyword">typedef</span> <span class="keyword">struct</span> {
+    uint32_t reg5;
+    uint32_t reg6;
+    uint32_t reg7;
+    uint32_t reg8;
+    uint32_t reg9;
+    uint32_t reg10;
+} bufferData;
 
-<span class="cm">/* PRU-to-ARM interrupt <strong>/</span>
-<span class="cp">#define PRU1_PRU0_INTERRUPT (18)
-#define PRU1_ARM_INTERRUPT (20+16)
-</span>
-<span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="cm">/</strong> Let PRU0 know that I am awake <strong>/</span>
-    <span class="n"><em>R31</span> <span class="o">=</span> <span class="n">PRU1_PRU0_INTERRUPT</span><span class="o">+</span><span class="mi">16</span><span class="p">;</span>
+bufferData dmemBuf;
 
-    <span class="cm">/</strong> XFR registers R5-R10 from PRU0 to PRU1 <strong>/</span>
-    <span class="cm">/</strong> 14 is the device_id that signifies a PRU to PRU transfer <strong>/</span>
-    <span class="n"></em>xin</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dmemBuf</span><span class="p">);</span>
+<span class="comment">/* PRU-to-ARM interrupt <strong>/</span>
+<span class="preprocessor">#define</span> PRU1_PRU0_INTERRUPT (<span class="integer">18</span>)
+<span class="preprocessor">#define</span> PRU1_ARM_INTERRUPT (<span class="integer">20</span>+<span class="integer">16</span>)
 
-    <span class="cm">/</strong> Halt the PRU core */</span>
-    <span class="n">__halt</span><span class="p">();</span>
-<span class="p">}</span>
-</pre></td></tr></tbody></table></code></pre>
+<span class="directive">void</span> main(<span class="directive">void</span>)
+{
+    <span class="comment">/</strong> Let PRU0 know that I am awake <strong>/</span>
+    <em>R31 = PRU1_PRU0_INTERRUPT+<span class="integer">16</span>;
+
+    <span class="comment">/</strong> XFR registers R5-R10 from PRU0 to PRU1 <strong>/</span>
+    <span class="comment">/</strong> 14 is the device_id that signifies a PRU to PRU transfer <strong>/</span>
+    </em>xin(<span class="integer">14</span>, <span class="integer">5</span>, <span class="integer">0</span>, dmemBuf);
+
+    <span class="comment">/</strong> Halt the PRU core */</span>
+    __halt();
+}</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1289,15 +1307,16 @@ interupt to PRU 0 and waits for it to send the data.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="rouge highlight"><code data-lang="c"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
 10
 11
 12
@@ -1327,45 +1346,47 @@ interupt to PRU 0 and waits for it to send the data.</p>
 36
 37
 38
-</pre></td><td class="code"><pre><span class="n">PRU0</span><span class="o">&gt;</span> <span class="o"><strong></span><span class="n">r</span><span class="o"></strong></span>
-<span class="n">Register</span> <span class="n">info</span> <span class="k">for</span> <span class="n">PRU0</span>
-    <span class="n">Control</span> <span class="k">register</span><span class="o">:</span> <span class="mh">0x00000001</span>
-      <span class="n">Reset</span> <span class="n">PC</span><span class="o">:</span><span class="mh">0x0000</span>  <span class="n">STOPPED</span><span class="p">,</span> <span class="n">FREE_RUN</span><span class="p">,</span> <span class="n">COUNTER_DISABLED</span><span class="p">,</span> <span class="n">NOT_SLEEPING</span><span class="p">,</span> <span class="n">PROC_DISABLED</span>
+</pre></td>
+  <td class="code"><pre>PRU0&gt; <strong>r</strong>
+Register info <span class="keyword">for</span> PRU0
+    Control <span class="directive">register</span>: <span class="hex">0x00000001</span>
+      Reset PC:<span class="hex">0x0000</span>  STOPPED, FREE_RUN, COUNTER_DISABLED, NOT_SLEEPING, PROC_DISABLED
 
-    <span class="n">Program</span> <span class="n">counter</span><span class="o">:</span> <span class="mh">0x0026</span>
-      <span class="n">Current</span> <span class="n">instruction</span><span class="o">:</span> <span class="n">HALT</span>
+    Program counter: <span class="hex">0x0026</span>
+      Current instruction: HALT
 
-    <span class="n">R00</span><span class="o">:</span> <span class="mh">0x00000012</span>    <span class="o"><strong></span><span class="n">R08</span><span class="o">:</span> <span class="mh">0xbbbbbbbb</span><span class="o"></strong></span>    <span class="n">R16</span><span class="o">:</span> <span class="mh">0x000003c6</span>    <span class="n">R24</span><span class="o">:</span> <span class="mh">0x00110210</span>
-    <span class="n">R01</span><span class="o">:</span> <span class="mh">0x00020000</span>    <span class="o"><strong></span><span class="n">R09</span><span class="o">:</span> <span class="mh">0x87654321</span><span class="o"></strong></span>    <span class="n">R17</span><span class="o">:</span> <span class="mh">0x00000000</span>    <span class="n">R25</span><span class="o">:</span> <span class="mh">0x00000000</span>
-    <span class="n">R02</span><span class="o">:</span> <span class="mh">0x000000e4</span>    <span class="o"><strong></span><span class="n">R10</span><span class="o">:</span> <span class="mh">0xcccccccc</span><span class="o"></strong></span>    <span class="n">R18</span><span class="o">:</span> <span class="mh">0x000003e6</span>    <span class="n">R26</span><span class="o">:</span> <span class="mh">0x6e616843</span>
-    <span class="n">R03</span><span class="o">:</span> <span class="mh">0x0004272c</span>    <span class="n">R11</span><span class="o">:</span> <span class="mh">0x5fac6373</span>    <span class="n">R19</span><span class="o">:</span> <span class="mh">0x30203020</span>    <span class="n">R27</span><span class="o">:</span> <span class="mh">0x206c656e</span>
-    <span class="n">R04</span><span class="o">:</span> <span class="mh">0xffffffff</span>    <span class="n">R12</span><span class="o">:</span> <span class="mh">0x59bfeafc</span>    <span class="n">R20</span><span class="o">:</span> <span class="mh">0x0000000a</span>    <span class="n">R28</span><span class="o">:</span> <span class="mh">0x00003033</span>
-    <span class="o"><strong></span><span class="n">R05</span><span class="o">:</span> <span class="mh">0xdeadbeef</span><span class="o"></strong></span>    <span class="n">R13</span><span class="o">:</span> <span class="mh">0xa4c19eaf</span>    <span class="n">R21</span><span class="o">:</span> <span class="mh">0x00757270</span>    <span class="n">R29</span><span class="o">:</span> <span class="mh">0x02100000</span>
-    <span class="o"><strong></span><span class="n">R06</span><span class="o">:</span> <span class="mh">0xaaaaaaaa</span><span class="o"></strong></span>    <span class="n">R14</span><span class="o">:</span> <span class="mh">0x00000005</span>    <span class="n">R22</span><span class="o">:</span> <span class="mh">0x0000001e</span>    <span class="n">R30</span><span class="o">:</span> <span class="mh">0xa03f9990</span>
-    <span class="o"><strong></span><span class="n">R07</span><span class="o">:</span> <span class="mh">0x12345678</span><span class="o"></strong></span>    <span class="n">R15</span><span class="o">:</span> <span class="mh">0x00000003</span>    <span class="n">R23</span><span class="o">:</span> <span class="mh">0x00000000</span>    <span class="n">R31</span><span class="o">:</span> <span class="mh">0x00000000</span>
+    R00: <span class="hex">0x00000012</span>    <strong>R08: <span class="hex">0xbbbbbbbb</span></strong>    R16: <span class="hex">0x000003c6</span>    R24: <span class="hex">0x00110210</span>
+    R01: <span class="hex">0x00020000</span>    <strong>R09: <span class="hex">0x87654321</span></strong>    R17: <span class="hex">0x00000000</span>    R25: <span class="hex">0x00000000</span>
+    R02: <span class="hex">0x000000e4</span>    <strong>R10: <span class="hex">0xcccccccc</span></strong>    R18: <span class="hex">0x000003e6</span>    R26: <span class="hex">0x6e616843</span>
+    R03: <span class="hex">0x0004272c</span>    R11: <span class="hex">0x5fac6373</span>    R19: <span class="hex">0x30203020</span>    R27: <span class="hex">0x206c656e</span>
+    R04: <span class="hex">0xffffffff</span>    R12: <span class="hex">0x59bfeafc</span>    R20: <span class="hex">0x0000000a</span>    R28: <span class="hex">0x00003033</span>
+    <strong>R05: <span class="hex">0xdeadbeef</span></strong>    R13: <span class="hex">0xa4c19eaf</span>    R21: <span class="hex">0x00757270</span>    R29: <span class="hex">0x02100000</span>
+    <strong>R06: <span class="hex">0xaaaaaaaa</span></strong>    R14: <span class="hex">0x00000005</span>    R22: <span class="hex">0x0000001e</span>    R30: <span class="hex">0xa03f9990</span>
+    <strong>R07: <span class="hex">0x12345678</span></strong>    R15: <span class="hex">0x00000003</span>    R23: <span class="hex">0x00000000</span>    R31: <span class="hex">0x00000000</span>
 
-<span class="n">PRU0</span><span class="o">&gt;</span> <span class="o"><strong></span><span class="n">pru</span> <span class="mi">1</span><span class="o"></strong></span>
-<span class="n">pru</span> <span class="mi">1</span>
-<span class="n">Active</span> <span class="n">PRU</span> <span class="n">is</span> <span class="n">PRU1</span><span class="p">.</span>
+PRU0&gt; <strong>pru <span class="integer">1</span></strong>
+pru <span class="integer">1</span>
+Active PRU is PRU1.
 
-<span class="n">PRU1</span><span class="o">&gt;</span> <span class="o"><strong></span><span class="n">r</span><span class="o"></strong></span>
-<span class="n">r</span>
-<span class="n">Register</span> <span class="n">info</span> <span class="k">for</span> <span class="n">PRU1</span>
-    <span class="n">Control</span> <span class="k">register</span><span class="o">:</span> <span class="mh">0x00000001</span>
-      <span class="n">Reset</span> <span class="n">PC</span><span class="o">:</span><span class="mh">0x0000</span>  <span class="n">STOPPED</span><span class="p">,</span> <span class="n">FREE_RUN</span><span class="p">,</span> <span class="n">COUNTER_DISABLED</span><span class="p">,</span> <span class="n">NOT_SLEEPING</span><span class="p">,</span> <span class="n">PROC_DISABLED</span>
+PRU1&gt; <strong>r</strong>
+r
+Register info <span class="keyword">for</span> PRU1
+    Control <span class="directive">register</span>: <span class="hex">0x00000001</span>
+      Reset PC:<span class="hex">0x0000</span>  STOPPED, FREE_RUN, COUNTER_DISABLED, NOT_SLEEPING, PROC_DISABLED
 
-    <span class="n">Program</span> <span class="n">counter</span><span class="o">:</span> <span class="mh">0x000b</span>
-      <span class="n">Current</span> <span class="n">instruction</span><span class="o">:</span> <span class="n">HALT</span>
+    Program counter: <span class="hex">0x000b</span>
+      Current instruction: HALT
 
-    <span class="n">R00</span><span class="o">:</span> <span class="mh">0x00000100</span>    <span class="o"><strong></span><span class="n">R08</span><span class="o">:</span> <span class="mh">0xbbbbbbbb</span><span class="o"></strong></span>    <span class="n">R16</span><span class="o">:</span> <span class="mh">0xe9da228b</span>    <span class="n">R24</span><span class="o">:</span> <span class="mh">0x28113189</span>
-    <span class="n">R01</span><span class="o">:</span> <span class="mh">0xe48cdb1f</span>    <span class="o"><strong></span><span class="n">R09</span><span class="o">:</span> <span class="mh">0x87654321</span><span class="o"></strong></span>    <span class="n">R17</span><span class="o">:</span> <span class="mh">0x66621777</span>    <span class="n">R25</span><span class="o">:</span> <span class="mh">0xddd29ab1</span>
-    <span class="n">R02</span><span class="o">:</span> <span class="mh">0x000000e4</span>    <span class="o"><strong></span><span class="n">R10</span><span class="o">:</span> <span class="mh">0xcccccccc</span><span class="o"></strong></span>    <span class="n">R18</span><span class="o">:</span> <span class="mh">0x661f83ea</span>    <span class="n">R26</span><span class="o">:</span> <span class="mh">0xcf1cd4a5</span>
-    <span class="n">R03</span><span class="o">:</span> <span class="mh">0x0004db97</span>    <span class="n">R11</span><span class="o">:</span> <span class="mh">0xdec387d5</span>    <span class="n">R19</span><span class="o">:</span> <span class="mh">0xa85adb78</span>    <span class="n">R27</span><span class="o">:</span> <span class="mh">0x70af2d02</span>
-    <span class="n">R04</span><span class="o">:</span> <span class="mh">0xa90e496f</span>    <span class="n">R12</span><span class="o">:</span> <span class="mh">0xbeac3878</span>    <span class="n">R20</span><span class="o">:</span> <span class="mh">0x048fff22</span>    <span class="n">R28</span><span class="o">:</span> <span class="mh">0x7465f5f0</span>
-    <span class="o"><strong></span><span class="n">R05</span><span class="o">:</span> <span class="mh">0xdeadbeef</span><span class="o"></strong></span>    <span class="n">R13</span><span class="o">:</span> <span class="mh">0x5777b488</span>    <span class="n">R21</span><span class="o">:</span> <span class="mh">0xa32977c7</span>    <span class="n">R29</span><span class="o">:</span> <span class="mh">0xae96b530</span>
-    <span class="o"><strong></span><span class="n">R06</span><span class="o">:</span> <span class="mh">0xaaaaaaaa</span><span class="o"></strong></span>    <span class="n">R14</span><span class="o">:</span> <span class="mh">0xffa60550</span>    <span class="n">R22</span><span class="o">:</span> <span class="mh">0x99fb123e</span>    <span class="n">R30</span><span class="o">:</span> <span class="mh">0x52c42a0d</span>
-    <span class="o"><strong></span><span class="n">R07</span><span class="o">:</span> <span class="mh">0x12345678</span><span class="o"></strong></span>    <span class="n">R15</span><span class="o">:</span> <span class="mh">0xdeb2142d</span>    <span class="n">R23</span><span class="o">:</span> <span class="mh">0xa353129d</span>    <span class="n">R31</span><span class="o">:</span> <span class="mh">0x00000000</span>
-</pre></td></tr></tbody></table></code></pre>
+    R00: <span class="hex">0x00000100</span>    <strong>R08: <span class="hex">0xbbbbbbbb</span></strong>    R16: <span class="hex">0xe9da228b</span>    R24: <span class="hex">0x28113189</span>
+    R01: <span class="hex">0xe48cdb1f</span>    <strong>R09: <span class="hex">0x87654321</span></strong>    R17: <span class="hex">0x66621777</span>    R25: <span class="hex">0xddd29ab1</span>
+    R02: <span class="hex">0x000000e4</span>    <strong>R10: <span class="hex">0xcccccccc</span></strong>    R18: <span class="hex">0x661f83ea</span>    R26: <span class="hex">0xcf1cd4a5</span>
+    R03: <span class="hex">0x0004db97</span>    R11: <span class="hex">0xdec387d5</span>    R19: <span class="hex">0xa85adb78</span>    R27: <span class="hex">0x70af2d02</span>
+    R04: <span class="hex">0xa90e496f</span>    R12: <span class="hex">0xbeac3878</span>    R20: <span class="hex">0x048fff22</span>    R28: <span class="hex">0x7465f5f0</span>
+    <strong>R05: <span class="hex">0xdeadbeef</span></strong>    R13: <span class="hex">0x5777b488</span>    R21: <span class="hex">0xa32977c7</span>    R29: <span class="hex">0xae96b530</span>
+    <strong>R06: <span class="hex">0xaaaaaaaa</span></strong>    R14: <span class="hex">0xffa60550</span>    R22: <span class="hex">0x99fb123e</span>    R30: <span class="hex">0x52c42a0d</span>
+    <strong>R07: <span class="hex">0x12345678</span></strong>    R15: <span class="hex">0xdeb2142d</span>    R23: <span class="hex">0xa353129d</span>    R31: <span class="hex">0x00000000</span>
+</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 </div>
@@ -1388,7 +1409,7 @@ interupt to PRU 0 and waits for it to send the data.</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A different resource so PRU 0 can receive a signal from PRU 1.</p></td>
 </tr>
 <tr>
@@ -1478,15 +1499,16 @@ details.)</p>
 <div class="listingblock">
 <div class="title">copyright.c</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="c"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
 10
 11
 12
@@ -1510,7 +1532,8 @@ details.)</p>
 30
 31
 32
-</pre></td><td class="code"><pre><span class="cm">/*
+</pre></td>
+  <td class="code"><pre><span class="comment">/*
  * Copyright (C) 2015 Texas Instruments Incorporated - http://www.ti.com/
  *
  *
@@ -1531,7 +1554,7 @@ details.)</p>
  *    from this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
  * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
  * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
@@ -1542,7 +1565,8 @@ details.)</p>
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */</span>
-</pre></td></tr></tbody></table></code></pre>
+</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 </div>
@@ -1551,219 +1575,97 @@ details.)</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-05 15:19:12 -0400
+Last updated 2020-06-22 16:45:14 -0400
 </div>
 </div>
 <style>
-pre.rouge table td { padding: 5px; }
-pre.rouge table pre { margin: 0; }
-pre.rouge .cm {
-  color: #999988;
-  font-style: italic;
-}
-pre.rouge .cp {
-  color: #999999;
-  font-weight: bold;
-}
-pre.rouge .c1 {
-  color: #999988;
-  font-style: italic;
-}
-pre.rouge .cs {
-  color: #999999;
-  font-weight: bold;
-  font-style: italic;
-}
-pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cpf {
-  color: #999988;
-  font-style: italic;
-}
-pre.rouge .err {
-  color: #a61717;
-  background-color: #e3d2d2;
-}
-pre.rouge .gd {
-  color: #000000;
-  background-color: #ffdddd;
-}
-pre.rouge .ge {
-  color: #000000;
-  font-style: italic;
-}
-pre.rouge .gr {
-  color: #aa0000;
-}
-pre.rouge .gh {
-  color: #999999;
-}
-pre.rouge .gi {
-  color: #000000;
-  background-color: #ddffdd;
-}
-pre.rouge .go {
-  color: #888888;
-}
-pre.rouge .gp {
-  color: #555555;
-}
-pre.rouge .gs {
-  font-weight: bold;
-}
-pre.rouge .gu {
-  color: #aaaaaa;
-}
-pre.rouge .gt {
-  color: #aa0000;
-}
-pre.rouge .kc {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .kd {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .kn {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .kp {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .kr {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .kt {
-  color: #445588;
-  font-weight: bold;
-}
-pre.rouge .k, pre.rouge .kv {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .mf {
-  color: #009999;
-}
-pre.rouge .mh {
-  color: #009999;
-}
-pre.rouge .il {
-  color: #009999;
-}
-pre.rouge .mi {
-  color: #009999;
-}
-pre.rouge .mo {
-  color: #009999;
-}
-pre.rouge .m, pre.rouge .mb, pre.rouge .mx {
-  color: #009999;
-}
-pre.rouge .sb {
-  color: #d14;
-}
-pre.rouge .sc {
-  color: #d14;
-}
-pre.rouge .sd {
-  color: #d14;
-}
-pre.rouge .s2 {
-  color: #d14;
-}
-pre.rouge .se {
-  color: #d14;
-}
-pre.rouge .sh {
-  color: #d14;
-}
-pre.rouge .si {
-  color: #d14;
-}
-pre.rouge .sx {
-  color: #d14;
-}
-pre.rouge .sr {
-  color: #009926;
-}
-pre.rouge .s1 {
-  color: #d14;
-}
-pre.rouge .ss {
-  color: #990073;
-}
-pre.rouge .s, pre.rouge .sa, pre.rouge .dl {
-  color: #d14;
-}
-pre.rouge .na {
-  color: #008080;
-}
-pre.rouge .bp {
-  color: #999999;
-}
-pre.rouge .nb {
-  color: #0086B3;
-}
-pre.rouge .nc {
-  color: #445588;
-  font-weight: bold;
-}
-pre.rouge .no {
-  color: #008080;
-}
-pre.rouge .nd {
-  color: #3c5d5d;
-  font-weight: bold;
-}
-pre.rouge .ni {
-  color: #800080;
-}
-pre.rouge .ne {
-  color: #990000;
-  font-weight: bold;
-}
-pre.rouge .nf, pre.rouge .fm {
-  color: #990000;
-  font-weight: bold;
-}
-pre.rouge .nl {
-  color: #990000;
-  font-weight: bold;
-}
-pre.rouge .nn {
-  color: #555555;
-}
-pre.rouge .nt {
-  color: #000080;
-}
-pre.rouge .vc {
-  color: #008080;
-}
-pre.rouge .vg {
-  color: #008080;
-}
-pre.rouge .vi {
-  color: #008080;
-}
-pre.rouge .nv, pre.rouge .vm {
-  color: #008080;
-}
-pre.rouge .ow {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .o {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .w {
-  color: #bbbbbb;
-}
-pre.rouge {
-  background-color: #f8f8f8;
-}
+/* Stylesheet for CodeRay to match GitHub theme | MIT License | http://foundation.zurb.com */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid currentColor;opacity:.35;padding:0 .5em 0 0}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff !important;background:#000080 !important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:#000080}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:#008080}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:#008080}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:#008080}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword {color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:#008080}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
 </style>
 </body>
 </html>

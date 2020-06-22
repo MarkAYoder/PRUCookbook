@@ -47,9 +47,10 @@ when I load my code, but don't know what's causing it.
 
 ==== Solution
 The command `dmesg` outputs useful information when dealing with the kernel.
-Simplying running `dmesg -H` can tell you a lot.  The `-H` flag puts the
-dates in the human readable form.  Often I'll have a window open running `dmesg -Hw`;
-the `-w` tells it to wait for more information.
+Simplying running `dmesg -Hw` can tell you a lot.  The `-H` flag puts the
+dates in the human readable form, the `-w` tells it to wait for more information.
+Often I'll have a window open running `dmesg -Hw`.
+.
 
 Here's what `dmesg` said for the example above.
 
@@ -80,6 +81,10 @@ Just download the files and type `make`.
 
 ==== Discussion
 Once `prudebug` is installed is rather easy to use.
+[WARNING]
+====
+`prudebug` hasn't been ported to the AI.
+====
 
 [source]
 [subs=+quotes]
@@ -304,7 +309,7 @@ Once an ENTER appears the string is sent back.
 
 [TIP]
 ====
-On the Black, ither PRU0 and PRU1 can run this code.  Both have access to the same UART.
+On the Black, either PRU0 and PRU1 can run this code.  Both have access to the same UART.
 ====
 
 You need to set the pin muxes.
@@ -335,7 +340,7 @@ DRA7XX_CORE_IOPAD(0x3610, *PIN_INPUT* | MUX_MODE10) // C6: P8.33a:
 ----
 ====
 
-* TODO - Add code for Blue.
+// * TODO - Add code for Blue.
 
 ===== uart1.pru1_0.c
 Set the following variables so `make` will know what to compile.

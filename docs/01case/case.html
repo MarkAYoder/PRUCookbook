@@ -495,7 +495,12 @@ outputs.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>There are many projects that use the PRU (<a href="http://processors.wiki.ti.com/index.php/PRU_Projects" class="bare">http://processors.wiki.ti.com/index.php/PRU_Projects</a>) to do things that can&#8217;t be
+<p>There are many projects that use the PRU
+(<a href="http://processors.wiki.ti.com/index.php/PRU_Projects" class="bare">http://processors.wiki.ti.com/index.php/PRU_Projects</a>)
+&lt;&lt;<a href="http://../projects.html" class="bare">http://../projects.html</a>, PRU Projects&gt;&gt;</p>
+</div>
+<div class="paragraph">
+<p>to do things that can&#8217;t be
 done with just a SBC or just a microcontroller. Here we present some case studies that give a high-level view of using the PRUs.  In later
 chapters you will see the details of how they work.</p>
 </div>
@@ -557,17 +562,8 @@ in <a href="#case_blue">Blue balancing</a>.</p>
 </div>
 <div class="paragraph">
 <p>The <a href="http://strawsondesign.com/docs/roboticscape/">Robotics Control Library</a> is a
-package that is already installed on the Blue, Black and Pocket,</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>TODO AI too?</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>that contains a C library and example/testing programs. It uses the PRU to extend the
+package that is already installed on the Beagle
+that contains a C library and example/testing programs. It uses the PRU to extend the
 real-time hardware of the Bone by adding eight addional servo channels and one
 addition real-time encoder input.</p>
 </div>
@@ -600,19 +596,12 @@ and you don&#8217;t want to add hardware.</p>
 <p>The I/O pins on the Beagles have a mutliplexer that lets you select what I/O
 appears on a given pin.  The Blue has the mux already configured to to run these
 examples.  Follow the instructions in
-<a href="../03details/details.adocs.html#details_configure_servos">Configuring Pins for Controlling Servos</a>
+<a href="../03details/detailsl.html#details_configure_servos">Configuring Pins for Controlling Servos</a>
 to configure the pins for the Black and the Pocket.</p>
 </div>
 </td>
 </tr>
 </table>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>TODO - verify these commands</p>
-</li>
-</ul>
 </div>
 <div class="paragraph">
 <p>Just run:</p>
@@ -649,10 +638,10 @@ sample use to center servo channel 1:
 <div class="sect4">
 <h5 id="_discussion"><a class="link" href="#_discussion">Discussion</a></h5>
 <div class="paragraph">
-<p>The BeagleBone Blue sends these eight outputs to it&#8217;s servo channels.  The Black and the Pocket use the pins shown in the
-<a href="#_register_to_pin_table">Register to pin table</a>.</p>
+<p>The BeagleBone Blue sends these eight outputs to it&#8217;s servo channels.  The others use the pins shown in the
+<a href="#sase__register_to_pin_table">Register to pin table</a>.</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
+<table id="sase__register_to_pin_table" class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. PRU register to pin table</caption>
 <colgroup>
 <col style="width: 20%;">
@@ -757,7 +746,7 @@ servos.  All you have to do is run the command.</p>
 <h5 id="_solution_2"><a class="link" href="#_solution_2">Solution</a></h5>
 <div class="paragraph">
 <p>You can modify <code>rc_test_servos.c</code>.  You&#8217;ll find it on the bone online at
-<a href="https://github.com/StrawsonDesign/Robotics_Cape_Installer/blob/master/examples/src/rc_test_servos.c" class="bare">https://github.com/StrawsonDesign/Robotics_Cape_Installer/blob/master/examples/src/rc_test_servos.c</a>.</p>
+&lt;<a href="https://github.com/beagleboard/librobotcontrol/blob/master/examples/src/rc_test_servos.c" class="bare">https://github.com/beagleboard/librobotcontrol/blob/master/examples/src/rc_test_servos.c</a>.</p>
 </div>
 <div class="paragraph">
 <p>Just past line 250 you&#8217;ll find a <code>while</code> loop that has calls to <code>rc_servo_send_pulse_normalized(ch,servo_pos)</code> and
@@ -1013,13 +1002,6 @@ The core of the logic analyzer is the 'beaglelogic' kernel module that reserves 
 <div class="paragraph">
 <p>If you want to be running a newer image, there are instructions on the site for <a href="https://beaglelogic.readthedocs.io/en/latest/install.html">installing BeagleLogic</a>, but I had to do the additional steps in <a href="#case_installing_beaglelogic">Installing BeagleLogic</a>.</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>TODO - Recheck</p>
-</li>
-</ul>
-</div>
 <div id="case_installing_beaglelogic" class="listingblock">
 <div class="title">Installing BeagleLogic</div>
 <div class="content">
@@ -1178,6 +1160,20 @@ hardware!  Here&#8217;s how to install it.</p>
 <div class="paragraph">
 <p>LEDscape uses UIO, an older method for talking to the PRU.  See
 <a href="../06io/io.html#io_uio">Configuring for UIO Instead of RemoteProc</a> to configure your Bone to use UIO.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This has only been tested on the BeagleBone Black.</p>
 </div>
 </td>
 </tr>
@@ -1472,7 +1468,7 @@ uses <code>opc.py</code> which is included in the <code>code</code> directory.</
 41
 42
 </pre></td>
-  <td class="code"><pre><span class="comment"><mark>!/usr/bin/env python</span>
+  <td class="code"><pre><span class="comment"><mark>!/usr/bin/env python3</span>
 
 <span class="docstring"><span class="delimiter">&quot;&quot;&quot;</span><span class="content">A demo client for Open Pixel Control</span><span class="content">
 </span><span class="content">http://github.com/zestyping/openpixelcontrol</span><span class="content">
@@ -1491,12 +1487,12 @@ client = opc.Client(ADDRESS)
 
 <span class="comment"># Test if it can connect</span>
 <span class="keyword">if</span> client.can_connect():
-    <span class="keyword">print</span> <span class="string"><span class="delimiter">'</span><span class="content">connected to %s</span><span class="delimiter">'</span></span> % ADDRESS
+    print(<span class="string"><span class="delimiter">'</span><span class="content">connected to %s</span><span class="delimiter">'</span></span> % ADDRESS)
 <span class="keyword">else</span>:
     <span class="comment"># We could exit here, but instead let's just print a warning</span>
     <span class="comment"># and then keep trying to send pixels in case the server</span>
     <span class="comment"># appears later</span>
-    <span class="keyword">print</span> <span class="string"><span class="delimiter">'</span><span class="content">WARNING: could not connect to %s</span><span class="delimiter">'</span></span> % ADDRESS
+    print(<span class="string"><span class="delimiter">'</span><span class="content">WARNING: could not connect to %s</span><span class="delimiter">'</span></span> % ADDRESS)
 
 <span class="comment"># Send pixels forever</span>
 STR_LEN=<span class="integer">16</span>
@@ -1510,9 +1506,9 @@ leds[<span class="integer">0</span>] = (<span class="integer">0</span>, <span cl
         leds[i] = leds[i+<span class="integer">1</span>]
     leds[-<span class="integer">1</span>] = tmp
     <span class="keyword">if</span> client.put_pixels(leds, channel=<span class="integer">0</span>):
-        <span class="keyword">print</span> <span class="string"><span class="delimiter">'</span><span class="content">sent</span><span class="delimiter">'</span></span>
+        print(<span class="string"><span class="delimiter">'</span><span class="content">sent</span><span class="delimiter">'</span></span>)
     <span class="keyword">else</span>:
-        <span class="keyword">print</span> <span class="string"><span class="delimiter">'</span><span class="content">not connected</span><span class="delimiter">'</span></span>
+        print(<span class="string"><span class="delimiter">'</span><span class="content">not connected</span><span class="delimiter">'</span></span>)
     time.sleep(<span class="float">0.1</span>)
 </pre></td>
 </tr></table></code></pre>
@@ -1915,7 +1911,7 @@ The software suite is installed in aircraft from many OEM UAV companies, such as
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-15 16:16:32 -0400
+Last updated 2020-06-22 14:02:43 -0400
 </div>
 </div>
 <style>

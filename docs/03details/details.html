@@ -542,7 +542,10 @@ gpio.pru0.c  Makefile  setup.sh</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>bone$ <strong>source setup.sh</strong>
-TARGET=gpio.pru0</code></pre>
+TARGET=gpio.pru0
+PocketBeagle Found
+P1_36
+Current mode for P1_36 is:     default</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -572,7 +575,7 @@ rm /tmp/cloud9-examples/gpio.pru0.o</code></pre>
 </div>
 <div class="paragraph">
 <p>Congratulations, your are now running a PRU.  If you have an LED attached to
-<code>P9_11</code> it should be blinking.</p>
+<code>P9_11</code> on the Black, it should be blinking.</p>
 </div>
 </div>
 <div class="sect3">
@@ -658,15 +661,15 @@ done</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Set which PRU to use and which file to compile.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Figure out which type of Beagle we have.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10-22</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9-21</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Based on the type, set the <code>pins</code>.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">24-29</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">23-28</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Configure (set the pin mux) for each of the pins.</p></td>
 </tr>
 </tbody>
@@ -1183,7 +1186,8 @@ am335x-pru0-fw</code></pre>
 <div class="sect3">
 <h4 id="_solution_8"><a class="link" href="#_solution_8">Solution</a></h4>
 <div class="paragraph">
-<p>It depends on which Beagle you are running on.  If you are on the Blue, everything is already configured for you.
+<p>It depends on which Beagle you are running on.  If you are on the AI or Blue,
+everything is already configured for you.
 If you are on the Black or Pocket you&#8217;ll need to run the following script.</p>
 </div>
 <div class="listingblock">
@@ -1235,7 +1239,8 @@ assigns <code>pins</code> a list of pins to configure.  Then the last part of th
 <div class="sect3">
 <h4 id="_solution_9"><a class="link" href="#_solution_9">Solution</a></h4>
 <div class="paragraph">
-<p>It depends on which Beagle you are running on.  If you are on the Blue, everything is already configured for you.
+<p>It depends on which Beagle you are running on.  If you are on the AI or Blue,
+everything is already configured for you.
 If you are on the Black or Pocket you&#8217;ll need to run the following script.</p>
 </div>
 <div class="listingblock">
@@ -1306,7 +1311,7 @@ to the hardware eQEPs and other to the PRU inputs.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-09 16:23:55 -0400
+Last updated 2020-06-22 15:08:37 -0400
 </div>
 </div>
 <style>

@@ -52,27 +52,27 @@ Here's the line-by-line
 |===
 |Line |Explanation
 
-|8    |`PRU_SRAM` is defined here.  It will be used later to declare variables
+|7    |`PRU_SRAM` is defined here.  It will be used later to declare variables
 in the `Shared RAM` location of memory.  Section 5.5.2 on page 75 of the
 http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler, v2.2, User's Guide] gives details of the command.  The `PRU_SHAREDMEM` 
 refers to the memory section defined in `am335x_pru.cmd` on line 26.  
-|9, 10 |These are like the previous line except for the DMEM sections.
-|17    |Variables declared outside of `main()` are put on the heap.
-|18    |Adding `PRU_SRAM` has the variable stored in the shared memory.
-|19, 20|These are stored in the PRU's local RAM.
-|21, 22|These lines are for storing in the `.bss` section as declared on
+|8 9   |These are like the previous line except for the DMEM sections.
+|16    |Variables declared outside of `main()` are put on the heap.
+|17    |Adding `PRU_SRAM` has the variable stored in the shared memory.
+|18, 19|These are stored in the PRU's local RAM.
+|20, 21|These lines are for storing in the `.bss` section as declared on
 line 74 of `am335x_pru.cmd`.
-|29-32 |All the previous examples direct the compiler to an area in memory
+|28-31 |All the previous examples direct the compiler to an area in memory
 and the compilers figures out what to put where.  With these lines we 
 specify the exact location.  Here are start with the PRU_DRAM starting address and add 0x200 to it to avoid
 the ((stack)) and the ((heap)).  The advantage of this technique is you can
 easily share these variables between the ARM and the two PRUs.
-|37, 38|Variable declared inside `main()` go on the stack.
+|36, 37|Variable declared inside `main()` go on the stack.
 |===
 
 [CAUTION]
 ====
-Using the technique of line 29-32 you can put variables anywhere, 
+Using the technique of line 28-31 you can put variables anywhere, 
 even where the compiler has put them.
 Be careful, it's easy to overwrite what the compiler has done
 ====
@@ -279,7 +279,7 @@ unused.
 ==== Discussion
 The above code stores this array in the `.out` file thats created, but that's not 
 enough. You need to run <<blocks_write_init_pins>> on the `.out` file to make 
-the code work.
+the code work.  Fortunately the Makefile always runs it.
 [[blocks_write_init_pins]]
 .write_init_pins.sh
 [source,linenums]
@@ -395,9 +395,12 @@ Since this is our first example we'll discuss the many parts in detail.
 |1   |Standard c-header include
 |2   |Include for the PRU.  The compiler knows where to find this since the `Makefile` says to look for includes in `/usr/lib/ti/pru-software-support-package`
 |3   |The file `resource_table_empty.h` is used by the PRU loader.  Generally we'll use the same file, and don't need to modify it.
+|4   |This include has addresses for the GPIO ports and some bit positions for some
+of the headers.
 |===
 
 Here's what's in `resource_table_empty.h`
+
 .resource_table_empty.c
 [source,c,linenums] 
 ----
@@ -478,7 +481,7 @@ we'll be toggling `P9_31`.
 
 |17  |Here is where the action is.  This line reads `pass:[__]R30` and then ORs it with `gpio`, setting the bits where there is a 1 in `gpio` and leaving the bits where there is a 0.  Thus we are setting the bit we selected. Finally the new value is written back to `pass:[__]R30`. 
 |18  |`pass:[__]delay_cycles` is an ((instrinsic function)) that delays with number of cycles passed to it. Each cycle is 5ns, and we are delaying 100,000,000 cycles which is 500,000,000ns, or 0.5 seconds. 
-|19  |This is like line 18, but `~gpio` inverts all the bits in `gpio` so that where we had a 1, there is now a 0.  This 0 is then ANDed with `pass:[__]R30` setting the corresponding bit to 0.  Thus we are clearing the bit we selected.
+|19  |This is like line 17, but `~gpio` inverts all the bits in `gpio` so that where we had a 1, there is now a 0.  This 0 is then ANDed with `pass:[__]R30` setting the corresponding bit to 0.  Thus we are clearing the bit we selected.
 |===
 
 [TIP]
@@ -970,8 +973,9 @@ image::figures/filter_bb.png[Low-Pass Filter Wiring Diagram]
 [NOTE]
 ====
 
-I used a 10K&Omega; variable resistor and a 0.022&mu;F capacitor. (The figure
-has the wrong value.) Probe the circuit between the resistor and the capacitor and adjust the resistor until you get a good looking waveform.
+I used a 10K&Omega; variable resistor and a 0.022&mu;F capacitor.
+Probe the circuit between the resistor and the capacitor and adjust the resistor 
+until you get a good looking waveform.
 ====
 
 <<blocks_sawscope>> shows the results for filtered the SAWTOOTH.
@@ -1163,17 +1167,17 @@ GRB (green, red, blue).
 |====
 |Line |Explanation
 
-|22   |Define the string of colors to be output.  Here the ordering of the
+|23   |Define the string of colors to be output.  Here the ordering of the
 bits is the same as <<blocks_new_data_seq>>, GRB. 
-|25   |Loop for each color to output.
-|26   |Loop for each bit in an GRB color.
-|27   |Get the j^th^ color and mask off all but the i^th^ bit.  `(0x1<<i)` takes
+|26   |Loop for each color to output.
+|27   |Loop for each bit in an GRB color.
+|28   |Get the j^th^ color and mask off all but the i^th^ bit.  `(0x1<<i)` takes
 the value `0x1` and shifts it left `i` bits.  When anded (&) with `color[j]` 
 it will zero out all but the i^th^ bit.  If the result of the operation is
 1, the `if` is done, otherwise the `else` is done.
-|28-31|Send a 1.
-|33-36|Send a 0.
-|40-32|Send a reset pulse once all the colors have been sent.
+|29-32|Send a 1.
+|34-37|Send a 0.
+|42-43|Send a reset pulse once all the colors have been sent.
 |====
 
 [NOTE]
@@ -1212,11 +1216,11 @@ Here's the highlights.
 |===
 |Line|Explanation
 
-|31, 32|Initiallize the array of colors.
-|37-40|Update the array.
-|43-57|Send the array to the LEDs.
-|58-60|Send a reset.
-|62, 63|Wait a bit.
+|32,33|Initiallize the array of colors.
+|38-41|Update the array.
+|44-58|Send the array to the LEDs.
+|60-61|Send a reset.
+|64   |Wait a bit.
 |===
 
 === Controlling NeoPixels Through a Kernel Driver
@@ -1264,28 +1268,28 @@ LEDs.  You 0^th^ LED should now be lit.
 There's a lot here.  I'll just hit some of the highlights in <<blocks_neo4_lines>>.
 
 [[blocks_neo4_lines]]
-.Line-by-line for neo4.c
+.Line-by-line for neo4.pru0.c
 [cols="1,9"]
 |====
 |Line |Explanation
 
-|29   |The `CHAN_NAME` of `rpmsg-pru` matches that `prmsg_pru` driver that is
+|30   |The `CHAN_NAME` of `rpmsg-pru` matches that `prmsg_pru` driver that is
 is already installed.  This connects this PRU to the driver.
-|31   |The `CHAN_PORT` tells it to use port 30.  That's why we use
+|32   |The `CHAN_PORT` tells it to use port 30.  That's why we use
 `/dev/rpmsg_pru30`
-|39   |`payload[]` is the buffer that receives the data from the ARM.
-|41-47|Same as the previous NeoPixel examples.
-|51   |`color[]` is the state to be sent to the LEDs.
-|65-67|`color[]` is initialized.
-|69-84|Here are a number of details needed to set up the channel between 
+|40   |`payload[]` is the buffer that receives the data from the ARM.
+|42-48|Same as the previous NeoPixel examples.
+|52   |`color[]` is the state to be sent to the LEDs.
+|66-68|`color[]` is initialized.
+|70-85|Here are a number of details needed to set up the channel between 
 the PRU and the ARM.
-|87   |Here we wait until the ARM sends us some numbers.
-|90   |Receive all the data from the ARM, store it in `payload[]`.
-|94-102|The data sent is:  index red green blue.  Pull off the index.  If it's 
+|88   |Here we wait until the ARM sends us some numbers.
+|99   |Receive all the data from the ARM, store it in `payload[]`.
+|101-111|The data sent is:  index red green blue.  Pull off the index.  If it's 
 in the right range, pull off the red, green and blue values.
-|104  |The NeoPixels want the data in GRB order.  Shift and OR everything 
+|113  |The NeoPixels want the data in GRB order.  Shift and OR everything 
 together.
-|107-130|If the `index` = -1, send the contents of `color` to the LEDs.  This
+|116-133|If the `index` = -1, send the contents of `color` to the LEDs.  This
 code is same as before.
 |====
 

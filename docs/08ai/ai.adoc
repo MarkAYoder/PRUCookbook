@@ -2,8 +2,8 @@ include::../header.adoc[]
 
 == Moving to the BeagleBone AI
 
-So far all our examples have focussed on the BeagleBone Black and Pocket Beagle.
-These are both based on the am335x chip.  The new kid on the black in the BeagleBone AI
+So far all our examples have focussed mostly on the BeagleBone Black and Pocket Beagle.
+These are both based on the am335x chip.  The new kid on the block is the BeagleBone AI
 which is based on the am5729. The new chip brings with it new capabilities one of
 which is four PRUs.  This chapter details what changes when moving from two to
 four PRUs.
@@ -11,9 +11,8 @@ four PRUs.
 The following are resources used in this chapter.
 
 .Resources
-* http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler, v2.2, User's Guide]
-* http://www.ti.com/lit/ug/spruhv6b/spruhv6b.pdf[PRU Assembly Language Tools User's Guide]
-* http://www.ti.com/lit/ug/spruij2/spruij2.pdf[PRU Assembly Instruction User Guide]
+* http://www.ti.com/lit/pdf/spruhz6l[AM572x Technical Reference Manual] (AI)
+* https://docs.google.com/spreadsheets/d/1dFSBVem86vAUD7MLXvqdS-N0Efi8_g_O1iTqzql8DAo/edit#gid=0[BeagleBone AI PRU pins]
 
 === Moving from two to four PRUs
 ==== Problem

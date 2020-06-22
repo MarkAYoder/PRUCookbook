@@ -104,7 +104,7 @@ Notice the on time is about 35ns and the off time is 30ns.
 ==== Discission
 There is much to explain here.  Let's start with <<more_delay>>.
 
-.Line-by-line of delays.asm
+.Line-by-line of delay.pru0.asm
 [cols="1,9"]
 |===
 |Line |Explanation
@@ -351,7 +351,7 @@ Register info for PRU1
 |===
 |Line |Explanation
 
-|3    |A different resource so PRU 0 can receive a signal from PRU 1.
+|4    |A different resource so PRU 0 can receive a signal from PRU 1.
 |9-16 |`dmemBuf` holds the data to be sent to PRU 1.  Each will be transfered
 to its corresponding register by `xout()`.
 |21-22|Define the interupts we're using.

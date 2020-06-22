@@ -756,18 +756,18 @@ on GPIO port 0.  Therefore we will use <code>GPIO0</code> in this code.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Line 103 of <code>prugpio.h</code> defines the address offset from <code>GIO0</code> that will
+<td class="tableblock halign-left valign-top"><p class="tableblock">Line 105 of <code>prugpio.h</code> defines the address offset from <code>GIO0</code> that will
 allow us to <em>clear</em>
 any (or all) bits in GPIO port 0. Other architectures require you to read a port,
 then change some bit, then write it out again, three steps.  Here we can do the same by writing to one location, just one step.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Line 104 of <code>prugpio.h</code> is like above, but for <em>setting</em> bits.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Line 106 of <code>prugpio.h</code> is like above, but for <em>setting</em> bits.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Using this offset  of line 105 of <code>prugpio.h</code> lets us just read the bits
+<td class="tableblock halign-left valign-top"><p class="tableblock">Using this offset  of line 107 of <code>prugpio.h</code> lets us just read the bits
 without changing them.</p></td>
 </tr>
 <tr>
@@ -909,7 +909,7 @@ notes what needs to be changed. I have a less complete version on my
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-15 16:48:40 -0400
+Last updated 2020-06-15 16:52:29 -0400
 </div>
 </div>
 <style>

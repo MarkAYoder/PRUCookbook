@@ -27,7 +27,11 @@ outputs.
 
 * TODO Update link
 
-There are many projects that use the PRU (http://processors.wiki.ti.com/index.php/PRU_Projects) to do things that can't be 
+There are many projects that use the PRU 
+(http://processors.wiki.ti.com/index.php/PRU_Projects) 
+<<http://../projects.html, PRU Projects>>
+
+to do things that can't be 
 done with just a SBC or just a microcontroller. Here we present some case studies that give a high-level view of using the PRUs.  In later
 chapters you will see the details of how they work.
 
@@ -67,10 +71,7 @@ in <<case_blue>>.
 image:figures/blue.png[Blue balancing]
 
 The http://strawsondesign.com/docs/roboticscape/[Robotics Control Library] is a 
-package that is already installed on the Blue, Black and Pocket, 
-
-* TODO AI too?
-
+package that is already installed on the Beagle 
 that contains a C library and example/testing programs. It uses the PRU to extend the 
 real-time hardware of the Bone by adding eight addional servo channels and one 
 addition real-time encoder input.
@@ -91,11 +92,11 @@ The Robotics Control Library provides eight additional PWM channels via the PRU 
 The I/O pins on the Beagles have a mutliplexer that lets you select what I/O 
 appears on a given pin.  The Blue has the mux already configured to to run these
 examples.  Follow the instructions in 
-<<../03details/details.adocs#details_configure_servos, Configuring Pins for Controlling Servos>> 
+<<../03details/detailsl#details_configure_servos, Configuring Pins for Controlling Servos>> 
 to configure the pins for the Black and the Pocket.
 ====
 
-* TODO - verify these commands
+// * TODO - verify these commands
 
 Just run:
 [source]
@@ -128,9 +129,10 @@ sample use to center servo channel 1:
 ----
 
 ===== Discussion
-The BeagleBone Blue sends these eight outputs to it's servo channels.  The Black and the Pocket use the pins shown in the 
-<<_register_to_pin_table,Register to pin table>>.
+The BeagleBone Blue sends these eight outputs to it's servo channels.  The others use the pins shown in the 
+<<sase__register_to_pin_table,Register to pin table>>.
 
+[[sase__register_to_pin_table]]
 .PRU register to pin table
 |===
 |PRU pin    |Blue pin|Black pin|Pocket pin|AI pin
@@ -166,7 +168,7 @@ servos.  All you have to do is run the command.
 
 ===== Solution
 You can modify `rc_test_servos.c`.  You'll find it on the bone online at
-<https://github.com/StrawsonDesign/Robotics_Cape_Installer/blob/master/examples/src/rc_test_servos.c>.
+<https://github.com/beagleboard/librobotcontrol/blob/master/examples/src/rc_test_servos.c.
 
 Just past line 250 you'll find a `while` loop that has calls to `rc_servo_send_pulse_normalized(ch,servo_pos)` and
 `rc_servo_send_pulse_us(ch, width_us)`.  The first call sets the pulse width relative to the pulse period; the other
@@ -271,7 +273,7 @@ The quickest solution is to get the https://github.com/abhishek-kakkar/BeagleLog
 
 If you want to be running a newer image, there are instructions on the site for https://beaglelogic.readthedocs.io/en/latest/install.html[installing BeagleLogic], but I had to do the additional steps in <<case_installing_beaglelogic>>.
 
-* TODO - Recheck
+// * TODO - Recheck
 
 [[case_installing_beaglelogic]]
 .Installing BeagleLogic
@@ -395,6 +397,10 @@ hardware!  Here's how to install it.
 ====
 LEDscape uses UIO, an older method for talking to the PRU.  See
 <<../06io/io.adoc#io_uio,Configuring for UIO Instead of RemoteProc>> to configure your Bone to use UIO.
+====
+[NOTE]
+====
+This has only been tested on the BeagleBone Black.
 ====
 
 First install LEDscape and openpixelcontrol.

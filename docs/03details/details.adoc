@@ -49,6 +49,9 @@ Source the setup file.
 ----
 bone$ *source setup.sh*
 TARGET=gpio.pru0
+PocketBeagle Found
+P1_36
+Current mode for P1_36 is:     default
 ----
 
 Now you are ready to compile and run.  This is automated for you in the Makefile
@@ -75,7 +78,7 @@ PRU_DIR = /sys/class/remoteproc/remoteproc1
 rm /tmp/cloud9-examples/gpio.pru0.o
 ----
 Congratulations, your are now running a PRU.  If you have an LED attached to
-`P9_11` it should be blinking.
+`P9_11` on the Black, it should be blinking.
 
 ==== Discussion
 The `setup.sh` file sets the `TARGET` to the file you want to compile.
@@ -115,9 +118,9 @@ include::code/gpio_setup.sh[]
 |Line|Explanation
 
 |2-5 |Set which PRU to use and which file to compile. 
-|8   |Figure out which type of Beagle we have.
-|10-22|Based on the type, set the `pins`.
-|24-29|Configure (set the pin mux) for each of the pins.
+|7   |Figure out which type of Beagle we have.
+|9-21| Based on the type, set the `pins`.
+|23-28|Configure (set the pin mux) for each of the pins.
 |===
 
 [TIP]
@@ -337,7 +340,8 @@ Therefore you copy your `.out` file to `/lib/firmware/am335x-pru0-fw`.
 You want to ((configure)) the pins so the PRU _outputs_ are accessable.
 
 ==== Solution
-It depends on which Beagle you are running on.  If you are on the Blue, everything is already configured for you.
+It depends on which Beagle you are running on.  If you are on the AI or Blue, 
+everything is already configured for you.
 If you are on the Black or Pocket you'll need to run the following script.
 
 .servos_setup.sh
@@ -357,7 +361,8 @@ assigns `pins` a list of pins to configure.  Then the last part of the script lo
 You want to ((configure)) the pins so the PRU _inputs_ are accessable.
 
 ==== Solution
-It depends on which Beagle you are running on.  If you are on the Blue, everything is already configured for you.
+It depends on which Beagle you are running on.  If you are on the AI or Blue, 
+everything is already configured for you.
 If you are on the Black or Pocket you'll need to run the following script.
 
 .encoder_setup.sh

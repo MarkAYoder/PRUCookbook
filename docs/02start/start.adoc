@@ -19,9 +19,9 @@ Which Beagle should you use?
 <http://beagleboard.org/boards> lists the many Beagles from which to choose.  
 Here we'll 
 give examples for the venerable http://beagleboard.org/black[BeagleBone Black], 
-the robotics http://beagleboard.org/blue[BeagleBone Blue] and 
-tiny http://beagleboard.org/pocket[PockeBeagle].  All the examples should also 
-run on the other Beagles too.
+the robotics http://beagleboard.org/blue[BeagleBone Blue], 
+tiny http://beagleboard.org/pocket[PockeBeagle] and the powerful http://beagleboard.org/ai[AI].
+All the examples should also run on the other Beagles too.
 
 ==== Discussion
 ===== BeagleBone Black
@@ -79,7 +79,7 @@ shows how to assemble the robot and control it from
 http://www.ni.com/en-us/shop/labview.html[LabVIEW].
 
 ===== PocketBeagle
-The http://beagleboard.org/pocket[PocketBeagle] is the newest member of the 
+The http://beagleboard.org/pocket[PocketBeagle] is the smallest member of the 
 Beagle family.  It is an ultra-tiny-yet-complete Beagle that is software 
 compatible with the other Beagles.
 
