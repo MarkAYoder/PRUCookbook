@@ -3,7 +3,7 @@
 
 = PRU Cookbook
 Mark A. Yoder <Mark.A.Yoder@Rose-Hulman.edu>
-v2.0 beta
+Version 2.0 beta
 <<<
 :imagesdir: ./01case
 include::01case/case.adoc[]
@@ -31,10 +31,21 @@ include::06io/io.adoc[]
 <<<
 :imagesdir: ./07more
 include::07more/more.adoc[]
+<<<<<<<<< saved version
 
 <<<
 :imagesdir: ./08ai
 include::08ai/ai.adoc[]
+=========
+<<<<<<<<< saved version
+
+=========
+
+<<<
+:imagesdir: ./08ai
+include::08ai/ai.adoc[]
+>>>>>>>>> local version
+>>>>>>>>> local version
 
 <<<
 [index]
