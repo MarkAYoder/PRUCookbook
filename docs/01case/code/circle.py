@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """A demo client for Open Pixel Control
 http://github.com/zestyping/openpixelcontrol
@@ -17,12 +17,12 @@ client = opc.Client(ADDRESS)
 
 # Test if it can connect
 if client.can_connect():
-    print 'connected to %s' % ADDRESS
+    print('connected to %s' % ADDRESS)
 else:
     # We could exit here, but instead let's just print a warning
     # and then keep trying to send pixels in case the server
     # appears later
-    print 'WARNING: could not connect to %s' % ADDRESS
+    print('WARNING: could not connect to %s' % ADDRESS)
 
 # Send pixels forever
 STR_LEN=16
@@ -36,8 +36,8 @@ while True:
         leds[i] = leds[i+1]
     leds[-1] = tmp
     if client.put_pixels(leds, channel=0):
-        print 'sent'
+        print('sent')
     else:
-        print 'not connected'
+        print('not connected')
     time.sleep(0.1)
 
