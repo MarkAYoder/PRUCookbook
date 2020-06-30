@@ -478,8 +478,8 @@ being interfaced require careful timing and can&#8217;t afford to have an OS pre
 operation.</p>
 </div>
 <div class="paragraph">
-<p>But what if you have a projcet that needs the flexibility of an OS and the timing
-of a microcontroller?  This is where the BeagleBoard excells since it has both
+<p>But what if you have a project that needs the flexibility of an OS and the timing
+of a microcontroller?  This is where the BeagleBoard excels since it has both
 an ARM procssor running Linux and two <sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup>;
 <strong>P</strong>rogrammable <strong>R</strong>eal-Time <strong>U</strong>nits (PRUs).
 The PRUs have 32-bit cores which run
@@ -1327,22 +1327,22 @@ String PRU1 with pru/bin/ws281x-original-ledscape-pru1.bin... OK
 [tcp] Starting TCP server on 7890
 [demo] Starting Demo: fade
 {
-    &quot;outputMode&quot;: &quot;ws281x&quot;,
-    &quot;outputMapping&quot;: &quot;original-ledscape&quot;,
-    &quot;demoMode&quot;: &quot;fade&quot;,
-    &quot;ledsPerStrip&quot;: 176,
-    &quot;usedStripCount&quot;: 48,
-    &quot;colorChannelOrder&quot;: &quot;BRG&quot;,
-    &quot;opcTcpPort&quot;: 7890,
-    &quot;opcUdpPort&quot;: 7890,
-    &quot;enableInterpolation&quot;: true,
-    &quot;enableDithering&quot;: true,
-    &quot;enableLookupTable&quot;: true,
-    &quot;lumCurvePower&quot;: 2.0000,
-    &quot;whitePoint&quot;: {
-        &quot;red&quot;: 0.9000,
-        &quot;green&quot;: 1.0000,
-        &quot;blue&quot;: 1.0000
+    "outputMode": "ws281x",
+    "outputMapping": "original-ledscape",
+    "demoMode": "fade",
+    "ledsPerStrip": 176,
+    "usedStripCount": 48,
+    "colorChannelOrder": "BRG",
+    "opcTcpPort": 7890,
+    "opcUdpPort": 7890,
+    "enableInterpolation": true,
+    "enableDithering": true,
+    "enableLookupTable": true,
+    "lumCurvePower": 2.0000,
+    "whitePoint": {
+        "red": 0.9000,
+        "green": 1.0000,
+        "blue": 1.0000
     }
 }
 [render] fps_info={frame_avg_usec: 1924, possible_fps: 519.75, actual_fps: 0.10, sample_frames: 1}</code></pre>
@@ -1385,22 +1385,22 @@ configuration and edit it.</p>
 <div class="title">my-config.json</div>
 <div class="content">
 <pre class="CodeRay highlight"><code>{
-    &quot;outputMode&quot;: &quot;ws281x&quot;,
-    &quot;outputMapping&quot;: &quot;original-ledscape&quot;,
-    &quot;demoMode&quot;: &quot;fade&quot;,
-    &quot;ledsPerStrip&quot;: 16,
-    &quot;usedStripCount&quot;: 1,
-    &quot;colorChannelOrder&quot;: &quot;BRG&quot;,
-    &quot;opcTcpPort&quot;: 7890,
-    &quot;opcUdpPort&quot;: 7890,
-    &quot;enableInterpolation&quot;: false,
-    &quot;enableDithering&quot;: false,
-    &quot;enableLookupTable&quot;: true,
-    &quot;lumCurvePower&quot;: 2.0000,
-    &quot;whitePoint&quot;: {
-        &quot;red&quot;: 0.9000,
-        &quot;green&quot;: 1.0000,
-        &quot;blue&quot;: 1.0000
+    "outputMode": "ws281x",
+    "outputMapping": "original-ledscape",
+    "demoMode": "fade",
+    "ledsPerStrip": 16,
+    "usedStripCount": 1,
+    "colorChannelOrder": "BRG",
+    "opcTcpPort": 7890,
+    "opcUdpPort": 7890,
+    "enableInterpolation": false,
+    "enableDithering": false,
+    "enableLookupTable": true,
+    "lumCurvePower": 2.0000,
+    "whitePoint": {
+        "red": 0.9000,
+        "green": 1.0000,
+        "blue": 1.0000
     }
 }</code></pre>
 </div>
@@ -1424,94 +1424,48 @@ uses <code>opc.py</code> which is included in the <code>code</code> directory.</
 <div id="case_circle" class="listingblock">
 <div class="title">circle.py</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python"><table class="CodeRay"><tr>
-  <td class="line-numbers"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-</pre></td>
-  <td class="code"><pre><span class="comment"><mark>!/usr/bin/env python3</span>
+<pre class="CodeRay highlight"><code data-lang="python">#!/usr/bin/env python3
 
-<span class="docstring"><span class="delimiter">&quot;&quot;&quot;</span><span class="content">A demo client for Open Pixel Control</span><span class="content">
-</span><span class="content">http://github.com/zestyping/openpixelcontrol</span><span class="content">
-</span><span class="content">
-</span><span class="content">Runs an LED around in a circle</span><span class="content">
-</span><span class="content">
-</span><span class="delimiter">&quot;&quot;&quot;</span></span>
+"""A demo client for Open Pixel Control
+http://github.com/zestyping/openpixelcontrol
 
-<span class="keyword">import</span> <span class="include">time</span>
-<span class="keyword">import</span> <span class="include">opc</span>
+Runs an LED around in a circle
 
-ADDRESS = <span class="string"><span class="delimiter">'</span><span class="content">localhost:7890</span><span class="delimiter">'</span></span>
+"""
 
-<span class="comment"></mark> Create a client object</span>
+import time
+import opc
+
+ADDRESS = 'localhost:7890'
+
+# Create a client object
 client = opc.Client(ADDRESS)
 
-<span class="comment"># Test if it can connect</span>
-<span class="keyword">if</span> client.can_connect():
-    print(<span class="string"><span class="delimiter">'</span><span class="content">connected to %s</span><span class="delimiter">'</span></span> % ADDRESS)
-<span class="keyword">else</span>:
-    <span class="comment"># We could exit here, but instead let's just print a warning</span>
-    <span class="comment"># and then keep trying to send pixels in case the server</span>
-    <span class="comment"># appears later</span>
-    print(<span class="string"><span class="delimiter">'</span><span class="content">WARNING: could not connect to %s</span><span class="delimiter">'</span></span> % ADDRESS)
+# Test if it can connect
+if client.can_connect():
+    print('connected to %s' % ADDRESS)
+else:
+    # We could exit here, but instead let's just print a warning
+    # and then keep trying to send pixels in case the server
+    # appears later
+    print('WARNING: could not connect to %s' % ADDRESS)
 
-<span class="comment"># Send pixels forever</span>
-STR_LEN=<span class="integer">16</span>
-<span class="keyword">for</span> i <span class="keyword">in</span> <span class="predefined">range</span>(STR_LEN):
-    leds = [(<span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>)] * STR_LEN
-leds[<span class="integer">0</span>] = (<span class="integer">0</span>, <span class="integer">127</span>, <span class="integer">0</span>)
+# Send pixels forever
+STR_LEN=16
+for i in range(STR_LEN):
+    leds = [(0, 0, 0)] * STR_LEN
+leds[0] = (0, 127, 0)
 
-<span class="keyword">while</span> <span class="predefined-constant">True</span>:
-    tmp = leds[<span class="integer">0</span>]
-    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="predefined">range</span>(STR_LEN-<span class="integer">1</span>):
-        leds[i] = leds[i+<span class="integer">1</span>]
-    leds[-<span class="integer">1</span>] = tmp
-    <span class="keyword">if</span> client.put_pixels(leds, channel=<span class="integer">0</span>):
-        print(<span class="string"><span class="delimiter">'</span><span class="content">sent</span><span class="delimiter">'</span></span>)
-    <span class="keyword">else</span>:
-        print(<span class="string"><span class="delimiter">'</span><span class="content">not connected</span><span class="delimiter">'</span></span>)
-    time.sleep(<span class="float">0.1</span>)
-</pre></td>
-</tr></table></code></pre>
+while True:
+    tmp = leds[0]
+    for i in range(STR_LEN-1):
+        leds[i] = leds[i+1]
+    leds[-1] = tmp
+    if client.put_pixels(leds, channel=0):
+        print('sent')
+    else:
+        print('not connected')
+    time.sleep(0.1)</code></pre>
 </div>
 </div>
 </div>
@@ -1911,97 +1865,8 @@ The software suite is installed in aircraft from many OEM UAV companies, such as
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-22 14:02:43 -0400
+Last updated 2020-06-30 16:50:35 -0400
 </div>
 </div>
-<style>
-/* Stylesheet for CodeRay to match GitHub theme | MIT License | http://foundation.zurb.com */
-pre.CodeRay{background:#f7f7f8}
-.CodeRay .line-numbers{border-right:1px solid currentColor;opacity:.35;padding:0 .5em 0 0}
-.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
-.CodeRay .line-numbers strong{color:#000}
-table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
-table.CodeRay td{vertical-align:top;line-height:inherit}
-table.CodeRay td.line-numbers{text-align:right}
-table.CodeRay td.code{padding:0 0 0 .75em}
-.CodeRay .debug{color:#fff !important;background:#000080 !important}
-.CodeRay .annotation{color:#007}
-.CodeRay .attribute-name{color:#000080}
-.CodeRay .attribute-value{color:#700}
-.CodeRay .binary{color:#509}
-.CodeRay .comment{color:#998;font-style:italic}
-.CodeRay .char{color:#04d}
-.CodeRay .char .content{color:#04d}
-.CodeRay .char .delimiter{color:#039}
-.CodeRay .class{color:#458;font-weight:bold}
-.CodeRay .complex{color:#a08}
-.CodeRay .constant,.CodeRay .predefined-constant{color:#008080}
-.CodeRay .color{color:#099}
-.CodeRay .class-variable{color:#369}
-.CodeRay .decorator{color:#b0b}
-.CodeRay .definition{color:#099}
-.CodeRay .delimiter{color:#000}
-.CodeRay .doc{color:#970}
-.CodeRay .doctype{color:#34b}
-.CodeRay .doc-string{color:#d42}
-.CodeRay .escape{color:#666}
-.CodeRay .entity{color:#800}
-.CodeRay .error{color:#808}
-.CodeRay .exception{color:inherit}
-.CodeRay .filename{color:#099}
-.CodeRay .function{color:#900;font-weight:bold}
-.CodeRay .global-variable{color:#008080}
-.CodeRay .hex{color:#058}
-.CodeRay .integer,.CodeRay .float{color:#099}
-.CodeRay .include{color:#555}
-.CodeRay .inline{color:#000}
-.CodeRay .inline .inline{background:#ccc}
-.CodeRay .inline .inline .inline{background:#bbb}
-.CodeRay .inline .inline-delimiter{color:#d14}
-.CodeRay .inline-delimiter{color:#d14}
-.CodeRay .important{color:#555;font-weight:bold}
-.CodeRay .interpreted{color:#b2b}
-.CodeRay .instance-variable{color:#008080}
-.CodeRay .label{color:#970}
-.CodeRay .local-variable{color:#963}
-.CodeRay .octal{color:#40e}
-.CodeRay .predefined{color:#369}
-.CodeRay .preprocessor{color:#579}
-.CodeRay .pseudo-class{color:#555}
-.CodeRay .directive{font-weight:bold}
-.CodeRay .type{font-weight:bold}
-.CodeRay .predefined-type{color:inherit}
-.CodeRay .reserved,.CodeRay .keyword {color:#000;font-weight:bold}
-.CodeRay .key{color:#808}
-.CodeRay .key .delimiter{color:#606}
-.CodeRay .key .char{color:#80f}
-.CodeRay .value{color:#088}
-.CodeRay .regexp .delimiter{color:#808}
-.CodeRay .regexp .content{color:#808}
-.CodeRay .regexp .modifier{color:#808}
-.CodeRay .regexp .char{color:#d14}
-.CodeRay .regexp .function{color:#404;font-weight:bold}
-.CodeRay .string{color:#d20}
-.CodeRay .string .string .string{background:#ffd0d0}
-.CodeRay .string .content{color:#d14}
-.CodeRay .string .char{color:#d14}
-.CodeRay .string .delimiter{color:#d14}
-.CodeRay .shell{color:#d14}
-.CodeRay .shell .delimiter{color:#d14}
-.CodeRay .symbol{color:#990073}
-.CodeRay .symbol .content{color:#a60}
-.CodeRay .symbol .delimiter{color:#630}
-.CodeRay .tag{color:#008080}
-.CodeRay .tag-special{color:#d70}
-.CodeRay .variable{color:#036}
-.CodeRay .insert{background:#afa}
-.CodeRay .delete{background:#faa}
-.CodeRay .change{color:#aaf;background:#007}
-.CodeRay .head{color:#f8f;background:#505}
-.CodeRay .insert .insert{color:#080}
-.CodeRay .delete .delete{color:#800}
-.CodeRay .change .change{color:#66f}
-.CodeRay .head .head{color:#f4f}
-</style>
 </body>
 </html>
