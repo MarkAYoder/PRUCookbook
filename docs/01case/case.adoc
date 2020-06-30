@@ -16,8 +16,8 @@ Microcontrollers shine when things
 being interfaced require careful timing and can't afford to have an OS preempt an 
 operation.
 
-But what if you have a projcet that needs the flexibility of an OS and the timing 
-of a microcontroller?  This is where the BeagleBoard excells since it has both 
+But what if you have a project that needs the flexibility of an OS and the timing 
+of a microcontroller?  This is where the BeagleBoard excels since it has both 
 an ARM procssor running Linux and two footnote:[Four if you are on the BeagleBone AI];
 **P**rogrammable **R**eal-Time **U**nits (PRUs).
 The PRUs have 32-bit cores which run
