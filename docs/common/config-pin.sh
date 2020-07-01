@@ -33,7 +33,7 @@ if [ $found -ne 0 ] ; then
     gpio=gpio$[32*$chip+$line]
     # echo $gpio
     echo $dir > /sys/class/gpio/$gpio/direction
-    
+    /usr/bin/config-pin $pin gpio
 else
     echo $pin not found
 fi
