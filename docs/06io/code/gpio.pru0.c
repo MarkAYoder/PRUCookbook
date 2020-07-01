@@ -4,7 +4,8 @@
 #include "resource_table_empty.h"
 #include "prugpio.h"
 
-#define P9_11	(0x1<<30)			// Bit position tied to P9_11
+#define P9_11	(0x1<<30)			// Bit position tied to P9_11 on Black
+#define P2_05	(0x1<<30)			// Bit position tied to P2_05 on Pocket
 
 volatile register uint32_t __R30;
 volatile register uint32_t __R31;
