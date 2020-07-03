@@ -1257,12 +1257,14 @@ PROC    = pru
 PRUN    = 0
 PRU_DIR = /sys/class/remoteproc/remoteproc1
 
+bone$ *echo 0 0xff 0 127 > /dev/rpmsg_pru30*
+bone$ *echo -1 > /dev/rpmsg_pru30*
 ----
 
 `/dev/rpmsg_pru30` is a device driver that lets the ARM talk to the PRU.
 The first `echo` says to set the 0^th^ LED to RGB value 0xff 0 127. (Note: you can
 mix hex and decimal.) The second `echo` tells the driver to send the data to the
-LEDs.  You 0^th^ LED should now be lit.
+LEDs.  Your 0^th^ LED should now be lit.
 
 ==== Discussion
 There's a lot here.  I'll just hit some of the highlights in <<blocks_neo4_lines>>.
@@ -1305,6 +1307,22 @@ include::code/neo-rainbow.py[]
 Line 19 writes the data to the PRU.  Be sure to have a newline, or space after
 the last number, or you numbers will get blurred together.
 
+===== Switching from pru0 to pru1 with rpmsg_pru
+
+There are three things you need to change when switching from pru0 to pru1
+when using rpmsg_pru.
+
+1.  The include on line 10 is switched to `#include "resource_table_1.h"`
+(0 is switched to a 1)
+2.  Line 17 is switched to `#define HOST_INT			((uint32_t) 1 << 31)`
+(30 is switched to 31.)
+3.  Lines 23 and 24 are switched to:	
+[source,c]
+----
+#define TO_ARM_HOST			18	
+#define FROM_ARM_HOST		19
+----
+These changes switch to the proper channel numbers to use pru1 instead of pru0.
 
 === RGB LED Matrix - No Integrated Drivers
 

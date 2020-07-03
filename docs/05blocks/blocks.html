@@ -4653,14 +4653,17 @@ write_init_pins.sh
 MODEL   = TI_AM335x_BeagleBone_Black
 PROC    = pru
 PRUN    = <span class="integer">0</span>
-PRU_DIR = /sys/class/remoteproc/remoteproc1</code></pre>
+PRU_DIR = /sys/class/remoteproc/remoteproc1
+
+bone$ <strong>echo <span class="integer">0</span> <span class="hex">0xff</span> <span class="integer">0</span> <span class="integer">127</span> &gt; /dev/rpmsg_pru30</strong>
+bone$ <strong>echo -<span class="integer">1</span> &gt; /dev/rpmsg_pru30</strong></code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p><code>/dev/rpmsg_pru30</code> is a device driver that lets the ARM talk to the PRU.
 The first <code>echo</code> says to set the 0<sup>th</sup> LED to RGB value 0xff 0 127. (Note: you can
 mix hex and decimal.) The second <code>echo</code> tells the driver to send the data to the
-LEDs.  You 0<sup>th</sup> LED should now be lit.</p>
+LEDs.  Your 0<sup>th</sup> LED should now be lit.</p>
 </div>
 </div>
 <div class="sect3">
@@ -4806,6 +4809,37 @@ fo.close()</pre></td>
 <div class="paragraph">
 <p>Line 19 writes the data to the PRU.  Be sure to have a newline, or space after
 the last number, or you numbers will get blurred together.</p>
+</div>
+<div class="sect4">
+<h5 id="_switching_from_pru0_to_pru1_with_rpmsg_pru"><a class="link" href="#_switching_from_pru0_to_pru1_with_rpmsg_pru">Switching from pru0 to pru1 with rpmsg_pru</a></h5>
+<div class="paragraph">
+<p>There are three things you need to change when switching from pru0 to pru1
+when using rpmsg_pru.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The include on line 10 is switched to <code>#include "resource_table_1.h"</code>
+(0 is switched to a 1)</p>
+</li>
+<li>
+<p>Line 17 is switched to <code>#define HOST_INT			((uint32_t) 1 &lt;&lt; 31)</code>
+(30 is switched to 31.)</p>
+</li>
+<li>
+<p>Lines 23 and 24 are switched to:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>#define TO_ARM_HOST         18
+#define FROM_ARM_HOST       19</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>These changes switch to the proper channel numbers to use pru1 instead of pru0.</p>
+</div>
 </div>
 </div>
 </div>
@@ -5650,7 +5684,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-22 18:43:32 -0400
+Last updated 2020-07-03 11:08:26 -0400
 </div>
 </div>
 <style>
