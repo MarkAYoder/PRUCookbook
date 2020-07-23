@@ -506,12 +506,12 @@ in assembly.  The intrinsic <code>__delay_cycles</code> must be passed a compile
 constant.  Our new <code>delay_cycles</code> can take a runtime delay value.</p>
 </div>
 <div class="paragraph">
-<p><a href="#more_delay-test">delay-test..pru0.c</a> is much like our other c code, but on line 10 we declare
+<p><a href="#more_delay-test">delay-test.pru0.c</a> is much like our other c code, but on line 10 we declare
 <code>my_delay_cycles</code> and then on lines 24 and 26 we&#8217;ll call it with an argument
 of 1.</p>
 </div>
 <div id="more_delay-test" class="listingblock">
-<div class="title">delay-test..pru0.c</div>
+<div class="title">delay-test.pru0.c</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -604,7 +604,7 @@ delay:
 </div>
 </div>
 <div class="paragraph">
-<p>The <code>Makefile</code> has one addition that needs to be made to compile both <a href="#more_delay-test">delay-test..pru0.c</a>
+<p>The <code>Makefile</code> has one addition that needs to be made to compile both <a href="#more_delay-test">delay-test.pru0.c</a>
 and <a href="#more_delay">delay.pru0.asm</a>.
 If you look in the local <code>Makefile</code> you&#8217;ll see:</p>
 </div>
@@ -1575,7 +1575,7 @@ details.)</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-22 16:45:14 -0400
+Last updated 2020-07-23 17:49:53 -0400
 </div>
 </div>
 <style>

@@ -33,7 +33,7 @@ constant.  Our new `delay_cycles` can take a runtime delay value.
 `my_delay_cycles` and then on lines 24 and 26 we'll call it with an argument
 of 1.
 [[more_delay-test]]
-.delay-test..pru0.c
+.delay-test.pru0.c
 [source,c,linenums]
 [subs=+quotes]
 ----
