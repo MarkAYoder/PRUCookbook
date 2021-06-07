@@ -205,6 +205,17 @@ They are called `clpru` and `lnkpru`.
 bone$ *which clpru*
 /usr/bin/clpru
 ----
+
+If `clpru` isn't installed, follow the instructions at
+https://elinux.org/Beagleboard:BeagleBoneBlack_Debian#TI_PRU_Code_Generation_Tools
+to install it.
+[source]
+[subs=+quotes]
+----
+bone$ *sudo apt update*
+bone$ *sudo apt install ti-pru-cgt-installer*
+----
+
 Details on each can be found here:
 
 * http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler]
