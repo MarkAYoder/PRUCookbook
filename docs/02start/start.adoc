@@ -129,6 +129,9 @@ You want to find the lastest version of Debian that is available for your Bone.
 ==== Solution
 On your host computer open a browser and go to
 http://beagleboard.org/latest-images.
+
+// TODO  Update links
+
 This shows you two current choices of recent Debian images,
 one for the BeagleBone AI 
 (https://debian.beagleboard.org/images/am57xx-debian-10.3-iot-tidl-armhf-2020-04-06-6gb.img.xz[AM5729 Debian 10.3 2020-04-06 8GB SD IoT TIDL]) and
