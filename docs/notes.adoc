@@ -21,3 +21,5 @@ Switching to asciidoc
 * [x] bone$ *command*
 * [x] Syntax highlighting
 * [x] Tables:  column width
+
+Update links in: file:///home/yoder/bone/PRUCookbook/docs/02start/start.html#_installing_the_latest_os_on_your_bone
