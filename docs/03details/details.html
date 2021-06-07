@@ -629,8 +629,9 @@ gpio.pru0.c  Makefile  setup.sh</code></pre>
 <pre class="CodeRay highlight"><code>bone$ <strong>source setup.sh</strong>
 TARGET=gpio.pru0
 PocketBeagle Found
-P1_36
-Current mode for P1_36 is:     default</code></pre>
+P2_05
+Current mode for P2_05 is:     gpio
+Current mode for P2_05 is:     gpio</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -724,7 +725,7 @@ fi
 for pin in $pins
 do
     echo $pin
-    config-pin $pin out
+    config-pin $pin gpio
     config-pin -q $pin
 done</code></pre>
 </div>
@@ -1324,7 +1325,7 @@ to the hardware eQEPs and other to the PRU inputs.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-06-07 15:27:55 -0400
+Last updated 2021-06-07 16:09:43 -0400
 </div>
 </div>
 </body>

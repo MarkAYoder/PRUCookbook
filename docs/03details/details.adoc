@@ -50,8 +50,9 @@ Source the setup file.
 bone$ *source setup.sh*
 TARGET=gpio.pru0
 PocketBeagle Found
-P1_36
-Current mode for P1_36 is:     default
+P2_05
+Current mode for P2_05 is:     gpio
+Current mode for P2_05 is:     gpio
 ----
 
 Now you are ready to compile and run.  This is automated for you in the Makefile
@@ -256,6 +257,8 @@ Both files can be found in `/var/lib/cloud9/common`.
 ----
 include::code/am335x_pru.cmd[am335x_pru.cmd]
 ----
+
+// TODO does  this need updating?
 
 The cmd file for the AI is about the same, with appropriate addresses for the AI.
 
