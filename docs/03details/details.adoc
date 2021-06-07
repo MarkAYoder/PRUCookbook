@@ -206,6 +206,8 @@ bone$ *which clpru*
 /usr/bin/clpru
 ----
 
+[TIP]
+====
 If `clpru` isn't installed, follow the instructions at
 https://elinux.org/Beagleboard:BeagleBoneBlack_Debian#TI_PRU_Code_Generation_Tools
 to install it.
@@ -215,6 +217,7 @@ to install it.
 bone$ *sudo apt update*
 bone$ *sudo apt install ti-pru-cgt-installer*
 ----
+====
 
 Details on each can be found here:
 
