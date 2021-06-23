@@ -352,7 +352,7 @@ bone$ *config-pin P1_36 pruout*
 
 [NOTE]
 ====
-See <<08ai/ai.html#, Configuring pins on the AI via device trees>> for configuring 
+See <<../08ai/ai.html#, Configuring pins on the AI via device trees>> for configuring 
 pins on the AI.
 ====
 
@@ -467,7 +467,7 @@ Bit 0 is the LSB.
 
 [NOTE]
 ====
-See <<08ai/ai.html#, Configuring pins on the AI via device trees>> for all
+See <<../08ai/ai.html#, Configuring pins on the AI via device trees>> for all
 the PRU pins on the AI.
 ====
 
