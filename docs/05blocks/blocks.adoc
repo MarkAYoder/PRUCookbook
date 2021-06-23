@@ -767,7 +767,7 @@ The PRU 0 channels have a period of 370ns while the PRU 1 channels at 330ns.
 It appears the compiler has optimied the two PRUs slightly differenty.
 
 
-=== Sychronziing Two PRUs
+=== Synchronizing Two PRUs
 ==== Problem
 I need to synchronize the two PRUs so they run together.
 
