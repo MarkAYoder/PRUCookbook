@@ -370,6 +370,8 @@ any other type of
 https://cdn-shop.adafruit.com/datasheets/WS2812.pdf[WS2812 LED]
 and want to light it up.
 
+// Show how to drive ws2812's with FPP.
+
 ==== Solution
 You can either write your own code 
 (See <<../05blocks/blocks.adoc#blocks_ws2812, WS2812 Driver>>), or
@@ -727,7 +729,7 @@ image::figures/xlights_setup.png[xLights Setup]
 
 We'll walk you through a simple setup to get an animation to display on the 
 RGB Matrix.  xLights can use a protocol called E1.31 to send information to 
-the display.  Setup xLights by clicking on *Add E1.31* and entering the values 
+the display.  Setup xLights by clicking on *Add Ethernet* and entering the values 
 shown in <<case_xlights_setup_e1_31>>.
 
 [[case_xlights_setup_e1_31]]
@@ -764,7 +766,7 @@ image::figures/xlights_layout_details.png[Layout details for P5 matrix]
 
 All I changed was *# Strings*, *Nodes/String*, *Starting Location* and most 
 importantly, expand *String Properties* and select at *String Type* of 
-*RGB Nodes*.  Above the seeting you should see that *Start Chan* is 1 and 
+*RGB Nodes*.  Above the setting you should see that *Start Chan* is 1 and 
 the *End Chan* is 6144, which is the total number of individual LEDs (3*63*32). 
 xLights now knows we are working with a P5 matrix, now on to the sequencer. 
 
