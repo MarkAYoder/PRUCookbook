@@ -90,7 +90,7 @@ The Robotics Control Library provides eight additional PWM channels via the PRU 
 The I/O pins on the Beagles have a mutliplexer that lets you select what I/O 
 appears on a given pin.  The Blue has the mux already configured to to run these
 examples.  Follow the instructions in 
-<<../03details/detailsl#details_configure_servos, Configuring Pins for Controlling Servos>> 
+<<../03details/details.html#details_configure_servos, Configuring Pins for Controlling Servos>> 
 to configure the pins for the Black and the Pocket.
 ====
 
@@ -128,9 +128,9 @@ sample use to center servo channel 1:
 
 ===== Discussion
 The BeagleBone Blue sends these eight outputs to it's servo channels.  The others use the pins shown in the 
-<<sase__register_to_pin_table,Register to pin table>>.
+<<case__register_to_pin_table,PRU register to pin table>>.
 
-[[sase__register_to_pin_table]]
+[[case__register_to_pin_table]]
 .PRU register to pin table
 |===
 |PRU pin    |Blue pin|Black pin|Pocket pin|AI pin
@@ -218,7 +218,7 @@ pins shown in <<case_pin_mapping>>.
 The I/O pins on the Beagles have a mutliplexer that lets you select what I/O 
 appears on a given pin.  The Blue has the mux already configured to to run these
 examples.  Follow the instructions in 
-<<../03details/details.adocs#details_configure_encoders, Configuring Pins for Controlling Encoders>> 
+<<../03details/details.html#details_configure_encoders, Configuring Pins for Controlling Encoders>> 
 to configure the pins for the Black and the Pocket.
 ====
 
@@ -267,7 +267,8 @@ BeagleLogic turns your BeagleBone [Black] into a 14-channel, 100Msps Logic Analy
 The core of the logic analyzer is the 'beaglelogic' kernel module that reserves memory for and drives the two Programmable Real-Time Units (PRU) via the remoteproc interface wherein the PRU directly writes logic samples to the System Memory (DDR RAM) at the configured sample rate one-shot or continuously without intervention from the ARM core.
 ____
 
-The quickest solution is to get the https://github.com/abhishek-kakkar/BeagleLogic/wiki/BeagleLogic-%22no-setup-required%22-setup:-Introducing-System-Image![no-setup-required image].  It runs on an older image (15-Apr-2016) but should still work.
+The quickest solution is to get the https://github.com/abhishek-kakkar/BeagleLogic/wiki/BeagleLogic-%22no-setup-required%22-setup:-Introducing-System-Image![no-setup-required image].  It points to an older image
+(beaglelogic-stretch-2017-07-13-4gb.img.xz ) but should still work.
 
 If you want to be running a newer image, there are instructions on the site for https://beaglelogic.readthedocs.io/en/latest/install.html[installing BeagleLogic], but I had to do the additional steps in <<case_installing_beaglelogic>>.
 
@@ -394,7 +395,7 @@ hardware!  Here's how to install it.
 [NOTE]
 ====
 LEDscape uses UIO, an older method for talking to the PRU.  See
-<<../06io/io.adoc#io_uio,Configuring for UIO Instead of RemoteProc>> to configure your Bone to use UIO.
+<<../06io/io.adoc#io_uio,Configuring for UIO Instead of RemoteProc>> to configure your Bone to use UIO.  You'll have to use and older kernel to do this.
 ====
 [NOTE]
 ====
@@ -457,7 +458,7 @@ We need to edit `ledsacpe.c` and `opc-server.c` to make them work.
 ----
 bone$ *cd LEDscape*
 ----
-Now edit `opc-server.c` and comment out line 723.
+Now edit `opc-server.c` and comment out line 737.
 
 ----
 // pthread_create(&g_threads.e131_server_thread.handle, NULL, e131_server_thread, NULL
@@ -483,7 +484,7 @@ Next edit `ledscape.c` and comment out lines 29-44
 // };
 ----
 
-And also lines 176-184
+And also lines 181-189
 
 ----
 // Configure all of our output pins.
@@ -632,7 +633,7 @@ The Beagle hardware can be either a BeagleBone Black with the
 https://oshpark.com/shared_projects/7mSHNZcD[Octoscroller Cape], or a 
 PocketBeagle with the 
 https://www.hackster.io/daniel-kulp/pocketscroller-led-panel-cape-for-pocketbeagle-fe12a6[PocketScroller LED Panel Cape]. 
-(See https://www.tindie.com/products/dkulp/pocketscroller-led-panel-cape-for-pocketbeagle/[to purchase].)
+(See https://kulplights.com/product/pocketscroller/[to purchase].)
 https://www.diychristmas.org/wiki/index.php?title=Building_an_Octoscroller_Matrix_Display[Building and Octoscroller Matrix Display] 
 gives details for using the BeagleBone Black. 
 
@@ -647,7 +648,7 @@ image::figures/pocketscroller.jpg[Pocket Beagle Driving a P5 RGB LED Matrix via 
 
 ===== Software
 The FPP software is most easily installed by downloading the 
-http://dankulp.com/bbb/[current FPP image], flashing an SD card and 
+https://github.com/FalconChristmas/fpp/releases/[current FPP release], flashing an SD card and 
 booting from it. 
 
 [TIP]
@@ -707,17 +708,18 @@ With it you can layout your display visually then assign effects to the various 
 xLights runs on Windows, OSX and Linux
 ____
 xLights can be installed on your host computer (not the Beagle) by
-following instructions at 
-<https://code.launchpad.net/~chris-debenham/+archive/ubuntu/xlights>.
+following instructions at <https://xlights.org/releases/>.
 
 Run xLights and you'll see <<case_xlights_setup>>.
 
 [source]
 [subs=+quotes]
 ----
-host$ *apt install xlights*
-host$ *xLights*
+host$ *chmod +x xLights-2021.18-x86_64.AppImage*
+host$ *./xLights-2021.18-x86_64.AppImage*
 ----
+
+// TODO update the figures.
 
 [[case_xlights_setup]]
 .xLights Setup
