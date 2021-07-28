@@ -27,9 +27,7 @@ outputs.
 
 * TODO Update link
 
-There are many projects that use the PRU 
-(http://processors.wiki.ti.com/index.php/PRU_Projects) 
-<<http://../projects.html, PRU Projects>>
+There are many http://../projects.html[projects] that use the PRU.
 
 to do things that can't be 
 done with just a SBC or just a microcontroller. Here we present some case studies that give a high-level view of using the PRUs.  In later
