@@ -263,6 +263,13 @@ bone$ *git clone https://github.com/MarkAYoder/PRUCookbook.git*
 bone$ *cd PRUCookbook/docs/02start/code*
 ----
 
+[TIP]
+====
+If the following doesn't work see 
+*Compiling with clpru and lnkpru* in the details chapter
+for instillation instructions.
+====
+
 [[start_running_code]]
 .Running Code on the Black or Pocket
 [source]

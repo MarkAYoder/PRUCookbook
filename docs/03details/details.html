@@ -529,14 +529,15 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_running_a_program_configuring_pins">1. Running a Program; Configuring Pins</a>
 <ul class="sectlevel2">
 <li><a href="#_getting_example_code">1.1. Getting Example Code</a></li>
-<li><a href="#_compiling_and_running">1.2. Compiling and Running</a></li>
-<li><a href="#_stopping_and_starting_the_pru">1.3. Stopping and Starting the PRU</a></li>
-<li><a href="#details_makefile">1.4. The Standard Makefile</a></li>
-<li><a href="#_compiling_with_clpru_and_lnkpru">1.5. Compiling with clpru and lnkpru</a></li>
-<li><a href="#detail_linker">1.6. The Linker Command File - am335x_pru.cmd</a></li>
-<li><a href="#_loading_firmware">1.7. Loading Firmware</a></li>
-<li><a href="#details_configure_servos">1.8. Configuring Pins for Controlling Servos</a></li>
-<li><a href="#details_configure_encoders">1.9. Configuring Pins for Controlling Encoders</a></li>
+<li><a href="#_compiling_with_clpru_and_lnkpru">1.2. Compiling with clpru and lnkpru</a></li>
+<li><a href="#_making_sure_the_prus_are_configured">1.3. Making sure the PRUs are configured</a></li>
+<li><a href="#_compiling_and_running">1.4. Compiling and Running</a></li>
+<li><a href="#_stopping_and_starting_the_pru">1.5. Stopping and Starting the PRU</a></li>
+<li><a href="#details_makefile">1.6. The Standard Makefile</a></li>
+<li><a href="#detail_linker">1.7. The Linker Command File - am335x_pru.cmd</a></li>
+<li><a href="#_loading_firmware">1.8. Loading Firmware</a></li>
+<li><a href="#details_configure_servos">1.9. Configuring Pins for Controlling Servos</a></li>
+<li><a href="#details_configure_encoders">1.10. Configuring Pins for Controlling Encoders</a></li>
 </ul>
 </li>
 </ul>
@@ -602,15 +603,132 @@ compile code and also start and stop the PRUs.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_compiling_and_running"><a class="link" href="#_compiling_and_running">1.2. Compiling and Running</a></h3>
+<h3 id="_compiling_with_clpru_and_lnkpru"><a class="link" href="#_compiling_with_clpru_and_lnkpru">1.2. Compiling with clpru and lnkpru</a></h3>
 <div class="sect3">
 <h4 id="_problem_2"><a class="link" href="#_problem_2">Problem</a></h4>
+<div class="paragraph">
+<p>You need details on the c compiler, linker and other tools for the PRU.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_2"><a class="link" href="#_solution_2">Solution</a></h4>
+<div class="paragraph">
+<p>The PRU compiler and linker are already installed on many images.
+They are called <code>clpru</code> and <code>lnkpru</code>.  Do the following to see if <code>clpru</code> is installed.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>bone$ <strong>which clpru</strong>
+/usr/bin/clpru</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If <code>clpru</code> isn&#8217;t installed, follow the instructions at
+<a href="https://elinux.org/Beagleboard:BeagleBoneBlack_Debian#TI_PRU_Code_Generation_Tools" class="bare">https://elinux.org/Beagleboard:BeagleBoneBlack_Debian#TI_PRU_Code_Generation_Tools</a>
+to install it.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>bone$ <strong>sudo apt update</strong>
+bone$ <strong>sudo apt install ti-pru-cgt-installer</strong></code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Details on each can be found here:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf">PRU Optimizing C/C++ Compiler</a></p>
+</li>
+<li>
+<p><a href="http://www.ti.com/lit/ug/spruhv6b/spruhv6b.pdf">PRU Assembly Language Tools</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In fact there are PRU versions of many of the standard code generation tools.</p>
+</div>
+<div class="listingblock">
+<div class="title">code tools</div>
+<div class="content">
+<pre class="CodeRay highlight"><code>bone$ <strong>ls /usr/bin/*pru</strong>
+/usr/bin/abspru    /usr/bin/clistpru  /usr/bin/hexpru      /usr/bin/ofdpru
+/usr/bin/acpiapru  /usr/bin/clpru     /usr/bin/ilkpru      /usr/bin/optpru
+/usr/bin/arpru     /usr/bin/dempru    /usr/bin/libinfopru  /usr/bin/rc_test_encoders_pru
+/usr/bin/asmpru    /usr/bin/dispru    /usr/bin/lnkpru      /usr/bin/strippru
+/usr/bin/cgpru     /usr/bin/embedpru  /usr/bin/nmpru       /usr/bin/xrefpru</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See the <a href="http://www.ti.com/lit/ug/spruhv6b/spruhv6b.pdf">PRU Assembly Language Tools</a> for more details.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_making_sure_the_prus_are_configured"><a class="link" href="#_making_sure_the_prus_are_configured">1.3. Making sure the PRUs are configured</a></h3>
+<div class="sect3">
+<h4 id="_problem_3"><a class="link" href="#_problem_3">Problem</a></h4>
+<div class="paragraph">
+<p>When running the Makefile for the PRU you get and error about <code>/dev/remoteproc</code>
+is missing.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_3"><a class="link" href="#_solution_3">Solution</a></h4>
+<div class="paragraph">
+<p>Edit <code>/boot/uEnv.txt</code> and enble pru_rproc by doing the following.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>bone$ <strong>sudo vi /boot/uEnv.txt</strong></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Around line 40 you will see:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>###pru_rproc (4.19.x-ti kernel)
+uboot_overlay_pru=AM335X-PRU-RPROC-4-19-TI-00A0.dtbo</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Uncomment the <code>uboot_overlay</code> line as shown and then reboot.
+<code>/dev/remoteproc</code> should now be there.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>bone$ <strong>sudo reboot</strong>
+bone$ <strong>ls -ls /dev/remoteproc/</strong>
+total 0
+0 lrwxrwxrwx 1 root root 33 Jul 29 16:12 pruss-core0 -&gt; /sys/class/remoteproc/remoteproc1
+0 lrwxrwxrwx 1 root root 33 Jul 29 16:12 pruss-core1 -&gt; /sys/class/remoteproc/remoteproc2</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_compiling_and_running"><a class="link" href="#_compiling_and_running">1.4. Compiling and Running</a></h3>
+<div class="sect3">
+<h4 id="_problem_4"><a class="link" href="#_problem_4">Problem</a></h4>
 <div class="paragraph">
 <p>I want to compile and run an example.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_2"><a class="link" href="#_solution_2">Solution</a></h4>
+<h4 id="_solution_4"><a class="link" href="#_solution_4">Solution</a></h4>
 <div class="paragraph">
 <p>Change to the directory of the code you want to run.</p>
 </div>
@@ -708,18 +826,18 @@ echo TARGET=$TARGET
 # Configure the PRU pins based on which Beagle is running
 machine=$(awk '{print $NF}' /proc/device-tree/model)
 echo -n $machine
-if [ $machine = "Black" ]; then
-    echo " Found"
-    pins="P9_11"
-elif [ $machine = "Blue" ]; then
-    echo " Found"
-    pins=""
-elif [ $machine = "PocketBeagle" ]; then
-    echo " Found"
-    pins="P2_05"
+if [ $machine = &quot;Black&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;P9_11&quot;
+elif [ $machine = &quot;Blue&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;&quot;
+elif [ $machine = &quot;PocketBeagle&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;P2_05&quot;
 else
-    echo " Not Found"
-    pins=""
+    echo &quot; Not Found&quot;
+    pins=&quot;&quot;
 fi
 
 for pin in $pins
@@ -782,15 +900,15 @@ be loaded, and then restarts the PRU.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_stopping_and_starting_the_pru"><a class="link" href="#_stopping_and_starting_the_pru">1.3. Stopping and Starting the PRU</a></h3>
+<h3 id="_stopping_and_starting_the_pru"><a class="link" href="#_stopping_and_starting_the_pru">1.5. Stopping and Starting the PRU</a></h3>
 <div class="sect3">
-<h4 id="_problem_3"><a class="link" href="#_problem_3">Problem</a></h4>
+<h4 id="_problem_5"><a class="link" href="#_problem_5">Problem</a></h4>
 <div class="paragraph">
 <p>I want to stop and start the PRU.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_3"><a class="link" href="#_solution_3">Solution</a></h4>
+<h4 id="_solution_5"><a class="link" href="#_solution_5">Solution</a></h4>
 <div class="paragraph">
 <p>It&#8217;s easy, if you already have <code>TARGET</code> set up:</p>
 </div>
@@ -823,16 +941,16 @@ bone$ <strong>make TARGET=gpio.pru1 start</strong></code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="details_makefile"><a class="link" href="#details_makefile">1.4. The Standard Makefile</a></h3>
+<h3 id="details_makefile"><a class="link" href="#details_makefile">1.6. The Standard Makefile</a></h3>
 <div class="sect3">
-<h4 id="_problem_4"><a class="link" href="#_problem_4">Problem</a></h4>
+<h4 id="_problem_6"><a class="link" href="#_problem_6">Problem</a></h4>
 <div class="paragraph">
 <p>There are all sorts of options that need to be set when compiling
 a program.  How can I be sure to get them all right?</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_4"><a class="link" href="#_solution_4">Solution</a></h4>
+<h4 id="_solution_6"><a class="link" href="#_solution_6">Solution</a></h4>
 <div class="paragraph">
 <p>The surest way to make sure everything is right is to use our
 standard <code>Makefile</code>.</p>
@@ -848,7 +966,11 @@ Here is the local <code>Makefile</code> used throughout this book.</p>
 <div class="listingblock">
 <div class="title">Local Makefile</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="makefile">include /var/lib/cloud9/common/Makefile</code></pre>
+<pre class="CodeRay highlight"><code data-lang="makefile"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+</pre></td>
+  <td class="code"><pre>include /var/lib/cloud9/common/Makefile</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -861,89 +983,15 @@ of how the Makefile works is beyond the scope of this cookbook.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_compiling_with_clpru_and_lnkpru"><a class="link" href="#_compiling_with_clpru_and_lnkpru">1.5. Compiling with clpru and lnkpru</a></h3>
+<h3 id="detail_linker"><a class="link" href="#detail_linker">1.7. The Linker Command File - am335x_pru.cmd</a></h3>
 <div class="sect3">
-<h4 id="_problem_5"><a class="link" href="#_problem_5">Problem</a></h4>
-<div class="paragraph">
-<p>You need details on the c compiler, linker and other tools for the PRU.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_solution_5"><a class="link" href="#_solution_5">Solution</a></h4>
-<div class="paragraph">
-<p>The PRU compiler and linker are already installed on the standard images.
-They are called <code>clpru</code> and <code>lnkpru</code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>bone$ <strong>which clpru</strong>
-/usr/bin/clpru</code></pre>
-</div>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Tip</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>If <code>clpru</code> isn&#8217;t installed, follow the instructions at
-<a href="https://elinux.org/Beagleboard:BeagleBoneBlack_Debian#TI_PRU_Code_Generation_Tools" class="bare">https://elinux.org/Beagleboard:BeagleBoneBlack_Debian#TI_PRU_Code_Generation_Tools</a>
-to install it.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>bone$ <strong>sudo apt update</strong>
-bone$ <strong>sudo apt install ti-pru-cgt-installer</strong></code></pre>
-</div>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Details on each can be found here:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf">PRU Optimizing C/C++ Compiler</a></p>
-</li>
-<li>
-<p><a href="http://www.ti.com/lit/ug/spruhv6b/spruhv6b.pdf">PRU Assembly Language Tools</a></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>In fact there are PRU versions of many of the standard code generation tools.</p>
-</div>
-<div class="listingblock">
-<div class="title">code tools</div>
-<div class="content">
-<pre class="CodeRay highlight"><code>bone$ <strong>ls /usr/bin/*pru</strong>
-/usr/bin/abspru    /usr/bin/clistpru  /usr/bin/hexpru      /usr/bin/ofdpru
-/usr/bin/acpiapru  /usr/bin/clpru     /usr/bin/ilkpru      /usr/bin/optpru
-/usr/bin/arpru     /usr/bin/dempru    /usr/bin/libinfopru  /usr/bin/rc_test_encoders_pru
-/usr/bin/asmpru    /usr/bin/dispru    /usr/bin/lnkpru      /usr/bin/strippru
-/usr/bin/cgpru     /usr/bin/embedpru  /usr/bin/nmpru       /usr/bin/xrefpru</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>See the <a href="http://www.ti.com/lit/ug/spruhv6b/spruhv6b.pdf">PRU Assembly Language Tools</a> for more details.</p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="detail_linker"><a class="link" href="#detail_linker">1.6. The Linker Command File - am335x_pru.cmd</a></h3>
-<div class="sect3">
-<h4 id="_problem_6"><a class="link" href="#_problem_6">Problem</a></h4>
+<h4 id="_problem_7"><a class="link" href="#_problem_7">Problem</a></h4>
 <div class="paragraph">
 <p>The linker needs to be told where in memory to place the code and variables.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_6"><a class="link" href="#_solution_6">Solution</a></h4>
+<h4 id="_solution_7"><a class="link" href="#_solution_7">Solution</a></h4>
 <div class="paragraph">
 <p><code>am335x_pru.cmd</code> is the standard linker command file that tells the linker
 where to put what for the BeagleBone Black and Blue, and the Pocket.
@@ -953,7 +1001,96 @@ Both files can be found in <code>/var/lib/cloud9/common</code>.</p>
 <div class="listingblock">
 <div class="title">am335x_pru.cmd</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="linker">/****************************************************************************/
+<pre class="CodeRay highlight"><code data-lang="linker"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+</pre></td>
+  <td class="code"><pre>/****************************************************************************/
 /*  AM335x_PRU.cmd                                                          */
 /*  Copyright (c) 2015  Texas Instruments Incorporated                      */
 /*                                                                          */
@@ -1039,7 +1176,8 @@ SECTIONS {
 
     .resource_table &gt; PRU_DMEM_0_1, PAGE 1
     .init_pins &gt; PRU_DMEM_0_1, PAGE 1
-}</code></pre>
+}</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1108,15 +1246,15 @@ the heap are in the locations below 0x0200.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_loading_firmware"><a class="link" href="#_loading_firmware">1.7. Loading Firmware</a></h3>
+<h3 id="_loading_firmware"><a class="link" href="#_loading_firmware">1.8. Loading Firmware</a></h3>
 <div class="sect3">
-<h4 id="_problem_7"><a class="link" href="#_problem_7">Problem</a></h4>
+<h4 id="_problem_8"><a class="link" href="#_problem_8">Problem</a></h4>
 <div class="paragraph">
 <p>I have my PRU code all compiled and need to load it on the PRU.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_7"><a class="link" href="#_solution_7">Solution</a></h4>
+<h4 id="_solution_8"><a class="link" href="#_solution_8">Solution</a></h4>
 <div class="paragraph">
 <p>It&#8217;s a simple three step process.</p>
 </div>
@@ -1190,15 +1328,15 @@ am335x-pru0-fw</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="details_configure_servos"><a class="link" href="#details_configure_servos">1.8. Configuring Pins for Controlling Servos</a></h3>
+<h3 id="details_configure_servos"><a class="link" href="#details_configure_servos">1.9. Configuring Pins for Controlling Servos</a></h3>
 <div class="sect3">
-<h4 id="_problem_8"><a class="link" href="#_problem_8">Problem</a></h4>
+<h4 id="_problem_9"><a class="link" href="#_problem_9">Problem</a></h4>
 <div class="paragraph">
 <p>You want to configure the pins so the PRU <em>outputs</em> are accessable.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_8"><a class="link" href="#_solution_8">Solution</a></h4>
+<h4 id="_solution_9"><a class="link" href="#_solution_9">Solution</a></h4>
 <div class="paragraph">
 <p>It depends on which Beagle you are running on.  If you are on the AI or Blue,
 everything is already configured for you.
@@ -1211,18 +1349,18 @@ If you are on the Black or Pocket you&#8217;ll need to run the following script.
 # Configure the PRU pins based on which Beagle is running
 machine=$(awk '{print $NF}' /proc/device-tree/model)
 echo -n $machine
-if [ $machine = "Black" ]; then
-    echo " Found"
-    pins="P8_27 P8_28 P8_29 P8_30 P8_39 P8_40 P8_41 P8_42"
-elif [ $machine = "Blue" ]; then
-    echo " Found"
-    pins=""
-elif [ $machine = "PocketBeagle" ]; then
-    echo " Found"
-    pins="P2_35 P1_35 P1_02 P1_04"
+if [ $machine = &quot;Black&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;P8_27 P8_28 P8_29 P8_30 P8_39 P8_40 P8_41 P8_42&quot;
+elif [ $machine = &quot;Blue&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;&quot;
+elif [ $machine = &quot;PocketBeagle&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;P2_35 P1_35 P1_02 P1_04&quot;
 else
-    echo " Not Found"
-    pins=""
+    echo &quot; Not Found&quot;
+    pins=&quot;&quot;
 fi
 
 for pin in $pins
@@ -1243,15 +1381,15 @@ assigns <code>pins</code> a list of pins to configure.  Then the last part of th
 </div>
 </div>
 <div class="sect2">
-<h3 id="details_configure_encoders"><a class="link" href="#details_configure_encoders">1.9. Configuring Pins for Controlling Encoders</a></h3>
+<h3 id="details_configure_encoders"><a class="link" href="#details_configure_encoders">1.10. Configuring Pins for Controlling Encoders</a></h3>
 <div class="sect3">
-<h4 id="_problem_9"><a class="link" href="#_problem_9">Problem</a></h4>
+<h4 id="_problem_10"><a class="link" href="#_problem_10">Problem</a></h4>
 <div class="paragraph">
 <p>You want to configure the pins so the PRU <em>inputs</em> are accessable.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_9"><a class="link" href="#_solution_9">Solution</a></h4>
+<h4 id="_solution_10"><a class="link" href="#_solution_10">Solution</a></h4>
 <div class="paragraph">
 <p>It depends on which Beagle you are running on.  If you are on the AI or Blue,
 everything is already configured for you.
@@ -1266,18 +1404,18 @@ machine=$(awk '{print $NF}' /proc/device-tree/model)
 echo -n $machine
 
 # Configure eQEP pins
-if [ $machine = "Black" ]; then
-    echo " Found"
-    pins="P9_92 P9_27 P8_35 P8_33 P8_12 P8_11 P8_41 P8_42"
-elif [ $machine = "Blue" ]; then
-    echo " Found"
-    pins=""
-elif [ $machine = "PocketBeagle" ]; then
-    echo " Found"
-    pins="P1_31 P2_34 P2_10 P2_24 P2_33"
+if [ $machine = &quot;Black&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;P9_92 P9_27 P8_35 P8_33 P8_12 P8_11 P8_41 P8_42&quot;
+elif [ $machine = &quot;Blue&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;&quot;
+elif [ $machine = &quot;PocketBeagle&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;P1_31 P2_34 P2_10 P2_24 P2_33&quot;
 else
-    echo " Not Found"
-    pins=""
+    echo &quot; Not Found&quot;
+    pins=&quot;&quot;
 fi
 
 for pin in $pins
@@ -1289,18 +1427,18 @@ done
 
 ##########################################
 # Configure PRU pins
-if [ $machine = "Black" ]; then
-    echo " Found"
-    pins="P8_16 P8_15"
-elif [ $machine = "Blue" ]; then
-    echo " Found"
-    pins=""
-elif [ $machine = "PocketBeagle" ]; then
-    echo " Found"
-    pins="P2_09 P2_18"
+if [ $machine = &quot;Black&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;P8_16 P8_15&quot;
+elif [ $machine = &quot;Blue&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;&quot;
+elif [ $machine = &quot;PocketBeagle&quot; ]; then
+    echo &quot; Found&quot;
+    pins=&quot;P2_09 P2_18&quot;
 else
-    echo " Not Found"
-    pins=""
+    echo &quot; Not Found&quot;
+    pins=&quot;&quot;
 fi
 
 for pin in $pins
@@ -1325,7 +1463,7 @@ to the hardware eQEPs and other to the PRU inputs.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-06-07 16:09:43 -0400
+Last updated 2021-07-29 17:02:11 -0400
 </div>
 </div>
 </body>
