@@ -845,7 +845,7 @@ standalone.
 ===== Saving a Sequence and Playing it Standalone
 In xLights save your sequence by hitting Ctrl-S and giving it a name.  I called 
 mine *fire* since I used a fire effect.  Now, switch back to FPP and select 
-the *Content Setup* menu and select *File Manager*.  Click the blue
+the *Content Setup* menu and select *File Manager*.  Click the black
 *Select Files* button and select your sequence file that ends in *.fseq*
 (<<case_file_manager>>).
 
@@ -854,18 +854,22 @@ the *Content Setup* menu and select *File Manager*.  Click the blue
 image:figures/fpp_file_manager.png[FPP file manager]
 
 Once your sequence is uploaded, got to *Content Steup* and select *Playlists*. 
-Enter you playlist name (I used *fire*) and click *Add*.  Then go down to 
-the *New Playlist Entry* section and select *Sequence Only* 
+Enter you playlist name (I used *fire*) and click *Add*.  Then click
+*Add a Sequence/Entry* and select *Sequence Only* 
 (<<case_playlist>>), then click *Add*. 
 
 [[case_playlist]]
 .Adding a new playlist to FPP
 image::figures/fpp_playlist.png[Adding a new playlist to FPP]
 
-Be sure to click *Save* under *Playlist Details*. Now return to 
+Be sure to click *Save Playlist* on the right. Now return to 
 *Status/Control* and *Status Page* and make sure *FPPD Mode:* is set 
-to *Player (Standalone)*.  You should see your playlist.  Click the *Play* 
-button at the bottom of the page and your sequence will play.
+to *Standalone*.  You should see your playlist.  Click the *Play* 
+button and your sequence will play.
+
+[case_playlist_status]]
+.Adding a new playlist to FPP
+image::figures/fpp_playlist_status.png[Playing a playlist]
 
 The beauty of the PRU is that the Beagle can play a detailed sequence at 
 20 frames per second and the ARM procossor is only 15% used.  The PRUs 
