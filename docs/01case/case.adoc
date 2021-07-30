@@ -626,7 +626,8 @@ http://falconchristmas.com/forum/index.php/board,8.0.html[Falcon Player] (FPP) w
 
 [verse, http://www.falconchristmas.com/wiki/FPP:FAQ#What_is_FPP.3F]
 ____
-The Falcon Player (FPP) is a lightweight, optimized, feature-rich sequence player designed to run on low-cost SBC's (Single Board Computers).
+The Falcon Player (FPP) is a lightweight, optimized, feature-rich sequence player 
+designed to run on low-cost SBC's (Single Board Computers).
 FPP is a software solution that you download and install on hardware which can be purchased from numerous sources around the internet. FPP aims to be controller agnostic, it can talk E1.31, DMX, Pixelnet, and Renard to hardware from multiple hardware vendors, including controller hardware from Falcon Christmas available via COOPs or in the store on FalconChristmas.com.
 ____
 
@@ -791,15 +792,18 @@ enter *12* for *Universe Count* and click *set* and you will see
 .E1.31 Bridge Mode Universes
 image::figures/fpp_inputs_setup.png[.E1.31 Bridge Mode Universes]
 
-Click on the *Save* button above the table.  Then go to the *Status Control* 
+Click on the *Save* button above the table.  Then go to the *Status/Control* 
 menu and select *MultiSync* as shown in <<case_multisync>>.
 [[case_multisync]]
 .Using MultiSync page to switch to Bridge mode
 image::figures/fpp_multisync.png[MultiSync]
 
+Select *FPP* by checking the box on the right and select *Set to Bridge*
+for *Action for selected system*.  Then click *>Run*.  it will take a moment
+to restart FPPD.
 
-*Status Page*.  Set the *FPPD Mode:* to *Bridge* as shown 
-in <<case_mode_bridge>>.
+Then go to the *Status/Control* menu and select *Status Page*.  It is now in 
+Bridge mode.
 
 [[case_mode_bridge]]
 .Bridge Mode
