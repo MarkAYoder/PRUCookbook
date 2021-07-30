@@ -29,6 +29,86 @@ It's all on a GitHub repository.
 bone$ *git clone https://github.com/MarkAYoder/PRUCookbook.git*
 ----
 
+=== Compiling with clpru and lnkpru
+
+==== Problem
+You need details on the c compiler, linker and other tools for the PRU.
+
+==== Solution
+The PRU compiler and linker are already installed on many images.
+They are called `clpru` and `lnkpru`.  Do the following to see if `clpru` is installed.
+[source]
+[subs=+quotes]
+----
+bone$ *which clpru*
+/usr/bin/clpru
+----
+
+[TIP]
+====
+If `clpru` isn't installed, follow the instructions at
+https://elinux.org/Beagleboard:BeagleBoneBlack_Debian#TI_PRU_Code_Generation_Tools
+to install it.
+[source]
+[subs=+quotes]
+----
+bone$ *sudo apt update*
+bone$ *sudo apt install ti-pru-cgt-installer*
+----
+====
+
+Details on each can be found here:
+
+* http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler]
+* http://www.ti.com/lit/ug/spruhv6b/spruhv6b.pdf[PRU Assembly Language Tools]
+
+In fact there are PRU versions of many of the standard code generation tools.
+
+.code tools
+[source]
+[subs=+quotes]
+----
+bone$ *ls /usr/bin/*pru*
+/usr/bin/abspru    /usr/bin/clistpru  /usr/bin/hexpru      /usr/bin/ofdpru
+/usr/bin/acpiapru  /usr/bin/clpru     /usr/bin/ilkpru      /usr/bin/optpru
+/usr/bin/arpru     /usr/bin/dempru    /usr/bin/libinfopru  /usr/bin/rc_test_encoders_pru
+/usr/bin/asmpru    /usr/bin/dispru    /usr/bin/lnkpru      /usr/bin/strippru
+/usr/bin/cgpru     /usr/bin/embedpru  /usr/bin/nmpru       /usr/bin/xrefpru
+----
+See the http://www.ti.com/lit/ug/spruhv6b/spruhv6b.pdf[PRU Assembly Language Tools] for more details.
+
+=== Making sure the PRUs are configured
+==== Problem
+When running the Makefile for the PRU you get and error about `/dev/remoteproc`
+is missing.
+
+==== Solution
+Edit `/boot/uEnv.txt` and enble pru_rproc by doing the following.
+[source]
+[subs=+quotes]
+----
+bone$ *sudo vi /boot/uEnv.txt*
+----
+Around line 40 you will see:
+[source]
+[subs=+quotes]
+----
+###pru_rproc (4.19.x-ti kernel)
+uboot_overlay_pru=AM335X-PRU-RPROC-4-19-TI-00A0.dtbo
+----
+
+Uncomment the `uboot_overlay` line as shown and then reboot.
+`/dev/remoteproc` should now be there.
+[source]
+[subs=+quotes]
+----
+bone$ *sudo reboot*
+bone$ *ls -ls /dev/remoteproc/*
+total 0
+0 lrwxrwxrwx 1 root root 33 Jul 29 16:12 pruss-core0 -> /sys/class/remoteproc/remoteproc1
+0 lrwxrwxrwx 1 root root 33 Jul 29 16:12 pruss-core1 -> /sys/class/remoteproc/remoteproc2
+----
+
 === Compiling and Running
 ==== Problem
 I want to compile and run an example.
@@ -191,54 +271,6 @@ Each of the local Makefiles refer to the same standard Makefile.  The details
 of how the Makefile works is beyond the scope of this cookbook.
 
 Fortunately you shouldn't have to modify the `Makefile`.
-
-=== Compiling with clpru and lnkpru
-
-==== Problem
-You need details on the c compiler, linker and other tools for the PRU.
-
-==== Solution
-The PRU compiler and linker are already installed on the standard images.
-They are called `clpru` and `lnkpru`.
-[source]
-[subs=+quotes]
-----
-bone$ *which clpru*
-/usr/bin/clpru
-----
-
-[TIP]
-====
-If `clpru` isn't installed, follow the instructions at
-https://elinux.org/Beagleboard:BeagleBoneBlack_Debian#TI_PRU_Code_Generation_Tools
-to install it.
-[source]
-[subs=+quotes]
-----
-bone$ *sudo apt update*
-bone$ *sudo apt install ti-pru-cgt-installer*
-----
-====
-
-Details on each can be found here:
-
-* http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler]
-* http://www.ti.com/lit/ug/spruhv6b/spruhv6b.pdf[PRU Assembly Language Tools]
-
-In fact there are PRU versions of many of the standard code generation tools.
-
-.code tools
-[source]
-[subs=+quotes]
-----
-bone$ *ls /usr/bin/*pru*
-/usr/bin/abspru    /usr/bin/clistpru  /usr/bin/hexpru      /usr/bin/ofdpru
-/usr/bin/acpiapru  /usr/bin/clpru     /usr/bin/ilkpru      /usr/bin/optpru
-/usr/bin/arpru     /usr/bin/dempru    /usr/bin/libinfopru  /usr/bin/rc_test_encoders_pru
-/usr/bin/asmpru    /usr/bin/dispru    /usr/bin/lnkpru      /usr/bin/strippru
-/usr/bin/cgpru     /usr/bin/embedpru  /usr/bin/nmpru       /usr/bin/xrefpru
-----
-See the http://www.ti.com/lit/ug/spruhv6b/spruhv6b.pdf[PRU Assembly Language Tools] for more details.
 
 [[detail_linker]]
 === The Linker Command File - am335x_pru.cmd

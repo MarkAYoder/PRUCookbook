@@ -6,7 +6,7 @@ length = 24
 max = 25
 
 # Open a file
-fo = open("/dev/rpmsg_pru30", "w", 0)
+fo = open("/dev/rpmsg_pru30", "wb", 0)
 
 colors = [[1,0,0],[1,1,0],[0,1,0],[0,1,1],[0,0,1],[1,0,1]]# colors = [[1,0,0],[1,0,0]]
 
@@ -25,9 +25,9 @@ while True:
             g = (max*oldg+(newg-oldg)*max*time/maxtime)
             b = (max*oldb+(newb-oldb)*max*time/maxtime)
             for i in range(0, length):
-                fo.write("%d %d %d %d\n" % (i, r, g, b))
+                fo.write(b"%d %d %d %d\n" % (i, r, g, b))
                 # print("0 0 127 %d" % (i))
-            fo.write("-1 0 0 0\n");    # Send colors to LEDs
+            fo.write(b"-1 0 0 0\n");    # Send colors to LEDs
             
             # print (r,g,b)
             
