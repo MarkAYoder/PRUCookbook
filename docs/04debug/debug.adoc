@@ -81,11 +81,11 @@ Just download the files and type `make`.
 
 ==== Discussion
 Once `prudebug` is installed is rather easy to use.
-[WARNING]
+[NOTE]
 ====
-`prudebug` hasn't been ported to the AI.
+`prudebug` has now been ported to the AI.
 ====
-
+// TODO  Isn't working on Pocket at this time.
 [source]
 [subs=+quotes]
 ----
@@ -253,6 +253,8 @@ of how you can control where your vaiables are stored in memory.
 ==== Problem
 I'd like to use something like `printf()` to debug my code.
 
+// TODO Check these on the Black and Pocket without grove
+
 ==== Solution
 One simple, yet effective approach to 'printing' from the PRU is
 an idea taken from the Adruino playbook; 
@@ -331,7 +333,7 @@ bone$ *config-pin P1_12 pru_uart*
 
 [NOTE]
 ====
-See <<../08ai/ai.html#, Configuring pins on the AI via device trees>> for configuring 
+See <<../08ai/ai.html#ai_device_tree, Configuring pins on the AI via device trees>> for configuring 
 pins on the AI. Make sure your `rx` pins are configured as input pins in the device tree.
 For example 
 [subs=+quotes]

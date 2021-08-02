@@ -662,15 +662,15 @@ assembler output. You can find it in my GitHub BeagleBoard repo
 <div class="paragraph">
 <p>Once <code>prudebug</code> is installed is rather easy to use.</p>
 </div>
-<div class="admonitionblock warning">
+<div class="admonitionblock note">
 <table>
 <tr>
 <td class="icon">
-<div class="title">Warning</div>
+<div class="title">Note</div>
 </td>
 <td class="content">
 <div class="paragraph">
-<p><code>prudebug</code> hasn&#8217;t been ported to the AI.</p>
+<p><code>prudebug</code> has now been ported to the AI.</p>
 </div>
 </td>
 </tr>
@@ -1030,7 +1030,7 @@ bone$ <strong>config-pin P1_12 pru_uart</strong></code></pre>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>See <a href="../08ai/ai.html">Configuring pins on the AI via device trees</a> for configuring
+<p>See <a href="../08ai/ai.html#ai_device_tree">Configuring pins on the AI via device trees</a> for configuring
 pins on the AI. Make sure your <code>rx</code> pins are configured as input pins in the device tree.
 For example</p>
 </div>
@@ -1087,96 +1087,189 @@ characters on the keyboard, the rest of the message will appear.</p>
 <div id="debug_uart1" class="listingblock">
 <div class="title">uart1.pru1_0.c</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="c">// From: http://git.ti.com/pru-software-support-package/pru-software-support-package/trees/master/examples/am335x/PRU_Hardware_UART
-// This example was converted to the am5729 by changing the names in pru_uart.h
-// for the am335x to the more descriptive names for the am5729.
-// For example  DLL convertes to DIVISOR_REGISTER_LSB_
-#include &lt;stdint.h&gt;
-#include &lt;pru_uart.h&gt;
-#include "resource_table_empty.h"
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+</pre></td>
+  <td class="code"><pre><span class="comment">// From: http://git.ti.com/pru-software-support-package/pru-software-support-package/trees/master/examples/am335x/PRU_Hardware_UART</span>
+<span class="comment">// This example was converted to the am5729 by changing the names in pru_uart.h</span>
+<span class="comment">// for the am335x to the more descriptive names for the am5729.</span>
+<span class="comment">// For example  DLL convertes to DIVISOR_REGISTER_LSB_</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;pru_uart.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
 
-/* The FIFO size on the PRU UART is 16 bytes; however, we are (arbitrarily)
- * only going to send 8 at a time */
-#define FIFO_SIZE   16
-#define MAX_CHARS   8
+<span class="comment">/* The FIFO size on the PRU UART is 16 bytes; however, we are (arbitrarily)
+ * only going to send 8 at a time */</span>
+<span class="preprocessor">#define</span> FIFO_SIZE   <span class="integer">16</span>
+<span class="preprocessor">#define</span> MAX_CHARS   <span class="integer">8</span>
 
-void main(void)
+<span class="directive">void</span> main(<span class="directive">void</span>)
 {
     uint8_t tx;
     uint8_t rx;
     uint8_t cnt;
 
-    /*  hostBuffer points to the string to be printed */
-    char* hostBuffer;
+    <span class="comment">/*  hostBuffer points to the string to be printed */</span>
+    <span class="predefined-type">char</span>* hostBuffer;
 
-    /*** INITIALIZATION ***/
+    <span class="comment">/*** INITIALIZATION ***/</span>
 
-    /* Set up UART to function at 115200 baud - DLL divisor is 104 at 16x oversample
-     * 192MHz / 104 / 16 = ~115200 */
-    CT_UART.DIVISOR_REGISTER_LSB_ = 104;
-    CT_UART.DIVISOR_REGISTER_MSB_ = 0;
-    CT_UART.MODE_DEFINITION_REGISTER = 0x0;
+    <span class="comment">/* Set up UART to function at 115200 baud - DLL divisor is 104 at 16x oversample
+     * 192MHz / 104 / 16 = ~115200 */</span>
+    CT_UART.DIVISOR_REGISTER_LSB_ = <span class="integer">104</span>;
+    CT_UART.DIVISOR_REGISTER_MSB_ = <span class="integer">0</span>;
+    CT_UART.MODE_DEFINITION_REGISTER = <span class="hex">0x0</span>;
 
-    /* Enable Interrupts in UART module. This allows the main thread to poll for
-     * Receive Data Available and Transmit Holding Register Empty */
-    CT_UART.INTERRUPT_ENABLE_REGISTER = 0x7;
+    <span class="comment">/* Enable Interrupts in UART module. This allows the main thread to poll for
+     * Receive Data Available and Transmit Holding Register Empty */</span>
+    CT_UART.INTERRUPT_ENABLE_REGISTER = <span class="hex">0x7</span>;
 
-    /* If FIFOs are to be used, select desired trigger level and enable
+    <span class="comment">/* If FIFOs are to be used, select desired trigger level and enable
      * FIFOs by writing to FCR. FIFOEN bit in FCR must be set first before
-     * other bits are configured */
-    /* Enable FIFOs for now at 1-byte, and flush them */
-    CT_UART.INTERRUPT_IDENTIFICATION_REGISTER_FIFO_CONTROL_REGISTER = (0x8) | (0x4) | (0x2) | (0x1);
-    //CT_UART.FCR = (0x80) | (0x4) | (0x2) | (0x01); // 8-byte RX FIFO trigger
+     * other bits are configured */</span>
+    <span class="comment">/* Enable FIFOs for now at 1-byte, and flush them */</span>
+    CT_UART.INTERRUPT_IDENTIFICATION_REGISTER_FIFO_CONTROL_REGISTER = (<span class="hex">0x8</span>) | (<span class="hex">0x4</span>) | (<span class="hex">0x2</span>) | (<span class="hex">0x1</span>);
+    <span class="comment">//CT_UART.FCR = (0x80) | (0x4) | (0x2) | (0x01); // 8-byte RX FIFO trigger</span>
 
-    /* Choose desired protocol settings by writing to LCR */
-    /* 8-bit word, 1 stop bit, no parity, no break control and no divisor latch */
-    CT_UART.LINE_CONTROL_REGISTER = 3;
+    <span class="comment">/* Choose desired protocol settings by writing to LCR */</span>
+    <span class="comment">/* 8-bit word, 1 stop bit, no parity, no break control and no divisor latch */</span>
+    CT_UART.LINE_CONTROL_REGISTER = <span class="integer">3</span>;
 
-    /* Enable loopback for test */
-    CT_UART.MODEM_CONTROL_REGISTER = 0x00;
+    <span class="comment">/* Enable loopback for test */</span>
+    CT_UART.MODEM_CONTROL_REGISTER = <span class="hex">0x00</span>;
 
-    /* Choose desired response to emulation suspend events by configuring
-     * FREE bit and enable UART by setting UTRST and URRST in PWREMU_MGMT */
-    /* Allow UART to run free, enable UART TX/RX */
-    CT_UART.POWERMANAGEMENT_AND_EMULATION_REGISTER = 0x6001;
+    <span class="comment">/* Choose desired response to emulation suspend events by configuring
+     * FREE bit and enable UART by setting UTRST and URRST in PWREMU_MGMT */</span>
+    <span class="comment">/* Allow UART to run free, enable UART TX/RX */</span>
+    CT_UART.POWERMANAGEMENT_AND_EMULATION_REGISTER = <span class="hex">0x6001</span>;
 
-    /*** END INITIALIZATION ***/
+    <span class="comment">/*** END INITIALIZATION ***/</span>
 
-    /* Priming the 'hostbuffer' with a message */
-    hostBuffer = "Hello!  This is a long string\r\n";
+    <span class="comment">/* Priming the 'hostbuffer' with a message */</span>
+    hostBuffer = <span class="string"><span class="delimiter">&quot;</span><span class="content">Hello!  This is a long string</span><span class="char">\r</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
 
-    /*** SEND SOME DATA ***/
+    <span class="comment">/*** SEND SOME DATA ***/</span>
 
-    /* Let's send/receive some dummy data */
-    while(1) {
-        cnt = 0;
-        while(1) {
-            /* Load character, ensure it is not string termination */
-            if ((tx = hostBuffer[cnt]) == '\0')
-                break;
+    <span class="comment">/* Let's send/receive some dummy data */</span>
+    <span class="keyword">while</span>(<span class="integer">1</span>) {
+        cnt = <span class="integer">0</span>;
+        <span class="keyword">while</span>(<span class="integer">1</span>) {
+            <span class="comment">/* Load character, ensure it is not string termination */</span>
+            <span class="keyword">if</span> ((tx = hostBuffer[cnt]) == <span class="char">'\0'</span>)
+                <span class="keyword">break</span>;
             cnt++;
             CT_UART.RBR_THR_REGISTERS = tx;
 
-            /* Because we are doing loopback, wait until LSR.DR == 1
-             * indicating there is data in the RX FIFO */
-            while ((CT_UART.LINE_STATUS_REGISTER &amp; 0x1) == 0x0);
+            <span class="comment">/* Because we are doing loopback, wait until LSR.DR == 1
+             * indicating there is data in the RX FIFO */</span>
+            <span class="keyword">while</span> ((CT_UART.LINE_STATUS_REGISTER &amp; <span class="hex">0x1</span>) == <span class="hex">0x0</span>);
 
-            /* Read the value from RBR */
+            <span class="comment">/* Read the value from RBR */</span>
             rx = CT_UART.RBR_THR_REGISTERS;
 
-            /* Wait for TX FIFO to be empty */
-            while (!((CT_UART.INTERRUPT_IDENTIFICATION_REGISTER_FIFO_CONTROL_REGISTER &amp; 0x2) == 0x2));
+            <span class="comment">/* Wait for TX FIFO to be empty */</span>
+            <span class="keyword">while</span> (!((CT_UART.INTERRUPT_IDENTIFICATION_REGISTER_FIFO_CONTROL_REGISTER &amp; <span class="hex">0x2</span>) == <span class="hex">0x2</span>));
         }
     }
 
-    /*** DONE SENDING DATA ***/
+    <span class="comment">/*** DONE SENDING DATA ***/</span>
 
-    /* Disable UART before halting */
-    CT_UART.POWERMANAGEMENT_AND_EMULATION_REGISTER = 0x0;
+    <span class="comment">/* Disable UART before halting */</span>
+    CT_UART.POWERMANAGEMENT_AND_EMULATION_REGISTER = <span class="hex">0x0</span>;
 
-    /* Halt PRU core */
+    <span class="comment">/* Halt PRU core */</span>
     __halt();
-}</code></pre>
+}</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -1261,132 +1354,261 @@ wait for the FIFO to empty, which may cause your code to miss something.</p>
 <div id="debug_uart2" class="listingblock">
 <div class="title">uart2.pru1_0.c</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="c">// From: http://git.ti.com/pru-software-support-package/pru-software-support-package/trees/master/pru_cape/pru_fw/PRU_Hardware_UART
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+</pre></td>
+  <td class="code"><pre><span class="comment">// From: http://git.ti.com/pru-software-support-package/pru-software-support-package/trees/master/pru_cape/pru_fw/PRU_Hardware_UART</span>
 
-#include &lt;stdint.h&gt;
-#include &lt;pru_uart.h&gt;
-#include "resource_table_empty.h"
+<span class="preprocessor">#include</span> <span class="include">&lt;stdint.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;pru_uart.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
 
-/* The FIFO size on the PRU UART is 16 bytes; however, we are (arbitrarily)
- * only going to send 8 at a time */
-#define FIFO_SIZE   16
-#define MAX_CHARS   8
-#define BUFFER      40
+<span class="comment">/* The FIFO size on the PRU UART is 16 bytes; however, we are (arbitrarily)
+ * only going to send 8 at a time */</span>
+<span class="preprocessor">#define</span> FIFO_SIZE   <span class="integer">16</span>
+<span class="preprocessor">#define</span> MAX_CHARS   <span class="integer">8</span>
+<span class="preprocessor">#define</span> BUFFER      <span class="integer">40</span>
 
-//******************************************************************************
-//    Print Message Out
-//      This function take in a string literal of any size and then fill the
-//      TX FIFO when it's empty and waits until there is info in the RX FIFO
-//      before returning.
-//******************************************************************************
-void PrintMessageOut(volatile char* Message)
+<span class="comment">//******************************************************************************</span>
+<span class="comment">//    Print Message Out</span>
+<span class="comment">//      This function take in a string literal of any size and then fill the</span>
+<span class="comment">//      TX FIFO when it's empty and waits until there is info in the RX FIFO</span>
+<span class="comment">//      before returning.</span>
+<span class="comment">//******************************************************************************</span>
+<span class="directive">void</span> PrintMessageOut(<span class="directive">volatile</span> <span class="predefined-type">char</span>* Message)
 {
-    uint8_t cnt, index = 0;
+    uint8_t cnt, index = <span class="integer">0</span>;
 
-    while (1) {
-        cnt = 0;
+    <span class="keyword">while</span> (<span class="integer">1</span>) {
+        cnt = <span class="integer">0</span>;
 
-        /* Wait until the TX FIFO and the TX SR are completely empty */
-        while (!CT_UART.LINE_STATUS_REGISTER_bit.TEMT);
+        <span class="comment">/* Wait until the TX FIFO and the TX SR are completely empty */</span>
+        <span class="keyword">while</span> (!CT_UART.LINE_STATUS_REGISTER_bit.TEMT);
 
-        while (Message[index] != NULL &amp;&amp; cnt &lt; MAX_CHARS) {
+        <span class="keyword">while</span> (Message[index] != <span class="predefined-constant">NULL</span> &amp;&amp; cnt &lt; MAX_CHARS) {
             CT_UART.RBR_THR_REGISTERS = Message[index];
             index++;
             cnt++;
         }
-        if (Message[index] == NULL)
-            break;
+        <span class="keyword">if</span> (Message[index] == <span class="predefined-constant">NULL</span>)
+            <span class="keyword">break</span>;
     }
 
-    /* Wait until the TX FIFO and the TX SR are completely empty */
-    while (!CT_UART.LINE_STATUS_REGISTER_bit.TEMT);
+    <span class="comment">/* Wait until the TX FIFO and the TX SR are completely empty */</span>
+    <span class="keyword">while</span> (!CT_UART.LINE_STATUS_REGISTER_bit.TEMT);
 
 }
 
-//******************************************************************************
-//    IEP Timer Config
-//      This function waits until there is info in the RX FIFO and then returns
-//      the first character entered.
-//******************************************************************************
-char ReadMessageIn(void)
+<span class="comment">//******************************************************************************</span>
+<span class="comment">//    IEP Timer Config</span>
+<span class="comment">//      This function waits until there is info in the RX FIFO and then returns</span>
+<span class="comment">//      the first character entered.</span>
+<span class="comment">//******************************************************************************</span>
+<span class="predefined-type">char</span> ReadMessageIn(<span class="directive">void</span>)
 {
-    while (!CT_UART.LINE_STATUS_REGISTER_bit.DR);
+    <span class="keyword">while</span> (!CT_UART.LINE_STATUS_REGISTER_bit.DR);
 
-    return CT_UART.RBR_THR_REGISTERS_bit.DATA;
+    <span class="keyword">return</span> CT_UART.RBR_THR_REGISTERS_bit.DATA;
 }
 
-void main(void)
+<span class="directive">void</span> main(<span class="directive">void</span>)
 {
     uint32_t i;
-    volatile uint32_t not_done = 1;
+    <span class="directive">volatile</span> uint32_t not_done = <span class="integer">1</span>;
 
-    char rxBuffer[BUFFER];
-    rxBuffer[BUFFER-1] = NULL; // null terminate the string
+    <span class="predefined-type">char</span> rxBuffer[BUFFER];
+    rxBuffer[BUFFER-<span class="integer">1</span>] = <span class="predefined-constant">NULL</span>; <span class="comment">// null terminate the string</span>
 
-    /*** INITIALIZATION ***/
+    <span class="comment">/*** INITIALIZATION ***/</span>
 
-    /* Set up UART to function at 115200 baud - DLL divisor is 104 at 16x oversample
-     * 192MHz / 104 / 16 = ~115200 */
-    CT_UART.DIVISOR_REGISTER_LSB_ = 104;
-    CT_UART.DIVISOR_REGISTER_MSB_ = 0;
-    CT_UART.MODE_DEFINITION_REGISTER_bit.OSM_SEL = 0x0;
+    <span class="comment">/* Set up UART to function at 115200 baud - DLL divisor is 104 at 16x oversample
+     * 192MHz / 104 / 16 = ~115200 */</span>
+    CT_UART.DIVISOR_REGISTER_LSB_ = <span class="integer">104</span>;
+    CT_UART.DIVISOR_REGISTER_MSB_ = <span class="integer">0</span>;
+    CT_UART.MODE_DEFINITION_REGISTER_bit.OSM_SEL = <span class="hex">0x0</span>;
 
-    /* Enable Interrupts in UART module. This allows the main thread to poll for
-     * Receive Data Available and Transmit Holding Register Empty */
-    CT_UART.INTERRUPT_ENABLE_REGISTER = 0x7;
+    <span class="comment">/* Enable Interrupts in UART module. This allows the main thread to poll for
+     * Receive Data Available and Transmit Holding Register Empty */</span>
+    CT_UART.INTERRUPT_ENABLE_REGISTER = <span class="hex">0x7</span>;
 
-    /* If FIFOs are to be used, select desired trigger level and enable
+    <span class="comment">/* If FIFOs are to be used, select desired trigger level and enable
      * FIFOs by writing to FCR. FIFOEN bit in FCR must be set first before
-     * other bits are configured */
-    /* Enable FIFOs for now at 1-byte, and flush them */
-    CT_UART.INTERRUPT_IDENTIFICATION_REGISTER_FIFO_CONTROL_REGISTER = (0x80) | (0x8) | (0x4) | (0x2) | (0x01); // 8-byte RX FIFO trigger
+     * other bits are configured */</span>
+    <span class="comment">/* Enable FIFOs for now at 1-byte, and flush them */</span>
+    CT_UART.INTERRUPT_IDENTIFICATION_REGISTER_FIFO_CONTROL_REGISTER = (<span class="hex">0x80</span>) | (<span class="hex">0x8</span>) | (<span class="hex">0x4</span>) | (<span class="hex">0x2</span>) | (<span class="hex">0x01</span>); <span class="comment">// 8-byte RX FIFO trigger</span>
 
-    /* Choose desired protocol settings by writing to LCR */
-    /* 8-bit word, 1 stop bit, no parity, no break control and no divisor latch */
-    CT_UART.LINE_CONTROL_REGISTER = 3;
+    <span class="comment">/* Choose desired protocol settings by writing to LCR */</span>
+    <span class="comment">/* 8-bit word, 1 stop bit, no parity, no break control and no divisor latch */</span>
+    CT_UART.LINE_CONTROL_REGISTER = <span class="integer">3</span>;
 
-    /* If flow control is desired write appropriate values to MCR. */
-    /* No flow control for now, but enable loopback for test */
-    CT_UART.MODEM_CONTROL_REGISTER = 0x00;
+    <span class="comment">/* If flow control is desired write appropriate values to MCR. */</span>
+    <span class="comment">/* No flow control for now, but enable loopback for test */</span>
+    CT_UART.MODEM_CONTROL_REGISTER = <span class="hex">0x00</span>;
 
-    /* Choose desired response to emulation suspend events by configuring
-     * FREE bit and enable UART by setting UTRST and URRST in PWREMU_MGMT */
-    /* Allow UART to run free, enable UART TX/RX */
-    CT_UART.POWERMANAGEMENT_AND_EMULATION_REGISTER_bit.FREE = 0x1;
-    CT_UART.POWERMANAGEMENT_AND_EMULATION_REGISTER_bit.URRST = 0x1;
-    CT_UART.POWERMANAGEMENT_AND_EMULATION_REGISTER_bit.UTRST = 0x1;
+    <span class="comment">/* Choose desired response to emulation suspend events by configuring
+     * FREE bit and enable UART by setting UTRST and URRST in PWREMU_MGMT */</span>
+    <span class="comment">/* Allow UART to run free, enable UART TX/RX */</span>
+    CT_UART.POWERMANAGEMENT_AND_EMULATION_REGISTER_bit.FREE = <span class="hex">0x1</span>;
+    CT_UART.POWERMANAGEMENT_AND_EMULATION_REGISTER_bit.URRST = <span class="hex">0x1</span>;
+    CT_UART.POWERMANAGEMENT_AND_EMULATION_REGISTER_bit.UTRST = <span class="hex">0x1</span>;
 
-    /* Turn off RTS and CTS functionality */
-    CT_UART.MODEM_CONTROL_REGISTER_bit.AFE = 0x0;
-    CT_UART.MODEM_CONTROL_REGISTER_bit.RTS = 0x0;
+    <span class="comment">/* Turn off RTS and CTS functionality */</span>
+    CT_UART.MODEM_CONTROL_REGISTER_bit.AFE = <span class="hex">0x0</span>;
+    CT_UART.MODEM_CONTROL_REGISTER_bit.RTS = <span class="hex">0x0</span>;
 
-    /*** END INITIALIZATION ***/
+    <span class="comment">/*** END INITIALIZATION ***/</span>
 
-    while(1) {
-        /* Print out greeting message */
-        PrintMessageOut("Hello you are in the PRU UART demo test please enter some characters\r\n");
+    <span class="keyword">while</span>(<span class="integer">1</span>) {
+        <span class="comment">/* Print out greeting message */</span>
+        PrintMessageOut(<span class="string"><span class="delimiter">&quot;</span><span class="content">Hello you are in the PRU UART demo test please enter some characters</span><span class="char">\r</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
 
-        /* Read in characters from user, then echo them back out */
-        for (i = 0; i &lt; BUFFER-1 ; i++) {
+        <span class="comment">/* Read in characters from user, then echo them back out */</span>
+        <span class="keyword">for</span> (i = <span class="integer">0</span>; i &lt; BUFFER-<span class="integer">1</span> ; i++) {
             rxBuffer[i] = ReadMessageIn();
-            if(rxBuffer[i] == '\r') {   // Quit early if ENTER is hit.
-                rxBuffer[i+1] = NULL;
-                break;
+            <span class="keyword">if</span>(rxBuffer[i] == <span class="char">'\r'</span>) {   <span class="comment">// Quit early if ENTER is hit.</span>
+                rxBuffer[i+<span class="integer">1</span>] = <span class="predefined-constant">NULL</span>;
+                <span class="keyword">break</span>;
             }
         }
 
-        PrintMessageOut("you typed:\r\n");
+        PrintMessageOut(<span class="string"><span class="delimiter">&quot;</span><span class="content">you typed:</span><span class="char">\r</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
         PrintMessageOut(rxBuffer);
-        PrintMessageOut("\r\n");
+        PrintMessageOut(<span class="string"><span class="delimiter">&quot;</span><span class="char">\r</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
     }
 
-    /*** DONE SENDING DATA ***/
-    /* Disable UART before halting */
-    CT_UART.POWERMANAGEMENT_AND_EMULATION_REGISTER = 0x0;
+    <span class="comment">/*** DONE SENDING DATA ***/</span>
+    <span class="comment">/* Disable UART before halting */</span>
+    CT_UART.POWERMANAGEMENT_AND_EMULATION_REGISTER = <span class="hex">0x0</span>;
 
-    /* Halt PRU core */
+    <span class="comment">/* Halt PRU core */</span>
     __halt();
-}</code></pre>
+}</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1401,7 +1623,41 @@ examples.</p>
 <div class="listingblock">
 <div class="title">copyright.c</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="c">/*
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+</pre></td>
+  <td class="code"><pre><span class="comment">/*
  * Copyright (C) 2015 Texas Instruments Incorporated - http://www.ti.com/
  *
  *
@@ -1422,7 +1678,7 @@ examples.</p>
  *    from this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
  * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
  * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
@@ -1432,7 +1688,8 @@ examples.</p>
  * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */</code></pre>
+ */</span></pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 </div>
@@ -1447,7 +1704,7 @@ examples.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-06-23 15:12:20 -0400
+Last updated 2021-08-02 10:44:30 -0400
 </div>
 </div>
 </body>
