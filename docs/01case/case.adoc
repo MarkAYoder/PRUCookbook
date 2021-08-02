@@ -374,7 +374,7 @@ and want to light it up.
 ==== Solution
 You can either write your own code 
 (See <<../05blocks/blocks.adoc#blocks_ws2812, WS2812 Driver>>), or
-use FPP
+use FPP.
 
 [[case_rgb_matrix]]
 === RGB LED Matrix - No Integrated Drivers (Falcon Christmas)
