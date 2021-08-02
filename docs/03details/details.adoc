@@ -159,7 +159,7 @@ PRU_DIR = /sys/class/remoteproc/remoteproc1
 rm /tmp/cloud9-examples/gpio.pru0.o
 ----
 Congratulations, your are now running a PRU.  If you have an LED attached to
-`P9_11` on the Black, it should be blinking.
+`P9_11` on the Black, or `P2_05` on the Pocket, it should be blinking.
 
 ==== Discussion
 The `setup.sh` file sets the `TARGET` to the file you want to compile.
@@ -188,7 +188,7 @@ The setup file also contains instructions to figure out which Beagle you are run
 and then configure the pins acordingly.
 
 .setup.sh
-[source,linenums]
+[source,bash,linenums]
 [subs=+quotes]
 ----
 include::code/gpio_setup.sh[]
