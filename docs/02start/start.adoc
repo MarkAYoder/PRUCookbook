@@ -215,10 +215,10 @@ it on your Beagle and then look in the *docs* directory.
 bone$ *git clone https://github.com/MarkAYoder/PRUCookbook.git*
 bone$ *cd PRUCookbook/docs/*
 bone$ *ls -F*
-01case/     05blocks/  book.html       header.adoc  notes.adoc
-02start/    06io/      book.pdf        index.adoc   notes.html
-03details/  07more/    copyright.adoc  index.html   style.adoc
-04debug/    book.adoc  hack.sh*        Makefile     style.html
+01case/     05blocks/  book.adoc  copyright.adoc  index.html  projects.adoc
+02start/    06io/      book.html  hack.sh*        Makefile    projects.html
+03details/  07more/    book.pdf   header.adoc     notes.adoc  style.adoc
+04debug/    08ai/      common/    index.adoc      notes.html  style.html
 ----
 
 Each chapter has its own
@@ -266,7 +266,7 @@ bone$ *cd PRUCookbook/docs/02start/code*
 [TIP]
 ====
 If the following doesn't work see 
-*Compiling with clpru and lnkpru* in the details chapter
+link:../03details/details.html#_compiling_with_clpru_and_lnkpru[Compiling with clpru and lnkpru]
 for instillation instructions.
 ====
 
