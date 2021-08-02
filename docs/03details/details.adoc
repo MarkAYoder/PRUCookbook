@@ -394,7 +394,7 @@ everything is already configured for you.
 If you are on the Black or Pocket you'll need to run the following script.
 
 .servos_setup.sh
-[source,linenums]
+[source,c,linenums]
 ----
 include::code/servos_setup.sh[servos_setup.sh]
 ----
@@ -415,7 +415,7 @@ everything is already configured for you.
 If you are on the Black or Pocket you'll need to run the following script.
 
 .encoder_setup.sh
-[source,linenums]
+[source,c,linenums]
 ----
 include::code/encoder_setup.sh[encoder_setup.sh]
 ----
