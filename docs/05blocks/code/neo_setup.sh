@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-export TARGET=neo1
+export TARGET=neo1.pru0
 echo TARGET=$TARGET
 
 # Configure the PRU pins based on which Beagle is running
