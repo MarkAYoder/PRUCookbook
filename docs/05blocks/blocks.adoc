@@ -849,7 +849,7 @@ These values came from <<blocks_mapping_bits>>.
 Configure the pins with `input_setup.sh`.
 
 .input_setup.sh
-[source,linenums]
+[source,c,linenums]
 ----
 include::code/input_setup.sh[]input_setup.sh]
 ----
@@ -877,7 +877,7 @@ we'll take another approach.
 
 Earlier we generated a PWM signal.  Here we'll generate a PWM whose duty cycle
 changes with time.  A small duty cycle for when the output signal is small and
-a large dudty cycle for when it is large.
+a large duty cycle for when it is large.
 
 This example was inspired by 
 https://github.com/derekmolloy/exploringBB/tree/master/chp13/sineWave[A PRU Sin Wave Generator]
@@ -943,11 +943,11 @@ at that time and must therefore be between 0 and 100.
 rather, it's all done in software.  This mean using floating point will make
 your code much bigger and slower.  Slower doesn't matter in this part, and 
 bigger isn't bigger than our instruction memory, so we're OK.
-|47   |Here the for loop looks up each value of the generated waveform.
+|47   |Here the `for` loop looks up each value of the generated waveform.
 |48,49|`onCount` is the number of cycles to be at 1 and `offCount` is the number 
 of cycles to be 0. The two add to 100, one full cycle.
 |50-52|Stay on for `onCount` cycles.
-|53-55|No turn off for `offCount` cycles, the loop back and look up the next 
+|53-55|Now turn off for `offCount` cycles, then loop back and look up the next 
 cycle count.
 |===
 
@@ -1014,8 +1014,8 @@ image::figures/sawhighercutoff.png[Reconstructed Sawtooth Waveform with Higher C
 Adjust to taste, though the real solution is to build a higher order filter. 
 Search for _second order filter_ and you'll find some nice circuits.
 
-You can adjust the frequency of the signal by adjesting `MAXT`.  A smaller 
-`MAXT` will give a higher frequency.  I'm gotten good results with `MAXT` 
+You can adjust the frequency of the signal by adjusting `MAXT`.  A smaller 
+`MAXT` will give a higher frequency.  I've gotten good results with `MAXT` 
 as small as 20.
 
 You can also get a triangle waveform by setting the `#define`. 
@@ -1039,12 +1039,12 @@ You can look in `/tmp/cloud9-examples/sine.pru0.map` to see how much memory is b
 
 [[blocks_sine_map]]
 ./tmp/cloud9-examples/sine.pru0.map for Sine Wave
-[source,linenums]
+[source,c,linenums]
 ----
 include::code/sine.map[lines=1..22]
 ----
 
-Notice line 19 shows 0x18c0 bytes are being used for instructions.  That's 6336 
+Notice line 15 shows 0x18c0 bytes are being used for instructions.  That's 6336 
 in decimal.
 
 Now compile for the sawtooth and you see only 444 byes are used.  Floating-point 

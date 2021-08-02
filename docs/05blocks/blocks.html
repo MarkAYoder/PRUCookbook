@@ -1205,9 +1205,9 @@ that works on the AI.</p>
 
     <span class="keyword">while</span>(<span class="integer">1</span>) {
         __R30 |= gpio;      <span class="comment">// Set the GPIO pin to 1</span>
-        __delay_cycles(<span class="integer">100000000</span>);
+        __delay_cycles(<span class="integer">1000</span>);
         __R30 &amp;= ~gpio;     <span class="comment">// Clear the GPIO pin</span>
-        __delay_cycles(<span class="integer">100000000</span>);
+        __delay_cycles(<span class="integer">1000</span>);
     }
 }</pre></td>
 </tr></table></code></pre>
@@ -1756,16 +1756,16 @@ we&#8217;ll be toggling <code>P9_31</code>.</p>
 
 <span class="directive">void</span> main(<span class="directive">void</span>)
 {
-    uint32_t gpio = P9_31;  <span class="comment">// Select which pin to toggle.;</span>
+    uint32_t gpio = P1_31;  <span class="comment">// Select which pin to toggle.;</span>
 
     <span class="comment">/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */</span>
     CT_CFG.SYSCFG_bit.STANDBY_INIT = <span class="integer">0</span>;
 
     <span class="keyword">while</span> (<span class="integer">1</span>) {
         __R30 |= gpio;      <span class="comment">// Set the GPIO pin to 1</span>
-        __delay_cycles(<span class="integer">1</span>);  <span class="comment">// Delay one cycle to correct for loop time</span>
+        __delay_cycles(<span class="integer">1001</span>);   <span class="comment">// Delay one cycle to correct for loop time</span>
         __R30 &amp;= ~gpio;     <span class="comment">// Clear the GPIO pin</span>
-        __delay_cycles(<span class="integer">0</span>);
+        __delay_cycles(<span class="integer">1000</span>);
     }
 }</pre></td>
 </tr></table></code></pre>
@@ -3264,33 +3264,63 @@ pins.</p>
 <div class="listingblock">
 <div class="title">input_setup.sh</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="linenums">#!/bin/bash
-#
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+</pre></td>
+  <td class="code"><pre><span class="preprocessor">#</span>!/bin/bash
+<span class="preprocessor">#</span>
 export TARGET=input.pru0
 echo TARGET=$TARGET
 
-# Configure the PRU pins based on which Beagle is running
-machine=$(awk '{print $NF}' /proc/device-tree/model)
+<span class="preprocessor"># Configure</span> the PRU pins based on which Beagle is running
+machine=$(awk <span class="char">'{</span>print $NF}<span class="char">' </span>/proc/device-tree/model)
 echo -n $machine
-if [ $machine = &quot;Black&quot; ]; then
-    echo &quot; Found&quot;
+<span class="keyword">if</span> [ $machine = <span class="string"><span class="delimiter">&quot;</span><span class="content">Black</span><span class="delimiter">&quot;</span></span> ]; then
+    echo <span class="string"><span class="delimiter">&quot;</span><span class="content"> Found</span><span class="delimiter">&quot;</span></span>
     config-pin P9_31 pruout
     config-pin -q P9_31
     config-pin P9_25 pruin
     config-pin -q P9_25
-elif [ $machine = &quot;Blue&quot; ]; then
-    echo &quot; Found&quot;
-    pins=&quot;&quot;
-elif [ $machine = &quot;PocketBeagle&quot; ]; then
-    echo &quot; Found&quot;
+elif [ $machine = <span class="string"><span class="delimiter">&quot;</span><span class="content">Blue</span><span class="delimiter">&quot;</span></span> ]; then
+    echo <span class="string"><span class="delimiter">&quot;</span><span class="content"> Found</span><span class="delimiter">&quot;</span></span>
+    pins=<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>
+elif [ $machine = <span class="string"><span class="delimiter">&quot;</span><span class="content">PocketBeagle</span><span class="delimiter">&quot;</span></span> ]; then
+    echo <span class="string"><span class="delimiter">&quot;</span><span class="content"> Found</span><span class="delimiter">&quot;</span></span>
     config-pin P1_36 pruout
     config-pin -q P1_36
     config-pin P1_29 pruin
     config-pin -q P1_29
-else
-    echo &quot; Not Found&quot;
-    pins=&quot;&quot;
-fi</code></pre>
+<span class="keyword">else</span>
+    echo <span class="string"><span class="delimiter">&quot;</span><span class="content"> Not Found</span><span class="delimiter">&quot;</span></span>
+    pins=<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>
+fi</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3382,7 +3412,7 @@ we&#8217;ll take another approach.</p>
 <div class="paragraph">
 <p>Earlier we generated a PWM signal.  Here we&#8217;ll generate a PWM whose duty cycle
 changes with time.  A small duty cycle for when the output signal is small and
-a large dudty cycle for when it is large.</p>
+a large duty cycle for when it is large.</p>
 </div>
 <div class="paragraph">
 <p>This example was inspired by
@@ -3617,7 +3647,7 @@ bigger isn&#8217;t bigger than our instruction memory, so we&#8217;re OK.</p></t
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">47</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Here the for loop looks up each value of the generated waveform.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Here the <code>for</code> loop looks up each value of the generated waveform.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">48,49</p></td>
@@ -3630,7 +3660,7 @@ of cycles to be 0. The two add to 100, one full cycle.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">53-55</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">No turn off for <code>offCount</code> cycles, the loop back and look up the next
+<td class="tableblock halign-left valign-top"><p class="tableblock">Now turn off for <code>offCount</code> cycles, then loop back and look up the next
 cycle count.</p></td>
 </tr>
 </tbody>
@@ -3724,8 +3754,8 @@ get a sharper corner, but you&#8217;ll also get more high frequencies. See
 Search for <em>second order filter</em> and you&#8217;ll find some nice circuits.</p>
 </div>
 <div class="paragraph">
-<p>You can adjust the frequency of the signal by adjesting <code>MAXT</code>.  A smaller
-<code>MAXT</code> will give a higher frequency.  I&#8217;m gotten good results with <code>MAXT</code>
+<p>You can adjust the frequency of the signal by adjusting <code>MAXT</code>.  A smaller
+<code>MAXT</code> will give a higher frequency.  I&#8217;ve gotten good results with <code>MAXT</code>
 as small as 20.</p>
 </div>
 <div class="paragraph">
@@ -3758,32 +3788,57 @@ You can look in <code>/tmp/cloud9-examples/sine.pru0.map</code> to see how much 
 <div id="blocks_sine_map" class="listingblock">
 <div class="title">/tmp/cloud9-examples/sine.pru0.map for Sine Wave</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="linenums">******************************************************************************
-PRU Linker Unix v2.1.5
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+</pre></td>
+  <td class="code"><pre>******************************************************************************
+PRU Linker Unix v2<span class="float">.1</span><span class="float">.5</span>
 ******************************************************************************
-&gt;&gt; Linked Fri Jun 29 13:58:08 2018
+&gt;&gt; Linked Fri Jun <span class="integer">29</span> <span class="integer">13</span>:<span class="integer">58</span>:<span class="integer">08</span> <span class="integer">2018</span>
 
 OUTPUT FILE NAME:   &lt;/tmp/pru0-gen/sine1.out&gt;
-ENTRY POINT SYMBOL: &quot;_c_int00_noinit_noargs_noexit&quot;  address: 00000000
+ENTRY POINT SYMBOL: <span class="string"><span class="delimiter">&quot;</span><span class="content">_c_int00_noinit_noargs_noexit</span><span class="delimiter">&quot;</span></span>  address: <span class="octal">00000000</span>
 
 
 MEMORY CONFIGURATION
 
          name            origin    length      used     unused   attr    fill
 ----------------------  --------  ---------  --------  --------  ----  --------
-PAGE 0:
-  PRU_IMEM              00000000   00002000  000018c0  00000740  RWIX
+PAGE <span class="integer">0</span>:
+  PRU_IMEM              <span class="octal">00000000</span>   <span class="octal">00002000</span>  <span class="octal">0000</span><span class="integer">18</span>c0  <span class="octal">00000740</span>  RWIX
 
-PAGE 1:
-  PRU_DMEM_0_1          00000000   00002000  00000154  00001eac  RWIX
-  PRU_DMEM_1_0          00002000   00002000  00000000  00002000  RWIX
+PAGE <span class="integer">1</span>:
+  PRU_DMEM_0_1          <span class="octal">00000000</span>   <span class="octal">00002000</span>  <span class="octal">00000154</span>  <span class="octal">0000</span><span class="float">1</span>eac  RWIX
+  PRU_DMEM_1_0          <span class="octal">00002000</span>   <span class="octal">00002000</span>  <span class="octal">00000000</span>  <span class="octal">00002000</span>  RWIX
 
-PAGE 2:
-  PRU_SHAREDMEM         00010000   00003000  00000000  00003000  RWIX</code></pre>
+PAGE <span class="integer">2</span>:
+  PRU_SHAREDMEM         <span class="octal">00010000</span>   <span class="octal">00003000</span>  <span class="octal">00000000</span>  <span class="octal">00003000</span>  RWIX</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Notice line 19 shows 0x18c0 bytes are being used for instructions.  That&#8217;s 6336
+<p>Notice line 15 shows 0x18c0 bytes are being used for instructions.  That&#8217;s 6336
 in decimal.</p>
 </div>
 <div class="paragraph">
@@ -5783,7 +5838,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-08-02 11:51:31 -0400
+Last updated 2021-08-02 13:28:36 -0400
 </div>
 </div>
 </body>
