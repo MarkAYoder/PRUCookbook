@@ -64,7 +64,7 @@ that PRU 0 can access ten GPIO pins on the BeagleBone Black.  If you use
 PRU 1 you can get to an additional 14 pins (if they aren't in use for other things.)
 
 What if you need even more GPIO pins? You can access _any_ GPIO pin by going
-through the **o**ne **c**hip **p**eripheral (OCP) port.
+through the **O**pen-**C**ore **P**rotocol (OCP) port.
 
 .PRU Integration
 image:figures/pruIntegration.png[PRU Integration]
