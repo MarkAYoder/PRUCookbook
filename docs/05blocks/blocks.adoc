@@ -1263,6 +1263,9 @@ bone$ *echo 0 0xff 0 127 > /dev/rpmsg_pru30*
 bone$ *echo -1 > /dev/rpmsg_pru30*
 ----
 
+
+// TODO get this working on the 5.10 kernel
+
 `/dev/rpmsg_pru30` is a device driver that lets the ARM talk to the PRU.
 The first `echo` says to set the 0^th^ LED to RGB value 0xff 0 127. (Note: you can
 mix hex and decimal.) The second `echo` tells the driver to send the data to the
@@ -1353,8 +1356,10 @@ That gives a good overview, but there are a few details missing.
 <<blocks_rgb_python>> is a functioning python program that gives a nice
 high-level view of how to drive the display. 
 
+// TODO Test this
+
 [[blocks_rgb_python]]
-.Python code for driving RGB LED matrix
+.rgb_python.py - Python code for driving RGB LED matrix
 [source,python,linenums]
 [subs=+quotes]
 ----
@@ -1451,7 +1456,7 @@ mapped to the pins on the Pocket Beagle.
 |====
 
 The J1 mapping to gpio port and bit number comes from
-<https://github.com/FalconChristmas/fpp/blob/master/src/pru/PocketScrollerV1.hp>.
+<https://github.com/FalconChristmas/fpp/blob/master/capes/pb/panels/PocketScroller.json>.
 The gpio port and bit number mapping to Pocket Headers comes from 
 <https://docs.google.com/spreadsheets/d/1FRGvYOyW1RiNSEVprvstfJAVeapnASgDXHtxeDOjgqw/edit#gid=0>.
 
@@ -1523,7 +1528,7 @@ make[1]: Entering directory '/usr/src/linux-headers-4.9.88-ti-r111'
   CC      /home/debian/PRUCookbook/docs/05blocks/code/module/rpmsg_pru.mod.o
   LD [M]  /home/debian/PRUCookbook/docs/05blocks/code/module/rpmsg_pru.ko
 make[1]: Leaving directory '/usr/src/linux-headers-4.9.88-ti-r111'
-bone$ *insmod rpmsg_pru.ko*
+bone$ *sudo insmod rpmsg_pru.ko*
 bone$ *lsmod | grep rpm*
 rpmsg_pru               5799  2
 virtio_rpmsg_bus       13620  0

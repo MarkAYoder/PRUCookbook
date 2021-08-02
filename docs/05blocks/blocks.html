@@ -3536,10 +3536,10 @@ in chapter 13 of
             onCount = waveform[i];
             offCount = <span class="integer">100</span> - onCount;
             <span class="keyword">while</span>(onCount--) {
-                <em>R30 |= <span class="hex">0x1</span>;       <span class="comment">// Set the GPIO pin to 1</span>
+                <em>R30 |= <span class="hex">0x1</span>&lt;&lt;<span class="integer">4</span>;        <span class="comment">// Set the GPIO pin to 1</span>
             }
             <span class="keyword">while</span>(offCount--) {
-                </em>R30 &amp;= ~(<span class="hex">0x1</span>);    <span class="comment">// Clear the GPIO pin</span>
+                </em>R30 &amp;= ~(<span class="hex">0x1</span>&lt;&lt;<span class="integer">4</span>); <span class="comment">// Clear the GPIO pin</span>
             }
         }
     }
@@ -3948,7 +3948,7 @@ which to turns all pixels white.</p>
 <span class="preprocessor">#define</span> zeroCyclesOn    <span class="integer">350</span>/<span class="integer">5</span>
 <span class="preprocessor">#define</span> zeroCyclesOff   <span class="integer">600</span>/<span class="integer">5</span>
 <span class="preprocessor">#define</span> resetCycles     <span class="integer">60000</span>/<span class="integer">5</span> <span class="comment">// Must be at least 50u, use 60u</span>
-<span class="preprocessor">#define</span> gpio P9_29              <span class="comment">// output pin</span>
+<span class="preprocessor">#define</span> gpio P1_31              <span class="comment">// output pin</span>
 
 <span class="preprocessor">#define</span> ONE
 
@@ -4128,13 +4128,13 @@ grab the next value for itself and start over again.</p>
 <span class="preprocessor">#include</span> <span class="include">&quot;resource_table_empty.h&quot;</span>
 <span class="preprocessor">#include</span> <span class="include">&quot;prugpio.h&quot;</span>
 
-<span class="preprocessor">#define</span> STR_LEN <span class="integer">3</span>
+<span class="preprocessor">#define</span> STR_LEN <span class="integer">4</span>
 <span class="preprocessor">#define</span> oneCyclesOn     <span class="integer">700</span>/<span class="integer">5</span>   <span class="comment">// Stay on 700ns</span>
 <span class="preprocessor">#define</span> oneCyclesOff    <span class="integer">800</span>/<span class="integer">5</span>
 <span class="preprocessor">#define</span> zeroCyclesOn    <span class="integer">350</span>/<span class="integer">5</span>
 <span class="preprocessor">#define</span> zeroCyclesOff   <span class="integer">600</span>/<span class="integer">5</span>
 <span class="preprocessor">#define</span> resetCycles     <span class="integer">60000</span>/<span class="integer">5</span> <span class="comment">// Must be at least 50u, use 60u</span>
-<span class="preprocessor">#define</span> gpio P9_29              <span class="comment">// output pin</span>
+<span class="preprocessor">#define</span> gpio P1_31              <span class="comment">// output pin</span>
 
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t <em>R30;
 <span class="directive">volatile</span> <span class="directive">register</span> uint32_t </em>R31;
@@ -4144,7 +4144,7 @@ grab the next value for itself and start over again.</p>
     <span class="comment">/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */</span>
     CT_CFG.SYSCFG_bit.STANDBY_INIT = <span class="integer">0</span>;
 
-    uint32_t color[STR_LEN] = {<span class="hex">0x0f0000</span>, <span class="hex">0x000f00</span>, <span class="hex">0x0000f</span>};    <span class="comment">// green, red, blue</span>
+    uint32_t color[STR_LEN] = {<span class="hex">0x0f0000</span>, <span class="hex">0x000f00</span>, <span class="hex">0x0000f</span>, <span class="hex">0x0f0f0f</span>};  <span class="comment">// green, red, blue</span>
     <span class="predefined-type">int</span> i, j;
 
     <span class="keyword">for</span>(j=<span class="integer">0</span>; j&lt;STR_LEN; j++) {
@@ -4378,7 +4378,7 @@ Your browser does not support the video tag.
 <span class="preprocessor">#define</span> zeroCyclesOn    <span class="integer">350</span>/<span class="integer">5</span>
 <span class="preprocessor">#define</span> zeroCyclesOff   <span class="integer">600</span>/<span class="integer">5</span>
 <span class="preprocessor">#define</span> resetCycles     <span class="integer">60000</span>/<span class="integer">5</span> <span class="comment">// Must be at least 50u, use 60u</span>
-<span class="preprocessor">#define</span> gpio P9_29              <span class="comment">// output pin</span>
+<span class="preprocessor">#define</span> gpio P1_31              <span class="comment">// output pin</span>
 
 <span class="preprocessor">#define</span> SPEED <span class="integer">20000000</span>/<span class="integer">5</span>        <span class="comment">// Time to wait between updates</span>
 
@@ -4692,7 +4692,7 @@ an example.</p>
 <span class="preprocessor">#define</span> zeroCyclesOn    <span class="integer">350</span>/<span class="integer">5</span>
 <span class="preprocessor">#define</span> zeroCyclesOff   <span class="integer">800</span>/<span class="integer">5</span>
 <span class="preprocessor">#define</span> resetCycles     <span class="integer">51000</span>/<span class="integer">5</span> <span class="comment">// Must be at least 50u, use 51u</span>
-<span class="preprocessor">#define</span> out P9_29               <span class="comment">// Bit number to output on</span>
+<span class="preprocessor">#define</span> out P1_31               <span class="comment">// Bit number to output on</span>
 
 <span class="preprocessor">#define</span> SPEED <span class="integer">20000000</span>/<span class="integer">5</span>        <span class="comment">// Time to wait between updates</span>
 
@@ -5028,11 +5028,11 @@ So, on the PCB is 24 LED driver chips. These are like 74HC595s but they have 16 
 </div>
 <div class="paragraph">
 <p>That gives a good overview, but there are a few details missing.
-<a href="#blocks_rgb_python">Python code for driving RGB LED matrix</a> is a functioning python program that gives a nice
+<a href="#blocks_rgb_python">rgb_python.py - Python code for driving RGB LED matrix</a> is a functioning python program that gives a nice
 high-level view of how to drive the display.</p>
 </div>
 <div id="blocks_rgb_python" class="listingblock">
-<div class="title">Python code for driving RGB LED matrix</div>
+<div class="title">rgb_python.py - Python code for driving RGB LED matrix</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="python"><table class="CodeRay"><tr>
   <td class="line-numbers"><pre>1
@@ -5635,7 +5635,7 @@ mapped to the pins on the Pocket Beagle.</p>
 </table>
 <div class="paragraph">
 <p>The J1 mapping to gpio port and bit number comes from
-<a href="https://github.com/FalconChristmas/fpp/blob/master/src/pru/PocketScrollerV1.hp" class="bare">https://github.com/FalconChristmas/fpp/blob/master/src/pru/PocketScrollerV1.hp</a>.
+<a href="https://github.com/FalconChristmas/fpp/blob/master/capes/pb/panels/PocketScroller.json" class="bare">https://github.com/FalconChristmas/fpp/blob/master/capes/pb/panels/PocketScroller.json</a>.
 The gpio port and bit number mapping to Pocket Headers comes from
 <a href="https://docs.google.com/spreadsheets/d/1FRGvYOyW1RiNSEVprvstfJAVeapnASgDXHtxeDOjgqw/edit#gid=0" class="bare">https://docs.google.com/spreadsheets/d/1FRGvYOyW1RiNSEVprvstfJAVeapnASgDXHtxeDOjgqw/edit#gid=0</a>.</p>
 </div>
@@ -5746,7 +5746,7 @@ make[1]: Entering directory '/usr/src/linux-headers-4.9.88-ti-r111'
   CC      /home/debian/PRUCookbook/docs/05blocks/code/module/rpmsg_pru.mod.o
   LD [M]  /home/debian/PRUCookbook/docs/05blocks/code/module/rpmsg_pru.ko
 make[1]: Leaving directory '/usr/src/linux-headers-4.9.88-ti-r111'
-bone$ <strong>insmod rpmsg_pru.ko</strong>
+bone$ <strong>sudo insmod rpmsg_pru.ko</strong>
 bone$ <strong>lsmod | grep rpm</strong>
 rpmsg_pru               5799  2
 virtio_rpmsg_bus       13620  0
@@ -5838,7 +5838,7 @@ rpmsg_core              8537  2 rpmsg_pru,virtio_rpmsg_bus</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-08-02 13:28:36 -0400
+Last updated 2021-08-02 15:00:15 -0400
 </div>
 </div>
 </body>
