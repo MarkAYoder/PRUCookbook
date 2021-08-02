@@ -56,7 +56,7 @@ Here's the line-by-line
 in the `Shared RAM` location of memory.  Section 5.5.2 on page 75 of the
 http://www.ti.com/lit/ug/spruhv7b/spruhv7b.pdf[PRU Optimizing C/C++ Compiler, v2.2, User's Guide] gives details of the command.  The `PRU_SHAREDMEM` 
 refers to the memory section defined in `am335x_pru.cmd` on line 26.  
-|8 9   |These are like the previous line except for the DMEM sections.
+|8, 9   |These are like the previous line except for the DMEM sections.
 |16    |Variables declared outside of `main()` are put on the heap.
 |17    |Adding `PRU_SRAM` has the variable stored in the shared memory.
 |18, 19|These are stored in the PRU's local RAM.
@@ -238,11 +238,12 @@ bone$ *cd beaglebone\:green\:usr1*
 bone$ *ls*
 brightness  device  max_brightness  power  subsystem  trigger  uevent
 bone$ *cat trigger*
-none rc-feedback kbd-scrolllock kbd-numlock kbd-capslock kbd-kanalock 
-kbd-shiftlock kbd-altgrlock kbd-ctrllock kbd-altlock kbd-shiftllock 
-kbd-shiftrlock kbd-ctrlllock kbd-ctrlrlock usb-gadget usb-host 
-*[mmc0]* mmc1 timer oneshot disk-activity ide-disk mtd nand-disk 
-heartbeat backlight gpio cpu0 default-on 
+none usb-gadget usb-host rfkill-any rfkill-none kbd-scrolllock kbd-numlock 
+kbd-capslock kbd-kanalock kbd-shiftlock kbd-altgrlock kbd-ctrllock kbd-altlock 
+kbd-shiftllock kbd-shiftrlock kbd-ctrlllock kbd-ctrlrlock *[mmc0]* timer 
+oneshot disk-activity disk-read disk-write ide-disk mtd nand-disk heartbeat 
+backlight gpio cpu cpu0 activity default-on panic netdev phy0rx phy0tx
+phy0assoc phy0radio rfkill0 
 ----
 Notice `[mmc0]` is in brackets.  This means it's the current trigger; it flashes 
 when the built-in flash memory is in use.  You can turn this off using:
@@ -250,11 +251,12 @@ when the built-in flash memory is in use.  You can turn this off using:
 ----
 bone$ *echo none > trigger*
 bone$ *cat trigger*
-[none] rc-feedback kbd-scrolllock kbd-numlock kbd-capslock kbd-kanalock 
-kbd-shiftlock kbd-altgrlock kbd-ctrllock kbd-altlock kbd-shiftllock 
-kbd-shiftrlock kbd-ctrlllock kbd-ctrlrlock usb-gadget usb-host 
-mmc0 mmc1 timer oneshot disk-activity ide-disk mtd nand-disk 
-heartbeat backlight gpio cpu0 default-on 
+*[none]* usb-gadget usb-host rfkill-any rfkill-none kbd-scrolllock kbd-numlock 
+kbd-capslock kbd-kanalock kbd-shiftlock kbd-altgrlock kbd-ctrllock kbd-altlock 
+kbd-shiftllock kbd-shiftrlock kbd-ctrlllock kbd-ctrlrlock mmc0 timer 
+oneshot disk-activity disk-read disk-write ide-disk mtd nand-disk heartbeat 
+backlight gpio cpu cpu0 activity default-on panic netdev phy0rx phy0tx
+phy0assoc phy0radio rfkill0  
 ----
 Now it is no longer flashing.
 
@@ -282,7 +284,7 @@ enough. You need to run <<blocks_write_init_pins>> on the `.out` file to make
 the code work.  Fortunately the Makefile always runs it.
 [[blocks_write_init_pins]]
 .write_init_pins.sh
-[source,linenums]
+[source,c,linenums]
 [subs=+quotes]
 ----
 include::code/write_init_pins.sh[]
@@ -311,7 +313,7 @@ file contains everything needed to run the executable.
 [[blocks_pwm]]
 === PWM Generator
 One of the simplest things a PRU can to is generate a simple
-signals starting with a single channel PWM that has a fixed frequency and
+signal starting with a single channel PWM that has a fixed frequency and
 duty cycle and ending with a multi channel PWM that the ARM can change
 the frequency and duty cycle on the fly.  
 
@@ -352,7 +354,7 @@ bone$ *config-pin P1_36 pruout*
 
 [NOTE]
 ====
-See <<../08ai/ai.html#, Configuring pins on the AI via device trees>> for configuring 
+See <<../08ai/ai.html#ai_device_tree, Configuring pins on the AI via device trees>> for configuring 
 pins on the AI.
 ====
 
@@ -467,7 +469,7 @@ Bit 0 is the LSB.
 
 [NOTE]
 ====
-See <<../08ai/ai.html#, Configuring pins on the AI via device trees>> for all
+See <<../08ai/ai.html#ai_device_tree, Configuring pins on the AI via device trees>> for all
 the PRU pins on the AI.
 ====
 
