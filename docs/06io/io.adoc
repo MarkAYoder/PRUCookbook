@@ -126,22 +126,22 @@ on GPIO port 0.  Therefore we will use `GPIO0` in this code.
 
 You can also run 
 `gpioinfo` and look for P9_11.
-|5    |Line 105 of `prugpio.h` defines the address offset from `GIO0` that will 
+|5    |Line 103 of `prugpio.h` defines the address offset from `GIO0` that will 
 allow us to _clear_
 any (or all) bits in GPIO port 0. Other architectures require you to read a port,
 then change some bit, then write it out again, three steps.  Here we can do the same by writing to one location, just one step.
-|5    |Line 106 of `prugpio.h` is like above, but for _setting_ bits.
-|5    |Using this offset  of line 107 of `prugpio.h` lets us just read the bits
+|5    |Line 104 of `prugpio.h` is like above, but for _setting_ bits.
+|5    |Using this offset  of line 105 of `prugpio.h` lets us just read the bits
 without changing them.
-|7    |This shifts `0x1` to the 30^th^ bit position, which is the one corresponding
+|7,8  |This shifts `0x1` to the 30^th^ bit position, which is the one corresponding
 to `P9_11`.
-|14   |Here we initialize `gpio0` to point to the start of GPIO port 0's control
+|15   |Here we initialize `gpio0` to point to the start of GPIO port 0's control
 registers.
-|17   |`gpio0[GPIO_SETDATAOUT]` refers to the `SETDATAOUT` register of port 0.
+|18   |`gpio0[GPIO_SETDATAOUT]` refers to the `SETDATAOUT` register of port 0.
 Writing to this register turns on the bits where 1's are written,
 but leaves alone the bits where 0's are.
-|18   |Wait 100,000,000 cycles, which is 0.5 seconds.
-|19   |This is line 17, but the output bit is set to 0 where 1's are written.
+|19   |Wait 100,000,000 cycles, which is 0.5 seconds.
+|20   |This is line 18, but the output bit is set to 0 where 1's are written.
 |===
 
 ===== How fast can it go?
