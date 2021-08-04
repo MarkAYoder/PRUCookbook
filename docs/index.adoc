@@ -30,10 +30,11 @@ compiling on the Beagle
   
 . link:03details/details.html[Running a Program; Configuring Pins]
   ** [x] Getting Code Example Files
+  ** [x] Compiling with clpru and lnkpru
+  ** [x] Making sure the PRUs are configured
   ** [x] Compiling and Running
   ** [x] Stopping and Starting the PRU
   ** [x] The Standard Makefile
-  ** [x] Compiling with clpru and lnkpru
   ** [x] The Linker Command File - AM335x_PRU.cmd
   ** [x] Loading Firmware
   ** [x] Configuring Pins for Controlling Servos
@@ -77,6 +78,12 @@ compiling on the Beagle
   ** [x] Returning a Value from Assembly
   ** [x] Using the Built In Counter for Timing
   ** [x] Xout and Xin - Transfering Between PRUs
+
+. link:08ai/ai.html[Moving to the BeagleBone AI]
+  ** [x] Moving from two to four PRUs
+  ** [x] Seeing how poins are configured
+  ** [x] Configuring pins on the AI via device trees
+  ** [x] Using the PRU pins
 
 // . Alternate Tools
 // footnote:[You might make this just about *alternate* tools rather than necessarily older. You could provide relatively minimal pointers for anything beyond what is needed understand how the Case Studies work. Things like the gcc port could go here.]
