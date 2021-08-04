@@ -61,7 +61,7 @@ include::code/Makefile[]
 
 This Makefle includes a common Makfile at  `/var/lib/cloud9/common/Makefile`,
 this the Makefile you need to edit. 
-Edit `/var/lib/cloud9/common/Makefile` and go to line 197.
+Edit `/var/lib/cloud9/common/Makefile` and go to line 195.
 
 [source,makefile]
 [subs=+quotes]
@@ -285,7 +285,7 @@ transfers six registers to PRU 1.
 include::code/xout.pru0.c[]
 ----
 
-PRU 1 waits at line 42 until PRU 0 signals it.  <<more_xin>> sends sends an
+PRU 1 waits at line 41 until PRU 0 signals it.  <<more_xin>> sends sends an
 interupt to PRU 0 and waits for it to send the data.
 
 [[more_xin]]
