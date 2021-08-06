@@ -558,21 +558,14 @@ enter *12* for *Universe Count* and click *set* and you will see
 <<case_inputs_setup>>.
 
 [[case_inputs_setup]]
-.E1.31 Bridge Mode Universes
-image::figures/fpp_inputs_setup.png[.E1.31 Bridge Mode Universes]
+.E1.31 Inputs
+image::figures/fpp_inputs_setup.png[.E1.31 Inputs]
 
-Click on the *Save* button above the table.  Then go to the *Status/Control* 
-menu and select *MultiSync* as shown in <<case_multisync>>.
-[[case_multisync]]
-.Using MultiSync page to switch to Bridge mode
-image::figures/fpp_multisync.png[MultiSync]
+Click on the *Save* button above the table.  
 
-Select *FPP* by checking the box on the right and select *Set to Bridge*
-for *Action for selected system*.  Then click *>Run*.  it will take a moment
-to restart FPPD.
+Then go to the *Status/Control* menu and select *Status Page*.  
 
-Then go to the *Status/Control* menu and select *Status Page*.  It is now in 
-Bridge mode.
+// TODO  update this
 
 [[case_mode_bridge]]
 .Bridge Mode
