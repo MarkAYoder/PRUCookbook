@@ -530,7 +530,7 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_robotics_control_library">1.1. Robotics Control Library</a></li>
 <li><a href="#_beaglelogic_a_14_channel_logic_analyzer">1.2. BeagleLogic - a 14-channel Logic Analyzer</a></li>
-<li><a href="#_neopixels_5050_rgb_leds_with_integrated_drivers_ledscape">1.3. NeoPixels - 5050 RGB LEDs with Integrated Drivers (LEDScape)</a></li>
+<li><a href="#_neopixels_5050_rgb_leds_with_integrated_drivers_falcon_christmas">1.3. NeoPixels - 5050 RGB LEDs with Integrated Drivers (Falcon Christmas)</a></li>
 <li><a href="#case_rgb_matrix">1.4. RGB LED Matrix - No Integrated Drivers (Falcon Christmas)</a></li>
 <li><a href="#_machinekit">1.5. MachineKit</a></li>
 <li><a href="#_ardupilot">1.6. ArduPilot</a></li>
@@ -1183,7 +1183,7 @@ explaining how the PRUs get this type of performance.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_neopixels_5050_rgb_leds_with_integrated_drivers_ledscape"><a class="link" href="#_neopixels_5050_rgb_leds_with_integrated_drivers_ledscape">1.3. NeoPixels - 5050 RGB LEDs with Integrated Drivers (LEDScape)</a></h3>
+<h3 id="_neopixels_5050_rgb_leds_with_integrated_drivers_falcon_christmas"><a class="link" href="#_neopixels_5050_rgb_leds_with_integrated_drivers_falcon_christmas">1.3. NeoPixels - 5050 RGB LEDs with Integrated Drivers (Falcon Christmas)</a></h3>
 <div class="sect3">
 <h4 id="_problem_7"><a class="link" href="#_problem_7">Problem</a></h4>
 <div class="paragraph">
@@ -1204,7 +1204,10 @@ and want to light it up.</p>
 <div class="paragraph">
 <p>You can either write your own code
 (See <a href="../05blocks/blocks.html#blocks_ws2812">WS2812 Driver</a>), or
-use FPP.</p>
+use Falcon Christmas (FPP). FPP can be used to drive both LEDs with an integrated
+driver (neopixels) or without an integrated driver.  Here we&#8217;ll show you how to
+set up for the integrated drive and in the next section the no driver LEDs will be
+show.</p>
 </div>
 </div>
 </div>
@@ -1230,12 +1233,17 @@ shown in <a href="#case_adfruit_matrix">Adafruit LED Matrix</a>.</p>
 <div class="paragraph">
 <p><a href="http://falconchristmas.com">Falcon Christmas</a> makes a software package
 called
-<a href="http://falconchristmas.com/forum/index.php/board,8.0.html">Falcon Player</a> (FPP) which can drive such displays.</p>
+<a href="http://falconchristmas.com/forum/index.php/board,8.0.html">Falcon Player</a> (FPP) which can drive
+such displays.</p>
 </div>
 <div class="verseblock">
 <pre class="content">The Falcon Player (FPP) is a lightweight, optimized, feature-rich sequence player
 designed to run on low-cost SBC&#8217;s (Single Board Computers).
-FPP is a software solution that you download and install on hardware which can be purchased from numerous sources around the internet. FPP aims to be controller agnostic, it can talk E1.31, DMX, Pixelnet, and Renard to hardware from multiple hardware vendors, including controller hardware from Falcon Christmas available via COOPs or in the store on FalconChristmas.com.</pre>
+FPP is a software solution that you download and install on hardware which can be
+purchased from numerous sources around the internet.
+FPP aims to be controller agnostic, it can talk E1.31, DMX, Pixelnet, and
+Renard to hardware from multiple hardware vendors, including controller
+hardware from Falcon Christmas available via COOPs or in the store on FalconChristmas.com.</pre>
 <div class="attribution">
 &#8212; http://www.falconchristmas.com/wiki/FPP:FAQ#What_is_FPP.3F
 </div>
@@ -1610,7 +1618,7 @@ The software suite is installed in aircraft from many OEM UAV companies, such as
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-08-16 14:48:37 -0400
+Last updated 2021-08-16 15:05:42 -0400
 </div>
 </div>
 </body>

@@ -356,7 +356,7 @@ http://theembeddedkitchen.net/beaglelogic-building-a-logic-analyzer-with-the-pru
 explaining how the PRUs get this type of performance.   
 
 
-=== NeoPixels - 5050 RGB LEDs with Integrated Drivers (LEDScape)
+=== NeoPixels - 5050 RGB LEDs with Integrated Drivers (Falcon Christmas)
 ==== Problem
 ((("displays", "NeoPixel LED strings")))
 ((("outputs", "NeoPixel LED strings")))
@@ -374,7 +374,11 @@ and want to light it up.
 ==== Solution
 You can either write your own code 
 (See <<../05blocks/blocks.adoc#blocks_ws2812, WS2812 Driver>>), or
-use FPP.
+use Falcon Christmas (FPP). FPP can be used to drive both LEDs with an integrated
+driver (neopixels) or without an integrated driver.  Here we'll show you how to
+set up for the integrated drive and in the next section the no driver LEDs will be 
+show.
+
 
 [[case_rgb_matrix]]
 === RGB LED Matrix - No Integrated Drivers (Falcon Christmas)
@@ -391,13 +395,18 @@ image::figures/ledmatrix.jpg[Adafruit LED Matrix]
 ==== Solution
 http://falconchristmas.com[Falcon Christmas] makes a software package
 called 
-http://falconchristmas.com/forum/index.php/board,8.0.html[Falcon Player] (FPP) which can drive such displays.
+http://falconchristmas.com/forum/index.php/board,8.0.html[Falcon Player] (FPP) which can drive 
+such displays.
 
 [verse, http://www.falconchristmas.com/wiki/FPP:FAQ#What_is_FPP.3F]
 ____
 The Falcon Player (FPP) is a lightweight, optimized, feature-rich sequence player 
 designed to run on low-cost SBC's (Single Board Computers).
-FPP is a software solution that you download and install on hardware which can be purchased from numerous sources around the internet. FPP aims to be controller agnostic, it can talk E1.31, DMX, Pixelnet, and Renard to hardware from multiple hardware vendors, including controller hardware from Falcon Christmas available via COOPs or in the store on FalconChristmas.com.
+FPP is a software solution that you download and install on hardware which can be 
+purchased from numerous sources around the internet. 
+FPP aims to be controller agnostic, it can talk E1.31, DMX, Pixelnet, and 
+Renard to hardware from multiple hardware vendors, including controller 
+hardware from Falcon Christmas available via COOPs or in the store on FalconChristmas.com.
 ____
 
 ===== Hardware
