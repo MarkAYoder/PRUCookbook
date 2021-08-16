@@ -36,7 +36,7 @@ Here we present:
 
 * Robotics Control Library <http://strawsondesign.com/docs/roboticscape/>
 * BeagleLogic <https://github.com/abhishek-kakkar/BeagleLogic/wiki>
-* NeoPixels - 5050 RGB LEDs with Integrated Drivers (LEDscape) <https://github.com/Yona-Appletree/LEDscape>
+* NeoPixels - 5050 RGB LEDs with Integrated Drivers (Falcon Christmas) <http://falconchristmas.com>
 * RGB LED Matrix (Falcon Christmas) <http://falconchristmas.com>
 // * MachineKit <http://www.machinekit.io/>
 // * ArduPilot <http://ardupilot.org/>, <http://ardupilot.org/dev/docs/beaglepilot.html>
