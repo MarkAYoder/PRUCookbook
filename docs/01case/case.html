@@ -1202,12 +1202,291 @@ and want to light it up.</p>
 <div class="sect3">
 <h4 id="_solution_7"><a class="link" href="#_solution_7">Solution</a></h4>
 <div class="paragraph">
-<p>You can either write your own code
-(See <a href="../05blocks/blocks.html#blocks_ws2812">WS2812 Driver</a>), or
-use Falcon Christmas (FPP). FPP can be used to drive both LEDs with an integrated
+<p>If you are driving just one string you can write your own code
+(See <a href="../05blocks/blocks.html#blocks_ws2812">WS2812 Driver</a>)
+If you plan to drive multiple strings, then consider
+Falcon Christmas (FPP, &lt;&lt;<a href="https://falconchristmas.com/&gt;&gt;" class="bare">https://falconchristmas.com/&gt;&gt;</a>).
+FPP can be used to drive both LEDs with an integrated
 driver (neopixels) or without an integrated driver.  Here we&#8217;ll show you how to
 set up for the integrated drive and in the next section the no driver LEDs will be
 show.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_hardware"><a class="link" href="#_hardware">Hardware</a></h4>
+<div class="paragraph">
+<p>For this setup we&#8217;ll wire a single string of NeoPixels to the Beagle.
+I&#8217;ve attached the black wire on the string to ground on the Beagle
+and the red wire to a 3.3V pin on the Beagle.
+The yellow data in line is attached to P1.31 (I&#8217;m using a PocketBeagle.).</p>
+</div>
+<div class="paragraph">
+<p>How did I know to attach to P1.31?  The FalconChristmas git repo
+(<a href="https://github.com/FalconChristmas/fpp" class="bare">https://github.com/FalconChristmas/fpp</a>) has files that tell which pins
+attach to which port.  <a href="https://github.com/FalconChristmas/fpp/blob/master/capes/pb/strings/F8-B-20.json" class="bare">https://github.com/FalconChristmas/fpp/blob/master/capes/pb/strings/F8-B-20.json</a>
+has a list of 20 ports and where they are connected.  Pin P1.31 appears on
+line 27.  It&#8217;s the 20th entry in the list.  You could pick any of the others
+if you&#8217;d rather.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_software_setup"><a class="link" href="#_software_setup">Software Setup</a></h4>
+<div class="paragraph">
+<p>Assuming the PocketBeagle is attached via the USB cable,
+on your host computer browse to <a href="http://192.168.7.2/" class="bare">http://192.168.7.2/</a> and you will see
+<a href="#case_fpp_program_control2">Falcon Play Program Control</a>.</p>
+</div>
+<div id="case_fpp_program_control2" class="imageblock">
+<div class="content">
+<img src="figures/fpp_program_control.png" alt="Falcon Play Program Control">
+</div>
+<div class="title">Figure 2. Falcon Play Program Control</div>
+</div>
+<div class="paragraph">
+<p>You can test the display by first setting up the Channel Outputs and then
+going to <strong>Display Testing</strong>.  <a href="#case_channel_outputs_menu2">Selecting Channel Outputs</a> shows where to
+select Channel Outputs and <a href="#case_channel_outputs2">Channel Outputs Settings</a> shows which settings to use.</p>
+</div>
+<div id="case_channel_outputs_menu2" class="imageblock">
+<div class="content">
+<img src="figures/fpp_channel_outputs_menu.png" alt="Selecting Channel Outputs">
+</div>
+<div class="title">Figure 3. Selecting Channel Outputs</div>
+</div>
+<div id="case_channel_outputs2" class="imageblock">
+<div class="content">
+<img src="figures/fpp_channel_outputs_strings.png" alt="Channel Outputs Settings">
+</div>
+<div class="title">Figure 4. Channel Outputs Settings</div>
+</div>
+<div class="paragraph">
+<p>Click on the <strong>Pixel Strings</strong> tab.  Earlier we noted that <strong>P1.31</strong> is attached
+to port 20.  Note that at the bottom of the screen, port 20 has a PIXEL COUNT
+of 24.  We&#8217;re telling FPP our string has 24 NeoPixels and they are attached
+to port 2 which in <strong>P1.31</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Be sure to check the <strong>Enable String Cape</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Next we need to test the display.  Select <strong>Display Testing</strong> shown in
+<a href="#case_display_testing_menu2">Selecting Display Testing</a>.</p>
+</div>
+<div id="case_display_testing_menu2" class="imageblock">
+<div class="content">
+<img src="figures/fpp_display_testing_menu2.png" alt="Selecting Display Testing">
+</div>
+<div class="title">Figure 5. Selecting Display Testing</div>
+</div>
+<div class="paragraph">
+<p>Set the <strong>End Channel</strong> to <strong>72</strong>. (72 is 3*24)
+Click <strong>Enable Test Mode</strong> and your matrix should light up.  Try the different
+testing patterns shown in <a href="#case_display_testing2">Display Testing Options</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Clicking on the <strong>-3</strong> will subtract three from the End Channel, which should
+then display three fewer LEDs which is one NeoPixel.  The last of your NeoPixels
+should go black.  This is an easy way to make sure you have the correct pixel
+count.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="case_display_testing2" class="imageblock">
+<div class="content">
+<img src="figures/fpp_display_testing2.png" alt="Display Testing Options">
+</div>
+<div class="title">Figure 6. Display Testing Options</div>
+</div>
+<div class="paragraph">
+<p>You can control the LED string using the E1.31 protocol.
+(<a href="https://www.doityourselfchristmas.com/wiki/index.php?title=E1.31_(Streaming-ACN)_Protocol" class="bare">https://www.doityourselfchristmas.com/wiki/index.php?title=E1.31_(Streaming-ACN)_Protocol</a>)
+First configure the input channels by going to Channel Inputs as shown in
+<a href="#case_channel_inputs">Going to Channel Inputs</a>.</p>
+</div>
+<div id="case_channel_inputs" class="imageblock">
+<div class="content">
+<img src="figures/fpp_channel_inputs.png" alt="Going to Channel Inputs">
+</div>
+<div class="title">Figure 7. Going to Channel Inputs</div>
+</div>
+<div class="paragraph">
+<p>Tell it you have 72 LEDs and enable the input as shown in <a href="#case_set_inputs">Setting Channel Inputs</a>.</p>
+</div>
+<div id="case_set_inputs" class="imageblock">
+<div class="content">
+<img src="figures/fpp_inputs_setup2.png" alt="Setting Channel Inputs">
+</div>
+<div class="title">Figure 8. Setting Channel Inputs</div>
+</div>
+<div class="paragraph">
+<p>Finally go to the Status Page as shown in <a href="#case_status">Watching the status</a>.</p>
+</div>
+<div id="case_status" class="imageblock">
+<div class="content">
+<img src="figures/fpp_status.png" alt="Watching Status">
+</div>
+<div class="title">Figure 9. Watching the status</div>
+</div>
+<div class="paragraph">
+<p>Now run a program on another computer that generated E1.31 packets.
+<a href="#case_1.31_example">[case_1.31_example]</a> is an example python program.</p>
+</div>
+<div id="cse_e1.31_example" class="listingblock">
+<div class="title">e1.31-test.py - Example of generating packets to control the NeoPixels</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+</pre></td>
+  <td class="code"><pre><span class="preprocessor"><mark></span>!/usr/bin/env python3
+<span class="preprocessor"></mark> Controls</span> a NeoPixel (WS2812) string via E1<span class="float">.31</span> and FPP
+<span class="preprocessor"># https</span>:<span class="comment">//pypi.org/project/sacn/</span>
+<span class="preprocessor"># https</span>:<span class="comment">//github.com/FalconChristmas/fpp/releases</span>
+import sacn
+import time
+
+<span class="preprocessor"># provide</span> an IP-Address to bind to <span class="keyword">if</span> you are using Windows and want to use multicast
+sender = sacn.sACNsender(<span class="string"><span class="delimiter">&quot;</span><span class="content">192.168.7.1</span><span class="delimiter">&quot;</span></span>)
+sender.start()                          <span class="preprocessor"># start</span> the sending thread
+sender.activate_output(<span class="integer">1</span>)       <span class="preprocessor"># start</span> sending out data in the <span class="integer">1</span>st universe
+sender[<span class="integer">1</span>].multicast = False <span class="preprocessor"># set</span> multicast to True
+sender[<span class="integer">1</span>].destination = <span class="string"><span class="delimiter">&quot;</span><span class="content">192.168.7.2</span><span class="delimiter">&quot;</span></span>  <span class="preprocessor"># or</span> provide unicast information.
+sender.manual_flush = True <span class="preprocessor"># turning</span> off the automatic sending of packets
+<span class="preprocessor"># Keep</span> in mind that <span class="keyword">if</span> multicast is on, unicast is not used
+LEDcount = <span class="integer">24</span>
+<span class="preprocessor"># Have</span> green fade is as it goes
+data = []
+<span class="keyword">for</span> i in range(LEDcount):
+    data.append(<span class="integer">0</span>)      <span class="preprocessor"># Red</span>
+    data.append(i)      <span class="preprocessor"># Green</span>
+    data.append(<span class="integer">0</span>)      <span class="preprocessor"># Blue</span>
+sender[<span class="integer">1</span>].dmx_data = data
+sender.flush()
+time.sleep(<span class="float">0</span><span class="float">.5</span>)
+
+<span class="preprocessor"># Turn</span> off all LEDs
+data=[]
+<span class="keyword">for</span> i in range(<span class="integer">3</span>*LEDcount):
+    data.append(<span class="integer">0</span>)
+sender.flush()
+sender[<span class="integer">1</span>].dmx_data = data
+time.sleep(<span class="float">0</span><span class="float">.5</span>)
+
+<span class="preprocessor"># Have</span> red fade in
+data = []
+<span class="keyword">for</span> i in range(LEDcount):
+    data.append(i)
+    data.append(<span class="integer">0</span>)
+    data.append(<span class="integer">0</span>)
+sender[<span class="integer">1</span>].dmx_data = data
+sender.flush()
+time.sleep(<span class="float">0</span><span class="float">.25</span>)
+
+<span class="preprocessor"># Make</span> LED circle <span class="integer">5</span> times
+<span class="keyword">for</span> j in range(<span class="integer">15</span>):
+    <span class="keyword">for</span> i in range(LEDcount-<span class="integer">1</span>):
+        data[<span class="integer">3</span>*i+<span class="integer">0</span>] = <span class="integer">0</span>
+        data[<span class="integer">3</span>*i+<span class="integer">1</span>] = <span class="integer">0</span>
+        data[<span class="integer">3</span>*i+<span class="integer">2</span>] = <span class="integer">0</span>
+        data[<span class="integer">3</span>*i+<span class="integer">3</span>] = <span class="integer">0</span>
+        data[<span class="integer">3</span>*i+<span class="integer">4</span>] = <span class="integer">64</span>
+        data[<span class="integer">3</span>*i+<span class="integer">5</span>] = <span class="integer">0</span>
+        sender[<span class="integer">1</span>].dmx_data = data
+        sender.flush()
+        time.sleep(<span class="float">0</span><span class="float">.02</span>)
+<span class="preprocessor"># Wrap</span> around
+    i = LEDcount-<span class="integer">1</span>
+    data[<span class="integer">0</span>] = <span class="integer">0</span>
+    data[<span class="integer">1</span>] = <span class="integer">64</span>
+    data[<span class="integer">2</span>] = <span class="integer">0</span>
+    data[<span class="integer">3</span>*i+<span class="integer">0</span>] = <span class="integer">0</span>
+    data[<span class="integer">3</span>*i+<span class="integer">1</span>] = <span class="integer">0</span>
+    data[<span class="integer">3</span>*i+<span class="integer">2</span>] = <span class="integer">0</span>
+    sender[<span class="integer">1</span>].dmx_data = data
+    sender.flush()
+    time.sleep(<span class="float">0</span><span class="float">.02</span>)
+
+time.sleep(<span class="integer">2</span>)  <span class="preprocessor"># send</span> the data <span class="keyword">for</span> <span class="integer">10</span> seconds
+sender.stop()  <span class="preprocessor"># do</span> not forget to stop the sender</pre></td>
+</tr></table></code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -1225,7 +1504,7 @@ shown in <a href="#case_adfruit_matrix">Adafruit LED Matrix</a>.</p>
 <div class="content">
 <img src="figures/ledmatrix.jpg" alt="Adafruit LED Matrix">
 </div>
-<div class="title">Figure 2. Adafruit LED Matrix</div>
+<div class="title">Figure 10. Adafruit LED Matrix</div>
 </div>
 </div>
 <div class="sect3">
@@ -1249,7 +1528,7 @@ hardware from Falcon Christmas available via COOPs or in the store on FalconChri
 </div>
 </div>
 <div class="sect4">
-<h5 id="_hardware"><a class="link" href="#_hardware">Hardware</a></h5>
+<h5 id="_hardware_2"><a class="link" href="#_hardware_2">Hardware</a></h5>
 <div class="paragraph">
 <p>The Beagle hardware can be either a BeagleBone Black with the
 <a href="https://oshpark.com/shared_projects/7mSHNZcD">Octoscroller Cape</a>, or a
@@ -1268,7 +1547,7 @@ to full white at the same time you will need at least a 4A supply.</p>
 <div class="content">
 <img src="figures/pocketscroller.jpg" alt="Pocket Beagle Driving a P5 RGB LED Matrix via the PocketScroller Cape">
 </div>
-<div class="title">Figure 3. Pocket Beagle Driving a P5 RGB LED Matrix via the PocketScroller Cape</div>
+<div class="title">Figure 11. Pocket Beagle Driving a P5 RGB LED Matrix via the PocketScroller Cape</div>
 </div>
 </div>
 <div class="sect4">
@@ -1302,7 +1581,7 @@ on your host computer browse to <a href="http://192.168.7.2/" class="bare">http:
 <div class="content">
 <img src="figures/fpp_program_control.png" alt="Falcon Play Program Control">
 </div>
-<div class="title">Figure 4. Falcon Play Program Control</div>
+<div class="title">Figure 12. Falcon Play Program Control</div>
 </div>
 <div class="paragraph">
 <p>You can test the display by first setting up the Channel Outputs and then
@@ -1313,13 +1592,13 @@ select Channel Outputs and <a href="#case_channel_outputs">Channel Outputs Setti
 <div class="content">
 <img src="figures/fpp_channel_outputs_menu.png" alt="Selecting Channel Outputs">
 </div>
-<div class="title">Figure 5. Selecting Channel Outputs</div>
+<div class="title">Figure 13. Selecting Channel Outputs</div>
 </div>
 <div id="case_channel_outputs" class="imageblock">
 <div class="content">
 <img src="figures/fpp_channel_outputs.png" alt="Channel Outputs Settings">
 </div>
-<div class="title">Figure 6. Channel Outputs Settings</div>
+<div class="title">Figure 14. Channel Outputs Settings</div>
 </div>
 <div class="paragraph">
 <p>Click on the <strong>LED Panels</strong> tab and then the only changes I made was
@@ -1334,7 +1613,7 @@ to select the <strong>Single Panel Size</strong> to be
 <div class="content">
 <img src="figures/fpp_display_testing_menu.png" alt="Selecting Display Testing">
 </div>
-<div class="title">Figure 7. Selecting Display Testing</div>
+<div class="title">Figure 15. Selecting Display Testing</div>
 </div>
 <div class="paragraph">
 <p>Set the <strong>End Channel</strong> to <strong>6144</strong>. (6144 is 3*64*32)
@@ -1345,7 +1624,7 @@ testing patterns shown in <a href="#case_display_testing">Display Testing Option
 <div class="content">
 <img src="figures/fpp_display_testing.png" alt="Display Testing Options">
 </div>
-<div class="title">Figure 8. Display Testing Options</div>
+<div class="title">Figure 16. Display Testing Options</div>
 </div>
 </div>
 <div class="sect4">
@@ -1380,7 +1659,7 @@ host$ <strong>./xLights-2021.18-x86_64.AppImage</strong></code></pre>
 <div class="content">
 <img src="figures/xlights_setup.png" alt="xLights Setup">
 </div>
-<div class="title">Figure 9. xLights Setup</div>
+<div class="title">Figure 17. xLights Setup</div>
 </div>
 <div class="paragraph">
 <p>We&#8217;ll walk you through a simple setup to get an animation to display on the
@@ -1392,7 +1671,7 @@ shown in <a href="#case_xlights_setup_e1_31">Setting Up E1.31</a>.</p>
 <div class="content">
 <img src="figures/xlights_setup_e1_31.png" alt="Setting Up E1.31">
 </div>
-<div class="title">Figure 10. Setting Up E1.31</div>
+<div class="title">Figure 18. Setting Up E1.31</div>
 </div>
 <div class="paragraph">
 <p>The <strong>IP Address</strong> is the Bone&#8217;s address as seen from the host computer.
@@ -1410,7 +1689,7 @@ for more details.</p>
 <div class="content">
 <img src="figures/xlights_setup_done.png" alt="xLights setup for P5 display">
 </div>
-<div class="title">Figure 11. xLights setup for P5 display</div>
+<div class="title">Figure 19. xLights setup for P5 display</div>
 </div>
 <div class="paragraph">
 <p>Next click on the <strong>Layout</strong> tab.  Click on the <strong>Matrix</strong> button as shown in
@@ -1421,7 +1700,7 @@ matrix to appear.</p>
 <div class="content">
 <img src="figures/xlights_layout.png" alt="Setting up the Matrix Layout">
 </div>
-<div class="title">Figure 12. Setting up the Matrix Layout</div>
+<div class="title">Figure 20. Setting up the Matrix Layout</div>
 </div>
 <div class="paragraph">
 <p><a href="#case_xlights_layout_details">Layout details for P5 matrix</a> shows the setting to use for the P5 matrix.</p>
@@ -1430,7 +1709,7 @@ matrix to appear.</p>
 <div class="content">
 <img src="figures/xlights_layout_details.png" alt="Layout details for P5 matrix">
 </div>
-<div class="title">Figure 13. Layout details for P5 matrix</div>
+<div class="title">Figure 21. Layout details for P5 matrix</div>
 </div>
 <div class="paragraph">
 <p>All I changed was <strong># Strings</strong>, <strong>Nodes/String</strong>, <strong>Starting Location</strong> and most
@@ -1447,7 +1726,7 @@ xLights now knows we are working with a P5 matrix, now on to the sequencer.</p>
 <div class="content">
 <img src="figures/xlights_seq_new.png" alt="Starting a new sequence">
 </div>
-<div class="title">Figure 14. Starting a new sequence</div>
+<div class="title">Figure 22. Starting a new sequence</div>
 </div>
 <div class="paragraph">
 <p>Then click on <strong>Animation</strong>, <strong>20fps (50ms)</strong>, and <strong>Quick Start</strong>. Learning how to
@@ -1467,7 +1746,7 @@ enter <strong>12</strong> for <strong>Universe Count</strong> and click <strong>
 <div class="content">
 <img src="figures/fpp_inputs_setup.png" alt=".E1.31 Inputs">
 </div>
-<div class="title">Figure 15. E1.31 Inputs</div>
+<div class="title">Figure 23. E1.31 Inputs</div>
 </div>
 <div class="paragraph">
 <p>Click on the <strong>Save</strong> button above the table.</p>
@@ -1479,7 +1758,7 @@ enter <strong>12</strong> for <strong>Universe Count</strong> and click <strong>
 <div class="content">
 <img src="figures/fpp_mode_bridge.png" alt="Bridge Mode">
 </div>
-<div class="title">Figure 16. Bridge Mode</div>
+<div class="title">Figure 24. Bridge Mode</div>
 </div>
 </div>
 <div class="sect4">
@@ -1493,7 +1772,7 @@ A quick way to verify everything is t o return to xLights and go to the
 <div class="content">
 <img src="figures/xlights_test.png" alt="xLights test page">
 </div>
-<div class="title">Figure 17. xLights test page</div>
+<div class="title">Figure 25. xLights test page</div>
 </div>
 <div class="paragraph">
 <p>Click the box under <strong>Select channels&#8230;&#8203;</strong>, click <strong>Output to lights</strong> and
@@ -1504,7 +1783,7 @@ select <strong>Twinkle 50%</strong>.  You matrix should have a colorful twinkle 
 <div class="content">
 <img src="figures/xlights_twinkle.jpg" alt="xLights Twinkle test pattern">
 </div>
-<div class="title">Figure 18. xLights Twinkle test pattern</div>
+<div class="title">Figure 26. xLights Twinkle test pattern</div>
 </div>
 </div>
 <div class="sect4">
@@ -1550,7 +1829,7 @@ Enter you playlist name (I used <strong>fire</strong>) and click <strong>Add</st
 <div class="content">
 <img src="figures/fpp_playlist.png" alt="Adding a new playlist to FPP">
 </div>
-<div class="title">Figure 19. Adding a new playlist to FPP</div>
+<div class="title">Figure 27. Adding a new playlist to FPP</div>
 </div>
 <div class="paragraph">
 <p>Be sure to click <strong>Save Playlist</strong> on the right. Now return to
@@ -1562,7 +1841,7 @@ button and your sequence will play.</p>
 <div class="content">
 <img src="figures/fpp_playlist_status.png" alt="Playing a playlist">
 </div>
-<div class="title">Figure 20. Adding a new playlist to FPP</div>
+<div class="title">Figure 28. Adding a new playlist to FPP</div>
 </div>
 <div class="paragraph">
 <p>The beauty of the PRU is that the Beagle can play a detailed sequence at
@@ -1618,7 +1897,7 @@ The software suite is installed in aircraft from many OEM UAV companies, such as
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-08-16 15:05:42 -0400
+Last updated 2021-08-17 17:27:08 -0400
 </div>
 </div>
 </body>

@@ -372,13 +372,112 @@ and want to light it up.
 // TODO Show how to drive ws2812's with FPP.
 
 ==== Solution
-You can either write your own code 
-(See <<../05blocks/blocks.adoc#blocks_ws2812, WS2812 Driver>>), or
-use Falcon Christmas (FPP). FPP can be used to drive both LEDs with an integrated
+If you are driving just one string you can write your own code 
+(See <<../05blocks/blocks.adoc#blocks_ws2812, WS2812 Driver>>)
+If you plan to drive multiple strings, then consider
+Falcon Christmas (FPP, <<https://falconchristmas.com/>>). 
+FPP can be used to drive both LEDs with an integrated
 driver (neopixels) or without an integrated driver.  Here we'll show you how to
 set up for the integrated drive and in the next section the no driver LEDs will be 
 show.
 
+==== Hardware
+For this setup we'll wire a single string of NeoPixels to the Beagle.  
+I've attached the black wire on the string to ground on the Beagle 
+and the red wire to a 3.3V pin on the Beagle.
+The yellow data in line is attached to P1.31 (I'm using a PocketBeagle.).
+
+How did I know to attach to P1.31?  The FalconChristmas git repo
+(https://github.com/FalconChristmas/fpp) has files that tell which pins
+attach to which port.  https://github.com/FalconChristmas/fpp/blob/master/capes/pb/strings/F8-B-20.json
+has a list of 20 ports and where they are connected.  Pin P1.31 appears on
+line 27.  It's the 20th entry in the list.  You could pick any of the others
+if you'd rather.
+
+==== Software Setup
+Assuming the PocketBeagle is attached via the USB cable, 
+on your host computer browse to <http://192.168.7.2/> and you will see 
+<<case_fpp_program_control2>>.
+
+[[case_fpp_program_control2]]
+.Falcon Play Program Control
+image::figures/fpp_program_control.png[Falcon Play Program Control]
+
+You can test the display by first setting up the Channel Outputs and then 
+going to *Display Testing*.  <<case_channel_outputs_menu2>> shows where to 
+select Channel Outputs and <<case_channel_outputs2>> shows which settings to use.
+
+[[case_channel_outputs_menu2]]
+.Selecting Channel Outputs
+image::figures/fpp_channel_outputs_menu.png[Selecting Channel Outputs]
+
+[[case_channel_outputs2]]
+.Channel Outputs Settings
+image::figures/fpp_channel_outputs_strings.png[Channel Outputs Settings]
+
+Click on the *Pixel Strings* tab.  Earlier we noted that *P1.31* is attached
+to port 20.  Note that at the bottom of the screen, port 20 has a PIXEL COUNT
+of 24.  We're telling FPP our string has 24 NeoPixels and they are attached
+to port 2 which in *P1.31*.  
+
+Be sure to check the *Enable String Cape*.
+
+Next we need to test the display.  Select *Display Testing* shown in
+<<case_display_testing_menu2>>.
+
+[[case_display_testing_menu2]]
+.Selecting Display Testing
+image::figures/fpp_display_testing_menu2.png[Selecting Display Testing]
+
+Set the *End Channel* to *72*. (72 is 3*24)  
+Click *Enable Test Mode* and your matrix should light up.  Try the different 
+testing patterns shown in <<case_display_testing2>>.
+
+[NOTE]
+====
+Clicking on the *-3* will subtract three from the End Channel, which should
+then display three fewer LEDs which is one NeoPixel.  The last of your NeoPixels
+should go black.  This is an easy way to make sure you have the correct pixel
+count.
+====
+
+[[case_display_testing2]]
+.Display Testing Options
+image::figures/fpp_display_testing2.png[Display Testing Options]
+
+You can control the LED string using the E1.31 protocol. 
+(https://www.doityourselfchristmas.com/wiki/index.php?title=E1.31_(Streaming-ACN)_Protocol)
+First configure the input channels by going to Channel Inputs as shown in
+<<case_channel_inputs>>.
+
+[[case_channel_inputs]]
+.Going to Channel Inputs
+image::figures/fpp_channel_inputs.png[Going to Channel Inputs]
+
+Tell it you have 72 LEDs and enable the input as shown in <<case_set_inputs>>.
+
+[[case_set_inputs]]
+.Setting Channel Inputs
+image::figures/fpp_inputs_setup2.png[Setting Channel Inputs]
+
+Finally go to the Status Page as shown in <<case_status>>.
+
+[[case_status]]
+.Watching the status
+image::figures/fpp_status.png[Watching Status]
+
+Now run a program on another computer that generated E1.31 packets.
+<<case_1.31_example>> is an example python program.
+
+[[cse_e1.31_example]]
+.e1.31-test.py - Example of generating packets to control the NeoPixels
+[source,c,linenums]
+[subs=+quotes]
+----
+include::code/e1.31-test.py[]
+----
+
+// TODO document the code
 
 [[case_rgb_matrix]]
 === RGB LED Matrix - No Integrated Drivers (Falcon Christmas)
