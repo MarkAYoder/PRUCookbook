@@ -532,8 +532,9 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_beaglelogic_a_14_channel_logic_analyzer">1.2. BeagleLogic - a 14-channel Logic Analyzer</a></li>
 <li><a href="#_neopixels_5050_rgb_leds_with_integrated_drivers_falcon_christmas">1.3. NeoPixels - 5050 RGB LEDs with Integrated Drivers (Falcon Christmas)</a></li>
 <li><a href="#case_rgb_matrix">1.4. RGB LED Matrix - No Integrated Drivers (Falcon Christmas)</a></li>
-<li><a href="#_machinekit">1.5. MachineKit</a></li>
-<li><a href="#_ardupilot">1.6. ArduPilot</a></li>
+<li><a href="#_simppru">1.5. simpPRU</a></li>
+<li><a href="#_machinekit">1.6. MachineKit</a></li>
+<li><a href="#_ardupilot">1.7. ArduPilot</a></li>
 </ul>
 </li>
 </ul>
@@ -594,6 +595,9 @@ chapters you will see the details of how they work.</p>
 </li>
 <li>
 <p>RGB LED Matrix (Falcon Christmas) <a href="http://falconchristmas.com" class="bare">http://falconchristmas.com</a></p>
+</li>
+<li>
+<p>simpPRU&#8201;&#8212;&#8201;A python-like lanuage for programming the PRUs <a href="https://github.com/VedantParanjape/simpPRU" class="bare">https://github.com/VedantParanjape/simpPRU</a></p>
 </li>
 </ul>
 </div>
@@ -1852,7 +1856,134 @@ are doing all the work.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_machinekit"><a class="link" href="#_machinekit">1.5. MachineKit</a></h3>
+<h3 id="_simppru"><a class="link" href="#_simppru">1.5. simpPRU</a></h3>
+<div class="paragraph">
+<p><a href="https://github.com/VedantParanjape/simpPRU">simpPRU</a> is a simple, python-like
+programming languge designed to make programming the PRUs easy.
+It has detailed <a href="https://simppru.readthedocs.io/en/latest/">documentation</a> and
+many <a href="https://simppru.readthedocs.io/en/latest/examples/digital_read/">examples</a>.</p>
+</div>
+<div class="verseblock">
+<pre class="content">simpPRU is a procedural programming language that is statically typed.
+Variables and functions must be assigned data types during compilation.
+It is typesafe, and data types of variables are decided during compilation.
+simPRU codes have a .sim extension.
+simpPRU provides a console app to use Remoteproc functionality.</pre>
+<div class="attribution">
+&#8212; https://simppru.readthedocs.io/en/latest/
+</div>
+</div>
+<div class="paragraph">
+<p>You can <a href="https://simppru.readthedocs.io/en/latest/install/build/">build simpPRU</a> from
+source, more easily just
+<a href="https://simppru.readthedocs.io/en/latest/install/install/">install it</a>. On the
+Beagle run:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+</pre></td>
+  <td class="code"><pre>bone$ wget https:<span class="comment">//github.com/VedantParanjape/simpPRU/releases/download/1.4/simppru-1.4-armhf.deb</span>
+bone$ sudo dpkg -i simppru-<span class="float">1</span><span class="float">.4</span>-armhf.deb
+bone$ sudo apt update
+bone$ sudo apt install gcc-pru</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now, suppose you wanted to run the <a href="https://simppru.readthedocs.io/en/latest/examples/led_blink/">LED blink</a>
+example which is reproduced here.</p>
+</div>
+<div class="listingblock">
+<div class="title">LED Blink (blink.sim)</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td>
+  <td class="code"><pre><span class="comment">/* From: https://simppru.readthedocs.io/en/latest/examples/led_blink/ */</span>
+<span class="keyword">while</span> : <span class="integer">1</span> == <span class="integer">1</span> {
+    digital_write(P1_31, <span class="predefined-constant">true</span>);
+    delay(<span class="integer">250</span>);     <span class="comment">/* Delay 250 ms */</span>
+    digital_write(P1_31, <span class="predefined-constant">false</span>);
+    delay(<span class="integer">250</span>);
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Just run simppru</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td>
+  <td class="code"><pre>bone$ simppru blink.sim --load
+Detected TI AM335x PocketBeagle
+inside <span class="keyword">while</span>
+[<span class="integer">4</span>] : setting P1_31 as output
+
+Current mode <span class="keyword">for</span> P1_31 is:     pruout
+
+Detected TI AM335x PocketBeagle</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The --load flag caused the compiled code to be copied to /lib/firmware.
+To start just do:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+</pre></td>
+  <td class="code"><pre>bone$ cd /dev/remoteproc/pruss-core0/
+bone$ ls
+device  firmware  name  power  state  subsystem  uevent
+bone$ echo start &gt; state
+bone$ cat state
+running</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Your LED should now be blinking.</p>
+</div>
+<div class="paragraph">
+<p>Check out the many examples (&lt;<a href="https://simppru.readthedocs.io/en/latest/examples/led_blink/&gt;" class="bare">https://simppru.readthedocs.io/en/latest/examples/led_blink/&gt;</a>).</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="figures/LEDblink.png" alt="simpPRU Examples">
+</div>
+<div class="title">Figure 29. simpPRU Examples</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_machinekit"><a class="link" href="#_machinekit">1.6. MachineKit</a></h3>
 <div class="paragraph">
 <p><a href="http://www.machinekit.io/">MachineKit</a> is a platform for machine control
 applications.  It can control
@@ -1867,7 +1998,7 @@ motors, stepper motors, relays, and other devices related to machine tools.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ardupilot"><a class="link" href="#_ardupilot">1.6. ArduPilot</a></h3>
+<h3 id="_ardupilot"><a class="link" href="#_ardupilot">1.7. ArduPilot</a></h3>
 <div class="paragraph">
 <p><a href="http://ardupilot.org/">ArduPilot</a> is a open source autopilot system supporting multi-copters, traditional helicopters, fixed wing aircraft and rovers.
 ArduPilot runs on a many
@@ -1897,7 +2028,7 @@ The software suite is installed in aircraft from many OEM UAV companies, such as
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-08-17 17:27:08 -0400
+Last updated 2021-08-20 12:10:24 -0400
 </div>
 </div>
 </body>

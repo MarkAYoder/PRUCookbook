@@ -1,0 +1,7 @@
+/* From: https://simppru.readthedocs.io/en/latest/examples/led_blink/ */
+while : 1 == 1 {
+    digital_write(P1_31, true);
+    delay(250);     /* Delay 250 ms */
+    digital_write(P1_31, false);
+    delay(250);
+}

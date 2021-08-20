@@ -38,6 +38,7 @@ Here we present:
 * BeagleLogic <https://github.com/abhishek-kakkar/BeagleLogic/wiki>
 * NeoPixels - 5050 RGB LEDs with Integrated Drivers (Falcon Christmas) <http://falconchristmas.com>
 * RGB LED Matrix (Falcon Christmas) <http://falconchristmas.com>
+* simpPRU -- A python-like lanuage for programming the PRUs <https://github.com/VedantParanjape/simpPRU>
 // * MachineKit <http://www.machinekit.io/>
 // * ArduPilot <http://ardupilot.org/>, <http://ardupilot.org/dev/docs/beaglepilot.html>
 // * BeagleScope <https://github.com/ZeekHuge/BeagleScope>
@@ -744,6 +745,75 @@ image::figures/fpp_playlist_status.png[Playing a playlist]
 The beauty of the PRU is that the Beagle can play a detailed sequence at 
 20 frames per second and the ARM procossor is only 15% used.  The PRUs 
 are doing all the work.
+
+=== simpPRU
+https://github.com/VedantParanjape/simpPRU[simpPRU] is a simple, python-like 
+programming languge designed to make programming the PRUs easy. 
+It has detailed https://simppru.readthedocs.io/en/latest/[documentation] and
+many https://simppru.readthedocs.io/en/latest/examples/digital_read/[examples].
+
+[verse, https://simppru.readthedocs.io/en/latest/]
+____
+simpPRU is a procedural programming language that is statically typed. 
+Variables and functions must be assigned data types during compilation.
+It is typesafe, and data types of variables are decided during compilation.
+simPRU codes have a +.sim+ extension.
+simpPRU provides a console app to use Remoteproc functionality.
+____
+
+You can https://simppru.readthedocs.io/en/latest/install/build/[build simpPRU] from
+source, more easily just 
+https://simppru.readthedocs.io/en/latest/install/install/[install it]. On the
+Beagle run:
+
+[source,c,linenums]
+----
+bone$ wget https://github.com/VedantParanjape/simpPRU/releases/download/1.4/simppru-1.4-armhf.deb
+bone$ sudo dpkg -i simppru-1.4-armhf.deb
+bone$ sudo apt update
+bone$ sudo apt install gcc-pru
+----
+
+Now, suppose you wanted to run the https://simppru.readthedocs.io/en/latest/examples/led_blink/[LED blink]
+example which is reproduced here.
+
+[source,c,linenums]
+.LED Blink (blink.sim)
+----
+include::code/blink.sim[blink.sim]
+----
+
+Just run simppru
+[source,c,linenums]
+----
+bone$ simppru blink.sim --load 
+Detected TI AM335x PocketBeagle
+inside while
+[4] : setting P1_31 as output
+
+Current mode for P1_31 is:     pruout
+
+Detected TI AM335x PocketBeagle
+----
+
+The +--load+ flag caused the compiled code to be copied to +/lib/firmware+.
+To start just do:
+[source,c,linenums]
+----
+bone$ cd /dev/remoteproc/pruss-core0/
+bone$ ls
+device  firmware  name  power  state  subsystem  uevent
+bone$ echo start > state
+bone$ cat state
+running
+----
+Your LED should now be blinking.
+
+Check out the many examples (<https://simppru.readthedocs.io/en/latest/examples/led_blink/>).
+
+.simpPRU Examples
+image::figures/LEDblink.png[simpPRU Examples]
+
 
 === MachineKit
 http://www.machinekit.io/[MachineKit] is a platform for machine control 
