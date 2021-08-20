@@ -36,9 +36,9 @@ Here we present:
 
 * Robotics Control Library <http://strawsondesign.com/docs/roboticscape/>
 * BeagleLogic <https://github.com/abhishek-kakkar/BeagleLogic/wiki>
-* NeoPixels - 5050 RGB LEDs with Integrated Drivers (Falcon Christmas) <http://falconchristmas.com>
+* NeoPixels -- 5050 RGB LEDs with Integrated Drivers (Falcon Christmas) <http://falconchristmas.com>
 * RGB LED Matrix (Falcon Christmas) <http://falconchristmas.com>
-* simpPRU -- A python-like lanuage for programming the PRUs <https://github.com/VedantParanjape/simpPRU>
+* simpPRU -- A python-like language for programming the PRUs <https://github.com/VedantParanjape/simpPRU>
 // * MachineKit <http://www.machinekit.io/>
 // * ArduPilot <http://ardupilot.org/>, <http://ardupilot.org/dev/docs/beaglepilot.html>
 // * BeagleScope <https://github.com/ZeekHuge/BeagleScope>
@@ -251,7 +251,7 @@ If you aren't running the Blue you will have to configure the pins as shown
 in the note above.  
 ====
 
-=== BeagleLogic - a 14-channel Logic Analyzer
+=== BeagleLogic -- a 14-channel Logic Analyzer
 
 ==== Problem
 I need a 100Msps, 14-channel logic analyzer
@@ -357,7 +357,7 @@ http://theembeddedkitchen.net/beaglelogic-building-a-logic-analyzer-with-the-pru
 explaining how the PRUs get this type of performance.   
 
 
-=== NeoPixels - 5050 RGB LEDs with Integrated Drivers (Falcon Christmas)
+=== NeoPixels -- 5050 RGB LEDs with Integrated Drivers (Falcon Christmas)
 ==== Problem
 ((("displays", "NeoPixel LED strings")))
 ((("outputs", "NeoPixel LED strings")))
@@ -481,7 +481,7 @@ include::code/e1.31-test.py[]
 // TODO document the code
 
 [[case_rgb_matrix]]
-=== RGB LED Matrix - No Integrated Drivers (Falcon Christmas)
+=== RGB LED Matrix -- No Integrated Drivers (Falcon Christmas)
 ==== Problem
 You want to use a RGB LED Matrix display that doesn't have integrated
 drivers such as the 
@@ -746,7 +746,7 @@ The beauty of the PRU is that the Beagle can play a detailed sequence at
 20 frames per second and the ARM procossor is only 15% used.  The PRUs 
 are doing all the work.
 
-=== simpPRU
+=== simpPRU -- A python-like language for programming the PRUs 
 https://github.com/VedantParanjape/simpPRU[simpPRU] is a simple, python-like 
 programming languge designed to make programming the PRUs easy. 
 It has detailed https://simppru.readthedocs.io/en/latest/[documentation] and
