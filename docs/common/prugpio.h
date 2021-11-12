@@ -58,7 +58,7 @@
 #define GPIO3 0x481AE000
 
 // USR LED bit positions
-// GPIO 1
+// GPIO1
 #define USR0 (1<<21)
 #define USR1 (1<<22)
 #define USR2 (1<<23)
